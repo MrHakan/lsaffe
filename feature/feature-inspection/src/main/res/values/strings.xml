@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="due_title">Due</string>
+    <string name="due_empty_hint">Nothing due yet. Add equipment first.</string>
+</resources>

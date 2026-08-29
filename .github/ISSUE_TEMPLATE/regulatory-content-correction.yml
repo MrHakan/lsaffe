@@ -1,0 +1,36 @@
+name: Regulatory content correction
+description: Report an incorrect interval, citation, flag note or other regulatory statement in the app.
+title: "[Content] "
+labels: [regulatory-content]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is the class of bug that matters most in DeckWatch. Thank you for reporting it.
+  - type: input
+    id: card
+    attributes:
+      label: Card / task key
+      description: The citation badge or task shown in the app (e.g. "SOLAS III/20.6", "FE_ANNUAL_SERVICE").
+    validations:
+      required: true
+  - type: textarea
+    id: wrong
+    attributes:
+      label: What the app says
+    validations:
+      required: true
+  - type: textarea
+    id: right
+    attributes:
+      label: What the instrument actually says
+      description: Quote the current instrument (resolution, circular, marine notice) with its exact reference and revision.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Source instrument and revision
+      placeholder: e.g. MSC.1/Circ.1432 as amended by MSC.1/Circ.1516
+    validations:
+      required: true

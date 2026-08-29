@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_notes">Notlar</string>
+    <string name="tab_vessel">Gemi</string>
+    <string name="tab_due">Vadesi</string>
+    <string name="tab_more">Daha Fazla</string>
+</resources>
