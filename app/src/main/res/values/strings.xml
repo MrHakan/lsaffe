@@ -5,4 +5,23 @@
     <string name="tab_vessel">Vessel</string>
     <string name="tab_due">Due</string>
     <string name="tab_more">More</string>
+
+    <!-- ============================================================ reminders (§11.3) -->
+    <string name="notif_channel_due">Due work</string>
+    <string name="notif_channel_due_description">One summary a day of what is overdue or due this week.</string>
+    <string name="notif_channel_item">Item reminders</string>
+    <string name="notif_channel_item_description">Reminders you set against a single piece of equipment.</string>
+    <string name="notif_due_title">DeckWatch</string>
+    <string name="notif_due_body_both">%1$d overdue, %2$d due this week</string>
+    <string name="notif_item_title">Reminder: %1$s</string>
+    <string name="notif_item_body">You asked to be reminded about this item.</string>
+
+    <plurals name="notif_due_body_overdue">
+        <item quantity="one">1 job is overdue</item>
+        <item quantity="other">%1$d jobs are overdue</item>
+    </plurals>
+    <plurals name="notif_due_body_week">
+        <item quantity="one">1 job is due this week</item>
+        <item quantity="other">%1$d jobs are due this week</item>
+    </plurals>
 </resources>

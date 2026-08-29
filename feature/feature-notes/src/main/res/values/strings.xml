@@ -25,6 +25,12 @@
     <string name="notes_section_lsa_desc">LSA Code chapters I–VII, the SOLAS III/20 maintenance regime, MSC.402(96)</string>
     <string name="notes_section_ffe">FFE</string>
     <string name="notes_section_ffe_desc">FSS Code chapters, the SOLAS II-2/14 maintenance plan, MSC.1/Circ.1432</string>
+    <string name="notes_section_helideck">Helicopter operations</string>
+    <string name="notes_section_helideck_desc">ICS Guide to Helicopter/Ship Operations, SOLAS II-2/18 helicopter facilities</string>
+    <string name="notes_section_isgott">ISGOTT</string>
+    <string name="notes_section_isgott_desc">Tanker and terminal safety: ship/shore checklist, enclosed spaces, hot work, inert gas</string>
+    <string name="notes_section_iamsar">IAMSAR</string>
+    <string name="notes_section_iamsar_desc">Volume III, carried under SOLAS V/21.2: distress response, search patterns, recovery</string>
     <string name="notes_section_flag">FLAG</string>
     <string name="notes_section_flag_desc">Marshall Islands, Liberia and Panama notices, and how they differ from plain SOLAS</string>
     <string name="notes_section_class">CLASS</string>

@@ -19,6 +19,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -33,6 +34,7 @@ import com.deckwatch.feature.deckview.VesselTabScreen
 import com.deckwatch.feature.equipment.EquipmentDetailScreen
 import com.deckwatch.feature.inspection.DueScreen
 import com.deckwatch.feature.notes.NotesScreen
+import com.deckwatch.app.reminders.ReminderScheduler
 import com.deckwatch.feature.settings.MoreScreen
 import kotlinx.serialization.Serializable
 
@@ -53,6 +55,7 @@ private data class TopLevelDestination(
 @Composable
 fun DeckWatchApp() {
     val navController = rememberNavController()
+    val context = LocalContext.current
     var openEquipmentId by rememberSaveable { mutableStateOf<String?>(null) }
     val destinations = listOf(
         TopLevelDestination(NotesRoute, R.string.tab_notes, Icons.AutoMirrored.Filled.MenuBook),
@@ -103,7 +106,15 @@ fun DeckWatchApp() {
             // The work list names an equipment id; the record itself belongs to feature-equipment,
             // so the hand-off between the two features is wired here rather than in either of them.
             composable<DueRoute> { DueScreen(onOpenEquipment = { openEquipmentId = it }) }
-            composable<MoreRoute> { MoreScreen() }
+            composable<MoreRoute> {
+                // Settings live in feature-settings; arming the queue is the app module's job,
+                // because WorkManager and the reminder workers are here.
+                MoreScreen(
+                    onRemindersChanged = { enabled, hour, minute ->
+                        ReminderScheduler.apply(context, enabled, hour, minute)
+                    },
+                )
+            }
         }
     }
 

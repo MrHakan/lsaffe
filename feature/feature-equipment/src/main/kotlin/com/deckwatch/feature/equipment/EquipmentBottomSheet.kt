@@ -2,6 +2,8 @@
 
 package com.deckwatch.feature.equipment
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -34,6 +36,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -57,6 +60,8 @@ import com.deckwatch.feature.equipment.components.RegulationCardDialog
 import com.deckwatch.feature.equipment.components.RequirementsSection
 import com.deckwatch.feature.equipment.components.SectionHeader
 import com.deckwatch.feature.equipment.components.TaskListSection
+import com.deckwatch.feature.equipment.photo.PhotoStore
+import java.io.File
 import kotlinx.coroutines.delay
 
 /** The three stages of the equipment sheet — §7.4. */
@@ -114,6 +119,23 @@ fun EquipmentBottomSheet(
     val decks by viewModel.decks.collectAsStateWithLifecycle()
     val zones by viewModel.zonesForMove.collectAsStateWithLifecycle()
     val haptics = LocalHapticFeedback.current
+
+    // Capture: the file is created before the camera app starts, and only survives if the camera
+    // reports success — a cancelled capture leaves an empty file that nothing should record.
+    val context = LocalContext.current
+    var pendingPhoto by remember { mutableStateOf<File?>(null) }
+    var cameraUnavailable by remember { mutableStateOf(false) }
+    var settingReminder by remember { mutableStateOf(false) }
+    val capture = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { saved ->
+        val file = pendingPhoto
+        pendingPhoto = null
+        if (file == null) return@rememberLauncherForActivityResult
+        if (saved) {
+            viewModel.addPhoto(PhotoStore.uriFor(context, file).toString())
+        } else {
+            file.delete()
+        }
+    }
 
     // Dragging the sheet up is itself a request for more detail.
     LaunchedEffect(sheetState.currentValue) {
@@ -229,7 +251,19 @@ fun EquipmentBottomSheet(
                         modifier = Modifier.weight(1f).heightIn(min = Dimens.TouchTargetPrimary),
                     ) { Text(stringResource(R.string.equip_log_inspection)) }
                     OutlinedButton(
-                        onClick = { onTakePhoto(equipment.id) },
+                        onClick = {
+                            onTakePhoto(equipment.id)
+                            val file = PhotoStore.newPhotoFile(context, equipment.id, System.currentTimeMillis())
+                            pendingPhoto = file
+                            // No camera app at all is a normal state on a locked-down phone, and it
+                            // arrives as an exception rather than a result — so it is caught here.
+                            runCatching { capture.launch(PhotoStore.uriFor(context, file)) }
+                                .onFailure {
+                                    pendingPhoto = null
+                                    file.delete()
+                                    cameraUnavailable = true
+                                }
+                        },
                         modifier = Modifier.weight(1f).heightIn(min = Dimens.TouchTargetPrimary),
                     ) { Text(stringResource(R.string.equip_take_photo)) }
                 }
@@ -255,10 +289,20 @@ fun EquipmentBottomSheet(
                         ?: stringResource(R.string.equip_notes_none),
                     style = MaterialTheme.typography.bodyMedium,
                 )
-                PhotoSection(equipment.photoUris)
+                PhotoSection(
+                    photoUris = equipment.photoUris,
+                    onRemove = { uri ->
+                        viewModel.removePhoto(uri)
+                        PhotoStore.delete(context, uri)
+                    },
+                )
                 RequirementsSection(cards = state.requirements, onOpen = { openCard = it })
 
                 SectionHeader(stringResource(R.string.equip_actions))
+                OutlinedButton(
+                    onClick = { settingReminder = true },
+                    modifier = Modifier.fillMaxWidth().heightIn(min = Dimens.TouchTargetPrimary),
+                ) { Text(stringResource(R.string.equip_remind_me)) }
                 DuplicateStepper(onDuplicate = viewModel::duplicate)
                 Row(
                     modifier = Modifier.fillMaxWidth().padding(top = Dimens.SpacingS),
@@ -319,6 +363,33 @@ fun EquipmentBottomSheet(
         )
     }
 
+    if (settingReminder) {
+        RemindMeDialog(
+            onPick = { days ->
+                settingReminder = false
+                viewModel.remindIn(days)
+            },
+            onClear = {
+                settingReminder = false
+                viewModel.cancelReminder()
+            },
+            onDismiss = { settingReminder = false },
+        )
+    }
+
+    if (cameraUnavailable) {
+        AlertDialog(
+            onDismissRequest = { cameraUnavailable = false },
+            title = { Text(stringResource(R.string.equip_photo_no_camera_title)) },
+            text = { Text(stringResource(R.string.equip_photo_no_camera_body)) },
+            confirmButton = {
+                TextButton(onClick = { cameraUnavailable = false }) {
+                    Text(stringResource(R.string.equip_photo_no_camera_dismiss))
+                }
+            },
+        )
+    }
+
     if (movingToDeck) {
         val chosenDeck = moveDeckChoice
         if (chosenDeck == null) {
@@ -355,6 +426,50 @@ fun EquipmentBottomSheet(
         }
     }
 }
+
+/**
+ * "Remind me in…" — §11.3.
+ *
+ * Three horizons, no free-form date: a reminder is a nudge before the next port call, not a second
+ * scheduling system competing with the due engine. Clearing is offered in the same place, because
+ * an armed reminder is otherwise invisible until it fires.
+ */
+@Composable
+private fun RemindMeDialog(onPick: (Int) -> Unit, onClear: () -> Unit, onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.equip_remind_title)) },
+        text = {
+            Column {
+                DeckChoiceRow(
+                    label = stringResource(R.string.equip_remind_tomorrow),
+                    selected = false,
+                    onClick = { onPick(REMIND_TOMORROW_DAYS) },
+                )
+                DeckChoiceRow(
+                    label = stringResource(R.string.equip_remind_three_days),
+                    selected = false,
+                    onClick = { onPick(REMIND_THREE_DAYS) },
+                )
+                DeckChoiceRow(
+                    label = stringResource(R.string.equip_remind_week),
+                    selected = false,
+                    onClick = { onPick(REMIND_WEEK_DAYS) },
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onClear) { Text(stringResource(R.string.equip_remind_clear)) }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.equip_cancel)) }
+        },
+    )
+}
+
+private const val REMIND_TOMORROW_DAYS = 1
+private const val REMIND_THREE_DAYS = 3
+private const val REMIND_WEEK_DAYS = 7
 
 /**
  * Second step of the move: which zone of that deck — §6.4. Always offers "no zone", because a deck

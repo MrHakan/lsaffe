@@ -6,6 +6,7 @@ import com.deckwatch.core.common.Dates
 import com.deckwatch.core.common.repository.EquipmentRepository
 import com.deckwatch.core.common.repository.InspectionRepository
 import com.deckwatch.core.common.repository.MaintenanceRepository
+import com.deckwatch.core.common.reminders.ItemReminders
 import com.deckwatch.core.common.repository.ReferenceRepository
 import com.deckwatch.core.common.repository.VesselRepository
 import com.deckwatch.core.model.ConditionGrade
@@ -91,6 +92,7 @@ internal class EquipmentSheetViewModel @Inject constructor(
     private val referenceRepository: ReferenceRepository,
     private val maintenanceRepository: MaintenanceRepository,
     private val inspectionRepository: InspectionRepository,
+    private val itemReminders: ItemReminders,
 ) : ViewModel() {
 
     private val boundId = MutableStateFlow<String?>(null)
@@ -397,6 +399,58 @@ internal class EquipmentSheetViewModel @Inject constructor(
         val current = uiState.value.equipment ?: return
         viewModelScope.launch {
             equipmentRepository.move(current.id, deckId, zoneId, DEFAULT_POSITION, DEFAULT_POSITION)
+        }
+    }
+
+    /**
+     * Arm a local reminder for this item — §11.3.
+     *
+     * Deliberately not a task and not a deficiency: it is a private nudge, so nothing about the
+     * record or the schedule changes. If notifications are off or blocked, nothing arrives and
+     * nothing breaks.
+     */
+    fun remindIn(days: Int) {
+        val current = uiState.value.equipment ?: return
+        itemReminders.scheduleIn(current.id, current.tag, days)
+    }
+
+    /** Drop a pending reminder for this item. */
+    fun cancelReminder() {
+        val current = uiState.value.equipment ?: return
+        itemReminders.cancel(current.id)
+    }
+
+    /**
+     * Record a photo the camera has just written — §7.6.
+     *
+     * The file already exists on disk by the time this runs (the capture wrote into it), so the
+     * only thing left is to append its URI. Re-adding a URI already on the record is a no-op, which
+     * makes a duplicated result callback harmless.
+     */
+    fun addPhoto(uri: String) {
+        val current = uiState.value.equipment ?: return
+        if (uri in current.photoUris) return
+        viewModelScope.launch {
+            val stored = equipmentRepository.getEquipment(current.id) ?: return@launch
+            if (uri in stored.photoUris) return@launch
+            equipmentRepository.upsertEquipment(
+                stored.copy(photoUris = stored.photoUris + uri, updatedAt = Dates.nowMillis()),
+            )
+        }
+    }
+
+    /**
+     * Drop a photo from the record. The caller deletes the file itself — this owns the record, not
+     * the filesystem, and a failed delete must not leave a URI pointing at nothing.
+     */
+    fun removePhoto(uri: String) {
+        val current = uiState.value.equipment ?: return
+        viewModelScope.launch {
+            val stored = equipmentRepository.getEquipment(current.id) ?: return@launch
+            if (uri !in stored.photoUris) return@launch
+            equipmentRepository.upsertEquipment(
+                stored.copy(photoUris = stored.photoUris - uri, updatedAt = Dates.nowMillis()),
+            )
         }
     }
 

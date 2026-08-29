@@ -3,6 +3,7 @@
 package com.deckwatch.feature.equipment.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,12 +20,14 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -33,9 +36,14 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.produceState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -57,6 +65,7 @@ import com.deckwatch.feature.equipment.attributes.AttributeDraft
 import com.deckwatch.feature.equipment.attributes.AttributeError
 import com.deckwatch.feature.equipment.attributes.AttributeForm
 import com.deckwatch.feature.equipment.attributes.AttributeSummaryList
+import com.deckwatch.feature.equipment.photo.PhotoStore
 import com.deckwatch.feature.equipment.dueColor
 import com.deckwatch.feature.equipment.dueDeltaText
 import com.deckwatch.feature.equipment.formatDate
@@ -64,6 +73,8 @@ import com.deckwatch.feature.equipment.localised
 import com.deckwatch.feature.equipment.regulationCardLabels
 import com.deckwatch.feature.equipment.severityLabel
 import com.deckwatch.feature.equipment.taskStatusLabel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /** A dense section heading — §14: no decoration that does not carry information. */
 @Composable
@@ -496,11 +507,19 @@ internal fun AttributesSection(
 }
 
 /**
- * Photo list — URIs only. Rendering the images themselves waits for the photo phase, so each entry
- * is a placeholder row naming the file rather than a broken thumbnail.
+ * Photos taken against this item — §7.6.
+ *
+ * Thumbnails are decoded off the main thread and downsampled by [PhotoStore]; a full-resolution
+ * capture would be tens of megabytes decoded, and a sheet holding several of them would not
+ * survive on a mid-range phone. A URI whose file is gone (restored backup, cleared storage)
+ * renders as the placeholder row rather than a broken frame, and can still be removed.
  */
 @Composable
-internal fun PhotoSection(photoUris: List<String>, modifier: Modifier = Modifier) {
+internal fun PhotoSection(
+    photoUris: List<String>,
+    onRemove: (String) -> Unit = {},
+    modifier: Modifier = Modifier,
+) {
     Column(modifier = modifier.fillMaxWidth()) {
         SectionHeader(stringResource(R.string.equip_photos))
         if (photoUris.isEmpty()) {
@@ -512,25 +531,65 @@ internal fun PhotoSection(photoUris: List<String>, modifier: Modifier = Modifier
             return@Column
         }
         photoUris.forEachIndexed { index, uri ->
-            Row(
-                modifier = Modifier.fillMaxWidth().heightIn(min = Dimens.TouchTargetMin),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Icon(imageVector = Icons.Outlined.Image, contentDescription = null)
-                Column(modifier = Modifier.padding(start = Dimens.SpacingS)) {
-                    Text(
-                        text = stringResource(R.string.equip_photo_placeholder, index + 1),
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                    Text(
-                        text = uri,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
-            }
+            PhotoRow(uri = uri, index = index, onRemove = { onRemove(uri) })
         }
     }
 }
+
+@Composable
+private fun PhotoRow(uri: String, index: Int, onRemove: () -> Unit) {
+    val context = LocalContext.current
+    val thumbnail by produceState<androidx.compose.ui.graphics.ImageBitmap?>(null, uri) {
+        value = withContext(Dispatchers.IO) {
+            PhotoStore.decodeThumbnail(context, uri, PhotoStore.THUMBNAIL_MAX_EDGE)?.asImageBitmap()
+        }
+    }
+    Row(
+        modifier = Modifier.fillMaxWidth().heightIn(min = Dimens.TouchTargetMin),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        val image = thumbnail
+        if (image == null) {
+            Icon(
+                imageVector = Icons.Outlined.Image,
+                contentDescription = null,
+                modifier = Modifier.size(PhotoThumbnailSize),
+            )
+        } else {
+            Image(
+                bitmap = image,
+                contentDescription = stringResource(R.string.equip_photo_placeholder, index + 1),
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(PhotoThumbnailSize)
+                    .clip(RoundedCornerShape(Dimens.SpacingXs)),
+            )
+        }
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = Dimens.SpacingS),
+        ) {
+            Text(
+                text = stringResource(R.string.equip_photo_placeholder, index + 1),
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            Text(
+                text = if (image == null) stringResource(R.string.equip_photo_missing) else uri,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 1,
+            )
+        }
+        IconButton(onClick = onRemove) {
+            Icon(
+                imageVector = Icons.Outlined.Delete,
+                contentDescription = stringResource(R.string.equip_photo_remove, index + 1),
+            )
+        }
+    }
+}
+
+private val PhotoThumbnailSize = 56.dp
 
 private val SeverityDotSize = 10.dp

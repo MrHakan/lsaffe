@@ -43,6 +43,11 @@
     <string name="equip_photos">Fotoğraflar</string>
     <string name="equip_photos_none">Bu kayıtta fotoğraf yok.</string>
     <string name="equip_photo_placeholder">Fotoğraf %1$d</string>
+    <string name="equip_photo_missing">Dosya artık bu cihazda yok</string>
+    <string name="equip_photo_remove">%1$d numaralı fotoğrafı kaldır</string>
+    <string name="equip_photo_no_camera_title">Kamera uygulaması yok</string>
+    <string name="equip_photo_no_camera_body">Bu cihazda fotoğraf çekebilecek bir uygulama yok, bu yüzden çekim başlatılamadı. Kaydın geri kalanı normal çalışmaya devam eder.</string>
+    <string name="equip_photo_no_camera_dismiss">Tamam</string>
     <string name="equip_notes">Notlar</string>
     <string name="equip_notes_none">Not girilmemiş.</string>
 
@@ -184,4 +189,10 @@
     <string name="equip_move_zone_title">Hangi bölge?</string>
     <string name="equip_move_zone_none">Bölgesiz</string>
     <string name="equip_move_zone_back">Geri</string>
+    <string name="equip_remind_me">Hatırlat…</string>
+    <string name="equip_remind_title">Bu ekipmanı bana hatırlat</string>
+    <string name="equip_remind_tomorrow">Yarın</string>
+    <string name="equip_remind_three_days">Üç gün sonra</string>
+    <string name="equip_remind_week">Bir hafta sonra</string>
+    <string name="equip_remind_clear">Hatırlatmayı kaldır</string>
 </resources>

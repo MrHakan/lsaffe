@@ -5,4 +5,10 @@
     <string name="vessel_tab_manage_vessels">Vessels</string>
     <string name="vessel_tab_manage_decks">Decks</string>
     <string name="vessel_tab_manage_categories">Categories</string>
+    <string name="vessel_tab_show_plan">Show deck plan</string>
+    <string name="vessel_tab_show_list">Show list</string>
+    <string name="vessel_tab_plan_title">Deck plan</string>
+    <string name="canvas_loading">Loading the deck plan…</string>
+    <string name="canvas_no_decks">This vessel has no decks yet. Add one from the menu, then place equipment on it.</string>
+    <string name="canvas_hint_long_press">Press and hold anywhere on the deck to add equipment there.</string>
 </resources>
