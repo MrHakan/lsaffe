@@ -137,7 +137,9 @@ internal object DuePreview {
  * `lastFiveYearlyOverloadTestDate` against `RG_FIVE_YEARLY_OVERLOAD_TEST`.
  *
  * Both names are reduced to upper-case word tokens — camel case split for the attribute, `_` split
- * for the task key — and scored by how many tokens they share. The **strictly** highest scorer
+ * for the task key — and scored on the tokens they share, **weighted by position**: the first token
+ * of the attribute name is the specific one (`lastHydrostaticTestDate` is about the hydrostatic
+ * test, not about tests in general), so it outweighs the ones after it. The strictly highest scorer
  * above zero wins; a tie resolves to `null`, so an ambiguous name shows no anchored preview rather
  * than a guessed interval (§8.5: a missing figure is acceptable, a wrong one is not).
  */
@@ -145,22 +147,26 @@ internal object AttributeTaskLink {
 
     /**
      * Tokens that say nothing about which task a date belongs to. `LAST` and `DATE` appear in every
-     * attribute name in the seed; the rest are grammatical filler.
+     * dated attribute name in the seed; the rest are grammatical filler.
      */
     private val NOISE = setOf("LAST", "NEXT", "DATE", "DUE", "ON", "OF", "THE", "AT", "BY", "NO")
 
     fun resolve(attributeKey: String, taskKeys: Collection<String>): String? {
-        val attributeTokens = attributeTokens(attributeKey)
-        if (attributeTokens.isEmpty()) return null
+        val tokens = attributeTokens(attributeKey).toList()
+        if (tokens.isEmpty()) return null
         val scored = taskKeys
-            .map { key -> key to attributeTokens.intersect(taskTokens(key)).size }
+            .map { key ->
+                val theirs = taskTokens(key)
+                key to tokens.withIndex().sumOf { (index, token) ->
+                    if (token in theirs) tokens.size - index else 0
+                }
+            }
             .filter { (_, score) -> score > 0 }
         val best = scored.maxOfOrNull { it.second } ?: return null
-        val winners = scored.filter { it.second == best }
-        return winners.singleOrNull()?.first
+        return scored.filter { it.second == best }.singleOrNull()?.first
     }
 
-    /** `lastAnnualServiceDate` -> `[ANNUAL, SERVICE]`. */
+    /** `lastAnnualServiceDate` -> `[ANNUAL, SERVICE]`, in the order the name spells them. */
     fun attributeTokens(attributeKey: String): Set<String> {
         val words = StringBuilder()
         for (char in attributeKey) {
@@ -171,7 +177,7 @@ internal object AttributeTaskLink {
             .split(' ', '_', '-')
             .map { it.trim().uppercase() }
             .filter { it.isNotEmpty() && it !in NOISE }
-            .toSet()
+            .toCollection(LinkedHashSet())
     }
 
     /** `FE_ANNUAL_SERVICE` -> `[FE, ANNUAL, SERVICE]`. */

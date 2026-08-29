@@ -33,13 +33,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.deckwatch.core.designsystem.theme.Dimens
 import com.deckwatch.core.designsystem.theme.tagTextStyle
 import com.deckwatch.core.model.Deck
-import com.deckwatch.core.model.DeckPlan
 import com.deckwatch.core.model.PlanPreset
 import com.deckwatch.feature.vessel.R
 import com.deckwatch.feature.vessel.common.DeckPlanThumbnail
@@ -226,6 +227,7 @@ private fun PresetPicker(
     onSelect: (PlanPreset) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val selectedDescription = stringResource(R.string.deck_edit_cd_preset_selected)
     LazyRow(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingS),
@@ -236,6 +238,7 @@ private fun PresetPicker(
             Column(
                 modifier = Modifier
                     .widthIn(min = PRESET_TILE_WIDTH, max = PRESET_TILE_WIDTH)
+                    .semantics { if (selected) stateDescription = selectedDescription }
                     .border(
                         width = if (selected) 2.dp else 1.dp,
                         color = if (selected) {

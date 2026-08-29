@@ -79,12 +79,16 @@ class CategoryManagerViewModel @Inject constructor(
     /**
      * Writes the category. Flipping the global toggle rewrites `vesselId` in place — the id stays
      * the same, so every `equipment_category_xref` row pointing at it survives the change.
+     *
+     * The vessel and the existing record are resolved from the repository rather than from
+     * [uiState], so a save works even when nothing is collecting the state yet.
      */
     fun save(draft: CategoryDraft) {
         viewModelScope.launch {
-            val vesselId = uiState.value.vessel?.id
+            val vesselId = resolveVesselId()
             if (!draft.isGlobal && vesselId == null) return@launch
-            val existing = draft.id?.let { id -> uiState.value.categories.firstOrNull { it.id == id } }
+            val current = vesselRepository.observeCategories(vesselId).first()
+            val existing = draft.id?.let { id -> current.firstOrNull { it.id == id } }
             vesselRepository.upsertCategory(
                 Category(
                     id = draft.id ?: UUID.randomUUID().toString(),
@@ -92,7 +96,7 @@ class CategoryManagerViewModel @Inject constructor(
                     name = draft.name.trim(),
                     colorArgb = draft.colorArgb,
                     iconKey = existing?.iconKey,
-                    sortOrder = existing?.sortOrder ?: nextSortOrder(vesselId),
+                    sortOrder = existing?.sortOrder ?: ((current.maxOfOrNull { it.sortOrder } ?: -1) + 1),
                 ),
             )
         }
@@ -111,8 +115,9 @@ class CategoryManagerViewModel @Inject constructor(
         viewModelScope.launch { vesselRepository.deleteCategory(categoryId) }
     }
 
-    private suspend fun nextSortOrder(vesselId: String?): Int =
-        (vesselRepository.observeCategories(vesselId).first().maxOfOrNull { it.sortOrder } ?: -1) + 1
+    /** The explicitly bound vessel, or the active one (§5). */
+    private suspend fun resolveVesselId(): String? =
+        requestedVesselId.value ?: vesselRepository.observeActiveVessel().first()?.id
 
     private companion object {
         const val STOP_TIMEOUT_MILLIS = 5_000L

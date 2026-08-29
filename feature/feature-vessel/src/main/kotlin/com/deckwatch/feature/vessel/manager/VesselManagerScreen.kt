@@ -330,7 +330,7 @@ private fun VesselManagerPreview() {
                         vessel = Vessel(
                             id = "2",
                             name = "MT Karadeniz",
-                            imoNumber = "1234567",
+                            imoNumber = "9074720",
                             createdAt = now,
                             updatedAt = now,
                         ),

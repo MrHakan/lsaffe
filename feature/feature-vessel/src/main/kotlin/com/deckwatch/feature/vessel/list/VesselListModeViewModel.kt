@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -85,8 +86,8 @@ class VesselListModeViewModel @Inject constructor(
      * §6.3. The repository owns the level index; the first deck it makes becomes level 0.
      */
     fun createDeckFromPreset(preset: PlanPreset, name: String) {
-        val vesselId = uiState.value.vessel?.id ?: return
         viewModelScope.launch {
+            val vesselId = vesselRepository.observeActiveVessel().first()?.id ?: return@launch
             val deck = vesselRepository.addDeckAbove(
                 vesselId = vesselId,
                 name = name,

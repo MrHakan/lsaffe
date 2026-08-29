@@ -372,6 +372,13 @@ internal fun TaskListSection(
                         style = MaterialTheme.typography.labelMedium,
                         color = ConditionColors.of(task.status),
                     )
+                    if (task.completedDate == null) {
+                        Text(
+                            text = "  ${dueDeltaText(task.dueDate, todayEpochDay)}",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = dueColor(task.dueDate, todayEpochDay),
+                        )
+                    }
                     Text(
                         text = "  ${task.performedBy.name.lowercase().replace('_', ' ')}",
                         style = MaterialTheme.typography.bodySmall,

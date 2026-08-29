@@ -69,12 +69,18 @@ class ZoneManagerViewModel @Inject constructor(
         viewModelScope.launch { deckFlow.value = vesselRepository.getDeck(deckId) }
     }
 
-    /** Creates or updates a zone. New zones land at the end of the current order. */
+    /**
+     * Creates or updates a zone. New zones land at the end of the current order.
+     *
+     * The existing record is read from the repository rather than from [uiState], so a save works
+     * even when nothing is collecting the state yet.
+     */
     fun save(draft: ZoneDraft) {
         val deck = deckId.value ?: return
         viewModelScope.launch {
-            val existing = draft.id?.let { id -> uiState.value.zones.firstOrNull { it.id == id } }
-            val sortOrder = existing?.sortOrder ?: nextSortOrder()
+            val zones = currentZones()
+            val existing = draft.id?.let { id -> zones.firstOrNull { it.id == id } }
+            val sortOrder = existing?.sortOrder ?: ((zones.maxOfOrNull { it.sortOrder } ?: -1) + 1)
             vesselRepository.upsertZone(
                 Zone(
                     id = draft.id ?: UUID.randomUUID().toString(),
@@ -126,8 +132,6 @@ class ZoneManagerViewModel @Inject constructor(
         val id = deckId.value ?: return emptyList()
         return vesselRepository.observeZones(id).first()
     }
-
-    private suspend fun nextSortOrder(): Int = (currentZones().maxOfOrNull { it.sortOrder } ?: -1) + 1
 
     private companion object {
         const val STOP_TIMEOUT_MILLIS = 5_000L

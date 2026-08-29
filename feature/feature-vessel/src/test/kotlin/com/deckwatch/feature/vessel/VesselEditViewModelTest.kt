@@ -71,7 +71,7 @@ class VesselEditViewModelTest {
     fun `an invalid imo number still saves and keeps the digits typed`() = runTest {
         val viewModel = viewModel()
         viewModel.onNameChange("MV Example")
-        viewModel.onImoChange("1234567")
+        viewModel.onImoChange("9074720")
 
         assertThat(viewModel.state.value.imoStatus).isEqualTo(ImoStatus.INVALID)
         assertThat(viewModel.state.value.canSave).isTrue()
@@ -81,7 +81,7 @@ class VesselEditViewModelTest {
 
         val saved = vessels.vessels.value.values.single()
         assertThat(saved.name).isEqualTo("MV Example")
-        assertThat(saved.imoNumber).isEqualTo("1234567")
+        assertThat(saved.imoNumber).isEqualTo("9074720")
         assertThat(ImoStatus.of(saved.imoNumber).needsWarning).isTrue()
     }
 

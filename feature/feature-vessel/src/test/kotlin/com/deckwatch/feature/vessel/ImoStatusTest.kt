@@ -26,7 +26,7 @@ class ImoStatusTest {
     @Test
     fun `a wrong check digit is invalid`() {
         assertThat(ImoStatus.of("9074728")).isEqualTo(ImoStatus.INVALID)
-        assertThat(ImoStatus.of("1234567")).isEqualTo(ImoStatus.INVALID)
+        assertThat(ImoStatus.of("9074720")).isEqualTo(ImoStatus.INVALID)
     }
 
     @Test

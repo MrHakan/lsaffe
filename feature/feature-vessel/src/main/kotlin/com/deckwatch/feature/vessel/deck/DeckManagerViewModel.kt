@@ -154,9 +154,9 @@ class DeckManagerViewModel @Inject constructor(
      */
     fun saveDraft(draft: DeckDraft) {
         val target = sheetTarget.value ?: return
-        val vesselId = uiState.value.vessel?.id ?: return
         sheetTarget.value = null
         viewModelScope.launch {
+            val vesselId = resolveVesselId() ?: return@launch
             val created = when (target) {
                 DeckSheetTarget.AddAbove ->
                     vesselRepository.addDeckAbove(vesselId, draft.name, draft.shortCode, draft.plan)
@@ -219,6 +219,13 @@ class DeckManagerViewModel @Inject constructor(
             vesselRepository.deleteDeck(deckId)
         }
     }
+
+    /**
+     * The explicitly bound vessel, or the active one (§5). Resolved from the repository rather
+     * than from [uiState], so writes work even when nothing is collecting the state yet.
+     */
+    private suspend fun resolveVesselId(): String? =
+        requestedVesselId.value ?: vesselRepository.observeActiveVessel().first()?.id
 
     private companion object {
         const val STOP_TIMEOUT_MILLIS = 5_000L

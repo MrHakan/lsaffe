@@ -316,7 +316,7 @@ private fun VesselEditPreview() {
         VesselEditContent(
             state = VesselFormState(
                 name = "MV Example",
-                imoNumber = "1234567",
+                imoNumber = "9074720",
                 flag = FlagState.MARSHALL_ISLANDS,
                 vesselType = VesselType.BULK_CARRIER,
             ),

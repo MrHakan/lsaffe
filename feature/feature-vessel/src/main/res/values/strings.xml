@@ -6,7 +6,6 @@
     <string name="vessel_action_cancel">Cancel</string>
     <string name="vessel_action_delete">Delete</string>
     <string name="vessel_action_edit">Edit</string>
-    <string name="vessel_action_add">Add</string>
     <string name="vessel_action_done">Done</string>
     <string name="vessel_cd_back">Back</string>
     <string name="vessel_cd_more_actions">More actions</string>
