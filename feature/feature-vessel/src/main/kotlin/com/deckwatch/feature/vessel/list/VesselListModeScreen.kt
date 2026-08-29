@@ -17,10 +17,12 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -71,6 +73,7 @@ fun VesselListModeScreen(
     onAddDeck: () -> Unit = {},
     modifier: Modifier = Modifier,
     onAddVessel: (() -> Unit)? = null,
+    onAddEquipment: ((deckId: String?, zoneId: String?) -> Unit)? = null,
     topBarActions: @Composable () -> Unit = {},
     floatingActionButton: @Composable () -> Unit = {},
     viewModel: VesselListModeViewModel = hiltViewModel(),
@@ -86,6 +89,7 @@ fun VesselListModeScreen(
         onOpenEquipment = onOpenEquipment,
         onAddDeck = onAddDeck,
         onAddVessel = onAddVessel,
+        onAddEquipment = onAddEquipment,
         topBarActions = topBarActions,
         floatingActionButton = floatingActionButton,
         onPickPreset = { preset ->
@@ -102,6 +106,7 @@ internal fun VesselListModeContent(
     onOpenEquipment: (String) -> Unit = {},
     onAddDeck: () -> Unit = {},
     onAddVessel: (() -> Unit)? = null,
+    onAddEquipment: ((deckId: String?, zoneId: String?) -> Unit)? = null,
     topBarActions: @Composable () -> Unit = {},
     floatingActionButton: @Composable () -> Unit = {},
     onPickPreset: (PlanPreset) -> Unit = {},
@@ -150,6 +155,9 @@ internal fun VesselListModeContent(
                             onToggle = {
                                 collapsed = if (isCollapsed) collapsed - group.key else collapsed + group.key
                             },
+                            onAddEquipment = onAddEquipment?.takeIf { !group.isUnplaced }?.let { add ->
+                                { add(group.deck?.id, null) }
+                            },
                         )
                         HorizontalDivider()
                     }
@@ -159,7 +167,12 @@ internal fun VesselListModeContent(
                     }
                     for (zoneGroup in group.zoneGroups) {
                         item(key = "zone-${group.key}-${zoneGroup.key}") {
-                            ZoneHeader(zoneGroup = zoneGroup)
+                            ZoneHeader(
+                                zoneGroup = zoneGroup,
+                                onAddEquipment = onAddEquipment
+                                    ?.takeIf { zoneGroup.zone != null }
+                                    ?.let { add -> { add(group.deck?.id, zoneGroup.zone?.id) } },
+                            )
                         }
                         items(
                             items = zoneGroup.equipment,
@@ -235,6 +248,7 @@ private fun DeckHeader(
     group: DeckGroup,
     collapsed: Boolean,
     onToggle: () -> Unit,
+    onAddEquipment: (() -> Unit)? = null,
 ) {
     Row(
         modifier = Modifier
@@ -266,6 +280,17 @@ private fun DeckHeader(
             }
         }
         Text(text = group.equipmentCount.toString(), style = MaterialTheme.typography.labelLarge)
+        if (onAddEquipment != null) {
+            IconButton(onClick = onAddEquipment, modifier = Modifier.size(Dimens.TouchTargetMin)) {
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = stringResource(
+                        R.string.list_mode_add_equipment_here,
+                        group.deck?.name.orEmpty(),
+                    ),
+                )
+            }
+        }
         Icon(
             imageVector = if (collapsed) Icons.Filled.KeyboardArrowDown else Icons.Filled.KeyboardArrowUp,
             contentDescription = stringResource(
@@ -276,16 +301,33 @@ private fun DeckHeader(
 }
 
 @Composable
-private fun ZoneHeader(zoneGroup: ZoneGroup) {
-    Text(
-        text = zoneGroup.zone?.name ?: stringResource(R.string.list_mode_no_zone),
-        style = MaterialTheme.typography.labelLarge,
-        color = MaterialTheme.colorScheme.primary,
+private fun ZoneHeader(zoneGroup: ZoneGroup, onAddEquipment: (() -> Unit)? = null) {
+    Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = Dimens.SpacingXl, end = Dimens.SpacingL)
-            .padding(top = Dimens.SpacingM, bottom = Dimens.SpacingXs),
-    )
+            .padding(start = Dimens.SpacingXl, end = Dimens.SpacingL),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = zoneGroup.zone?.name ?: stringResource(R.string.list_mode_no_zone),
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier
+                .weight(1f)
+                .padding(top = Dimens.SpacingM, bottom = Dimens.SpacingXs),
+        )
+        if (onAddEquipment != null) {
+            IconButton(onClick = onAddEquipment, modifier = Modifier.size(Dimens.TouchTargetMin)) {
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = stringResource(
+                        R.string.list_mode_add_equipment_here,
+                        zoneGroup.zone?.name.orEmpty(),
+                    ),
+                )
+            }
+        }
+    }
 }
 
 @Composable

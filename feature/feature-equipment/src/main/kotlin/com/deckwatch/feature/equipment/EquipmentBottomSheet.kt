@@ -43,6 +43,7 @@ import com.deckwatch.core.designsystem.theme.Dimens
 import com.deckwatch.core.model.ConditionGrade
 import com.deckwatch.core.model.Deck
 import com.deckwatch.core.model.RegulationCard
+import com.deckwatch.core.model.Zone
 import com.deckwatch.feature.equipment.components.AttributesSection
 import com.deckwatch.feature.equipment.components.ConditionChipRow
 import com.deckwatch.feature.equipment.components.DeficiencyFormCard
@@ -109,7 +110,9 @@ fun EquipmentBottomSheet(
     var openCard by remember { mutableStateOf<RegulationCard?>(null) }
     var confirmingDelete by remember { mutableStateOf(false) }
     var movingToDeck by remember { mutableStateOf(false) }
+    var moveDeckChoice by remember { mutableStateOf<String?>(null) }
     val decks by viewModel.decks.collectAsStateWithLifecycle()
+    val zones by viewModel.zonesForMove.collectAsStateWithLifecycle()
     val haptics = LocalHapticFeedback.current
 
     // Dragging the sheet up is itself a request for more detail.
@@ -317,16 +320,76 @@ fun EquipmentBottomSheet(
     }
 
     if (movingToDeck) {
-        MoveToDeckDialog(
-            decks = decks,
-            currentDeckId = state.equipment?.deckId,
-            onPick = { deckId ->
-                movingToDeck = false
-                viewModel.moveToDeck(deckId)
-            },
-            onDismiss = { movingToDeck = false },
-        )
+        val chosenDeck = moveDeckChoice
+        if (chosenDeck == null) {
+            MoveToDeckDialog(
+                decks = decks,
+                currentDeckId = state.equipment?.deckId,
+                onPick = { deckId ->
+                    if (deckId == null) {
+                        // Landed for service: no deck, so no zone to ask about.
+                        movingToDeck = false
+                        viewModel.moveToDeck(null)
+                    } else {
+                        moveDeckChoice = deckId
+                        viewModel.selectDeckForMove(deckId)
+                    }
+                },
+                onDismiss = { movingToDeck = false },
+            )
+        } else {
+            MoveToZoneDialog(
+                zones = zones,
+                currentZoneId = state.equipment?.zoneId,
+                onPick = { zoneId ->
+                    movingToDeck = false
+                    moveDeckChoice = null
+                    viewModel.selectDeckForMove(null)
+                    viewModel.moveToDeck(chosenDeck, zoneId)
+                },
+                onBack = {
+                    moveDeckChoice = null
+                    viewModel.selectDeckForMove(null)
+                },
+            )
+        }
     }
+}
+
+/**
+ * Second step of the move: which zone of that deck — §6.4. Always offers "no zone", because a deck
+ * without drawn zones is normal and an item does not have to sit in one.
+ */
+@Composable
+private fun MoveToZoneDialog(
+    zones: List<Zone>,
+    currentZoneId: String?,
+    onPick: (String?) -> Unit,
+    onBack: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = onBack,
+        title = { Text(stringResource(R.string.equip_move_zone_title)) },
+        text = {
+            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                DeckChoiceRow(
+                    label = stringResource(R.string.equip_move_zone_none),
+                    selected = currentZoneId == null,
+                    onClick = { onPick(null) },
+                )
+                zones.forEach { zone ->
+                    DeckChoiceRow(
+                        label = zone.name,
+                        selected = zone.id == currentZoneId,
+                        onClick = { onPick(zone.id) },
+                    )
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onBack) { Text(stringResource(R.string.equip_move_zone_back)) }
+        },
+    )
 }
 
 /**

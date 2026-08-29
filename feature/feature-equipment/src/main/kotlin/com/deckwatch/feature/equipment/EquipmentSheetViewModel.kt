@@ -20,6 +20,7 @@ import com.deckwatch.core.model.Severity
 import com.deckwatch.core.model.TaskDefinition
 import com.deckwatch.core.model.TaskInstance
 import com.deckwatch.core.model.TaskStatus
+import com.deckwatch.core.model.Zone
 import com.deckwatch.feature.equipment.attributes.AttributeCodec
 import com.deckwatch.feature.equipment.attributes.AttributeDraft
 import com.deckwatch.feature.equipment.attributes.AttributeError
@@ -93,6 +94,7 @@ internal class EquipmentSheetViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val boundId = MutableStateFlow<String?>(null)
+    private val moveDeckId = MutableStateFlow<String?>(null)
     private val editor = MutableStateFlow<AttributeEditState?>(null)
     private val deficiencyDraft = MutableStateFlow<DeficiencyDraft?>(null)
     private val conditionUndo = MutableStateFlow<ConditionUndo?>(null)
@@ -131,6 +133,22 @@ internal class EquipmentSheetViewModel @Inject constructor(
             if (vesselId == null) flowOf(emptyList()) else vesselRepository.observeDecks(vesselId)
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(DECKS_STOP_TIMEOUT_MILLIS), emptyList())
+
+    /**
+     * Zones of the deck the move picker is currently showing — §6.4. Held here rather than in the
+     * dialog because a zone belongs to a deck, so the list has to follow the deck being picked.
+     */
+    @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
+    val zonesForMove: StateFlow<List<Zone>> = moveDeckId
+        .flatMapLatest { deckId ->
+            if (deckId == null) flowOf(emptyList()) else vesselRepository.observeZones(deckId)
+        }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(DECKS_STOP_TIMEOUT_MILLIS), emptyList())
+
+    /** Show the zones of [deckId] in the move picker; null clears the second step. */
+    fun selectDeckForMove(deckId: String?) {
+        moveDeckId.value = deckId
+    }
 
     /** Point the sheet at an equipment record; re-binding to the same id is a no-op. */
     fun bind(equipmentId: String) {

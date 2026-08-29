@@ -147,7 +147,9 @@ internal class AddEquipmentViewModel @Inject constructor(
 
     /** Bind the drop point the officer long-pressed — §7.5 step 1. */
     fun bind(vesselId: String, deckId: String?, zoneId: String?, posX: Float, posY: Float) {
-        if (bound && this.vesselId == vesselId && this.deckId == deckId) return
+        // The zone counts too: two rows on the same deck are two different drop points.
+        val samePlace = this.vesselId == vesselId && this.deckId == deckId && this.zoneId == zoneId
+        if (bound && samePlace) return
         bound = true
         this.vesselId = vesselId
         this.deckId = deckId

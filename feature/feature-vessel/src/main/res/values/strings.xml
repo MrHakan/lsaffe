@@ -193,4 +193,5 @@
 
     <string name="list_mode_no_vessel_title">No vessel yet</string>
     <string name="list_mode_add_vessel">Add vessel</string>
+    <string name="list_mode_add_equipment_here">Add equipment to %1$s</string>
 </resources>

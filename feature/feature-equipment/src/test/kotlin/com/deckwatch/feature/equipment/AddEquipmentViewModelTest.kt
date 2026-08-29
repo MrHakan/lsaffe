@@ -234,6 +234,24 @@ class AddEquipmentViewModelTest {
         ).forEach { fakes.maintenance.upsertTaskDefinition(it) }
     }
 
+    @Test
+    fun `re-binding to another zone of the same deck moves the drop point`() = runTest {
+        seed()
+        fakes.vessels.upsertZone(TestData.zone(id = ZONE_ID, deckId = DECK_ID, name = "Fwd station"))
+        val viewModel = boundViewModel()
+
+        // Adding from a zone row after adding from the deck row: same vessel, same deck, new zone.
+        viewModel.bind(VESSEL_ID, DECK_ID, zoneId = ZONE_ID, posX = 0.4f, posY = 0.6f)
+        viewModel.selectType(type.typeKey)
+        viewModel.setAttribute("extinguishingMedium", "CO2")
+
+        viewModel.create()
+
+        val created = fakes.equipment.observeEquipment(VESSEL_ID).first().single()
+        assertThat(created.deckId).isEqualTo(DECK_ID)
+        assertThat(created.zoneId).isEqualTo(ZONE_ID)
+    }
+
     private suspend fun boundViewModel(): AddEquipmentViewModel {
         val viewModel = AddEquipmentViewModel(fakes.equipment, fakes.reference, fakes.maintenance, fakes.vessels)
         viewModel.bind(VESSEL_ID, DECK_ID, zoneId = null, posX = 0.4f, posY = 0.6f)
@@ -244,5 +262,6 @@ class AddEquipmentViewModelTest {
     private companion object {
         const val VESSEL_ID = "vessel-under-test"
         const val DECK_ID = "deck-under-test"
+        const val ZONE_ID = "zone-under-test"
     }
 }

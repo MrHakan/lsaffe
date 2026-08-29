@@ -181,4 +181,7 @@
     <string name="equip_move_deck_title">Güverteye taşı</string>
     <string name="equip_move_deck_none">Bu gemide henüz güverte yok. Önce Gemi sekmesinden ekleyin.</string>
     <string name="equip_move_deck_unplaced">Yerleştirilmemiş (servise gönderildi)</string>
+    <string name="equip_move_zone_title">Hangi bölge?</string>
+    <string name="equip_move_zone_none">Bölgesiz</string>
+    <string name="equip_move_zone_back">Geri</string>
 </resources>

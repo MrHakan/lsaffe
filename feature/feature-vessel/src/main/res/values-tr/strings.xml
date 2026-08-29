@@ -192,4 +192,5 @@
 
     <string name="list_mode_no_vessel_title">Henüz gemi yok</string>
     <string name="list_mode_add_vessel">Gemi ekle</string>
+    <string name="list_mode_add_equipment_here">%1$s güvertesine ekipman ekle</string>
 </resources>
