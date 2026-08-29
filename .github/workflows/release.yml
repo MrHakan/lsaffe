@@ -3,8 +3,7 @@ name: Release
 on:
   push:
     tags: [ 'v*.*.*' ]
-    # Every push to main publishes a build to the rolling "main" pre-release, so the Releases page
-    # always carries an installable APK of the current main without anyone tagging by hand.
+    # Every push to main cuts its own release: a version, a tag and an APK, with no hand tagging.
     branches: [ main ]
   workflow_dispatch:
     inputs:
@@ -36,7 +35,6 @@ jobs:
         id: ver
         run: |
           CODE="$(git rev-list --count HEAD)"
-          ASSET=""
           case "${{ github.event_name }}" in
             workflow_dispatch)
               V="${{ inputs.version }}"
@@ -51,14 +49,13 @@ jobs:
                 PRERELEASE=false
                 NAME="DeckWatch v$V"
               else
-                # Rolling build of main: one release that is replaced on every push.
-                V="0.1.0-main.$CODE"
-                TAG="main"
-                PRERELEASE=true
-                NAME="DeckWatch — latest main build"
-                # Fixed asset names: the rolling release is republished on every push, and a
-                # versioned name would leave the previous build's APK sitting beside the new one.
-                ASSET="DeckWatch-main"
+                # One release per commit on main. The patch number is the commit count, so it only
+                # ever goes up — a random number would make it impossible to tell which build on
+                # the Releases page is the newer one.
+                V="0.1.$CODE"
+                TAG="v$V"
+                PRERELEASE=false
+                NAME="DeckWatch v$V"
               fi
               ;;
           esac
@@ -68,7 +65,7 @@ jobs:
             echo "tag=$TAG"
             echo "prerelease=$PRERELEASE"
             echo "name=$NAME"
-            echo "asset=${ASSET:-DeckWatch-$V}"
+            echo "asset=DeckWatch-$V"
           } >> "$GITHUB_OUTPUT"
 
       - uses: actions/setup-java@v4
@@ -114,7 +111,7 @@ jobs:
 
       - name: Generate release notes
         run: |
-          PREV=$(git describe --tags --abbrev=0 --exclude=main HEAD^ 2>/dev/null || echo "")
+          PREV=$(git describe --tags --abbrev=0 --match 'v*' HEAD^ 2>/dev/null || echo "")
           { echo "## What's changed"; echo
             if [ -n "$PREV" ]; then git log --pretty='- %s (%h)' "$PREV..HEAD";
             else git log --pretty='- %s (%h)' -20; fi
@@ -122,6 +119,9 @@ jobs:
             echo; echo "### Checksums"; echo '```'; cat dist/SHA256SUMS.txt; echo '```'
           } > CHANGELOG_RELEASE.md
 
+      # The tag this creates does not start the workflow again: events raised with the default
+      # GITHUB_TOKEN never trigger further workflow runs. Swapping in a personal access token here
+      # would turn every release into an endless chain of them.
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v3
         with:
@@ -131,3 +131,5 @@ jobs:
           prerelease: ${{ steps.ver.outputs.prerelease }}
           files: dist/*
           fail_on_unmatched_files: true
+          # The newest build is the one to install, so it takes the "Latest release" badge.
+          make_latest: true
