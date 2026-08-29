@@ -43,6 +43,11 @@
     <string name="equip_photos">Photos</string>
     <string name="equip_photos_none">No photos on this record.</string>
     <string name="equip_photo_placeholder">Photo %1$d</string>
+    <string name="equip_photo_missing">File no longer on this device</string>
+    <string name="equip_photo_remove">Remove photo %1$d</string>
+    <string name="equip_photo_no_camera_title">No camera app</string>
+    <string name="equip_photo_no_camera_body">This device has no app that can take a picture, so the photo could not be started. Everything else on the record still works.</string>
+    <string name="equip_photo_no_camera_dismiss">OK</string>
     <string name="equip_notes">Notes</string>
     <string name="equip_notes_none">No notes.</string>
 
@@ -184,4 +189,10 @@
     <string name="equip_move_zone_title">Which zone?</string>
     <string name="equip_move_zone_none">No zone</string>
     <string name="equip_move_zone_back">Back</string>
+    <string name="equip_remind_me">Remind me…</string>
+    <string name="equip_remind_title">Remind me about this item</string>
+    <string name="equip_remind_tomorrow">Tomorrow</string>
+    <string name="equip_remind_three_days">In three days</string>
+    <string name="equip_remind_week">In a week</string>
+    <string name="equip_remind_clear">Clear reminder</string>
 </resources>

@@ -38,13 +38,15 @@ import com.deckwatch.feature.vessel.manager.VesselManagerScreen
  * Tab 4 — everything that is not a daily journey: the fleet, the logical categories, and who is
  * responsible for what the app says (§17.6).
  *
- * Settings themselves (§18), reports (§13) and the survival-craft schematics (§7.6) are not built
- * yet and are listed in `docs/BACKLOG.md`; this tab shows what exists rather than dead rows that
- * open nothing.
+ * Reports (§13) and the survival-craft schematics (§7.6) are not built yet and are listed in
+ * `docs/BACKLOG.md`; this tab shows what exists rather than dead rows that open nothing.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MoreScreen(modifier: Modifier = Modifier) {
+fun MoreScreen(
+    modifier: Modifier = Modifier,
+    onRemindersChanged: (enabled: Boolean, hour: Int, minute: Int) -> Unit = { _, _, _ -> },
+) {
     var destination by remember { mutableStateOf(MoreDestination.NONE) }
 
     Scaffold(
@@ -60,6 +62,8 @@ fun MoreScreen(modifier: Modifier = Modifier) {
             MoreRow(R.string.more_vessels) { destination = MoreDestination.VESSELS }
             HorizontalDivider()
             MoreRow(R.string.more_categories) { destination = MoreDestination.CATEGORIES }
+            HorizontalDivider()
+            MoreRow(R.string.more_notifications) { destination = MoreDestination.NOTIFICATIONS }
             HorizontalDivider()
 
             Text(
@@ -100,10 +104,17 @@ fun MoreScreen(modifier: Modifier = Modifier) {
         MoreDestination.CATEGORIES -> FullScreen(onDismiss = { destination = MoreDestination.NONE }) {
             CategoryManagerScreen(onBack = { destination = MoreDestination.NONE })
         }
+
+        MoreDestination.NOTIFICATIONS -> FullScreen(onDismiss = { destination = MoreDestination.NONE }) {
+            NotificationSettingsScreen(
+                onBack = { destination = MoreDestination.NONE },
+                onSettingsChanged = onRemindersChanged,
+            )
+        }
     }
 }
 
-private enum class MoreDestination { NONE, VESSELS, CATEGORIES }
+private enum class MoreDestination { NONE, VESSELS, CATEGORIES, NOTIFICATIONS }
 
 @Composable
 private fun MoreRow(@StringRes labelRes: Int, onClick: () -> Unit) {

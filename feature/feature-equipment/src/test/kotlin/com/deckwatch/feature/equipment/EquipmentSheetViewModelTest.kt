@@ -247,6 +247,7 @@ class EquipmentSheetViewModelTest {
             referenceRepository = fakes.reference,
             maintenanceRepository = fakes.maintenance,
             inspectionRepository = fakes.inspections,
+            itemReminders = fakes.reminders,
         )
 
         viewModel.uiState.test {
@@ -300,6 +301,23 @@ class EquipmentSheetViewModelTest {
         assertThat(placed?.zoneId).isEqualTo(ZONE_ID)
     }
 
+    @Test
+    fun `a reminder is armed against the item's tag and re-arming replaces it`() = runTest {
+        seed()
+        val viewModel = boundViewModel()
+
+        viewModel.remindIn(days = 3)
+        assertThat(fakes.reminders.reminderFor(EQUIPMENT_ID)?.days).isEqualTo(3)
+
+        // A second reminder for one item is a mistake, not a queue.
+        viewModel.remindIn(days = 7)
+        assertThat(fakes.reminders.reminders).hasSize(1)
+        assertThat(fakes.reminders.reminderFor(EQUIPMENT_ID)?.days).isEqualTo(7)
+
+        viewModel.cancelReminder()
+        assertThat(fakes.reminders.reminders).isEmpty()
+    }
+
     // ------------------------------------------------------------------ helpers
 
     private suspend fun seed(
@@ -338,6 +356,7 @@ class EquipmentSheetViewModelTest {
             referenceRepository = fakes.reference,
             maintenanceRepository = fakes.maintenance,
             inspectionRepository = fakes.inspections,
+            itemReminders = fakes.reminders,
         )
         viewModel.bind(EQUIPMENT_ID)
         viewModel.uiState.first { it.equipment != null }

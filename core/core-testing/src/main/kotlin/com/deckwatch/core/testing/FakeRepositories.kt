@@ -27,6 +27,7 @@ class FakeRepositories(
     val vessels: FakeVesselRepository = FakeVesselRepository(clock = clock)
     val equipment: FakeEquipmentRepository = FakeEquipmentRepository(clock = clock)
     val reference: FakeReferenceRepository = FakeReferenceRepository()
+    val reminders: FakeItemReminders = FakeItemReminders()
     val inspections: FakeInspectionRepository = FakeInspectionRepository()
     val maintenance: FakeMaintenanceRepository = FakeMaintenanceRepository(
         equipment = equipment,

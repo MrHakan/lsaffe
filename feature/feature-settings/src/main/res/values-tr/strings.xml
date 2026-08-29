@@ -6,4 +6,16 @@
     <string name="more_about_title">Hakkında</string>
     <string name="more_version">DeckWatch %1$s</string>
     <string name="more_disclaimer">DeckWatch bir planlama ve kayıt tutma yardımcısıdır. Sertifika değildir; geminin onaylı planlarının, üretici kılavuzlarının, klas kurallarının veya bayrak idaresinin talimatlarının yerine geçmez ve hiçbir yasal yükümlülüğü ortadan kaldırmaz. Mevzuat içeriği belirtilen tarihte alınmış bir özettir ve güncelliğini yitirmiş olabilir. Her zaman yürürlükteki metinle ve geminin kendi dokümantasyonuyla doğrulayın.</string>
+    <string name="more_notifications">Bildirimler</string>
+    <string name="notifications_title">Bildirimler</string>
+    <string name="notifications_back">Geri</string>
+    <string name="notifications_enable">Günlük hatırlatma</string>
+    <string name="notifications_enable_subtitle">Gecikmiş ve bu hafta yapılacak işlerin günde bir özeti.</string>
+    <string name="notifications_time">Hatırlatma saati</string>
+    <string name="notifications_time_set">Ayarla</string>
+    <string name="notifications_time_cancel">İptal</string>
+    <string name="notifications_blocked">Android, DeckWatch bildirimlerini engelliyor; izin verilene kadar hiçbir bildirim gelmez.</string>
+    <string name="notifications_open_system_settings">Bildirim ayarlarını aç</string>
+    <string name="notifications_explainer">Hatırlatmalar bu cihazda iş listesinden üretilir. Hiçbir yere veri gönderilmez ve uygulama, bildirimler kapalıyken de aynı şekilde çalışır.</string>
+    <string name="notifications_allow">Bildirimlere izin ver</string>
 </resources>
