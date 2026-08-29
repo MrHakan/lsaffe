@@ -5,4 +5,10 @@
     <string name="vessel_tab_manage_vessels">Gemiler</string>
     <string name="vessel_tab_manage_decks">Güverteler</string>
     <string name="vessel_tab_manage_categories">Kategoriler</string>
+    <string name="vessel_tab_show_plan">Güverte planını göster</string>
+    <string name="vessel_tab_show_list">Listeyi göster</string>
+    <string name="vessel_tab_plan_title">Güverte planı</string>
+    <string name="canvas_loading">Güverte planı yükleniyor…</string>
+    <string name="canvas_no_decks">Bu geminin henüz güvertesi yok. Menüden bir güverte ekleyin, sonra üzerine ekipman yerleştirin.</string>
+    <string name="canvas_hint_long_press">Ekipman eklemek için güvertede bir yere basılı tutun.</string>
 </resources>
