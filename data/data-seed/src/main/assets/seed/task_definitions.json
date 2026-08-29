@@ -9,18 +9,23 @@
       "LSA_FAST_RESCUE_BOAT",
       "LSA_LIFEBOAT_DAVIT",
       "LSA_FREEFALL_LAUNCHING_APPLIANCE",
-      "LSA_LIFEBOAT_WINCH",
       "LSA_RESCUE_BOAT_DAVIT",
+      "LSA_LIFEBOAT_WINCH",
       "LSA_ONLOAD_RELEASE_GEAR",
       "LSA_HYDROSTATIC_INTERLOCK",
-      "LSA_LIFERAFT_THROWOVER",
-      "LSA_LIFERAFT_DAVIT_LAUNCHED",
       "LSA_FALLS_WIRE_ROPES",
       "LSA_FALL_PREVENTER_DEVICE",
+      "LSA_LIFEBOAT_ENGINE",
+      "LSA_RESCUE_BOAT_ENGINE",
+      "LSA_BOAT_SPRINKLER_SYSTEM",
+      "LSA_BOAT_AIR_SUPPORT_SYSTEM",
+      "LSA_LIFERAFT_THROWOVER",
+      "LSA_LIFERAFT_DAVIT_LAUNCHED",
       "LSA_LIFERAFT_CRADLE",
       "LSA_HRU",
+      "LSA_LIFERAFT_PAINTER_WEAK_LINK",
       "LSA_MES",
-      "LSA_LIFERAFT_PAINTER_WEAK_LINK"
+      "LSA_EMBARKATION_LADDER"
     ],
     "titleEn": "Survival craft, launching appliances and on-load release gear — weekly visual inspection",
     "titleTr": "Can kurtarma araçları, indirme donanımları ve yük altında bırakma donanımı — haftalık gözle muayene",
@@ -49,13 +54,13 @@
   {
     "key": "LB_ENGINE_WEEKLY_RUN",
     "appliesToTypeKeys": [
-      "LSA_LIFEBOAT_ENGINE",
-      "LSA_RESCUE_BOAT_ENGINE",
       "LSA_LIFEBOAT_TOTALLY_ENCLOSED",
       "LSA_LIFEBOAT_PARTIALLY_ENCLOSED",
       "LSA_LIFEBOAT_FREEFALL",
       "LSA_RESCUE_BOAT",
-      "LSA_FAST_RESCUE_BOAT"
+      "LSA_FAST_RESCUE_BOAT",
+      "LSA_LIFEBOAT_ENGINE",
+      "LSA_RESCUE_BOAT_ENGINE"
     ],
     "titleEn": "Lifeboat engine — weekly run",
     "titleTr": "Can filikası motoru — haftalık çalıştırma",
@@ -114,8 +119,7 @@
       "LSA_LIFEBOAT_PARTIALLY_ENCLOSED",
       "LSA_LIFEBOAT_FREEFALL",
       "LSA_RESCUE_BOAT",
-      "LSA_LIFEBOAT_DAVIT",
-      "LSA_LIFEBOAT_WINCH"
+      "LSA_FAST_RESCUE_BOAT"
     ],
     "titleEn": "Lifeboats moved from the stowed position — monthly",
     "titleTr": "Can filikalarının istif konumundan çıkarılması — aylık",
@@ -150,14 +154,18 @@
       "LSA_FAST_RESCUE_BOAT",
       "LSA_LIFEBOAT_DAVIT",
       "LSA_FREEFALL_LAUNCHING_APPLIANCE",
-      "LSA_LIFEBOAT_WINCH",
       "LSA_RESCUE_BOAT_DAVIT",
+      "LSA_LIFEBOAT_WINCH",
       "LSA_ONLOAD_RELEASE_GEAR",
       "LSA_HYDROSTATIC_INTERLOCK",
-      "LSA_LIFERAFT_THROWOVER",
-      "LSA_LIFERAFT_DAVIT_LAUNCHED",
       "LSA_FALLS_WIRE_ROPES",
       "LSA_FALL_PREVENTER_DEVICE",
+      "LSA_LIFEBOAT_ENGINE",
+      "LSA_RESCUE_BOAT_ENGINE",
+      "LSA_BOAT_SPRINKLER_SYSTEM",
+      "LSA_BOAT_AIR_SUPPORT_SYSTEM",
+      "LSA_LIFERAFT_THROWOVER",
+      "LSA_LIFERAFT_DAVIT_LAUNCHED",
       "LSA_LIFERAFT_CRADLE",
       "LSA_HRU",
       "LSA_LIFERAFT_PAINTER_WEAK_LINK",
@@ -184,9 +192,12 @@
       "LSA_EPIRB",
       "LSA_SART",
       "LSA_TWO_WAY_VHF",
+      "LSA_GENERAL_EMERGENCY_ALARM",
+      "LSA_PUBLIC_ADDRESS_SYSTEM",
       "LSA_DAYLIGHT_SIGNALLING_LAMP",
-      "LSA_BOAT_SPRINKLER_SYSTEM",
-      "LSA_BOAT_AIR_SUPPORT_SYSTEM",
+      "DOC_MUSTER_LIST",
+      "DOC_TRAINING_MANUAL",
+      "DOC_LSA_MAINTENANCE_MANUAL",
       "EMR_MUSTER_STATION"
     ],
     "titleEn": "LSA inspection using the maintenance checklist — monthly",
@@ -255,7 +266,9 @@
       "FFE_SAMPLE_EXTRACTION_SMOKE_DETECTION",
       "FFE_MANUAL_CALL_POINT",
       "FFE_FIRE_DETECTION_PANEL",
-      "FFE_FIRE_ALARM_SOUNDER"
+      "FFE_FIRE_ALARM_SOUNDER",
+      "FFE_FIXED_GAS_DETECTOR",
+      "FFE_PORTABLE_GAS_DETECTOR"
     ],
     "titleEn": "Fire detector and manual call point — monthly sample test",
     "titleTr": "Yangın dedektörü ve ihbar butonu — aylık numune testi",
@@ -318,7 +331,13 @@
     "appliesToTypeKeys": [
       "FFE_SCBA_SET",
       "FFE_SCBA_SPARE_CYLINDER",
-      "FFE_FIREMANS_OUTFIT"
+      "FFE_SCBA_COMPRESSOR",
+      "FFE_EEBD",
+      "FFE_FIREMANS_OUTFIT",
+      "FFE_FIRE_RESISTANT_LIFELINE",
+      "FFE_FIREMANS_AXE",
+      "FFE_SAFETY_LAMP",
+      "FFE_FIREFIGHTER_RADIO"
     ],
     "titleEn": "SCBA — monthly officer's check",
     "titleTr": "SCBA — aylık zabit kontrolü",
@@ -387,12 +406,17 @@
       "LSA_FAST_RESCUE_BOAT",
       "LSA_LIFEBOAT_DAVIT",
       "LSA_FREEFALL_LAUNCHING_APPLIANCE",
-      "LSA_LIFEBOAT_WINCH",
       "LSA_RESCUE_BOAT_DAVIT",
+      "LSA_LIFEBOAT_WINCH",
       "LSA_ONLOAD_RELEASE_GEAR",
       "LSA_HYDROSTATIC_INTERLOCK",
       "LSA_FALLS_WIRE_ROPES",
-      "LSA_FALL_PREVENTER_DEVICE"
+      "LSA_FALL_PREVENTER_DEVICE",
+      "LSA_LIFEBOAT_ENGINE",
+      "LSA_RESCUE_BOAT_ENGINE",
+      "LSA_BOAT_SPRINKLER_SYSTEM",
+      "LSA_BOAT_AIR_SUPPORT_SYSTEM",
+      "LSA_LIFERAFT_DAVIT_LAUNCHED"
     ],
     "titleEn": "Lifeboat, rescue boat, launching appliance and release gear — annual thorough examination and operational test",
     "titleTr": "Can filikası, kurtarma botu, indirme donanımı ve bırakma donanımı — yıllık detaylı muayene ve fonksiyon testi",
@@ -427,7 +451,7 @@
     "appliesToTypeKeys": [
       "LSA_LIFERAFT_THROWOVER",
       "LSA_LIFERAFT_DAVIT_LAUNCHED",
-      "LSA_LIFERAFT_CRADLE"
+      "LSA_MES"
     ],
     "titleEn": "Inflatable liferaft — annual servicing",
     "titleTr": "Şişme can salı — yıllık servis",
@@ -548,9 +572,8 @@
     "appliesToTypeKeys": [
       "FFE_FIXED_CO2_SYSTEM",
       "FFE_CO2_CYLINDER_BANK",
-      "FFE_DRY_POWDER_SYSTEM",
-      "FFE_LOCAL_APPLICATION_SYSTEM",
       "FFE_CO2_RELEASE_STATION",
+      "FFE_DRY_POWDER_SYSTEM",
       "FFE_GALLEY_HOOD_SYSTEM"
     ],
     "titleEn": "Fixed gas fire-extinguishing system — content check",
@@ -618,8 +641,9 @@
       "FFE_HEAT_DETECTOR",
       "FFE_FLAME_DETECTOR",
       "FFE_SAMPLE_EXTRACTION_SMOKE_DETECTION",
+      "FFE_MANUAL_CALL_POINT",
       "FFE_FIRE_DETECTION_PANEL",
-      "FFE_MANUAL_CALL_POINT"
+      "FFE_FIRE_ALARM_SOUNDER"
     ],
     "titleEn": "Fire detectors — five-yearly test of all detectors",
     "titleTr": "Yangın dedektörleri — beş yılda bir tüm dedektörlerin testi",
@@ -682,17 +706,15 @@
   {
     "key": "RG_FIVE_YEARLY_OVERLOAD_TEST",
     "appliesToTypeKeys": [
-      "LSA_ONLOAD_RELEASE_GEAR",
-      "LSA_HYDROSTATIC_INTERLOCK",
-      "LSA_LIFEBOAT_DAVIT",
-      "LSA_FREEFALL_LAUNCHING_APPLIANCE",
-      "LSA_LIFEBOAT_WINCH",
-      "LSA_RESCUE_BOAT_DAVIT",
       "LSA_LIFEBOAT_TOTALLY_ENCLOSED",
       "LSA_LIFEBOAT_PARTIALLY_ENCLOSED",
       "LSA_LIFEBOAT_FREEFALL",
       "LSA_RESCUE_BOAT",
-      "LSA_FAST_RESCUE_BOAT"
+      "LSA_FAST_RESCUE_BOAT",
+      "LSA_LIFEBOAT_DAVIT",
+      "LSA_FREEFALL_LAUNCHING_APPLIANCE",
+      "LSA_RESCUE_BOAT_DAVIT",
+      "LSA_ONLOAD_RELEASE_GEAR"
     ],
     "titleEn": "On-load release gear — five-yearly overload operational test at 1.1 × fully-loaded mass",
     "titleTr": "Yük altında bırakma donanımı — beş yıllık 1,1 × tam yüklü kütle ile aşırı yük testi",
@@ -724,9 +746,10 @@
   {
     "key": "WINCH_BRAKE_DYNAMIC_TEST",
     "appliesToTypeKeys": [
-      "LSA_LIFEBOAT_WINCH",
       "LSA_LIFEBOAT_DAVIT",
-      "LSA_RESCUE_BOAT_DAVIT"
+      "LSA_FREEFALL_LAUNCHING_APPLIANCE",
+      "LSA_RESCUE_BOAT_DAVIT",
+      "LSA_LIFEBOAT_WINCH"
     ],
     "titleEn": "Winch brake — five-yearly dynamic test",
     "titleTr": "Vinç freni — beş yıllık dinamik test",
@@ -756,10 +779,11 @@
   {
     "key": "FALLS_END_FOR_END_RENEWAL",
     "appliesToTypeKeys": [
-      "LSA_FALLS_WIRE_ROPES",
       "LSA_LIFEBOAT_DAVIT",
+      "LSA_FREEFALL_LAUNCHING_APPLIANCE",
       "LSA_RESCUE_BOAT_DAVIT",
-      "LSA_LIFEBOAT_WINCH"
+      "LSA_LIFEBOAT_WINCH",
+      "LSA_FALLS_WIRE_ROPES"
     ],
     "titleEn": "Falls — turned end-for-end or renewed",
     "titleTr": "Fals telleri — baş-kıç değiştirme veya yenileme",
@@ -819,14 +843,15 @@
   {
     "key": "FIXED_SYSTEM_HOSE_REPLACEMENT",
     "appliesToTypeKeys": [
+      "FFE_WATER_SPRAY_SYSTEM",
+      "FFE_DECK_FOAM_SYSTEM",
       "FFE_FIXED_CO2_SYSTEM",
       "FFE_CO2_CYLINDER_BANK",
-      "FFE_DRY_POWDER_SYSTEM",
-      "FFE_LOCAL_APPLICATION_SYSTEM",
       "FFE_FIXED_FOAM_SYSTEM",
       "FFE_WATER_MIST_SYSTEM",
-      "FFE_DECK_FOAM_SYSTEM",
-      "FFE_GALLEY_HOOD_SYSTEM"
+      "FFE_DRY_POWDER_SYSTEM",
+      "FFE_GALLEY_HOOD_SYSTEM",
+      "FFE_LOCAL_APPLICATION_SYSTEM"
     ],
     "titleEn": "Fixed system flexible hoses — ten-yearly replacement",
     "titleTr": "Sabit sistem esnek hortumları — on yılda bir değişim",
@@ -886,12 +911,12 @@
   {
     "key": "PYRO_EXPIRY_RENEWAL",
     "appliesToTypeKeys": [
+      "LSA_LIFEBUOY_SMOKE",
+      "LSA_LIFEBUOY_LIGHT_AND_SMOKE",
       "LSA_ROCKET_PARACHUTE_FLARE",
       "LSA_HAND_FLARE",
       "LSA_BUOYANT_SMOKE_SIGNAL",
-      "LSA_LINE_THROWING_APPLIANCE",
-      "LSA_LIFEBUOY_SMOKE",
-      "LSA_LIFEBUOY_LIGHT_AND_SMOKE"
+      "LSA_LINE_THROWING_APPLIANCE"
     ],
     "titleEn": "Pyrotechnics — renewal at the marked expiry",
     "titleTr": "Piroteknikler — üzerinde yazılı son kullanma tarihinde yenileme",
@@ -1003,6 +1028,87 @@
       "RMI": "RMI: maintenance and inspection of fire-protection systems and appliances is covered by Marine Notice 2-011-14.",
       "PAN": "Panama: the onboard maintenance plan must state which tasks are performed by the crew (advanced fire-fighting trained) and which require specially trained persons (MMC-281)."
     },
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "PMS_ROUTINE_CHECK",
+    "appliesToTypeKeys": [
+      "LSA_PILOT_LADDER",
+      "FFE_PORTABLE_FOAM_APPLICATOR",
+      "FFE_WATER_FOG_APPLICATOR",
+      "FFE_FIRE_BLANKET",
+      "FFE_FIRE_BUCKET",
+      "FFE_SAND_BOX",
+      "FFE_FIRE_HYDRANT",
+      "FFE_FIRE_HOSE",
+      "FFE_FIRE_NOZZLE",
+      "FFE_FIRE_HOSE_BOX",
+      "FFE_INTERNATIONAL_SHORE_CONNECTION",
+      "FFE_FIRE_MAIN_ISOLATING_VALVE",
+      "FFE_MAIN_FIRE_PUMP",
+      "FFE_EMERGENCY_FIRE_PUMP",
+      "FFE_FIRE_MONITOR",
+      "FFE_WATER_SPRAY_SYSTEM",
+      "FFE_DECK_FOAM_SYSTEM",
+      "FFE_FOAM_CONCENTRATE_TANK",
+      "FFE_FIXED_CO2_SYSTEM",
+      "FFE_CO2_CYLINDER_BANK",
+      "FFE_CO2_RELEASE_STATION",
+      "FFE_FIXED_FOAM_SYSTEM",
+      "FFE_WATER_MIST_SYSTEM",
+      "FFE_SPRINKLER_SYSTEM",
+      "FFE_SPRINKLER_SECTION_VALVE",
+      "FFE_DRY_POWDER_SYSTEM",
+      "FFE_INERT_GAS_SYSTEM",
+      "FFE_GALLEY_HOOD_SYSTEM",
+      "FFE_LOCAL_APPLICATION_SYSTEM",
+      "MCH_FIRE_DOOR",
+      "MCH_FIRE_DAMPER",
+      "MCH_VENTILATION_CLOSING_DEVICE",
+      "MCH_REMOTE_VENTILATION_STOP",
+      "MCH_FUEL_OIL_QUICK_CLOSING_VALVE",
+      "MCH_FUEL_PUMP_REMOTE_STOP",
+      "MCH_LUBE_PUMP_REMOTE_STOP",
+      "MCH_EMERGENCY_GENERATOR",
+      "MCH_EMERGENCY_SWITCHBOARD",
+      "MCH_EMERGENCY_BATTERY",
+      "MCH_SKYLIGHT_CLOSING_DEVICE",
+      "MCH_WATERTIGHT_DOOR",
+      "DOC_FIRE_CONTROL_PLAN",
+      "DOC_FIRE_CONTROL_PLAN_CONTAINER",
+      "DOC_SOPEP_LOCKER",
+      "DOC_SAFETY_PLAN",
+      "DOC_DAMAGE_CONTROL_PLAN",
+      "DOC_FIRE_SAFETY_OPERATIONAL_BOOKLET",
+      "EMR_ESCAPE_ROUTE_SIGN",
+      "EMR_LOW_LOCATION_LIGHTING",
+      "EMR_EMERGENCY_ESCAPE_TRUNK"
+    ],
+    "titleEn": "Routine check under the onboard maintenance plan",
+    "titleTr": "Gemi bakım planına göre rutin kontrol",
+    "descriptionEn": "Routine inspection and testing of this item under the vessel's onboard maintenance plan required by SOLAS II-2/14, together with the maker's instructions. This app does not assert an interval for this check — the source material it was built from does not state one. Take the interval from the vessel's maintenance plan, from MSC.1/Circ.1432 as amended, and from the maker's manual, and record the resulting date here.",
+    "intervalKind": "EVENT_DRIVEN",
+    "intervalMonths": null,
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 0,
+    "performedBy": "SHIP_STAFF",
+    "evidenceRequired": [
+      "Signed checklist",
+      "Log book entry, signed"
+    ],
+    "regulationRefs": [
+      "SOLAS_II2_14_MAINTENANCE_PLAN",
+      "SOLAS_II2_14_READINESS",
+      "MSC1_CIRC1432_SCOPE"
+    ],
+    "flagOverrides": {
+      "RMI": "RMI: maintenance and inspection of fire-protection systems and appliances is covered by Marine Notice 2-011-14.",
+      "LIB": "Liberia: fire-protection systems and appliances are covered by Marine Notice FIR-001.",
+      "PAN": "Panama: the onboard maintenance plan must state which tasks are crew-performed (advanced fire-fighting trained) and which need specially trained persons (MMC-281); records may be paper or computer-based on board."
+    },
+    "sourceRef": "SOLAS II-2/14",
     "verificationStatus": "UNVERIFIED",
     "lastReviewed": "2026-08-29",
     "isUserDefined": false

@@ -2292,7 +2292,7 @@
       }
     ],
     "taskKeys": [
-      "LSA_MONTHLY_CHECKLIST_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "SOLAS_V_23_PILOT_LADDER",
@@ -4720,7 +4720,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "SOLAS_II2_10_FIRE_FIGHTING",
@@ -4787,7 +4787,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "SOLAS_II2_10_FIRE_FIGHTING",
@@ -4852,7 +4852,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "FFE_FIRE_BLANKET_CARD",
@@ -4911,7 +4911,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "SOLAS_II2_10_FIRE_FIGHTING",
@@ -4970,7 +4970,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "SOLAS_II2_10_FIRE_FIGHTING",
@@ -5055,7 +5055,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "SOLAS_II2_10_FIRE_FIGHTING",
@@ -5143,7 +5143,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "SOLAS_II2_10_FIRE_FIGHTING",
@@ -5209,7 +5209,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "SOLAS_II2_10_FIRE_FIGHTING",
@@ -5281,7 +5281,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "SOLAS_II2_10_FIRE_FIGHTING",
@@ -5346,7 +5346,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "FSS_CH2_SHORE_CONNECTION",
@@ -5422,7 +5422,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "SOLAS_II2_FIRE_MAIN",
@@ -5508,7 +5508,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "SOLAS_II2_FIRE_MAIN",
@@ -5605,7 +5605,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "FSS_CH12_EMERGENCY_FIRE_PUMP",
@@ -5692,7 +5692,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "FSS_CH14_DECK_FOAM",
@@ -5763,7 +5763,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION",
+      "PMS_ROUTINE_CHECK",
       "FIXED_SYSTEM_HOSE_REPLACEMENT"
     ],
     "regulationRefs": [
@@ -5855,7 +5855,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION",
+      "PMS_ROUTINE_CHECK",
       "FIXED_SYSTEM_HOSE_REPLACEMENT"
     ],
     "regulationRefs": [
@@ -5936,7 +5936,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "FSS_CH6_FIXED_FOAM",
@@ -6072,7 +6072,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION",
+      "PMS_ROUTINE_CHECK",
       "FIXED_GAS_CONTENT_CHECK",
       "FIXED_SYSTEM_HOSE_REPLACEMENT",
       "CO2_CYLINDER_HYDROSTATIC_SAMPLING"
@@ -6224,7 +6224,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION",
+      "PMS_ROUTINE_CHECK",
       "FIXED_GAS_CONTENT_CHECK",
       "FIXED_SYSTEM_HOSE_REPLACEMENT",
       "CO2_CYLINDER_HYDROSTATIC_SAMPLING"
@@ -6309,7 +6309,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION",
+      "PMS_ROUTINE_CHECK",
       "FIXED_GAS_CONTENT_CHECK"
     ],
     "regulationRefs": [
@@ -6407,7 +6407,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION",
+      "PMS_ROUTINE_CHECK",
       "FIXED_SYSTEM_HOSE_REPLACEMENT"
     ],
     "regulationRefs": [
@@ -6494,7 +6494,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION",
+      "PMS_ROUTINE_CHECK",
       "FIXED_SYSTEM_HOSE_REPLACEMENT"
     ],
     "regulationRefs": [
@@ -6581,7 +6581,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "FSS_CH8_SPRINKLER",
@@ -6647,7 +6647,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "FSS_CH8_SPRINKLER",
@@ -6738,7 +6738,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION",
+      "PMS_ROUTINE_CHECK",
       "FIXED_GAS_CONTENT_CHECK",
       "FIXED_SYSTEM_HOSE_REPLACEMENT"
     ],
@@ -6831,7 +6831,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "FSS_CH15_INERT_GAS",
@@ -6921,7 +6921,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION",
+      "PMS_ROUTINE_CHECK",
       "FIXED_GAS_CONTENT_CHECK",
       "FIXED_SYSTEM_HOSE_REPLACEMENT"
     ],
@@ -7013,7 +7013,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION",
+      "PMS_ROUTINE_CHECK",
       "FIXED_SYSTEM_HOSE_REPLACEMENT"
     ],
     "regulationRefs": [
@@ -8591,7 +8591,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "SOLAS_II2_FIRE_DOORS",
@@ -8677,7 +8677,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "FFE_FIRE_DAMPER_CARD",
@@ -8750,7 +8750,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "SOLAS_II2_VENT_CLOSING",
@@ -8821,7 +8821,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "SOLAS_II2_VENT_CLOSING",
@@ -8904,7 +8904,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "SOLAS_II2_FUEL_OIL_SHUTOFF",
@@ -8976,7 +8976,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "SOLAS_II2_FUEL_OIL_SHUTOFF",
@@ -9046,7 +9046,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "SOLAS_II2_FUEL_OIL_SHUTOFF",
@@ -9143,7 +9143,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "FFE_EMERGENCY_GENERATOR_CARD",
@@ -9217,7 +9217,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "FFE_EMERGENCY_SWITCHBOARD_CARD",
@@ -9313,7 +9313,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "FFE_EMERGENCY_BATTERY_CARD",
@@ -9377,7 +9377,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "SOLAS_II2_VENT_CLOSING",
@@ -9466,7 +9466,7 @@
       }
     ],
     "taskKeys": [
-      "FE_MONTHLY_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "FFE_WATERTIGHT_DOOR_CARD",
@@ -9549,7 +9549,7 @@
       }
     ],
     "taskKeys": [
-      "LSA_MONTHLY_CHECKLIST_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "SOLAS_II2_15_2_4_FIRE_CONTROL_PLAN",
@@ -9617,7 +9617,7 @@
       }
     ],
     "taskKeys": [
-      "LSA_MONTHLY_CHECKLIST_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "SOLAS_II2_15_2_4_FIRE_CONTROL_PLAN",
@@ -9761,7 +9761,7 @@
       }
     ],
     "taskKeys": [
-      "LSA_MONTHLY_CHECKLIST_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "FFE_SOPEP_CARD",
@@ -9824,7 +9824,7 @@
       }
     ],
     "taskKeys": [
-      "LSA_MONTHLY_CHECKLIST_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "FFE_DOCUMENTATION_CARD",
@@ -9888,7 +9888,7 @@
       }
     ],
     "taskKeys": [
-      "LSA_MONTHLY_CHECKLIST_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "FFE_DOCUMENTATION_CARD",
@@ -10107,7 +10107,7 @@
       }
     ],
     "taskKeys": [
-      "LSA_MONTHLY_CHECKLIST_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "SOLAS_II2_14_MAINTENANCE_PLAN",
@@ -10257,7 +10257,7 @@
       }
     ],
     "taskKeys": [
-      "LSA_MONTHLY_CHECKLIST_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "FFE_ESCAPE_SIGNS_CARD",
@@ -10332,7 +10332,7 @@
       }
     ],
     "taskKeys": [
-      "LSA_MONTHLY_CHECKLIST_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "FSS_CH11_LOW_LOCATION_LIGHTING",
@@ -10404,7 +10404,7 @@
       }
     ],
     "taskKeys": [
-      "LSA_MONTHLY_CHECKLIST_INSPECTION"
+      "PMS_ROUTINE_CHECK"
     ],
     "regulationRefs": [
       "FSS_CH13_MEANS_OF_ESCAPE",

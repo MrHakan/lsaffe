@@ -72,6 +72,32 @@ object SeedIntegrity {
             }
         }
 
+        // --- the two documents must agree in both directions, so that a type can never
+        // carry a task whose own definition does not claim it (§11.4).
+        val tasksByType = bundle.equipmentTypes.associate { type ->
+            type.typeKey to (
+                type.taskKeys +
+                    type.attributeSchema.flatMap { it.taskKeysByValue.values.flatten() }
+                ).toSet()
+        }
+        bundle.taskDefinitions.forEach { task ->
+            task.appliesToTypeKeys.forEach { typeKey ->
+                if (typeKey in tasksByType && task.key !in tasksByType.getValue(typeKey)) {
+                    problems += "task '${task.key}' claims type '$typeKey' but that type does " +
+                        "not list the task"
+                }
+            }
+        }
+        val typesByTask = bundle.taskDefinitions.associate { it.key to it.appliesToTypeKeys.toSet() }
+        tasksByType.forEach { (typeKey, keys) ->
+            keys.forEach { taskKey ->
+                if (taskKey in typesByTask && typeKey !in typesByTask.getValue(taskKey)) {
+                    problems += "equipment type '$typeKey' lists task '$taskKey' but that task " +
+                        "does not apply to the type"
+                }
+            }
+        }
+
         // --- tasks -> catalogue / regulations / flag overlays
         bundle.taskDefinitions.forEach { task ->
             task.appliesToTypeKeys.filterNot { it in typeKeySet }.forEach {

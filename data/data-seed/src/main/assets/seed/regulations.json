@@ -835,7 +835,7 @@
     "citation": "SOLAS II-2/10",
     "title": "Fire fighting — arrangements and appliances",
     "what": "The ship is provided with the fire main, hydrants, hoses, nozzles, portable appliances, fixed systems and fireman's outfits required for its type and size.",
-    "howOften": "At survey; monthly checks",
+    "howOften": "At survey; per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Record of Equipment, Signed checklist",
     "detailBullets": [
@@ -898,7 +898,7 @@
     "citation": "SOLAS II-2/10",
     "title": "Fire main, pumps, hydrants and hoses",
     "what": "The fire main is capable of supplying the required number of jets at the required pressure, with the main and emergency fire pumps, isolating valves and the international shore connection.",
-    "howOften": "Monthly check; at survey",
+    "howOften": "Per the onboard maintenance plan; at survey",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist, pressure record",
     "detailBullets": [
@@ -931,7 +931,7 @@
     "citation": "SOLAS II-2/10",
     "title": "Fixed fire-extinguishing systems",
     "what": "Machinery spaces, cargo spaces and other protected spaces are served by fixed fire-extinguishing systems of an approved type, with release controls outside the protected space.",
-    "howOften": "Monthly check; 2-yearly content check",
+    "howOften": "Per the onboard maintenance plan; 2-yearly content check",
     "byWhom": "Ship's staff / Authorised service provider",
     "evidence": "Signed checklist, Service report",
     "detailBullets": [
@@ -1030,13 +1030,13 @@
     "citation": "SOLAS II-2",
     "title": "Emergency escape breathing devices (EEBD)",
     "what": "EEBDs are provided in the accommodation and machinery spaces at the locations shown on the fire control plan, for escape only.",
-    "howOften": "Monthly check",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
       "An EEBD is for escape from a space with a hazardous atmosphere — never for fire fighting or for enclosed space entry.",
       "Units are located so that they can be reached on the escape route, and their positions are on the fire control plan.",
-      "The pressure indicator is checked monthly and the seal must be intact.",
+      "The pressure indicator is checked at the plan's interval and the seal must be intact.",
       "Training units are clearly marked and kept apart from the service units.",
       "Cylinders are hydrostatically tested at the same 5-year interval as SCBA cylinders."
     ],
@@ -1058,7 +1058,7 @@
     "citation": "SOLAS II-2",
     "title": "Means of escape, marking and low-location lighting",
     "what": "Escape routes are kept clear and are marked with signs and low-location lighting so they can be followed with the lights out and in smoke.",
-    "howOften": "Monthly check",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -1087,7 +1087,7 @@
     "citation": "SOLAS II-2",
     "title": "Fire doors and closing appliances in fire divisions",
     "what": "Doors in A- and B-class divisions are self-closing or capable of remote release, and are kept closed or capable of closing at all times.",
-    "howOften": "Monthly test",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist, Log book entry, signed",
     "detailBullets": [
@@ -1142,7 +1142,7 @@
     "citation": "SOLAS II-2",
     "title": "Ventilation closing appliances and remote stops",
     "what": "Ventilation openings serving machinery and cargo spaces can be closed from outside the space, and the fans can be stopped from grouped, marked remote positions.",
-    "howOften": "Monthly test",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -1169,7 +1169,7 @@
     "citation": "SOLAS II-2",
     "title": "Fuel and lubricating oil shut-off arrangements",
     "what": "Quick-closing valves on oil tanks and remote stops for oil pumps can be operated from outside the space they serve, from grouped and marked positions.",
-    "howOften": "Monthly test",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist, Log book entry, signed",
     "detailBullets": [
@@ -1195,7 +1195,7 @@
     "citation": "SOLAS II-2",
     "title": "Galley ranges, hoods and exhaust ducts",
     "what": "Galley exhaust ducts and range hoods are fitted with grease traps, fire dampers and a fixed extinguishing arrangement, and are cleaned at the plan's interval.",
-    "howOften": "Monthly check; cleaning per plan",
+    "howOften": "Per the onboard maintenance plan; cleaning per plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist, cleaning record",
     "detailBullets": [
@@ -1221,7 +1221,7 @@
     "citation": "SOLAS II-2",
     "title": "Inert gas systems on tankers",
     "what": "Tankers to which the requirement applies are fitted with an inert gas system capable of maintaining the cargo tank atmosphere below the required oxygen content.",
-    "howOften": "Monthly checks; at survey",
+    "howOften": "Per the onboard maintenance plan; at survey",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist, calibration record",
     "detailBullets": [
@@ -1272,7 +1272,7 @@
     "citation": "SOLAS II-2/15.2.4",
     "title": "Fire control plans and their outside container",
     "what": "General arrangement plans showing the fire control stations, divisions, detection and extinguishing arrangements are permanently exhibited, and a duplicate set is kept in a weathertight container outside the deckhouse for the shore fire-fighting party.",
-    "howOften": "Kept current; monthly check",
+    "howOften": "Kept current; per the onboard maintenance plan",
     "byWhom": "Company / Master",
     "evidence": "Posted plan, container contents",
     "detailBullets": [
@@ -2313,7 +2313,7 @@
     "citation": "FSS Code Ch.2",
     "title": "International shore connection",
     "what": "The ship carries at least one international shore connection to the standard dimensions, with its bolts, nuts, washers and gasket, available on either side of the ship.",
-    "howOften": "Monthly check",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -2407,7 +2407,7 @@
     "citation": "FSS Code Ch.5",
     "title": "Fixed gas fire-extinguishing systems",
     "what": "Fixed gas systems provide the required quantity of extinguishing medium for the protected space, with release controls, alarms and ventilation shut-off arrangements outside the space.",
-    "howOften": "Monthly check; 2-yearly content check",
+    "howOften": "Per the onboard maintenance plan; 2-yearly content check",
     "byWhom": "Ship's staff / Authorised service provider",
     "evidence": "Signed checklist, Service report",
     "detailBullets": [
@@ -2439,7 +2439,7 @@
     "citation": "FSS Code Ch.6",
     "title": "Fixed foam fire-extinguishing systems",
     "what": "Fixed high-expansion and low-expansion foam systems deliver the required foam quantity and expansion ratio to the protected space.",
-    "howOften": "Monthly check; foam analysis per plan",
+    "howOften": "Per the onboard maintenance plan; analysis per plan",
     "byWhom": "Ship's staff / Authorised service provider",
     "evidence": "Signed checklist, laboratory analysis Certificate",
     "detailBullets": [
@@ -2469,7 +2469,7 @@
     "citation": "FSS Code Ch.7",
     "title": "Fixed pressure water-spraying and water-mist systems",
     "what": "Fixed pressure water-spraying and water-mist systems deliver the required application rate over the protected area, with the pump, filters and nozzles maintained.",
-    "howOften": "Monthly check; function test per plan",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff / Authorised service provider",
     "evidence": "Signed checklist, Service report",
     "detailBullets": [
@@ -2499,7 +2499,7 @@
     "citation": "FSS Code Ch.8",
     "title": "Automatic sprinkler, fire detection and fire alarm systems",
     "what": "The automatic sprinkler system is kept charged and pressurised, with section valves open, alarms proved and spare heads carried.",
-    "howOften": "Monthly check; section tests per plan",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist, Log book entry, signed",
     "detailBullets": [
@@ -2590,7 +2590,7 @@
     "citation": "FSS Code Ch.11",
     "title": "Low-location lighting",
     "what": "Low-location lighting marks the escape routes in the accommodation continuously and is visible when the normal lighting fails.",
-    "howOften": "Monthly check",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -2615,7 +2615,7 @@
     "citation": "FSS Code Ch.12",
     "title": "Fixed emergency fire pumps",
     "what": "The emergency fire pump is in a space separate from the main machinery space, with an independent source of power and fuel, and is capable of starting and delivering from cold.",
-    "howOften": "Monthly check; at survey",
+    "howOften": "Per the onboard maintenance plan; at survey",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist, Log book entry, signed",
     "detailBullets": [
@@ -2643,7 +2643,7 @@
     "citation": "FSS Code Ch.13",
     "title": "Arrangement of means of escape",
     "what": "Escape routes, trunks, doors and ladders provide ready means of escape from every space, and are marked and kept clear.",
-    "howOften": "Monthly check",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -2669,7 +2669,7 @@
     "citation": "FSS Code Ch.14",
     "title": "Fixed deck foam systems on tankers",
     "what": "The deck foam system supplies foam to the cargo deck through monitors and applicators at the required rate, with the concentrate quantity and quality maintained.",
-    "howOften": "Monthly check; analysis per plan",
+    "howOften": "Per the onboard maintenance plan; analysis per plan",
     "byWhom": "Ship's staff / Authorised service provider",
     "evidence": "Signed checklist, analysis Certificate, Service report",
     "detailBullets": [
@@ -2699,7 +2699,7 @@
     "citation": "FSS Code Ch.15",
     "title": "Inert gas systems",
     "what": "The inert gas system supplies gas of the required oxygen content to the cargo tanks, with alarms, shutdowns and non-return arrangements maintained and tested.",
-    "howOften": "Monthly checks; at survey",
+    "howOften": "Per the onboard maintenance plan; at survey",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist, calibration record",
     "detailBullets": [
@@ -2727,7 +2727,7 @@
     "byWhom": "Ship's staff / Authorised service provider / Service facility",
     "evidence": "Maintenance plan and records",
     "detailBullets": [
-      "It sets out weekly, monthly, quarterly, annual, two-yearly, five-yearly and ten-yearly tasks by system.",
+      "It sets out weekly, routine, quarterly, annual, two-yearly, five-yearly and ten-yearly tasks by system.",
       "It distinguishes what the crew may do from what needs a competent person or a service facility.",
       "The vessel's maintenance plan is the local implementation of these guidelines.",
       "Flag Administrations issue their own notices applying and supplementing the circular.",
@@ -2981,8 +2981,8 @@
     "section": "FFE",
     "citation": "MSC.1/Circ.1432",
     "title": "Fire main, pumps, hydrants, hoses and nozzles — inspection and testing",
-    "what": "The fire main, fire pumps, hydrants, hoses and nozzles are inspected monthly and tested to the maintenance plan, including a pressure test of the hoses.",
-    "howOften": "Monthly; hose testing per plan",
+    "what": "The fire main, fire pumps, hydrants, hoses and nozzles are inspected at the plan's interval and tested to the maintenance plan, including a pressure test of the hoses.",
+    "howOften": "Per the onboard maintenance plan; hose testing per plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist, pressure record",
     "detailBullets": [
@@ -3043,11 +3043,11 @@
     "citation": "MSC.1/Circ.1318/Rev.1",
     "title": "Maintenance and inspection of fixed carbon dioxide systems",
     "what": "MSC.1/Circ.1318/Rev.1 gives the maintenance and inspection guidelines specific to fixed CO2 fire-extinguishing systems.",
-    "howOften": "Monthly to 10-yearly, per item",
+    "howOften": "Per the maintenance plan, up to 10-yearly per item",
     "byWhom": "Ship's staff / Authorised service provider",
     "evidence": "Signed checklist, Service report",
     "detailBullets": [
-      "Monthly and annual inspections cover the cylinders, connections, pilot lines, distribution pipework and the release station.",
+      "Routine and annual inspections cover the cylinders, connections, pilot lines, distribution pipework and the release station.",
       "The content of the cylinders is verified at the interval in the maintenance plan.",
       "Cylinder hydrostatic testing follows the sampling regime — see the sampling card.",
       "The alarm and ventilation shut-down arrangements are proved.",
@@ -3098,7 +3098,7 @@
     "citation": "MSC.1/Circ.1318/Rev.1",
     "title": "CO2 release stations, alarms and safety arrangements",
     "what": "The release station, its pre-discharge alarm, the ventilation shut-off and the space evacuation arrangements are maintained and tested.",
-    "howOften": "Monthly check; test per plan",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff / Authorised service provider",
     "evidence": "Signed checklist, Service report",
     "detailBullets": [
@@ -3364,7 +3364,7 @@
     "citation": "SOLAS II-2/10",
     "title": "Hydrants, hoses, nozzles and hose boxes in practice",
     "what": "Every hydrant has a hose and dual-purpose nozzle ready for use, valves free, caps and washers fitted, and the hose box complete.",
-    "howOften": "Monthly check",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -3395,7 +3395,7 @@
     "citation": "SOLAS II-2/10",
     "title": "Main fire pumps in practice",
     "what": "The main fire pumps deliver the required jets at the required pressure, start on demand including from the remote position, and are recorded as tested.",
-    "howOften": "Monthly test",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist, pressure record",
     "detailBullets": [
@@ -3422,7 +3422,7 @@
     "citation": "FSS Code Ch.12",
     "title": "Emergency fire pump in practice",
     "what": "The emergency fire pump starts from cold in its own space and delivers to the fire main with the main machinery space isolated.",
-    "howOften": "Monthly test",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist, Log book entry, signed",
     "detailBullets": [
@@ -3449,7 +3449,7 @@
     "citation": "FSS Code Ch.2",
     "title": "International shore connection in practice",
     "what": "The shore connection is complete with bolts, nuts, washers and gasket, stowed ready and marked on the fire control plan.",
-    "howOften": "Monthly check",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -3475,7 +3475,7 @@
     "citation": "SOLAS II-2/10",
     "title": "Fire main and sprinkler section valves",
     "what": "Isolating and section valves are exercised, left in their correct position and identified on the fire control plan.",
-    "howOften": "Monthly check",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -3502,11 +3502,11 @@
     "citation": "FSS Code Ch.14",
     "title": "Fire and foam monitors",
     "what": "Monitors train and elevate freely, are greased at the plan's interval and can reach the areas they are required to protect.",
-    "howOften": "Monthly check",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
-      "Exercise the training and elevating gear monthly — they seize quickly on a tanker deck.",
+      "Exercise the training and elevating gear at the plan's interval — they seize quickly on a tanker deck.",
       "Check the nozzle is clear and the drain plug fitted.",
       "Confirm deck cargo does not block the monitor's coverage.",
       "Flush the foam main through after any use."
@@ -3558,7 +3558,7 @@
     "citation": "SOLAS II-2/10",
     "title": "Portable foam applicator units",
     "what": "The portable foam applicator, its branch pipe, inductor and concentrate stock are kept together, complete and in date.",
-    "howOften": "Monthly check",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -3584,7 +3584,7 @@
     "citation": "SOLAS II-2/10",
     "title": "Water fog applicators",
     "what": "Water fog applicators are stowed with the fireman's outfits or at the machinery space entrances, clear and undamaged.",
-    "howOften": "Monthly check",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -3610,7 +3610,7 @@
     "citation": "SOLAS II-2/10",
     "title": "Fire blankets",
     "what": "Fire blankets are provided at the galley and other cooking positions, in an undamaged container from which the blanket withdraws freely.",
-    "howOften": "Monthly check",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -3636,7 +3636,7 @@
     "citation": "SOLAS II-2/10",
     "title": "Fire buckets and sand boxes",
     "what": "Fire buckets and sand boxes are kept filled, clean and at their designated positions, with the scoop present.",
-    "howOften": "Monthly check",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -3660,11 +3660,11 @@
     "citation": "FSS Code Ch.8",
     "title": "Sprinkler systems in practice",
     "what": "The sprinkler system is kept pressurised with section valves open, alarms proved and spare heads carried.",
-    "howOften": "Monthly check",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist, Log book entry, signed",
     "detailBullets": [
-      "Record the pressure tank level and pressure each month.",
+      "Record the pressure tank level and pressure at the plan's interval.",
       "Open each section test valve in turn and confirm the alarm.",
       "Look for heads painted over, obstructed by stores or damaged by cargo work.",
       "Carry spare heads of every type fitted plus the fitting spanner."
@@ -3688,7 +3688,7 @@
     "citation": "FSS Code Ch.7",
     "title": "Water mist systems in practice",
     "what": "The water mist system's pump unit, filters and nozzles are maintained so the system can reach and hold its operating pressure.",
-    "howOften": "Monthly check; function test per plan",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff / Authorised service provider",
     "evidence": "Signed checklist, Service report",
     "detailBullets": [
@@ -3715,7 +3715,7 @@
     "citation": "SOLAS II-2/10",
     "title": "Dry powder systems on gas carriers",
     "what": "The dry powder system's powder charge, propellant pressure, monitors and hand hose lines are maintained ready for immediate use.",
-    "howOften": "Monthly check; content check per plan",
+    "howOften": "Per the onboard maintenance plan; content check per plan",
     "byWhom": "Ship's staff / Authorised service provider",
     "evidence": "Signed checklist, Service report",
     "detailBullets": [
@@ -3742,7 +3742,7 @@
     "citation": "FSS Code Ch.7",
     "title": "Local application fire-fighting systems",
     "what": "The local application system protects the specified machinery items, with nozzles correctly aimed and the associated detection operational.",
-    "howOften": "Monthly check",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -3769,7 +3769,7 @@
     "citation": "SOLAS II-2",
     "title": "Galley hood extinguishing systems",
     "what": "The galley hood system, its duct cleaning, manual release and fuel or power shut-off are maintained and tested.",
-    "howOften": "Monthly check; service per plan",
+    "howOften": "Per the onboard maintenance plan; service per plan",
     "byWhom": "Ship's staff / Authorised service provider",
     "evidence": "Signed checklist, Service report",
     "detailBullets": [
@@ -3796,7 +3796,7 @@
     "citation": "FSS Code Ch.15",
     "title": "Inert gas system in practice",
     "what": "The IG plant's oxygen analyser, deck seal, non-return valve, alarms and shutdowns are maintained, calibrated and tested.",
-    "howOften": "Monthly checks",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist, calibration record",
     "detailBullets": [
@@ -3822,7 +3822,7 @@
     "citation": "SOLAS II-2",
     "title": "Fixed gas detection systems",
     "what": "Fixed gas detection for pump rooms and enclosed spaces is calibrated, its sampling lines clear and its alarms proved at the set points.",
-    "howOften": "Monthly check; calibration per maker",
+    "howOften": "Per the onboard maintenance plan; calibration per maker",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist, calibration record",
     "detailBullets": [
@@ -3874,7 +3874,7 @@
     "citation": "FSS Code Ch.3",
     "title": "EEBDs in practice",
     "what": "EEBDs are in date, sealed, with the pressure indicator in the green, at the positions shown on the fire control plan — for escape only.",
-    "howOften": "Monthly check",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -3901,7 +3901,7 @@
     "citation": "FSS Code Ch.3",
     "title": "Fireman's outfits in practice",
     "what": "Each outfit is complete, in date, stowed in its designated position widely separated from the others, and can be donned without delay.",
-    "howOften": "Monthly check",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -3956,7 +3956,7 @@
     "citation": "FSS Code Ch.3",
     "title": "Safety lamps for the fireman's outfit",
     "what": "The safety lamp operates for the duration the FSS Code requires and its explosion-protection integrity is intact.",
-    "howOften": "Monthly check",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -3982,7 +3982,7 @@
     "citation": "FSS Code Ch.3",
     "title": "Fireman's axe",
     "what": "The axe has an insulated handle, a secure head and is stowed with its outfit.",
-    "howOften": "Monthly check",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -4005,7 +4005,7 @@
     "citation": "FSS Code Ch.3",
     "title": "Fire-resistant lifelines",
     "what": "The fire-resistant lifeline, its belt and its snap hook are sound and stowed with the outfit.",
-    "howOften": "Monthly check",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -4028,7 +4028,7 @@
     "citation": "SOLAS II-2",
     "title": "Fire-fighters' portable radios",
     "what": "Two-way portable radios for the fire party are of the required explosion-protected type, charged and function tested.",
-    "howOften": "Monthly check",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -4054,7 +4054,7 @@
     "citation": "SOLAS II-2",
     "title": "Fire doors in practice",
     "what": "Self-closing fire doors close fully from any position and are never wedged, hooked or tied open; power sliding doors are proved locally and remotely.",
-    "howOften": "Monthly test",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist, Log book entry, signed",
     "detailBullets": [
@@ -4081,7 +4081,7 @@
     "citation": "SOLAS II-2",
     "title": "Fire dampers in practice",
     "what": "Fire dampers close fully, their indicators agree with the blade, and their controls are accessible and marked.",
-    "howOften": "Monthly test",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -4107,7 +4107,7 @@
     "citation": "SOLAS II-2",
     "title": "Ventilation closing devices and remote stops",
     "what": "Closing appliances and remote fan stops are exercised, operable from outside the space and clearly marked.",
-    "howOften": "Monthly test",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -4134,7 +4134,7 @@
     "citation": "SOLAS II-2",
     "title": "Quick-closing valves and oil pump remote stops",
     "what": "Quick-closing valves and oil pump remote stops operate from outside the space and are always re-set after testing.",
-    "howOften": "Monthly test",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist, Log book entry, signed",
     "detailBullets": [
@@ -4162,7 +4162,7 @@
     "citation": "SOLAS II-2",
     "title": "Machinery space skylights and closing devices",
     "what": "Skylights and other openings to machinery spaces can be closed from outside the space.",
-    "howOften": "Monthly test",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -4185,7 +4185,7 @@
     "citation": "SOLAS II-2",
     "title": "Watertight doors",
     "what": "Watertight doors are tested locally and remotely, close in the required time and sound their alarm.",
-    "howOften": "Weekly / monthly per the SMS",
+    "howOften": "Per the SMS and the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist, Log book entry, signed",
     "detailBullets": [
@@ -4208,11 +4208,11 @@
     "citation": "SOLAS II-2",
     "title": "Emergency generator and its readiness",
     "what": "The emergency generator starts automatically on blackout, carries its load and has an independent fuel supply.",
-    "howOften": "Monthly run on load",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist, Log book entry, signed",
     "detailBullets": [
-      "Run it on load monthly and record the hours.",
+      "Run it on load routine and record the hours.",
       "Test the automatic start on blackout at the interval the SMS sets.",
       "Keep the independent fuel tank full and its valve open.",
       "The space is not a store — keep it heated, dry and clear."
@@ -4231,7 +4231,7 @@
     "citation": "SOLAS II-2",
     "title": "Emergency switchboard",
     "what": "The emergency switchboard, its interlocks and its changeover arrangement are maintained and tested.",
-    "howOften": "Monthly check",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -4254,7 +4254,7 @@
     "citation": "SOLAS II-2",
     "title": "Emergency and transitional source batteries",
     "what": "Emergency batteries are within their service life, charged, clean and in a ventilated compartment.",
-    "howOften": "Monthly check; discharge test per plan",
+    "howOften": "Per the onboard maintenance plan; discharge test per plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist, test record",
     "detailBullets": [
@@ -4277,7 +4277,7 @@
     "citation": "Res. A.1116(30)",
     "title": "Escape route signs and equipment location markings in practice",
     "what": "Signs are of the standard the ship uses, point along the route that actually exists, and are visible when the lights fail.",
-    "howOften": "Monthly check",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -4304,7 +4304,7 @@
     "citation": "FSS Code Ch.11",
     "title": "Low-location lighting in practice",
     "what": "Low-location lighting is continuous along the accommodation escape routes and performs when the normal lighting fails.",
-    "howOften": "Monthly check",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -4327,7 +4327,7 @@
     "citation": "FSS Code Ch.13",
     "title": "Emergency escape trunks",
     "what": "Escape trunks are kept clear, their doors and hatches operable from inside, and their lighting works on emergency power.",
-    "howOften": "Monthly check",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -4350,7 +4350,7 @@
     "citation": "SOLAS II-2/15.2.4",
     "title": "Fire control plan and its outside container in practice",
     "what": "The posted plan agrees with the ship as fitted, and the duplicate in the outside container is dry, legible and marked for the shore fire-fighting party.",
-    "howOften": "Monthly check; updated on modification",
+    "howOften": "Per the onboard maintenance plan; updated on modification",
     "byWhom": "Company / Master",
     "evidence": "Posted plan, container contents",
     "detailBullets": [
@@ -4432,7 +4432,7 @@
     "citation": "SOLAS II-2/14",
     "title": "SOPEP / SMPEP locker inspection",
     "what": "The pollution-response locker is complete against its inventory, its contents serviceable and its position marked.",
-    "howOften": "Monthly check",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [
@@ -5525,7 +5525,7 @@
     "evidence": "Endorsed certificate, records, Service report",
     "detailBullets": [
       "General examination of the LSA and FFE against the Record of Equipment.",
-      "Evidence of the weekly and monthly routines: log entries and signed checklists.",
+      "Evidence of the weekly and routine routines: log entries and signed checklists.",
       "Liferaft and inflatable servicing certificates in date.",
       "The MSC.402(96) annual thorough examination report and statement of fitness for the survival craft and launching appliances.",
       "Demonstrations: a fire pump, the emergency fire pump from cold, a fire door, a quick-closing valve, the general emergency alarm.",
@@ -5923,7 +5923,7 @@
       "Fire main: hydrant valves seized, caps and washers missing, hoses perished, pressure not demonstrated.",
       "Emergency fire pump: will not start from cold; the space used as a store.",
       "Fixed systems: content check overdue, release cabinet unsealed, alarms inoperative.",
-      "Detection: standing disablements, detectors painted or taped over, monthly test not recorded.",
+      "Detection: standing disablements, detectors painted or taped over, routine test not recorded.",
       "Described generically as recurring themes. This app does not assert port State control deficiency codes — use the inspecting regime's own code list."
     ],
     "appliesToTypeKeys": [
@@ -6034,7 +6034,7 @@
     "citation": "Port State control practice",
     "title": "Recurring PSC themes — fire doors, dampers and closing appliances",
     "what": "Structural fire protection findings are dominated by doors held open and dampers that do not close.",
-    "howOften": "Monthly",
+    "howOften": "Per the onboard maintenance plan",
     "byWhom": "Ship's staff",
     "evidence": "Signed checklist",
     "detailBullets": [

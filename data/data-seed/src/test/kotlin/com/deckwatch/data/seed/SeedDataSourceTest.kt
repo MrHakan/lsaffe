@@ -167,8 +167,10 @@ class SeedDataSourceTest {
         children.forEach { assertThat(ids).contains(it.parentId) }
         demo.equipment.forEach {
             assertThat(deckIds).contains(it.deckId)
-            assertThat(it.posX).isIn(0f..1f)
-            assertThat(it.posY).isIn(0f..1f)
+            assertThat(it.posX).isAtLeast(0f)
+            assertThat(it.posX).isAtMost(1f)
+            assertThat(it.posY).isAtLeast(0f)
+            assertThat(it.posY).isAtMost(1f)
         }
         demo.equipment.forEach { assertThat(it.attributesJson).startsWith("{") }
     }
