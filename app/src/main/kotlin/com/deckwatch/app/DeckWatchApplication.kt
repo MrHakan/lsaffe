@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import com.deckwatch.data.repository.ContentSeeder
 import dagger.hilt.android.HiltAndroidApp
+import java.util.Locale
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +25,9 @@ class DeckWatchApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        // Work that runs without an activity — the content import, and notifications later —
+        // formats dates and text in the app's language too.
+        Locale.setDefault(AppLocale.current)
         appScope.launch {
             runCatching { contentSeeder.seedIfNeeded() }
                 .onFailure { Log.e(TAG, "Bundled content import failed", it) }

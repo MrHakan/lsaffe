@@ -7,7 +7,9 @@ import com.deckwatch.core.common.repository.EquipmentRepository
 import com.deckwatch.core.common.repository.InspectionRepository
 import com.deckwatch.core.common.repository.MaintenanceRepository
 import com.deckwatch.core.common.repository.ReferenceRepository
+import com.deckwatch.core.common.repository.VesselRepository
 import com.deckwatch.core.model.ConditionGrade
+import com.deckwatch.core.model.Deck
 import com.deckwatch.core.model.Deficiency
 import com.deckwatch.core.model.DeficiencyStatus
 import com.deckwatch.core.model.Equipment
@@ -31,6 +33,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
@@ -83,6 +86,7 @@ internal data class EquipmentSheetUiState(
 @HiltViewModel
 internal class EquipmentSheetViewModel @Inject constructor(
     private val equipmentRepository: EquipmentRepository,
+    private val vesselRepository: VesselRepository,
     private val referenceRepository: ReferenceRepository,
     private val maintenanceRepository: MaintenanceRepository,
     private val inspectionRepository: InspectionRepository,
@@ -114,6 +118,19 @@ internal class EquipmentSheetViewModel @Inject constructor(
                 message = note,
             )
         }.stateIn(viewModelScope, SharingStarted.Eagerly, EquipmentSheetUiState())
+
+    /**
+     * The vessel's decks, for the move picker — §6.5. Equipment created from the tab's FAB lands
+     * unplaced, and this is how it gets onto a deck without the 2.5D canvas (§7.1 A) existing yet.
+     */
+    @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
+    val decks: StateFlow<List<Deck>> = uiState
+        .map { it.equipment?.vesselId }
+        .distinctUntilChanged()
+        .flatMapLatest { vesselId ->
+            if (vesselId == null) flowOf(emptyList()) else vesselRepository.observeDecks(vesselId)
+        }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(DECKS_STOP_TIMEOUT_MILLIS), emptyList())
 
     /** Point the sheet at an equipment record; re-binding to the same id is a no-op. */
     fun bind(equipmentId: String) {
@@ -489,6 +506,7 @@ internal class EquipmentSheetViewModel @Inject constructor(
         const val UNDO_WINDOW_MILLIS: Long = 10_000L
 
         private const val DEFAULT_POSITION = 0.5f
+        private const val DECKS_STOP_TIMEOUT_MILLIS = 5_000L
         private val DEFAULT_PERFORMED_BY = PerformedBy.SHIP_STAFF
     }
 }

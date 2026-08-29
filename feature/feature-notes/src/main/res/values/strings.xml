@@ -114,4 +114,9 @@
     <string name="notes_my_folder_unfiled">Unfiled</string>
     <string name="notes_my_delete_title">Delete this note?</string>
     <string name="notes_my_delete_body">“%1$s” will be removed from this device.</string>
+    <string name="notes_disclaimer_hide">Hide this notice</string>
+    <string name="notes_disclaimer_hide_title">Hide the disclaimer strip?</string>
+    <string name="notes_disclaimer_hide_message">It will stop appearing under every Notes screen. The full text stays under More → About, and nothing about the app\'s status changes: DeckWatch remains a reference aid, not an authority.</string>
+    <string name="notes_disclaimer_hide_confirm">Hide it</string>
+    <string name="notes_disclaimer_hide_cancel">Keep showing</string>
 </resources>

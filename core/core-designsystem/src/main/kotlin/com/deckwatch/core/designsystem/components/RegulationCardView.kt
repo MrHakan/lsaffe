@@ -1,24 +1,35 @@
 package com.deckwatch.core.designsystem.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.deckwatch.core.designsystem.theme.ConditionColors
@@ -88,22 +99,55 @@ fun RegulationCardView(
 
             if (card.flagNotes.isNotEmpty()) {
                 HorizontalDivider(modifier = Modifier.padding(vertical = Dimens.SpacingM))
-                Text(
-                    text = labels.flagNotes,
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-                card.flagNotes.forEach { (flag, note) ->
-                    Row(modifier = Modifier.padding(top = Dimens.SpacingXs)) {
-                        Text(
-                            text = flag,
-                            style = tagTextStyle(),
-                            color = MaterialTheme.colorScheme.tertiary,
-                        )
-                        Text(
-                            text = "  $note",
-                            style = MaterialTheme.typography.bodySmall,
-                        )
+                // Collapsible: three flag notes are three paragraphs, and only one flag is the
+                // vessel's. The header row is the toggle, so the section folds away on a card an
+                // officer is reading for the SOLAS text rather than the flag overlay.
+                var flagNotesExpanded by rememberSaveable(card.refKey) { mutableStateOf(false) }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(min = Dimens.TouchTargetMin)
+                        .clickable(
+                            role = Role.Button,
+                            onClickLabel = labels.flagNotes,
+                            onClick = { flagNotesExpanded = !flagNotesExpanded },
+                        ),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        text = labels.flagNotes,
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.weight(1f),
+                    )
+                    Text(
+                        text = card.flagNotes.keys.joinToString(" · "),
+                        style = tagTextStyle(),
+                        color = MaterialTheme.colorScheme.tertiary,
+                    )
+                    Icon(
+                        imageVector = if (flagNotesExpanded) {
+                            Icons.Filled.KeyboardArrowUp
+                        } else {
+                            Icons.Filled.KeyboardArrowDown
+                        },
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                if (flagNotesExpanded) {
+                    card.flagNotes.forEach { (flag, note) ->
+                        Row(modifier = Modifier.padding(top = Dimens.SpacingXs)) {
+                            Text(
+                                text = flag,
+                                style = tagTextStyle(),
+                                color = MaterialTheme.colorScheme.tertiary,
+                            )
+                            Text(
+                                text = "  $note",
+                                style = MaterialTheme.typography.bodySmall,
+                            )
+                        }
                     }
                 }
                 if (card.revisionNote.isNotEmpty()) {
