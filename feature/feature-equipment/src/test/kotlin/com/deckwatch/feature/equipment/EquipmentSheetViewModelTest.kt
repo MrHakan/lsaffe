@@ -242,10 +242,11 @@ class EquipmentSheetViewModelTest {
     fun `the sheet surfaces the type's regulation cards and its task list`() = runTest {
         seed()
         val viewModel = EquipmentSheetViewModel(
-            fakes.equipment,
-            fakes.reference,
-            fakes.maintenance,
-            fakes.inspections,
+            equipmentRepository = fakes.equipment,
+            vesselRepository = fakes.vessels,
+            referenceRepository = fakes.reference,
+            maintenanceRepository = fakes.maintenance,
+            inspectionRepository = fakes.inspections,
         )
 
         viewModel.uiState.test {
@@ -261,6 +262,25 @@ class EquipmentSheetViewModelTest {
             assertThat(state.loading).isFalse()
             cancelAndIgnoreRemainingEvents()
         }
+    }
+
+    @Test
+    fun `the move picker offers the vessel's decks and the move lands the item`() = runTest {
+        seed()
+        val viewModel = boundViewModel()
+
+        // What the picker lists: the decks of the vessel this item belongs to.
+        assertThat(viewModel.decks.first { it.isNotEmpty() }.map { it.id }).containsExactly(DECK_ID)
+
+        // Landing an item for service takes it off the deck without deleting it — §6.5.
+        viewModel.moveToDeck(null)
+        assertThat(fakes.equipment.getEquipment(EQUIPMENT_ID)?.deckId).isNull()
+
+        // ...and it goes back onto a deck the same way.
+        viewModel.moveToDeck(DECK_ID)
+        val placed = fakes.equipment.getEquipment(EQUIPMENT_ID)
+        assertThat(placed?.deckId).isEqualTo(DECK_ID)
+        assertThat(placed?.zoneId).isNull()
     }
 
     // ------------------------------------------------------------------ helpers
@@ -296,10 +316,11 @@ class EquipmentSheetViewModelTest {
 
     private suspend fun boundViewModel(): EquipmentSheetViewModel {
         val viewModel = EquipmentSheetViewModel(
-            fakes.equipment,
-            fakes.reference,
-            fakes.maintenance,
-            fakes.inspections,
+            equipmentRepository = fakes.equipment,
+            vesselRepository = fakes.vessels,
+            referenceRepository = fakes.reference,
+            maintenanceRepository = fakes.maintenance,
+            inspectionRepository = fakes.inspections,
         )
         viewModel.bind(EQUIPMENT_ID)
         viewModel.uiState.first { it.equipment != null }

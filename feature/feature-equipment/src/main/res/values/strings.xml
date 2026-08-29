@@ -178,4 +178,7 @@
     <string name="reg_label_verify">Verify against the current instrument</string>
     <string name="reg_label_captured">Captured</string>
 
+    <string name="equip_move_deck_title">Move to deck</string>
+    <string name="equip_move_deck_none">This vessel has no decks yet. Add one from the Vessel tab first.</string>
+    <string name="equip_move_deck_unplaced">Unplaced (landed for service)</string>
 </resources>

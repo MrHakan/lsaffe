@@ -116,4 +116,9 @@
     <string name="notes_my_folder_unfiled">Klasörsüz</string>
     <string name="notes_my_delete_title">Bu not silinsin mi?</string>
     <string name="notes_my_delete_body">“%1$s” bu cihazdan kaldırılacak.</string>
+    <string name="notes_disclaimer_hide">Bu uyarıyı gizle</string>
+    <string name="notes_disclaimer_hide_title">Uyarı şeridi gizlensin mi?</string>
+    <string name="notes_disclaimer_hide_message">Her Notlar ekranının altında görünmeyi bırakır. Tam metin Daha Fazla → Hakkında altında kalır ve uygulamanın statüsü değişmez: DeckWatch bir referans yardımcısıdır, resmî belge değildir.</string>
+    <string name="notes_disclaimer_hide_confirm">Gizle</string>
+    <string name="notes_disclaimer_hide_cancel">Görünmeye devam etsin</string>
 </resources>

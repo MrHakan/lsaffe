@@ -13,8 +13,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.WarningAmber
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,6 +34,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.deckwatch.core.designsystem.theme.ConditionColors
 import com.deckwatch.core.designsystem.theme.Dimens
 import com.deckwatch.core.model.RegulationSection
@@ -58,7 +62,10 @@ fun NotesScreen(
     onShowEquipmentForCard: (List<String>) -> Unit = {},
     onDisclaimerAccepted: () -> Unit = {},
     onFavouriteToggled: (refKey: String, isFavourite: Boolean) -> Unit = { _, _ -> },
+    chromeViewModel: NotesChromeViewModel = hiltViewModel(),
 ) {
+    val footerVisible by chromeViewModel.footerVisible.collectAsStateWithLifecycle()
+    var confirmingFooterDismiss by rememberSaveable { mutableStateOf(false) }
     var destination by rememberSaveable(stateSaver = NotesDestinationSaver) {
         mutableStateOf<NotesDestination>(NotesDestination.Home)
     }
@@ -127,7 +134,19 @@ fun NotesScreen(
             }
         }
 
-        NotesFooterDisclaimer()
+        if (footerVisible) {
+            NotesFooterDisclaimer(onDismiss = { confirmingFooterDismiss = true })
+        }
+    }
+
+    if (confirmingFooterDismiss) {
+        ConfirmFooterDismissDialog(
+            onConfirm = {
+                confirmingFooterDismiss = false
+                chromeViewModel.dismissFooter()
+            },
+            onDismiss = { confirmingFooterDismiss = false },
+        )
     }
 
     openCardRefKey?.let { refKey ->
@@ -194,26 +213,48 @@ private fun DisclaimerBanner(onAcknowledge: () -> Unit, modifier: Modifier = Mod
 }
 
 /**
- * Permanently visible in the tab's footer, in smaller text — §8.5. Never truncated: the wording is
- * §17.6 verbatim and a shortened disclaimer is not the disclaimer.
+ * The disclaimer strip at the foot of the tab — §8.5. Never truncated: the wording is §17.6
+ * verbatim and a shortened disclaimer is not the disclaimer.
+ *
+ * It can be dismissed, because repeating it under every screen costs a third of a phone display
+ * on the tab an officer reads most. Dismissing it removes the repetition, not the disclaimer: the
+ * first-entry banner still requires an acknowledgement on a fresh install, and More → About
+ * carries the full text permanently.
  */
 @Composable
-private fun NotesFooterDisclaimer(modifier: Modifier = Modifier) {
+private fun NotesFooterDisclaimer(onDismiss: () -> Unit, modifier: Modifier = Modifier) {
     Surface(
         modifier = modifier.fillMaxWidth(),
         color = MaterialTheme.colorScheme.surfaceVariant,
     ) {
         Column {
             HorizontalDivider()
-            Text(
-                text = stringResource(R.string.notes_disclaimer_body),
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(
-                    horizontal = Dimens.SpacingM,
-                    vertical = Dimens.SpacingS,
-                ),
-            )
+            // The close button sits beside the text rather than above it: a row of its own would
+            // make the strip taller than it already is, which is the thing being complained about.
+            Row(verticalAlignment = Alignment.Top) {
+                Text(
+                    text = stringResource(R.string.notes_disclaimer_body),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(
+                            start = Dimens.SpacingM,
+                            top = Dimens.SpacingS,
+                            bottom = Dimens.SpacingS,
+                        ),
+                )
+                IconButton(
+                    onClick = onDismiss,
+                    modifier = Modifier.size(Dimens.TouchTargetMin),
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Close,
+                        contentDescription = stringResource(R.string.notes_disclaimer_hide),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
         }
     }
 }
@@ -221,3 +262,26 @@ private fun NotesFooterDisclaimer(modifier: Modifier = Modifier) {
 /** Kept out of the shared [NotesComponents] file: only the banner uses these. */
 private const val BannerTintAlpha = 0.16f
 private val BannerIconSize = 20.dp
+
+/**
+ * Asks before the strip goes away for good, and says where the text stays reachable — hiding a
+ * safety notice should be a deliberate act, not a mis-tap.
+ */
+@Composable
+private fun ConfirmFooterDismissDialog(onConfirm: () -> Unit, onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.notes_disclaimer_hide_title)) },
+        text = { Text(stringResource(R.string.notes_disclaimer_hide_message)) },
+        confirmButton = {
+            TextButton(onClick = onConfirm) {
+                Text(stringResource(R.string.notes_disclaimer_hide_confirm))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.notes_disclaimer_hide_cancel))
+            }
+        },
+    )
+}

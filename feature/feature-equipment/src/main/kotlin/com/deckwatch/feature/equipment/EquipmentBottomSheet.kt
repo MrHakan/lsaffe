@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -17,6 +18,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -34,11 +36,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.coroutines.delay
 import com.deckwatch.core.designsystem.theme.Dimens
 import com.deckwatch.core.model.ConditionGrade
+import com.deckwatch.core.model.Deck
 import com.deckwatch.core.model.RegulationCard
 import com.deckwatch.feature.equipment.components.AttributesSection
 import com.deckwatch.feature.equipment.components.ConditionChipRow
@@ -53,6 +56,7 @@ import com.deckwatch.feature.equipment.components.RegulationCardDialog
 import com.deckwatch.feature.equipment.components.RequirementsSection
 import com.deckwatch.feature.equipment.components.SectionHeader
 import com.deckwatch.feature.equipment.components.TaskListSection
+import kotlinx.coroutines.delay
 
 /** The three stages of the equipment sheet — §7.4. */
 private enum class SheetStage { PEEK, HALF, FULL }
@@ -79,7 +83,8 @@ private enum class SheetStage { PEEK, HALF, FULL }
  * @param onTakePhoto camera entry point; capture belongs to the photo phase, this only surfaces it.
  * @param onLogInspection full inspection logging belongs to `feature-inspection`; the sheet writes
  *   only the unambiguous monthly-checklist completion itself (§9.3).
- * @param onMoveToDeck the host picks the destination deck and calls back into its own move flow.
+ * @param onMoveToDeck lets a host run its own move flow. Left null, the sheet picks the deck
+ *   itself, so an item created from the tab's FAB can be placed without the host doing anything.
  * @param onDeleted soft delete has happened; the host shows the ten-second undo snackbar and calls
  *   the supplied lambda if the officer takes it (C10).
  */
@@ -92,7 +97,7 @@ fun EquipmentBottomSheet(
     onOpenFullDetail: (String) -> Unit = {},
     onTakePhoto: (String) -> Unit = {},
     onLogInspection: (String) -> Unit = {},
-    onMoveToDeck: (String) -> Unit = {},
+    onMoveToDeck: ((String) -> Unit)? = null,
     onDeleted: (equipmentId: String, undo: suspend () -> Unit) -> Unit = { _, _ -> },
 ) {
     val viewModel: EquipmentSheetViewModel = hiltViewModel()
@@ -103,6 +108,8 @@ fun EquipmentBottomSheet(
     var stage by rememberSaveable { mutableStateOf(SheetStage.PEEK) }
     var openCard by remember { mutableStateOf<RegulationCard?>(null) }
     var confirmingDelete by remember { mutableStateOf(false) }
+    var movingToDeck by remember { mutableStateOf(false) }
+    val decks by viewModel.decks.collectAsStateWithLifecycle()
     val haptics = LocalHapticFeedback.current
 
     // Dragging the sheet up is itself a request for more detail.
@@ -255,7 +262,9 @@ fun EquipmentBottomSheet(
                     horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingS),
                 ) {
                     OutlinedButton(
-                        onClick = { onMoveToDeck(equipment.id) },
+                        onClick = {
+                            onMoveToDeck?.invoke(equipment.id) ?: run { movingToDeck = true }
+                        },
                         modifier = Modifier.weight(1f).heightIn(min = Dimens.TouchTargetPrimary),
                     ) { Text(stringResource(R.string.equip_move_deck)) }
                     OutlinedButton(
@@ -305,6 +314,79 @@ fun EquipmentBottomSheet(
                 }
             },
         )
+    }
+
+    if (movingToDeck) {
+        MoveToDeckDialog(
+            decks = decks,
+            currentDeckId = state.equipment?.deckId,
+            onPick = { deckId ->
+                movingToDeck = false
+                viewModel.moveToDeck(deckId)
+            },
+            onDismiss = { movingToDeck = false },
+        )
+    }
+}
+
+/**
+ * Where does this item live? — §6.5.
+ *
+ * The list is the vessel's decks in stack order plus "unplaced", which is where an item goes when
+ * it is landed for service. Zones are not offered: a zone belongs to a deck plan, and picking one
+ * without seeing the plan would be guessing.
+ */
+@Composable
+private fun MoveToDeckDialog(
+    decks: List<Deck>,
+    currentDeckId: String?,
+    onPick: (String?) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.equip_move_deck_title)) },
+        text = {
+            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                if (decks.isEmpty()) {
+                    Text(
+                        text = stringResource(R.string.equip_move_deck_none),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                }
+                decks.forEach { deck ->
+                    DeckChoiceRow(
+                        label = deck.name,
+                        selected = deck.id == currentDeckId,
+                        onClick = { onPick(deck.id) },
+                    )
+                }
+                DeckChoiceRow(
+                    label = stringResource(R.string.equip_move_deck_unplaced),
+                    selected = currentDeckId == null,
+                    onClick = { onPick(null) },
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.equip_cancel)) }
+        },
+    )
+}
+
+@Composable
+private fun DeckChoiceRow(label: String, selected: Boolean, onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = Dimens.TouchTargetMin)
+            .selectable(selected = selected, role = Role.RadioButton, onClick = onClick)
+            .padding(vertical = Dimens.SpacingXs),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingS),
+    ) {
+        RadioButton(selected = selected, onClick = null)
+        Text(text = label, style = MaterialTheme.typography.bodyLarge)
     }
 }
 
