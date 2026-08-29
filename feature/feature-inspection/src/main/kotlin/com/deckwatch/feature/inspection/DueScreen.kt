@@ -1,34 +1,62 @@
 package com.deckwatch.feature.inspection
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import com.deckwatch.core.designsystem.theme.Dimens
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import kotlinx.serialization.Serializable
 
-/** Tab 3 — the cross-vessel work list. Fleshed out in the inspection phase. */
+/** The work list itself — Tab 3's start destination (§12). */
+@Serializable
+internal object DueListRoute
+
+/** Round history and the list-mode sweep — §6.7, §7.1 C. */
+@Serializable
+internal object RoundsRoute
+
+/** Open and closed deficiencies — §6.8. */
+@Serializable
+internal object DeficienciesRoute
+
+/**
+ * Tab 3 — the cross-vessel work list (§12).
+ *
+ * The single entry point of `feature-inspection`, and deliberately **zero-argument callable** so the
+ * app's `NavHost` keeps calling `DueScreen()`. Everything the feature owns beyond the work list —
+ * rounds (§6.7) and deficiencies (§6.8) — hangs off a nested `NavHost` here rather than leaking
+ * routes into the app module, so the feature's internal structure stays its own business.
+ *
+ * @param onOpenEquipment hand-off to `feature-equipment` for one item's full record (§7.4). Defaults
+ *   to a no-op until the app wires it.
+ * @param onExportHtml hand-off to `feature-report` for the HTML scope of §13.3. The payload is
+ *   [DueExportRequest]; the clipboard export needs no host and works today.
+ */
 @Composable
-fun DueScreen(modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(Dimens.SpacingXl),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
+fun DueScreen(
+    modifier: Modifier = Modifier,
+    onOpenEquipment: (String) -> Unit = {},
+    onExportHtml: (DueExportRequest) -> Unit = {},
+) {
+    val navController = rememberNavController()
+    NavHost(
+        navController = navController,
+        startDestination = DueListRoute,
+        modifier = modifier,
     ) {
-        Text(
-            text = stringResource(R.string.due_title),
-            style = MaterialTheme.typography.titleLarge,
-        )
-        Text(
-            text = stringResource(R.string.due_empty_hint),
-            style = MaterialTheme.typography.bodyMedium,
-        )
+        composable<DueListRoute> {
+            DueWorkListScreen(
+                onOpenEquipment = onOpenEquipment,
+                onExportHtml = onExportHtml,
+                onOpenRounds = { navController.navigate(RoundsRoute) },
+                onOpenDeficiencies = { navController.navigate(DeficienciesRoute) },
+            )
+        }
+        composable<RoundsRoute> {
+            RoundsScreen(onBack = { navController.popBackStack() })
+        }
+        composable<DeficienciesRoute> {
+            DeficienciesScreen(onBack = { navController.popBackStack() })
+        }
     }
 }

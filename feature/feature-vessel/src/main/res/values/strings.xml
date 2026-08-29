@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ============================================================ shared actions -->
+    <string name="vessel_action_save">Save</string>
+    <string name="vessel_action_cancel">Cancel</string>
+    <string name="vessel_action_delete">Delete</string>
+    <string name="vessel_action_edit">Edit</string>
+    <string name="vessel_action_add">Add</string>
+    <string name="vessel_action_done">Done</string>
+    <string name="vessel_cd_back">Back</string>
+    <string name="vessel_cd_more_actions">More actions</string>
+    <string name="vessel_cd_expand">Expand</string>
+    <string name="vessel_cd_collapse">Collapse</string>
+
+    <!-- ============================================================ vessel manager -->
+    <string name="vessel_manager_title">Vessels</string>
+    <string name="vessel_manager_add">Add vessel</string>
+    <string name="vessel_manager_empty_message">Your vessels live here. Add the ship you are sailing on, then build her decks.</string>
+    <string name="vessel_manager_active">Active</string>
+    <string name="vessel_manager_set_active">Set active</string>
+    <string name="vessel_manager_cd_active">This is the active vessel</string>
+    <string name="vessel_manager_delete_title">Delete vessel?</string>
+    <string name="vessel_manager_delete_message">%1$s and every deck, zone, category and equipment record on her will be removed.</string>
+    <string name="vessel_manager_no_imo">No IMO number</string>
+    <string name="vessel_manager_imo_unverified">Unverified IMO</string>
+
+    <!-- ============================================================ vessel edit -->
+    <string name="vessel_edit_title_new">New vessel</string>
+    <string name="vessel_edit_title_edit">Edit vessel</string>
+    <string name="vessel_edit_section_identity">Identity</string>
+    <string name="vessel_edit_section_particulars">Particulars</string>
+    <string name="vessel_edit_section_certificates">Certificates and survey dates</string>
+    <string name="vessel_edit_name">Vessel name</string>
+    <string name="vessel_edit_name_required">A vessel name is required.</string>
+    <string name="vessel_edit_imo">IMO number</string>
+    <string name="vessel_edit_imo_valid">Check digit valid.</string>
+    <string name="vessel_edit_imo_invalid">Check digit does not match. You can still save — the number is kept and flagged as unverified.</string>
+    <string name="vessel_edit_call_sign">Call sign</string>
+    <string name="vessel_edit_mmsi">MMSI</string>
+    <string name="vessel_edit_flag">Flag State</string>
+    <string name="vessel_edit_flag_other_name">Flag State name</string>
+    <string name="vessel_edit_class_society">Class society</string>
+    <string name="vessel_edit_class_none">Not recorded</string>
+    <string name="vessel_edit_vessel_type">Vessel type</string>
+    <string name="vessel_edit_gross_tonnage">Gross tonnage (GT)</string>
+    <string name="vessel_edit_build_date">Build date</string>
+    <string name="vessel_edit_sec_expiry">Safety Equipment Certificate expiry</string>
+    <string name="vessel_edit_last_annual_survey">Last annual survey</string>
+    <string name="vessel_edit_next_drydock">Next drydock</string>
+    <string name="vessel_edit_date_not_set">Not set</string>
+    <string name="vessel_edit_date_clear">Clear date</string>
+    <string name="vessel_edit_date_pick">Pick a date</string>
+
+    <!-- ============================================================ enums -->
+    <string name="flag_marshall_islands">Marshall Islands</string>
+    <string name="flag_liberia">Liberia</string>
+    <string name="flag_panama">Panama</string>
+    <string name="flag_other">Other</string>
+
+    <string name="class_dnv">DNV</string>
+    <string name="class_lr">Lloyd\'s Register</string>
+    <string name="class_abs">ABS</string>
+    <string name="class_bv">Bureau Veritas</string>
+    <string name="class_classnk">ClassNK</string>
+    <string name="class_rina">RINA</string>
+    <string name="class_kr">Korean Register</string>
+    <string name="class_ccs">CCS</string>
+    <string name="class_irs">Indian Register</string>
+    <string name="class_other">Other</string>
+
+    <string name="vessel_type_bulk_carrier">Bulk carrier</string>
+    <string name="vessel_type_tanker_oil">Oil tanker</string>
+    <string name="vessel_type_tanker_chem">Chemical tanker</string>
+    <string name="vessel_type_tanker_lpg">Gas carrier (LPG)</string>
+    <string name="vessel_type_container">Container ship</string>
+    <string name="vessel_type_general_cargo">General cargo ship</string>
+    <string name="vessel_type_roro">Ro-Ro ship</string>
+    <string name="vessel_type_passenger">Passenger ship</string>
+    <string name="vessel_type_offshore">Offshore vessel</string>
+    <string name="vessel_type_other">Other</string>
+
+    <string name="condition_good">Good</string>
+    <string name="condition_acceptable">Acceptable</string>
+    <string name="condition_monitor">Monitor</string>
+    <string name="condition_defective">Defective</string>
+    <string name="condition_out_of_service">Out of service</string>
+    <string name="condition_not_checked">Not checked</string>
+
+    <!-- ============================================================ deck manager -->
+    <string name="deck_manager_title">Decks</string>
+    <string name="deck_manager_empty_message">A vessel is a stack of decks. Add the deck you work from most — everything else slots above or below it.</string>
+    <string name="deck_manager_add_first">Add your first deck</string>
+    <string name="deck_manager_add_above">Add deck above</string>
+    <string name="deck_manager_add_below">Add deck below</string>
+    <string name="deck_manager_insert_above">Insert above</string>
+    <string name="deck_manager_insert_below">Insert below</string>
+    <string name="deck_manager_insert_between">Insert deck between</string>
+    <string name="deck_manager_insert_between_full">No free level index between these decks</string>
+    <string name="deck_manager_level">Level %1$d</string>
+    <string name="deck_manager_no_equipment">No equipment</string>
+    <string name="deck_manager_condition">Worst condition: %1$s</string>
+    <string name="deck_manager_delete_title">Delete %1$s?</string>
+    <string name="deck_manager_delete_message_empty">This deck carries no equipment, so nothing else changes.</string>
+    <string name="deck_manager_delete_message_equipment">%1$d equipment records on this deck become unplaced. They move to the inbox — nothing is deleted.</string>
+    <string name="deck_manager_no_vessel">No vessel is active. Add or select a vessel first.</string>
+
+    <!-- ============================================================ deck edit sheet -->
+    <string name="deck_edit_title_new">New deck</string>
+    <string name="deck_edit_title_edit">Edit deck</string>
+    <string name="deck_edit_name">Deck name</string>
+    <string name="deck_edit_short_code">Short code</string>
+    <string name="deck_edit_short_code_help">Shown on the stack spine — UD, A, BR.</string>
+    <string name="deck_edit_preset">Plan preset</string>
+    <string name="deck_edit_preset_help">Tap a shape. The name fills in for you — rename it if your ship calls it something else.</string>
+    <string name="deck_edit_colour">Colour tint</string>
+    <string name="deck_edit_notes">Notes</string>
+    <string name="deck_edit_bow_at_top">Bow at top</string>
+    <string name="deck_edit_bow_at_top_help">Turn off to draw this plan with the bow at the bottom.</string>
+    <string name="deck_edit_cd_preset_selected">Selected preset</string>
+
+    <string name="preset_bulker_main_deck">Bulker main deck</string>
+    <string name="preset_tanker_main_deck">Tanker main deck</string>
+    <string name="preset_container_main_deck">Container main deck</string>
+    <string name="preset_accommodation_block">Accommodation block</string>
+    <string name="preset_engine_room_flat">Engine room flat</string>
+    <string name="preset_bridge_deck">Bridge deck</string>
+
+    <string name="colour_slate">Slate</string>
+    <string name="colour_navy">Navy</string>
+    <string name="colour_teal">Teal</string>
+    <string name="colour_green">Green</string>
+    <string name="colour_amber">Amber</string>
+    <string name="colour_orange">Orange</string>
+    <string name="colour_red">Red</string>
+    <string name="colour_violet">Violet</string>
+
+    <!-- ============================================================ zone manager -->
+    <string name="zone_manager_title">Zones</string>
+    <string name="zone_manager_empty_message">Zones name the parts of a deck — Fwd Mooring Station, Pump Room, Galley. Add one to group equipment by where it sits.</string>
+    <string name="zone_manager_add">Add zone</string>
+    <string name="zone_manager_move_up">Move up</string>
+    <string name="zone_manager_move_down">Move down</string>
+    <string name="zone_manager_delete_title">Delete zone?</string>
+    <string name="zone_manager_delete_message">%1$s will be removed. Equipment inside it stays on the deck and simply loses its zone.</string>
+    <string name="zone_edit_title_new">New zone</string>
+    <string name="zone_edit_title_edit">Edit zone</string>
+    <string name="zone_edit_name">Zone name</string>
+    <string name="zone_edit_name_required">A zone name is required.</string>
+    <string name="zone_edit_colour">Colour</string>
+    <string name="zone_edit_rect_help">Free-hand polygons arrive with the deck canvas. Here a zone is a rectangle: set its four edges and it is stored as a four-point polygon.</string>
+    <string name="zone_edit_left">Left edge</string>
+    <string name="zone_edit_top">Top edge</string>
+    <string name="zone_edit_right">Right edge</string>
+    <string name="zone_edit_bottom">Bottom edge</string>
+    <string name="zone_edit_cd_preview">Zone preview on the deck outline</string>
+
+    <!-- ============================================================ category manager -->
+    <string name="category_manager_title">Categories</string>
+    <string name="category_manager_empty_message">Logical categories tag equipment wherever it sits — Weekly Round, PSC Focus Items, Chief Officer\'s List.</string>
+    <string name="category_manager_add">Add category</string>
+    <string name="category_manager_delete_title">Delete category?</string>
+    <string name="category_manager_delete_message">%1$s is removed from every equipment record carrying it. The equipment itself is untouched.</string>
+    <string name="category_edit_title_new">New category</string>
+    <string name="category_edit_title_edit">Edit category</string>
+    <string name="category_edit_name">Category name</string>
+    <string name="category_edit_name_required">A category name is required.</string>
+    <string name="category_edit_colour">Colour</string>
+    <string name="category_edit_global">Available on every vessel</string>
+    <string name="category_edit_global_help">Turn off to keep this category on the active vessel only.</string>
+    <string name="category_scope_global">Global</string>
+    <string name="category_scope_vessel">This vessel</string>
+
+    <!-- ============================================================ list mode -->
+    <string name="list_mode_title">Vessel</string>
+    <string name="list_mode_no_zone">No zone</string>
+    <string name="list_mode_unplaced_deck">Unplaced equipment</string>
+    <string name="list_mode_empty_title">Add your first deck</string>
+    <string name="list_mode_empty_message">DeckWatch builds your ship deck by deck. Pick a plan preset to start — you can rename and reshape it any time.</string>
+    <string name="list_mode_no_vessel">No vessel is active yet. Add one in the vessel manager to start.</string>
+    <string name="list_mode_deck_empty">No equipment on this deck yet.</string>
+    <string name="list_mode_due">Due %1$s</string>
+    <string name="list_mode_no_due">No due date</string>
+
+    <!-- ============================================================ vessel selector -->
+    <string name="vessel_selector_label">Active vessel</string>
+    <string name="vessel_selector_none">No vessel selected</string>
+    <string name="vessel_selector_switch">Switch vessel</string>
+
+    <plurals name="deck_manager_equipment_count">
+        <item quantity="one">%1$d item</item>
+        <item quantity="other">%1$d items</item>
+    </plurals>
+
+</resources>

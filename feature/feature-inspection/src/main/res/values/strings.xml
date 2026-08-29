@@ -2,4 +2,170 @@
 <resources>
     <string name="due_title">Due</string>
     <string name="due_empty_hint">Nothing due yet. Add equipment first.</string>
+
+    <!-- Work list -->
+    <string name="due_no_vessel">No active vessel. Create one on the Vessel tab first.</string>
+    <string name="due_segment_overdue">Overdue</string>
+    <string name="due_segment_week">This week</string>
+    <string name="due_segment_month">This month</string>
+    <string name="due_segment_survey">Before next survey</string>
+    <string name="due_segment_planned">Planned</string>
+    <string name="due_segment_empty">Nothing in this segment.</string>
+    <string name="due_row_semantics">%1$s, %2$s, due %3$s, %4$s</string>
+    <string name="due_delta_late">%1$d d late</string>
+    <string name="due_delta_today">due today</string>
+    <string name="due_delta_ahead">in %1$d d</string>
+    <string name="due_deferred">Deferred</string>
+
+    <!-- Filters -->
+    <string name="due_filters">Filters</string>
+    <string name="due_filter_deck">Deck</string>
+    <string name="due_filter_zone">Zone</string>
+    <string name="due_filter_category">Category</string>
+    <string name="due_filter_group">Group</string>
+    <string name="due_filter_performed_by">By whom</string>
+    <string name="due_filter_condition">Condition</string>
+    <string name="due_filter_clear">Clear filters</string>
+    <string name="due_filter_all">All</string>
+
+    <!-- Survey prep -->
+    <string name="due_survey_prep">Survey prep</string>
+    <string name="due_survey_no_expiry">No Safety Equipment Certificate expiry on the vessel record — add one to plan the survey.</string>
+    <string name="due_survey_expiry">SEC expires %1$s · %2$d days</string>
+    <string name="due_survey_ship_staff">Ship\'s staff can do</string>
+    <string name="due_survey_shore">Needs shore provider / manufacturer</string>
+    <string name="due_survey_shopping">Shore-service shopping list</string>
+    <string name="due_survey_count">× %1$d</string>
+    <string name="due_survey_nothing">Nothing falls due before the certificate expires.</string>
+
+    <!-- Actions -->
+    <string name="due_copy_text">Copy as text</string>
+    <string name="due_copied">Due list copied to the clipboard</string>
+    <string name="due_export_html">Export as HTML</string>
+    <string name="due_open_rounds">Rounds</string>
+    <string name="due_open_deficiencies">Deficiencies</string>
+    <string name="due_more_actions">More actions</string>
+
+    <!-- Swipe -->
+    <string name="due_swipe_done">Mark done</string>
+    <string name="due_swipe_defer">Defer</string>
+
+    <!-- Completion dialog -->
+    <string name="due_complete_title">Mark done</string>
+    <string name="due_complete_date">Date completed (YYYY-MM-DD)</string>
+    <string name="due_complete_by">Completed by</string>
+    <string name="due_complete_provider">Service provider</string>
+    <string name="due_complete_certificate">Certificate / report no.</string>
+    <string name="due_complete_findings">Findings</string>
+    <string name="due_complete_condition">Condition after</string>
+    <string name="due_complete_bad_date">Use the form YYYY-MM-DD.</string>
+
+    <!-- Defer dialog -->
+    <string name="due_defer_title">Defer with reason</string>
+    <string name="due_defer_reason">Reason</string>
+    <string name="due_defer_hint">The job keeps its due date and moves to Planned. It is recorded as skipped with your reason.</string>
+
+    <!-- Rounds -->
+    <string name="rounds_title">Rounds</string>
+    <string name="rounds_empty">No rounds recorded yet. Start one from a template.</string>
+    <string name="rounds_start">Start round</string>
+    <string name="rounds_pick_template">Pick a round template</string>
+    <string name="rounds_no_templates">No round templates are available yet.</string>
+    <string name="rounds_performed_by">Performed by</string>
+    <string name="rounds_progress">%1$d of %2$d checked</string>
+    <string name="rounds_deficiency_count">%1$d deficiencies</string>
+    <string name="rounds_in_progress">In progress</string>
+    <string name="rounds_started">Started %1$s</string>
+    <string name="rounds_completed">Completed %1$s</string>
+    <string name="rounds_resume">Resume</string>
+    <string name="rounds_no_matching_equipment">No equipment on this vessel matches that template.</string>
+    <string name="rounds_template_matches">%1$d items</string>
+
+    <!-- Round run -->
+    <string name="round_run_position">Item %1$d of %2$d</string>
+    <string name="round_run_remark">Remark</string>
+    <string name="round_run_skip">Skip</string>
+    <string name="round_run_finish">Finish round</string>
+    <string name="round_run_all_checked">Every item is checked. Finish the round to record it.</string>
+    <string name="round_run_next">Next</string>
+    <string name="round_run_previous">Previous</string>
+    <string name="round_run_condition">Condition</string>
+    <string name="round_run_empty">This round has no items.</string>
+    <string name="round_run_checked">Checked</string>
+
+    <!-- Deficiencies -->
+    <string name="deficiencies_title">Deficiencies</string>
+    <string name="deficiencies_tab_open">Open</string>
+    <string name="deficiencies_tab_closed">Closed</string>
+    <string name="deficiencies_empty_open">No open deficiencies.</string>
+    <string name="deficiencies_empty_closed">No closed deficiencies.</string>
+    <string name="deficiencies_new">Raise deficiency</string>
+    <string name="deficiency_field_title">Title</string>
+    <string name="deficiency_field_description">Description</string>
+    <string name="deficiency_field_severity">Severity</string>
+    <string name="deficiency_field_corrective">Corrective action</string>
+    <string name="deficiency_field_target">Target date (YYYY-MM-DD)</string>
+    <string name="deficiency_field_raised_by">Raised by</string>
+    <string name="deficiency_field_closed_by">Closed by</string>
+    <string name="deficiency_field_spare">Spare part required</string>
+    <string name="deficiency_field_status">Status</string>
+    <string name="deficiency_close">Close deficiency</string>
+    <string name="deficiency_raised">Raised %1$s</string>
+    <string name="deficiency_closed">Closed %1$s</string>
+    <string name="deficiency_target">Target %1$s</string>
+    <string name="deficiency_equipment">Equipment</string>
+    <string name="deficiency_no_equipment">Not linked to equipment</string>
+    <string name="deficiency_status_open">Open</string>
+    <string name="deficiency_status_in_progress">In progress</string>
+    <string name="deficiency_status_closed">Closed</string>
+    <string name="deficiency_status_deferred">Deferred to office</string>
+
+    <!-- Shared enum labels -->
+    <string name="insp_performed_by_ship_staff">Ship\'s staff</string>
+    <string name="insp_performed_by_ship_staff_trained">Trained ship\'s staff</string>
+    <string name="insp_performed_by_service_provider">Authorised service provider</string>
+    <string name="insp_performed_by_manufacturer">Manufacturer</string>
+    <string name="insp_performed_by_ro_surveyor">RO surveyor attending</string>
+    <string name="insp_performed_by_shore_facility">Shore facility</string>
+
+    <string name="insp_condition_good">Good</string>
+    <string name="insp_condition_acceptable">Acceptable</string>
+    <string name="insp_condition_monitor">Monitor</string>
+    <string name="insp_condition_defective">Defective</string>
+    <string name="insp_condition_out_of_service">Out of service</string>
+    <string name="insp_condition_not_checked">Not checked</string>
+
+    <string name="insp_group_lsa">LSA</string>
+    <string name="insp_group_ffe">FFE</string>
+    <string name="insp_group_emergency_escape">Emergency &amp; escape</string>
+    <string name="insp_group_machinery">Machinery &amp; controls</string>
+    <string name="insp_group_signage">Signage</string>
+    <string name="insp_group_other">Other</string>
+
+    <string name="insp_severity_observation">Observation</string>
+    <string name="insp_severity_minor">Minor</string>
+    <string name="insp_severity_major">Major</string>
+    <string name="insp_severity_critical">Critical / detainable</string>
+
+    <string name="insp_action_cancel">Cancel</string>
+    <string name="insp_action_save">Save</string>
+    <string name="insp_action_back">Back</string>
+    <string name="insp_action_confirm">Confirm</string>
+    <string name="insp_action_none">None</string>
+
+    <!-- Plaintext export -->
+    <string name="insp_export_header">DeckWatch — Due list</string>
+    <string name="insp_export_vessel">Vessel</string>
+    <string name="insp_export_segment">Segment</string>
+    <string name="insp_export_filters">Filters</string>
+    <string name="insp_export_generated">Generated</string>
+    <string name="insp_export_survey">SEC expiry</string>
+    <string name="insp_export_col_tag">TAG</string>
+    <string name="insp_export_col_deck">DECK</string>
+    <string name="insp_export_col_task">TASK</string>
+    <string name="insp_export_col_due">DUE</string>
+    <string name="insp_export_col_days">DAYS</string>
+    <string name="insp_export_col_by">BY WHOM</string>
+    <string name="insp_export_total">Total</string>
+    <string name="insp_export_empty">Nothing to list.</string>
 </resources>
