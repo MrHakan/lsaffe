@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ============================================================ condition grades (§6.9, §7.3) -->
+    <string name="equip_condition_title">Condition</string>
+    <string name="equip_condition_good">Good</string>
+    <string name="equip_condition_acceptable">Acceptable</string>
+    <string name="equip_condition_monitor">Monitor</string>
+    <string name="equip_condition_defective">Defective</string>
+    <string name="equip_condition_out_of_service">Out of service</string>
+    <string name="equip_condition_not_checked">Not checked</string>
+    <string name="equip_condition_graded">Graded %1$s</string>
+    <string name="equip_condition_undo">Undo</string>
+    <string name="equip_condition_set_at">Graded %1$s</string>
+
+    <!-- ============================================================ bottom sheet (§7.4) -->
+    <string name="equip_sheet_show_more">Show more</string>
+    <string name="equip_sheet_show_full">Show full record</string>
+    <string name="equip_sheet_show_less">Show less</string>
+    <string name="equip_sheet_open_detail">Open full screen</string>
+    <string name="equip_sheet_loading">Loading…</string>
+    <string name="equip_sheet_not_found">This equipment record is no longer available.</string>
+    <string name="equip_next_due">Next due</string>
+    <string name="equip_next_due_none">Nothing scheduled</string>
+    <string name="equip_due_overdue">%1$d days overdue</string>
+    <string name="equip_due_overdue_one">1 day overdue</string>
+    <string name="equip_due_today">Due today</string>
+    <string name="equip_due_in_days">in %1$d days</string>
+    <string name="equip_due_in_one_day">in 1 day</string>
+    <string name="equip_location">Location</string>
+    <string name="equip_maker">Maker</string>
+    <string name="equip_model">Model</string>
+    <string name="equip_serial">Serial number</string>
+    <string name="equip_type_approval">Type approval no.</string>
+    <string name="equip_status">Status</string>
+    <string name="equip_quantity">Quantity</string>
+    <string name="equip_last_inspection">Last inspection</string>
+    <string name="equip_no_record">No record</string>
+    <string name="equip_open_deficiencies">Open deficiencies</string>
+    <string name="equip_open_deficiencies_none">None open</string>
+    <string name="equip_log_inspection">Log inspection</string>
+    <string name="equip_take_photo">Take photo</string>
+    <string name="equip_photos">Photos</string>
+    <string name="equip_photos_none">No photos on this record.</string>
+    <string name="equip_photo_placeholder">Photo %1$d</string>
+    <string name="equip_notes">Notes</string>
+    <string name="equip_notes_none">No notes.</string>
+
+    <!-- ============================================================ dynamic attributes (§9.3) -->
+    <string name="equip_attributes">Details</string>
+    <string name="equip_attributes_none">This type has no extra details.</string>
+    <string name="equip_attributes_edit">Edit details</string>
+    <string name="equip_attributes_save">Save details</string>
+    <string name="equip_attributes_cancel">Cancel</string>
+    <string name="equip_attributes_saved">Details saved</string>
+
+    <!-- ============================================================ tasks and requirements (§7.4, §8.4) -->
+    <string name="equip_tasks">Tasks</string>
+    <string name="equip_tasks_none">No scheduled tasks for this item yet.</string>
+    <string name="equip_task_status_pending">Planned</string>
+    <string name="equip_task_status_due_soon">Due soon</string>
+    <string name="equip_task_status_overdue">Overdue</string>
+    <string name="equip_task_status_done">Done</string>
+    <string name="equip_task_status_skipped">Deferred</string>
+    <string name="equip_task_status_not_applicable">Not applicable</string>
+    <string name="equip_requirements">Applicable requirements</string>
+    <string name="equip_requirements_none">No regulation cards are linked to this type.</string>
+    <string name="equip_requirements_close">Close</string>
+
+    <!-- ============================================================ monthly checklist (§9.3) -->
+    <string name="equip_monthly_checklist">Monthly checklist</string>
+    <string name="equip_monthly_progress">%1$d of %2$d checked</string>
+    <string name="equip_monthly_log">Log monthly inspection done</string>
+    <string name="equip_monthly_logged">Monthly inspection logged</string>
+    <string name="equip_monthly_no_task">No monthly task is scheduled for this item yet.</string>
+
+    <!-- ============================================================ deficiency (§7.3) -->
+    <string name="equip_deficiency_title">Raise deficiency</string>
+    <string name="equip_deficiency_hint">Optional. You can dismiss this and come back to it later.</string>
+    <string name="equip_deficiency_field_title">Title</string>
+    <string name="equip_deficiency_field_description">Description</string>
+    <string name="equip_deficiency_field_severity">Severity</string>
+    <string name="equip_deficiency_field_raised_by">Raised by</string>
+    <string name="equip_deficiency_save">Save deficiency</string>
+    <string name="equip_deficiency_dismiss">Not now</string>
+    <string name="equip_deficiency_saved">Deficiency raised</string>
+    <string name="equip_severity_observation">Observation</string>
+    <string name="equip_severity_minor">Minor</string>
+    <string name="equip_severity_major">Major</string>
+    <string name="equip_severity_critical">Critical / detainable</string>
+
+    <!-- ============================================================ destructive actions (§7.4, C10) -->
+    <string name="equip_actions">Actions</string>
+    <string name="equip_move_deck">Move to deck</string>
+    <string name="equip_duplicate">Duplicate</string>
+    <string name="equip_duplicate_n">Duplicate ×%1$d</string>
+    <string name="equip_duplicated">%1$d copies created</string>
+    <string name="equip_delete">Delete</string>
+    <string name="equip_delete_confirm_title">Delete %1$s?</string>
+    <string name="equip_delete_confirm_body">The record is removed from the register. You have ten seconds to undo.</string>
+    <string name="equip_cancel">Cancel</string>
+    <string name="equip_close">Close</string>
+
+    <!-- ============================================================ add flow (§7.5) -->
+    <string name="add_title">Add equipment</string>
+    <string name="add_step_catalogue">Catalogue</string>
+    <string name="add_step_details">Details</string>
+    <string name="add_step_attributes">Attributes</string>
+    <string name="add_search">Search equipment types</string>
+    <string name="add_search_clear">Clear search</string>
+    <string name="add_tab_category">By category</string>
+    <string name="add_tab_recent">Recent</string>
+    <string name="add_recent_empty">Nothing added yet in this session.</string>
+    <string name="add_no_results">No equipment type matches that search.</string>
+    <string name="add_group_lsa">LSA — life-saving</string>
+    <string name="add_group_ffe">FFE — fire-fighting</string>
+    <string name="add_group_emergency">Emergency &amp; escape</string>
+    <string name="add_group_machinery">Machinery &amp; controls</string>
+    <string name="add_group_signage">Signage</string>
+    <string name="add_group_other">Other</string>
+    <string name="add_group_count">%1$d types</string>
+    <string name="add_field_tag">Tag</string>
+    <string name="add_field_tag_required">Tag (required)</string>
+    <string name="add_field_name">Name</string>
+    <string name="add_field_location">Location</string>
+    <string name="add_field_maker">Maker</string>
+    <string name="add_field_model">Model</string>
+    <string name="add_field_serial">Serial number</string>
+    <string name="add_field_type_approval">Type approval no.</string>
+    <string name="add_field_quantity">Quantity</string>
+    <string name="add_field_manufacture_date">Manufacture date</string>
+    <string name="add_field_installed_date">Installed date</string>
+    <string name="add_field_notes">Notes</string>
+    <string name="add_copies">Copies</string>
+    <string name="add_copies_help">Creates this many items with incremented tags, spread in a small grid around the drop point.</string>
+    <string name="add_decrease">Fewer</string>
+    <string name="add_increase">More</string>
+    <string name="add_next">Next</string>
+    <string name="add_back">Back</string>
+    <string name="add_create">Add equipment</string>
+    <string name="add_create_n">Add %1$d items</string>
+    <string name="add_tag_required_error">A tag is required.</string>
+    <string name="add_fix_errors">Correct the highlighted fields first.</string>
+    <string name="add_due_preview">Due dates this will generate</string>
+    <string name="add_due_preview_none">No dated tasks are derived for this type yet.</string>
+    <string name="add_due_preview_row">due %1$s</string>
+    <string name="add_due_anchor">Recorded as last performance: %1$s due %2$s</string>
+    <string name="add_task_added">Adds: %1$s</string>
+
+    <!-- ============================================================ attribute form (§9.3) -->
+    <string name="attr_required">Required</string>
+    <string name="attr_error_required">This field is required.</string>
+    <string name="attr_error_number">Enter a number.</string>
+    <string name="attr_warning_band">Outside the expected range %1$s–%2$s — record it and raise a deficiency.</string>
+    <string name="attr_in_band">Within the expected range %1$s–%2$s.</string>
+    <string name="attr_pick_date">Pick a date</string>
+    <string name="attr_date_none">Not set</string>
+    <string name="attr_clear">Clear</string>
+    <string name="attr_ok">OK</string>
+    <string name="attr_photo_placeholder">No photo attached — capture is not built yet.</string>
+    <string name="attr_signature_placeholder">No signature attached — capture is not built yet.</string>
+    <string name="attr_not_set">—</string>
+    <string name="attr_yes">Yes</string>
+    <string name="attr_no">No</string>
+    <string name="attr_choose">Choose</string>
+
+    <!-- ============================================================ full detail screen -->
+    <string name="detail_title">Equipment</string>
+    <string name="detail_back">Back</string>
+
+    <!-- ============================================================ regulation card labels (§8.2) -->
+    <string name="reg_label_what">WHAT</string>
+    <string name="reg_label_how_often">HOW OFTEN</string>
+    <string name="reg_label_by_whom">BY WHOM</string>
+    <string name="reg_label_evidence">EVIDENCE</string>
+    <string name="reg_label_flag_notes">FLAG NOTES</string>
+    <string name="reg_label_applies_to">Applies to</string>
+    <string name="reg_label_verify">Verify against the current instrument</string>
+    <string name="reg_label_captured">Captured</string>
+
+</resources>

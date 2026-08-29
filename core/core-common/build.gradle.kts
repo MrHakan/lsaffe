@@ -5,7 +5,7 @@ plugins {
 
 dependencies {
     api(project(":core:core-model"))
-    implementation(libs.kotlinx.coroutines.core)
+    api(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.serialization.json)
 
     testImplementation(libs.kotlinx.coroutines.test)

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ============================================================ ortak eylemler -->
+    <string name="vessel_action_save">Kaydet</string>
+    <string name="vessel_action_cancel">Vazgeç</string>
+    <string name="vessel_action_delete">Sil</string>
+    <string name="vessel_action_edit">Düzenle</string>
+    <string name="vessel_action_done">Tamam</string>
+    <string name="vessel_cd_back">Geri</string>
+    <string name="vessel_cd_more_actions">Diğer işlemler</string>
+    <string name="vessel_cd_expand">Genişlet</string>
+    <string name="vessel_cd_collapse">Daralt</string>
+
+    <!-- ============================================================ gemi yöneticisi -->
+    <string name="vessel_manager_title">Gemiler</string>
+    <string name="vessel_manager_add">Gemi ekle</string>
+    <string name="vessel_manager_empty_message">Gemileriniz burada durur. Bindiğiniz gemiyi ekleyin, ardından güvertelerini kurun.</string>
+    <string name="vessel_manager_active">Aktif</string>
+    <string name="vessel_manager_set_active">Aktif yap</string>
+    <string name="vessel_manager_cd_active">Aktif gemi budur</string>
+    <string name="vessel_manager_delete_title">Gemi silinsin mi?</string>
+    <string name="vessel_manager_delete_message">%1$s ile birlikte gemiye ait tüm güverte, bölge, kategori ve ekipman kaydı silinecek.</string>
+    <string name="vessel_manager_no_imo">IMO numarası yok</string>
+    <string name="vessel_manager_imo_unverified">Doğrulanmamış IMO</string>
+
+    <!-- ============================================================ gemi düzenleme -->
+    <string name="vessel_edit_title_new">Yeni gemi</string>
+    <string name="vessel_edit_title_edit">Gemiyi düzenle</string>
+    <string name="vessel_edit_section_identity">Kimlik bilgileri</string>
+    <string name="vessel_edit_section_particulars">Gemi özellikleri</string>
+    <string name="vessel_edit_section_certificates">Sertifika ve sörvey tarihleri</string>
+    <string name="vessel_edit_name">Gemi adı</string>
+    <string name="vessel_edit_name_required">Gemi adı zorunludur.</string>
+    <string name="vessel_edit_imo">IMO numarası</string>
+    <string name="vessel_edit_imo_valid">Kontrol hanesi doğru.</string>
+    <string name="vessel_edit_imo_invalid">Kontrol hanesi tutmuyor. Yine de kaydedebilirsiniz — numara saklanır ve doğrulanmamış olarak işaretlenir.</string>
+    <string name="vessel_edit_call_sign">Çağrı işareti</string>
+    <string name="vessel_edit_mmsi">MMSI</string>
+    <string name="vessel_edit_flag">Bayrak devleti</string>
+    <string name="vessel_edit_flag_other_name">Bayrak devleti adı</string>
+    <string name="vessel_edit_class_society">Klas kuruluşu</string>
+    <string name="vessel_edit_class_none">Kayıtlı değil</string>
+    <string name="vessel_edit_vessel_type">Gemi tipi</string>
+    <string name="vessel_edit_gross_tonnage">Groston (GT)</string>
+    <string name="vessel_edit_build_date">İnşa tarihi</string>
+    <string name="vessel_edit_sec_expiry">Emniyet Teçhizatı Sertifikası bitiş tarihi</string>
+    <string name="vessel_edit_last_annual_survey">Son yıllık sörvey</string>
+    <string name="vessel_edit_next_drydock">Sonraki havuz tarihi</string>
+    <string name="vessel_edit_date_not_set">Girilmedi</string>
+    <string name="vessel_edit_date_clear">Tarihi temizle</string>
+    <string name="vessel_edit_date_pick">Tarih seç</string>
+
+    <!-- ============================================================ liste değerleri -->
+    <string name="flag_marshall_islands">Marshall Adaları</string>
+    <string name="flag_liberia">Liberya</string>
+    <string name="flag_panama">Panama</string>
+    <string name="flag_other">Diğer</string>
+
+    <string name="class_dnv">DNV</string>
+    <string name="class_lr">Lloyd\'s Register</string>
+    <string name="class_abs">ABS</string>
+    <string name="class_bv">Bureau Veritas</string>
+    <string name="class_classnk">ClassNK</string>
+    <string name="class_rina">RINA</string>
+    <string name="class_kr">Korean Register</string>
+    <string name="class_ccs">CCS</string>
+    <string name="class_irs">Indian Register</string>
+    <string name="class_other">Diğer</string>
+
+    <string name="vessel_type_bulk_carrier">Dökme yük gemisi</string>
+    <string name="vessel_type_tanker_oil">Petrol tankeri</string>
+    <string name="vessel_type_tanker_chem">Kimyasal tanker</string>
+    <string name="vessel_type_tanker_lpg">Gaz taşıyıcı (LPG)</string>
+    <string name="vessel_type_container">Konteyner gemisi</string>
+    <string name="vessel_type_general_cargo">Genel kuru yük gemisi</string>
+    <string name="vessel_type_roro">Ro-Ro gemisi</string>
+    <string name="vessel_type_passenger">Yolcu gemisi</string>
+    <string name="vessel_type_offshore">Açık deniz hizmet gemisi</string>
+    <string name="vessel_type_other">Diğer</string>
+
+    <string name="condition_good">İyi</string>
+    <string name="condition_acceptable">Kabul edilebilir</string>
+    <string name="condition_monitor">İzlenmeli</string>
+    <string name="condition_defective">Arızalı</string>
+    <string name="condition_out_of_service">Servis dışı</string>
+    <string name="condition_not_checked">Kontrol edilmedi</string>
+
+    <!-- ============================================================ güverte yöneticisi -->
+    <string name="deck_manager_title">Güverteler</string>
+    <string name="deck_manager_empty_message">Gemi, güvertelerden oluşan bir istiftir. En çok çalıştığınız güverteyi ekleyin — diğerleri onun üstüne veya altına yerleşir.</string>
+    <string name="deck_manager_add_first">İlk güverteyi ekle</string>
+    <string name="deck_manager_add_above">Üste güverte ekle</string>
+    <string name="deck_manager_add_below">Alta güverte ekle</string>
+    <string name="deck_manager_insert_above">Üstüne ekle</string>
+    <string name="deck_manager_insert_below">Altına ekle</string>
+    <string name="deck_manager_insert_between">Araya güverte ekle</string>
+    <string name="deck_manager_insert_between_full">Bu iki güverte arasında boş seviye kalmadı</string>
+    <string name="deck_manager_level">Seviye %1$d</string>
+    <string name="deck_manager_no_equipment">Ekipman yok</string>
+    <string name="deck_manager_condition">En kötü durum: %1$s</string>
+    <string name="deck_manager_delete_title">%1$s silinsin mi?</string>
+    <string name="deck_manager_delete_message_empty">Bu güvertede ekipman yok, başka hiçbir şey değişmez.</string>
+    <string name="deck_manager_delete_message_equipment">Bu güvertedeki %1$d ekipman kaydı yerleştirilmemiş duruma geçer. Gelen kutusuna taşınır — hiçbiri silinmez.</string>
+    <string name="deck_manager_no_vessel">Aktif gemi yok. Önce bir gemi ekleyin veya seçin.</string>
+
+    <!-- ============================================================ güverte düzenleme -->
+    <string name="deck_edit_title_new">Yeni güverte</string>
+    <string name="deck_edit_title_edit">Güverteyi düzenle</string>
+    <string name="deck_edit_name">Güverte adı</string>
+    <string name="deck_edit_short_code">Kısa kod</string>
+    <string name="deck_edit_short_code_help">İstif sırtında görünür — UD, A, BR.</string>
+    <string name="deck_edit_preset">Plan şablonu</string>
+    <string name="deck_edit_preset_help">Bir şekle dokunun. Ad kendiliğinden dolar — geminizde başka türlü anılıyorsa değiştirin.</string>
+    <string name="deck_edit_colour">Renk tonu</string>
+    <string name="deck_edit_notes">Notlar</string>
+    <string name="deck_edit_bow_at_top">Baş taraf yukarıda</string>
+    <string name="deck_edit_bow_at_top_help">Planı baş taraf aşağıda çizdirmek için kapatın.</string>
+    <string name="deck_edit_cd_preset_selected">Seçili şablon</string>
+
+    <string name="preset_bulker_main_deck">Dökme yük ana güvertesi</string>
+    <string name="preset_tanker_main_deck">Tanker ana güvertesi</string>
+    <string name="preset_container_main_deck">Konteyner ana güvertesi</string>
+    <string name="preset_accommodation_block">Yaşam mahalli bloğu</string>
+    <string name="preset_engine_room_flat">Makine dairesi platformu</string>
+    <string name="preset_bridge_deck">Köprüüstü güvertesi</string>
+
+    <string name="colour_slate">Kurşuni</string>
+    <string name="colour_navy">Lacivert</string>
+    <string name="colour_teal">Petrol mavisi</string>
+    <string name="colour_green">Yeşil</string>
+    <string name="colour_amber">Kehribar</string>
+    <string name="colour_orange">Turuncu</string>
+    <string name="colour_red">Kırmızı</string>
+    <string name="colour_violet">Mor</string>
+
+    <!-- ============================================================ bölge yöneticisi -->
+    <string name="zone_manager_title">Bölgeler</string>
+    <string name="zone_manager_empty_message">Bölgeler güvertenin kısımlarını adlandırır — Baş Palamar Mahalli, Pompa Dairesi, Mutfak. Ekipmanı bulunduğu yere göre gruplamak için bir bölge ekleyin.</string>
+    <string name="zone_manager_add">Bölge ekle</string>
+    <string name="zone_manager_move_up">Yukarı taşı</string>
+    <string name="zone_manager_move_down">Aşağı taşı</string>
+    <string name="zone_manager_delete_title">Bölge silinsin mi?</string>
+    <string name="zone_manager_delete_message">%1$s kaldırılacak. İçindeki ekipman güvertede kalır, yalnızca bölge bilgisini kaybeder.</string>
+    <string name="zone_edit_title_new">Yeni bölge</string>
+    <string name="zone_edit_title_edit">Bölgeyi düzenle</string>
+    <string name="zone_edit_name">Bölge adı</string>
+    <string name="zone_edit_name_required">Bölge adı zorunludur.</string>
+    <string name="zone_edit_colour">Renk</string>
+    <string name="zone_edit_rect_help">Serbest çokgen çizimi güverte tuvaliyle birlikte gelecek. Burada bölge bir dikdörtgendir: dört kenarını ayarlayın, dört noktalı çokgen olarak saklanır.</string>
+    <string name="zone_edit_left">Sol kenar</string>
+    <string name="zone_edit_top">Üst kenar</string>
+    <string name="zone_edit_right">Sağ kenar</string>
+    <string name="zone_edit_bottom">Alt kenar</string>
+    <string name="zone_edit_cd_preview">Güverte konturu üzerinde bölge önizlemesi</string>
+
+    <!-- ============================================================ kategori yöneticisi -->
+    <string name="category_manager_title">Kategoriler</string>
+    <string name="category_manager_empty_message">Mantıksal kategoriler ekipmanı yerinden bağımsız etiketler — Haftalık Tur, PSC Odak Kalemleri, Birinci Zabit Listesi.</string>
+    <string name="category_manager_add">Kategori ekle</string>
+    <string name="category_manager_delete_title">Kategori silinsin mi?</string>
+    <string name="category_manager_delete_message">%1$s, üzerinde bulunduğu tüm ekipman kayıtlarından kaldırılır. Ekipmanın kendisine dokunulmaz.</string>
+    <string name="category_edit_title_new">Yeni kategori</string>
+    <string name="category_edit_title_edit">Kategoriyi düzenle</string>
+    <string name="category_edit_name">Kategori adı</string>
+    <string name="category_edit_name_required">Kategori adı zorunludur.</string>
+    <string name="category_edit_colour">Renk</string>
+    <string name="category_edit_global">Tüm gemilerde geçerli</string>
+    <string name="category_edit_global_help">Yalnızca aktif gemide tutmak için kapatın.</string>
+    <string name="category_scope_global">Genel</string>
+    <string name="category_scope_vessel">Bu gemi</string>
+
+    <!-- ============================================================ liste modu -->
+    <string name="list_mode_title">Gemi</string>
+    <string name="list_mode_no_zone">Bölgesiz</string>
+    <string name="list_mode_unplaced_deck">Yerleştirilmemiş ekipman</string>
+    <string name="list_mode_empty_title">İlk güverteni ekle</string>
+    <string name="list_mode_empty_message">DeckWatch gemiyi güverte güverte kurar. Başlamak için bir plan şablonu seçin — adını ve şeklini istediğiniz zaman değiştirebilirsiniz.</string>
+    <string name="list_mode_no_vessel">Henüz aktif gemi yok. Başlamak için gemi yöneticisinden bir gemi ekleyin.</string>
+    <string name="list_mode_deck_empty">Bu güvertede henüz ekipman yok.</string>
+    <string name="list_mode_due">Termin %1$s</string>
+    <string name="list_mode_no_due">Termin yok</string>
+
+    <!-- ============================================================ gemi seçici -->
+    <string name="vessel_selector_label">Aktif gemi</string>
+    <string name="vessel_selector_none">Gemi seçilmedi</string>
+    <string name="vessel_selector_switch">Gemi değiştir</string>
+
+    <plurals name="deck_manager_equipment_count">
+        <item quantity="other">%1$d kalem</item>
+    </plurals>
+
+</resources>

@@ -1,0 +1,1493 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "908f036f9c1a409f8aa6f1b190620d53",
+    "entities": [
+      {
+        "tableName": "vessels",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `imoNumber` TEXT, `callSign` TEXT, `mmsi` TEXT, `flag` TEXT NOT NULL, `flagOtherName` TEXT, `classSociety` TEXT, `vesselType` TEXT NOT NULL, `grossTonnage` INTEGER, `buildDate` INTEGER, `safetyEquipmentCertExpiry` INTEGER, `lastAnnualSurveyDate` INTEGER, `nextDrydockDate` INTEGER, `isActive` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "imoNumber",
+            "columnName": "imoNumber",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "callSign",
+            "columnName": "callSign",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "mmsi",
+            "columnName": "mmsi",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "flag",
+            "columnName": "flag",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "flagOtherName",
+            "columnName": "flagOtherName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "classSociety",
+            "columnName": "classSociety",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "vesselType",
+            "columnName": "vesselType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "grossTonnage",
+            "columnName": "grossTonnage",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "buildDate",
+            "columnName": "buildDate",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "safetyEquipmentCertExpiry",
+            "columnName": "safetyEquipmentCertExpiry",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "lastAnnualSurveyDate",
+            "columnName": "lastAnnualSurveyDate",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "nextDrydockDate",
+            "columnName": "nextDrydockDate",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "isActive",
+            "columnName": "isActive",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "decks",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `vesselId` TEXT NOT NULL, `name` TEXT NOT NULL, `shortCode` TEXT, `levelIndex` INTEGER NOT NULL, `plan` TEXT NOT NULL, `colorTint` INTEGER, `notes` TEXT, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`vesselId`) REFERENCES `vessels`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "vesselId",
+            "columnName": "vesselId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "shortCode",
+            "columnName": "shortCode",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "levelIndex",
+            "columnName": "levelIndex",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "plan",
+            "columnName": "plan",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "colorTint",
+            "columnName": "colorTint",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "notes",
+            "columnName": "notes",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_decks_vesselId",
+            "unique": false,
+            "columnNames": [
+              "vesselId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_decks_vesselId` ON `${TABLE_NAME}` (`vesselId`)"
+          },
+          {
+            "name": "index_decks_vesselId_levelIndex",
+            "unique": true,
+            "columnNames": [
+              "vesselId",
+              "levelIndex"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_decks_vesselId_levelIndex` ON `${TABLE_NAME}` (`vesselId`, `levelIndex`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "vessels",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "vesselId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "zones",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `deckId` TEXT NOT NULL, `name` TEXT NOT NULL, `polygon` TEXT NOT NULL, `colorArgb` INTEGER NOT NULL, `sortOrder` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deckId",
+            "columnName": "deckId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "polygon",
+            "columnName": "polygon",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "colorArgb",
+            "columnName": "colorArgb",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sortOrder",
+            "columnName": "sortOrder",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_zones_deckId",
+            "unique": false,
+            "columnNames": [
+              "deckId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_zones_deckId` ON `${TABLE_NAME}` (`deckId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "categories",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `vesselId` TEXT, `name` TEXT NOT NULL, `colorArgb` INTEGER NOT NULL, `iconKey` TEXT, `sortOrder` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "vesselId",
+            "columnName": "vesselId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "colorArgb",
+            "columnName": "colorArgb",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "iconKey",
+            "columnName": "iconKey",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "sortOrder",
+            "columnName": "sortOrder",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_categories_vesselId",
+            "unique": false,
+            "columnNames": [
+              "vesselId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_categories_vesselId` ON `${TABLE_NAME}` (`vesselId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "equipment_category_xref",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`equipmentId` TEXT NOT NULL, `categoryId` TEXT NOT NULL, PRIMARY KEY(`equipmentId`, `categoryId`))",
+        "fields": [
+          {
+            "fieldPath": "equipmentId",
+            "columnName": "equipmentId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "categoryId",
+            "columnName": "categoryId",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "equipmentId",
+            "categoryId"
+          ]
+        }
+      },
+      {
+        "tableName": "equipment",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `vesselId` TEXT NOT NULL, `deckId` TEXT, `zoneId` TEXT, `parentId` TEXT, `typeKey` TEXT NOT NULL, `symbolKey` TEXT NOT NULL, `tag` TEXT NOT NULL, `name` TEXT, `location` TEXT, `posX` REAL NOT NULL, `posY` REAL NOT NULL, `rotationDeg` REAL NOT NULL, `makerName` TEXT, `modelName` TEXT, `serialNumber` TEXT, `typeApprovalNumber` TEXT, `manufactureDate` INTEGER, `installedDate` INTEGER, `quantity` INTEGER NOT NULL, `condition` TEXT NOT NULL, `conditionSetAt` INTEGER, `statusFlag` TEXT NOT NULL, `attributesJson` TEXT NOT NULL, `nextDueDate` INTEGER, `nextDueTaskKey` TEXT, `photoUris` TEXT NOT NULL, `notes` TEXT, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, `deletedAt` INTEGER, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "vesselId",
+            "columnName": "vesselId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deckId",
+            "columnName": "deckId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "zoneId",
+            "columnName": "zoneId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "parentId",
+            "columnName": "parentId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "typeKey",
+            "columnName": "typeKey",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "symbolKey",
+            "columnName": "symbolKey",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tag",
+            "columnName": "tag",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "location",
+            "columnName": "location",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "posX",
+            "columnName": "posX",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posY",
+            "columnName": "posY",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rotationDeg",
+            "columnName": "rotationDeg",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "makerName",
+            "columnName": "makerName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "modelName",
+            "columnName": "modelName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "serialNumber",
+            "columnName": "serialNumber",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "typeApprovalNumber",
+            "columnName": "typeApprovalNumber",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "manufactureDate",
+            "columnName": "manufactureDate",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "installedDate",
+            "columnName": "installedDate",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "quantity",
+            "columnName": "quantity",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "condition",
+            "columnName": "condition",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "conditionSetAt",
+            "columnName": "conditionSetAt",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "statusFlag",
+            "columnName": "statusFlag",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "attributesJson",
+            "columnName": "attributesJson",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nextDueDate",
+            "columnName": "nextDueDate",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "nextDueTaskKey",
+            "columnName": "nextDueTaskKey",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "photoUris",
+            "columnName": "photoUris",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notes",
+            "columnName": "notes",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deletedAt",
+            "columnName": "deletedAt",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_equipment_vesselId",
+            "unique": false,
+            "columnNames": [
+              "vesselId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_equipment_vesselId` ON `${TABLE_NAME}` (`vesselId`)"
+          },
+          {
+            "name": "index_equipment_deckId",
+            "unique": false,
+            "columnNames": [
+              "deckId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_equipment_deckId` ON `${TABLE_NAME}` (`deckId`)"
+          },
+          {
+            "name": "index_equipment_zoneId",
+            "unique": false,
+            "columnNames": [
+              "zoneId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_equipment_zoneId` ON `${TABLE_NAME}` (`zoneId`)"
+          },
+          {
+            "name": "index_equipment_typeKey",
+            "unique": false,
+            "columnNames": [
+              "typeKey"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_equipment_typeKey` ON `${TABLE_NAME}` (`typeKey`)"
+          },
+          {
+            "name": "index_equipment_nextDueDate",
+            "unique": false,
+            "columnNames": [
+              "nextDueDate"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_equipment_nextDueDate` ON `${TABLE_NAME}` (`nextDueDate`)"
+          }
+        ]
+      },
+      {
+        "tableName": "task_definitions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`key` TEXT NOT NULL, `appliesToTypeKeys` TEXT NOT NULL, `titleEn` TEXT NOT NULL, `titleTr` TEXT NOT NULL, `descriptionEn` TEXT NOT NULL, `intervalKind` TEXT NOT NULL, `intervalMonths` INTEGER, `toleranceDaysBefore` INTEGER NOT NULL, `toleranceDaysAfter` INTEGER NOT NULL, `performedBy` TEXT NOT NULL, `evidenceRequired` TEXT NOT NULL, `regulationRefs` TEXT NOT NULL, `flagOverrides` TEXT, `sourceRef` TEXT NOT NULL, `verificationStatus` TEXT NOT NULL, `lastReviewed` TEXT NOT NULL, `isUserDefined` INTEGER NOT NULL, PRIMARY KEY(`key`))",
+        "fields": [
+          {
+            "fieldPath": "key",
+            "columnName": "key",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "appliesToTypeKeys",
+            "columnName": "appliesToTypeKeys",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "titleEn",
+            "columnName": "titleEn",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "titleTr",
+            "columnName": "titleTr",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "descriptionEn",
+            "columnName": "descriptionEn",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "intervalKind",
+            "columnName": "intervalKind",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "intervalMonths",
+            "columnName": "intervalMonths",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "toleranceDaysBefore",
+            "columnName": "toleranceDaysBefore",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "toleranceDaysAfter",
+            "columnName": "toleranceDaysAfter",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "performedBy",
+            "columnName": "performedBy",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "evidenceRequired",
+            "columnName": "evidenceRequired",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "regulationRefs",
+            "columnName": "regulationRefs",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "flagOverrides",
+            "columnName": "flagOverrides",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "sourceRef",
+            "columnName": "sourceRef",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "verificationStatus",
+            "columnName": "verificationStatus",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastReviewed",
+            "columnName": "lastReviewed",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isUserDefined",
+            "columnName": "isUserDefined",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "key"
+          ]
+        }
+      },
+      {
+        "tableName": "task_instances",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `equipmentId` TEXT NOT NULL, `taskKey` TEXT NOT NULL, `dueDate` INTEGER NOT NULL, `windowOpens` INTEGER NOT NULL, `windowCloses` INTEGER NOT NULL, `status` TEXT NOT NULL, `completedDate` INTEGER, `completedBy` TEXT, `serviceProvider` TEXT, `certificateNumber` TEXT, `findings` TEXT, `conditionAfter` TEXT, `photoUris` TEXT NOT NULL, `attachmentUris` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "equipmentId",
+            "columnName": "equipmentId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "taskKey",
+            "columnName": "taskKey",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dueDate",
+            "columnName": "dueDate",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "windowOpens",
+            "columnName": "windowOpens",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "windowCloses",
+            "columnName": "windowCloses",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "completedDate",
+            "columnName": "completedDate",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "completedBy",
+            "columnName": "completedBy",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "serviceProvider",
+            "columnName": "serviceProvider",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "certificateNumber",
+            "columnName": "certificateNumber",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "findings",
+            "columnName": "findings",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "conditionAfter",
+            "columnName": "conditionAfter",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "photoUris",
+            "columnName": "photoUris",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "attachmentUris",
+            "columnName": "attachmentUris",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_task_instances_equipmentId",
+            "unique": false,
+            "columnNames": [
+              "equipmentId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_task_instances_equipmentId` ON `${TABLE_NAME}` (`equipmentId`)"
+          },
+          {
+            "name": "index_task_instances_dueDate",
+            "unique": false,
+            "columnNames": [
+              "dueDate"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_task_instances_dueDate` ON `${TABLE_NAME}` (`dueDate`)"
+          },
+          {
+            "name": "index_task_instances_status",
+            "unique": false,
+            "columnNames": [
+              "status"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_task_instances_status` ON `${TABLE_NAME}` (`status`)"
+          }
+        ]
+      },
+      {
+        "tableName": "rounds",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `vesselId` TEXT NOT NULL, `templateKey` TEXT NOT NULL, `title` TEXT NOT NULL, `startedAt` INTEGER NOT NULL, `completedAt` INTEGER, `performedBy` TEXT NOT NULL, `itemCount` INTEGER NOT NULL, `doneCount` INTEGER NOT NULL, `deficiencyCount` INTEGER NOT NULL, `notes` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "vesselId",
+            "columnName": "vesselId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "templateKey",
+            "columnName": "templateKey",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startedAt",
+            "columnName": "startedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "completedAt",
+            "columnName": "completedAt",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "performedBy",
+            "columnName": "performedBy",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "itemCount",
+            "columnName": "itemCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "doneCount",
+            "columnName": "doneCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deficiencyCount",
+            "columnName": "deficiencyCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notes",
+            "columnName": "notes",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "round_items",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `roundId` TEXT NOT NULL, `equipmentId` TEXT NOT NULL, `checkedAt` INTEGER, `condition` TEXT, `remark` TEXT, `photoUris` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "roundId",
+            "columnName": "roundId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "equipmentId",
+            "columnName": "equipmentId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "checkedAt",
+            "columnName": "checkedAt",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "condition",
+            "columnName": "condition",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "remark",
+            "columnName": "remark",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "photoUris",
+            "columnName": "photoUris",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_round_items_roundId",
+            "unique": false,
+            "columnNames": [
+              "roundId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_round_items_roundId` ON `${TABLE_NAME}` (`roundId`)"
+          },
+          {
+            "name": "index_round_items_equipmentId",
+            "unique": false,
+            "columnNames": [
+              "equipmentId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_round_items_equipmentId` ON `${TABLE_NAME}` (`equipmentId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "deficiencies",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `vesselId` TEXT NOT NULL, `equipmentId` TEXT, `raisedDate` INTEGER NOT NULL, `raisedBy` TEXT NOT NULL, `severity` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `correctiveAction` TEXT, `targetDate` INTEGER, `closedDate` INTEGER, `closedBy` TEXT, `status` TEXT NOT NULL, `sparePartRequired` TEXT, `photoUris` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "vesselId",
+            "columnName": "vesselId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "equipmentId",
+            "columnName": "equipmentId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "raisedDate",
+            "columnName": "raisedDate",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "raisedBy",
+            "columnName": "raisedBy",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "severity",
+            "columnName": "severity",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "correctiveAction",
+            "columnName": "correctiveAction",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "targetDate",
+            "columnName": "targetDate",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "closedDate",
+            "columnName": "closedDate",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "closedBy",
+            "columnName": "closedBy",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sparePartRequired",
+            "columnName": "sparePartRequired",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "photoUris",
+            "columnName": "photoUris",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_deficiencies_equipmentId",
+            "unique": false,
+            "columnNames": [
+              "equipmentId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_deficiencies_equipmentId` ON `${TABLE_NAME}` (`equipmentId`)"
+          },
+          {
+            "name": "index_deficiencies_status",
+            "unique": false,
+            "columnNames": [
+              "status"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_deficiencies_status` ON `${TABLE_NAME}` (`status`)"
+          }
+        ]
+      },
+      {
+        "tableName": "equipment_types",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`typeKey` TEXT NOT NULL, `typeGroup` TEXT NOT NULL, `subGroup` TEXT NOT NULL, `nameEn` TEXT NOT NULL, `nameTr` TEXT NOT NULL, `symbolKey` TEXT NOT NULL, `defaultTagPrefix` TEXT NOT NULL, `attributeSchema` TEXT NOT NULL, `taskKeys` TEXT NOT NULL, `regulationRefs` TEXT NOT NULL, `helpTextEn` TEXT NOT NULL, `helpTextTr` TEXT NOT NULL, `commonPscFindings` TEXT NOT NULL, `isUserDefined` INTEGER NOT NULL, PRIMARY KEY(`typeKey`))",
+        "fields": [
+          {
+            "fieldPath": "typeKey",
+            "columnName": "typeKey",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "group",
+            "columnName": "typeGroup",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subGroup",
+            "columnName": "subGroup",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nameEn",
+            "columnName": "nameEn",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nameTr",
+            "columnName": "nameTr",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "symbolKey",
+            "columnName": "symbolKey",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "defaultTagPrefix",
+            "columnName": "defaultTagPrefix",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "attributeSchema",
+            "columnName": "attributeSchema",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "taskKeys",
+            "columnName": "taskKeys",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "regulationRefs",
+            "columnName": "regulationRefs",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "helpTextEn",
+            "columnName": "helpTextEn",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "helpTextTr",
+            "columnName": "helpTextTr",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "commonPscFindings",
+            "columnName": "commonPscFindings",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isUserDefined",
+            "columnName": "isUserDefined",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "typeKey"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_equipment_types_typeGroup",
+            "unique": false,
+            "columnNames": [
+              "typeGroup"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_equipment_types_typeGroup` ON `${TABLE_NAME}` (`typeGroup`)"
+          },
+          {
+            "name": "index_equipment_types_symbolKey",
+            "unique": false,
+            "columnNames": [
+              "symbolKey"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_equipment_types_symbolKey` ON `${TABLE_NAME}` (`symbolKey`)"
+          }
+        ]
+      },
+      {
+        "tableName": "regulation_cards",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`refKey` TEXT NOT NULL, `section` TEXT NOT NULL, `citation` TEXT NOT NULL, `title` TEXT NOT NULL, `what` TEXT NOT NULL, `howOften` TEXT NOT NULL, `byWhom` TEXT NOT NULL, `evidence` TEXT NOT NULL, `detailBullets` TEXT NOT NULL, `flagNotes` TEXT NOT NULL, `appliesToTypeKeys` TEXT NOT NULL, `sourceRef` TEXT NOT NULL, `contentVersion` INTEGER NOT NULL, `lastReviewed` TEXT NOT NULL, `verificationStatus` TEXT NOT NULL, `summaryTr` TEXT NOT NULL, `revisionNote` TEXT NOT NULL, PRIMARY KEY(`refKey`))",
+        "fields": [
+          {
+            "fieldPath": "refKey",
+            "columnName": "refKey",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "section",
+            "columnName": "section",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "citation",
+            "columnName": "citation",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "what",
+            "columnName": "what",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "howOften",
+            "columnName": "howOften",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "byWhom",
+            "columnName": "byWhom",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "evidence",
+            "columnName": "evidence",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "detailBullets",
+            "columnName": "detailBullets",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "flagNotes",
+            "columnName": "flagNotes",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "appliesToTypeKeys",
+            "columnName": "appliesToTypeKeys",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceRef",
+            "columnName": "sourceRef",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "contentVersion",
+            "columnName": "contentVersion",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastReviewed",
+            "columnName": "lastReviewed",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "verificationStatus",
+            "columnName": "verificationStatus",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "summaryTr",
+            "columnName": "summaryTr",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "revisionNote",
+            "columnName": "revisionNote",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "refKey"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_regulation_cards_section",
+            "unique": false,
+            "columnNames": [
+              "section"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_regulation_cards_section` ON `${TABLE_NAME}` (`section`)"
+          },
+          {
+            "name": "index_regulation_cards_citation",
+            "unique": false,
+            "columnNames": [
+              "citation"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_regulation_cards_citation` ON `${TABLE_NAME}` (`citation`)"
+          }
+        ]
+      },
+      {
+        "tableName": "round_templates",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`key` TEXT NOT NULL, `titleEn` TEXT NOT NULL, `titleTr` TEXT NOT NULL, `includesTypeKeys` TEXT NOT NULL, `includesGroups` TEXT NOT NULL, `descriptionEn` TEXT NOT NULL, PRIMARY KEY(`key`))",
+        "fields": [
+          {
+            "fieldPath": "key",
+            "columnName": "key",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "titleEn",
+            "columnName": "titleEn",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "titleTr",
+            "columnName": "titleTr",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "includesTypeKeys",
+            "columnName": "includesTypeKeys",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "includesGroups",
+            "columnName": "includesGroups",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "descriptionEn",
+            "columnName": "descriptionEn",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "key"
+          ]
+        }
+      },
+      {
+        "tableName": "user_notes",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `body` TEXT NOT NULL, `folder` TEXT NOT NULL, `regulationRefKey` TEXT, `equipmentTypeKey` TEXT, `isFavourite` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "body",
+            "columnName": "body",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "folder",
+            "columnName": "folder",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "regulationRefKey",
+            "columnName": "regulationRefKey",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "equipmentTypeKey",
+            "columnName": "equipmentTypeKey",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "isFavourite",
+            "columnName": "isFavourite",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_user_notes_regulationRefKey",
+            "unique": false,
+            "columnNames": [
+              "regulationRefKey"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_user_notes_regulationRefKey` ON `${TABLE_NAME}` (`regulationRefKey`)"
+          },
+          {
+            "name": "index_user_notes_equipmentTypeKey",
+            "unique": false,
+            "columnNames": [
+              "equipmentTypeKey"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_user_notes_equipmentTypeKey` ON `${TABLE_NAME}` (`equipmentTypeKey`)"
+          },
+          {
+            "name": "index_user_notes_folder",
+            "unique": false,
+            "columnNames": [
+              "folder"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_user_notes_folder` ON `${TABLE_NAME}` (`folder`)"
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '908f036f9c1a409f8aa6f1b190620d53')"
+    ]
+  }
+}

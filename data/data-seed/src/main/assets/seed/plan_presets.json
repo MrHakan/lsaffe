@@ -1,0 +1,92 @@
+[
+  {
+    "key": "BULKER_MAIN_DECK",
+    "nameEn": "Bulker Main Deck",
+    "nameTr": "Dökme yük gemisi ana güverte",
+    "plan": {
+      "shape": "SHIP_HULL",
+      "lengthRatio": 1.0,
+      "breadthRatio": 1.0,
+      "bowSharpness": 0.45,
+      "sternRounding": 0.35,
+      "bowAtTop": true,
+      "backgroundOpacity": 0.35
+    },
+    "suggestedShortCode": "UD"
+  },
+  {
+    "key": "TANKER_MAIN_DECK",
+    "nameEn": "Tanker Main Deck",
+    "nameTr": "Tanker ana güverte",
+    "plan": {
+      "shape": "SHIP_HULL",
+      "lengthRatio": 1.0,
+      "breadthRatio": 1.0,
+      "bowSharpness": 0.35,
+      "sternRounding": 0.4,
+      "bowAtTop": true,
+      "backgroundOpacity": 0.35
+    },
+    "suggestedShortCode": "UD"
+  },
+  {
+    "key": "CONTAINER_MAIN_DECK",
+    "nameEn": "Container Main Deck",
+    "nameTr": "Konteyner gemisi ana güverte",
+    "plan": {
+      "shape": "SHIP_HULL",
+      "lengthRatio": 1.0,
+      "breadthRatio": 0.92,
+      "bowSharpness": 0.7,
+      "sternRounding": 0.25,
+      "bowAtTop": true,
+      "backgroundOpacity": 0.35
+    },
+    "suggestedShortCode": "UD"
+  },
+  {
+    "key": "ACCOMMODATION_BLOCK",
+    "nameEn": "Accommodation Block",
+    "nameTr": "Yaşam mahalli bloğu",
+    "plan": {
+      "shape": "RECTANGLE",
+      "lengthRatio": 0.28,
+      "breadthRatio": 0.8,
+      "bowSharpness": 0.0,
+      "sternRounding": 0.0,
+      "bowAtTop": true,
+      "backgroundOpacity": 0.35
+    },
+    "suggestedShortCode": "A"
+  },
+  {
+    "key": "ENGINE_ROOM_FLAT",
+    "nameEn": "Engine Room Flat",
+    "nameTr": "Makine dairesi platformu",
+    "plan": {
+      "shape": "RECTANGLE",
+      "lengthRatio": 0.3,
+      "breadthRatio": 0.85,
+      "bowSharpness": 0.0,
+      "sternRounding": 0.0,
+      "bowAtTop": true,
+      "backgroundOpacity": 0.35
+    },
+    "suggestedShortCode": "ER"
+  },
+  {
+    "key": "BRIDGE_DECK",
+    "nameEn": "Bridge Deck",
+    "nameTr": "Köprüüstü güvertesi",
+    "plan": {
+      "shape": "RECTANGLE",
+      "lengthRatio": 0.16,
+      "breadthRatio": 0.95,
+      "bowSharpness": 0.0,
+      "sternRounding": 0.0,
+      "bowAtTop": true,
+      "backgroundOpacity": 0.35
+    },
+    "suggestedShortCode": "BR"
+  }
+]

@@ -7,6 +7,16 @@ plugins {
 
 android {
     namespace = "com.deckwatch.core.database"
+
+    // Room's exported schemas are what MigrationTestHelper validates against, and it reads them
+    // from the test APK's assets. The Room Gradle plugin writes them to $projectDir/schemas
+    // (see AndroidRoomConventionPlugin), so both test source sets get that directory as assets.
+    sourceSets.getByName("test") {
+        assets.srcDir(layout.projectDirectory.dir("schemas"))
+    }
+    sourceSets.getByName("androidTest") {
+        assets.srcDir(layout.projectDirectory.dir("schemas"))
+    }
 }
 
 dependencies {

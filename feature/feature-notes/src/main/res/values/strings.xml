@@ -2,4 +2,116 @@
 <resources>
     <string name="notes_title">Notes</string>
     <string name="notes_empty_hint">Regulatory reference will appear here.</string>
+
+    <!-- §17.6 — verbatim, and English in both locales: it is quoted terminology (C8). -->
+    <string name="notes_disclaimer_body" translatable="false">DeckWatch is a planning and record-keeping aid. It is not a certificate, not a substitute for the vessel\'s approved plans, the manufacturer\'s manuals, class rules or the flag Administration\'s instructions, and it does not discharge any statutory obligation. Regulatory content is a summary captured on a stated date and may be superseded. Always verify against the current instrument and the vessel\'s own documentation. The Master\'s and the Company\'s responsibilities under SOLAS and the ISM Code are unaffected.</string>
+    <string name="notes_disclaimer_title">Reference aid — not an authority</string>
+    <string name="notes_disclaimer_acknowledge">I understand</string>
+
+    <!-- Home -->
+    <string name="notes_search_hint">Search citation, title or requirement</string>
+    <string name="notes_search_clear">Clear search</string>
+    <string name="notes_search_results">%1$d matching cards</string>
+    <string name="notes_search_no_results">No card matches “%1$s”.</string>
+    <string name="notes_open_intervals">Interval quick reference</string>
+    <string name="notes_card_count">%1$d cards</string>
+    <string name="notes_note_count">%1$d notes</string>
+    <string name="notes_open_section">Open %1$s</string>
+
+    <!-- Sections — §8.1 -->
+    <string name="notes_section_solas">SOLAS</string>
+    <string name="notes_section_solas_desc">Chapter II-2, Chapter III, and Chapter V where it touches LSA/FFE</string>
+    <string name="notes_section_lsa">LSA</string>
+    <string name="notes_section_lsa_desc">LSA Code chapters I–VII, the SOLAS III/20 maintenance regime, MSC.402(96)</string>
+    <string name="notes_section_ffe">FFE</string>
+    <string name="notes_section_ffe_desc">FSS Code chapters, the SOLAS II-2/14 maintenance plan, MSC.1/Circ.1432</string>
+    <string name="notes_section_flag">FLAG</string>
+    <string name="notes_section_flag_desc">Marshall Islands, Liberia and Panama notices, and how they differ from plain SOLAS</string>
+    <string name="notes_section_class">CLASS</string>
+    <string name="notes_section_class_desc">Survey scope, IACS UR Z17 service suppliers, common PSC deficiency codes</string>
+    <string name="notes_section_my_notes">MY NOTES</string>
+    <string name="notes_section_my_notes_desc">Your own notes, in folders, attachable to any card</string>
+    <string name="notes_section_empty">No cards in this section yet. Bundled reference content loads on first run.</string>
+
+    <!-- Card labels — §8.2 -->
+    <string name="notes_card_what">WHAT</string>
+    <string name="notes_card_how_often">HOW OFTEN</string>
+    <string name="notes_card_by_whom">BY WHOM</string>
+    <string name="notes_card_evidence">EVIDENCE</string>
+    <string name="notes_card_flag_notes">FLAG NOTES</string>
+    <string name="notes_card_applies_to">Applies to</string>
+    <string name="notes_card_verify">Verify against the current instrument</string>
+    <string name="notes_card_captured">Captured</string>
+
+    <!-- Actions -->
+    <string name="notes_action_back">Back</string>
+    <string name="notes_action_favourite">Add to favourites</string>
+    <string name="notes_action_unfavourite">Remove from favourites</string>
+    <string name="notes_action_add_note">Add my note</string>
+    <string name="notes_action_show_equipment">Show my equipment</string>
+    <string name="notes_action_close">Close</string>
+    <string name="notes_action_save">Save</string>
+    <string name="notes_action_cancel">Cancel</string>
+    <string name="notes_action_delete">Delete</string>
+    <string name="notes_action_edit">Edit</string>
+
+    <!-- FLAG sub-sections -->
+    <string name="notes_flag_all">All</string>
+    <string name="notes_flag_rmi">Marshall Islands</string>
+    <string name="notes_flag_liberia">Liberia</string>
+    <string name="notes_flag_panama">Panama</string>
+    <string name="notes_flag_other">Other flag notices</string>
+
+    <!-- Card detail -->
+    <string name="notes_detail_title">Regulation card</string>
+    <string name="notes_detail_source">Source: %1$s</string>
+    <string name="notes_detail_reviewed">Last reviewed: %1$s</string>
+    <string name="notes_detail_my_notes_heading">My notes on this card</string>
+    <string name="notes_detail_note_hint">What this ship actually does</string>
+
+    <!-- Interval quick reference — §8.3 -->
+    <string name="notes_intervals_title">Interval quick reference</string>
+    <string name="notes_intervals_filter_hint">Filter by equipment or task</string>
+    <string name="notes_intervals_col_task">TASK</string>
+    <string name="notes_intervals_col_interval">INTERVAL</string>
+    <string name="notes_intervals_col_by">BY WHOM</string>
+    <string name="notes_intervals_col_flag">FLAG</string>
+    <string name="notes_intervals_divergence">Flag divergence: %1$s</string>
+    <string name="notes_intervals_no_divergence">No flag divergence recorded</string>
+    <string name="notes_intervals_other_tasks">Tasks not tied to a catalogue type</string>
+    <string name="notes_intervals_empty">No task definitions are loaded yet.</string>
+    <string name="notes_intervals_row_open">Open the card behind this task</string>
+
+    <!-- Interval kinds — §6.6 -->
+    <string name="notes_interval_weekly">Weekly</string>
+    <string name="notes_interval_monthly">Monthly</string>
+    <string name="notes_interval_quarterly">Quarterly</string>
+    <string name="notes_interval_annual">Annual</string>
+    <string name="notes_interval_biennial">Every 2 years</string>
+    <string name="notes_interval_five_yearly">Every 5 years</string>
+    <string name="notes_interval_ten_yearly">Every 10 years</string>
+    <string name="notes_interval_twenty_yearly">Every 20 years</string>
+    <string name="notes_interval_at_survey">At survey</string>
+    <string name="notes_interval_custom_months">Every %1$d months</string>
+    <string name="notes_interval_event_driven">Event-driven</string>
+
+    <!-- Performed by — §6.6 -->
+    <string name="notes_performed_ship_staff">Ship\'s staff</string>
+    <string name="notes_performed_ship_staff_trained">Trained ship\'s staff</string>
+    <string name="notes_performed_service_provider">Authorised service provider</string>
+    <string name="notes_performed_manufacturer">Manufacturer</string>
+    <string name="notes_performed_ro_surveyor">RO surveyor attending</string>
+    <string name="notes_performed_shore_facility">Shore facility</string>
+
+    <!-- MY NOTES -->
+    <string name="notes_my_title">My notes</string>
+    <string name="notes_my_empty">Nothing written down yet. Record what this ship actually does — the service company, the locker key, the surveyor\'s remark.</string>
+    <string name="notes_my_new">New note</string>
+    <string name="notes_my_edit">Edit note</string>
+    <string name="notes_my_field_title">Title</string>
+    <string name="notes_my_field_body">Note</string>
+    <string name="notes_my_field_folder">Folder</string>
+    <string name="notes_my_folder_unfiled">Unfiled</string>
+    <string name="notes_my_delete_title">Delete this note?</string>
+    <string name="notes_my_delete_body">“%1$s” will be removed from this device.</string>
 </resources>

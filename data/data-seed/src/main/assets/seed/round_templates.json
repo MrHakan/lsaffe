@@ -1,0 +1,169 @@
+[
+  {
+    "key": "WEEKLY_LSA",
+    "titleEn": "Weekly LSA round",
+    "titleTr": "Haftalık LSA turu",
+    "includesTypeKeys": [
+      "LSA_LIFEBOAT_TOTALLY_ENCLOSED",
+      "LSA_LIFEBOAT_PARTIALLY_ENCLOSED",
+      "LSA_LIFEBOAT_FREEFALL",
+      "LSA_RESCUE_BOAT",
+      "LSA_FAST_RESCUE_BOAT",
+      "LSA_LIFEBOAT_DAVIT",
+      "LSA_RESCUE_BOAT_DAVIT",
+      "LSA_LIFEBOAT_WINCH",
+      "LSA_ONLOAD_RELEASE_GEAR",
+      "LSA_HYDROSTATIC_INTERLOCK",
+      "LSA_FALLS_WIRE_ROPES",
+      "LSA_LIFEBOAT_ENGINE",
+      "LSA_RESCUE_BOAT_ENGINE",
+      "LSA_LIFERAFT_THROWOVER",
+      "LSA_LIFERAFT_DAVIT_LAUNCHED",
+      "LSA_HRU",
+      "LSA_GENERAL_EMERGENCY_ALARM",
+      "LSA_PUBLIC_ADDRESS_SYSTEM"
+    ],
+    "includesGroups": [
+      "LSA"
+    ],
+    "descriptionEn": "The SOLAS III/20 weekly items: visual inspection of the survival craft, rescue boats and launching appliances, the lifeboat and rescue boat engine runs, and the general emergency alarm test. Log each result."
+  },
+  {
+    "key": "WEEKLY_FFE",
+    "titleEn": "Weekly FFE round",
+    "titleTr": "Haftalık FFE turu",
+    "includesTypeKeys": [
+      "FFE_SCBA_SET",
+      "FFE_SCBA_SPARE_CYLINDER",
+      "FFE_FIREMANS_OUTFIT",
+      "FFE_EEBD",
+      "FFE_MAIN_FIRE_PUMP",
+      "FFE_EMERGENCY_FIRE_PUMP",
+      "FFE_FIRE_DETECTION_PANEL"
+    ],
+    "includesGroups": [],
+    "descriptionEn": "Weekly fire-fighting items: breathing apparatus and spare cylinder pressures, fireman's outfit readiness, EEBD indicators, and a walk of the fire pumps and the detection panel for standing faults."
+  },
+  {
+    "key": "MONTHLY_LSA",
+    "titleEn": "Monthly LSA inspection",
+    "titleTr": "Aylık LSA muayenesi",
+    "includesTypeKeys": [],
+    "includesGroups": [
+      "LSA",
+      "EMERGENCY_ESCAPE"
+    ],
+    "descriptionEn": "The SOLAS III/20 monthly inspection using the checklist from the onboard maintenance instructions, including the survival craft equipment inventories and moving each lifeboat from its stowed position."
+  },
+  {
+    "key": "MONTHLY_FFE",
+    "titleEn": "Monthly FFE inspection",
+    "titleTr": "Aylık FFE muayenesi",
+    "includesTypeKeys": [
+      "FFE_PORTABLE_EXTINGUISHER",
+      "FFE_WHEELED_EXTINGUISHER",
+      "FFE_FIRE_HYDRANT",
+      "FFE_FIRE_HOSE",
+      "FFE_FIRE_NOZZLE",
+      "FFE_FIRE_HOSE_BOX",
+      "FFE_FIRE_BLANKET",
+      "FFE_INTERNATIONAL_SHORE_CONNECTION",
+      "FFE_FIXED_CO2_SYSTEM",
+      "FFE_CO2_RELEASE_STATION",
+      "FFE_SMOKE_DETECTOR",
+      "FFE_HEAT_DETECTOR",
+      "FFE_MANUAL_CALL_POINT",
+      "FFE_FIRE_DETECTION_PANEL",
+      "MCH_FIRE_DOOR",
+      "MCH_FIRE_DAMPER",
+      "MCH_FUEL_OIL_QUICK_CLOSING_VALVE",
+      "MCH_REMOTE_VENTILATION_STOP"
+    ],
+    "includesGroups": [
+      "FFE",
+      "MACHINERY_CONTROLS"
+    ],
+    "descriptionEn": "The monthly fire-protection round under SOLAS II-2/14 and MSC.1/Circ.1432: extinguishers, hydrants, hoses and nozzles, fixed system release stations, a detector and call point sample test, fire doors, dampers and remote stops."
+  },
+  {
+    "key": "PRE_ARRIVAL_PSC",
+    "titleEn": "Pre-arrival PSC self-check",
+    "titleTr": "Liman öncesi PSC öz kontrolü",
+    "includesTypeKeys": [
+      "FFE_PORTABLE_EXTINGUISHER",
+      "FFE_EMERGENCY_FIRE_PUMP",
+      "FFE_FIRE_HYDRANT",
+      "FFE_FIRE_HOSE",
+      "FFE_SCBA_SET",
+      "FFE_EEBD",
+      "FFE_FIREMANS_OUTFIT",
+      "MCH_FIRE_DOOR",
+      "MCH_FIRE_DAMPER",
+      "LSA_LIFEBOAT_TOTALLY_ENCLOSED",
+      "LSA_LIFERAFT_THROWOVER",
+      "LSA_HRU",
+      "LSA_LIFEBUOY_PLAIN",
+      "LSA_LIFEJACKET_ADULT",
+      "LSA_IMMERSION_SUIT",
+      "LSA_EPIRB",
+      "DOC_MUSTER_LIST",
+      "DOC_FIRE_CONTROL_PLAN",
+      "EMR_ESCAPE_ROUTE_SIGN",
+      "EMR_EMERGENCY_ESCAPE_TRUNK"
+    ],
+    "includesGroups": [],
+    "descriptionEn": "The items port State control inspectors examine first. Walk them before arrival and close what you can: expiry dates, access, service labels, fire doors, the emergency fire pump cold start and the muster list."
+  },
+  {
+    "key": "PRE_SURVEY_SEC",
+    "titleEn": "Pre-survey Safety Equipment check",
+    "titleTr": "SEC sörveyi öncesi kontrol",
+    "includesTypeKeys": [
+      "LSA_LIFEBOAT_TOTALLY_ENCLOSED",
+      "LSA_LIFEBOAT_DAVIT",
+      "LSA_ONLOAD_RELEASE_GEAR",
+      "LSA_LIFEBOAT_WINCH",
+      "LSA_FALLS_WIRE_ROPES",
+      "LSA_LIFERAFT_THROWOVER",
+      "LSA_HRU",
+      "LSA_INFLATABLE_LIFEJACKET",
+      "LSA_IMMERSION_SUIT",
+      "LSA_EPIRB",
+      "LSA_SART",
+      "LSA_ROCKET_PARACHUTE_FLARE",
+      "FFE_PORTABLE_EXTINGUISHER",
+      "FFE_FIXED_CO2_SYSTEM",
+      "FFE_SCBA_SET",
+      "FFE_EEBD",
+      "FFE_FIRE_DETECTION_PANEL",
+      "DOC_FIRE_CONTROL_PLAN",
+      "DOC_LSA_MAINTENANCE_MANUAL"
+    ],
+    "includesGroups": [],
+    "descriptionEn": "Preparation for the Safety Equipment survey: reconcile the register against the Record of Equipment, gather the service reports and certificates, and list everything falling due before the certificate expiry split by who must do it."
+  },
+  {
+    "key": "POST_DRILL_CHECK",
+    "titleEn": "Post-drill check",
+    "titleTr": "Tatbikat sonrası kontrol",
+    "includesTypeKeys": [
+      "LSA_LIFEBOAT_TOTALLY_ENCLOSED",
+      "LSA_LIFEBOAT_ENGINE",
+      "LSA_ONLOAD_RELEASE_GEAR",
+      "LSA_LIFEBOAT_DAVIT",
+      "LSA_FALLS_WIRE_ROPES",
+      "LSA_RESCUE_BOAT",
+      "LSA_RESCUE_BOAT_ENGINE",
+      "FFE_SCBA_SET",
+      "FFE_SCBA_SPARE_CYLINDER",
+      "FFE_FIREMANS_OUTFIT",
+      "FFE_PORTABLE_EXTINGUISHER",
+      "FFE_MAIN_FIRE_PUMP",
+      "FFE_FIRE_HOSE",
+      "MCH_FIRE_DOOR",
+      "MCH_WATERTIGHT_DOOR"
+    ],
+    "includesGroups": [],
+    "descriptionEn": "After an abandon-ship or fire drill: restow and re-secure everything used, recharge breathing apparatus cylinders, replace consumed items, re-set quick-closing valves and record every defect found as a deficiency."
+  }
+]
