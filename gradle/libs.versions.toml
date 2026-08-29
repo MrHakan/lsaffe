@@ -38,7 +38,7 @@ kotlinxDatetime = "0.6.2"
 
 # Other
 sqlcipher = "4.6.1"
-coil = "3.2.0"
+coil = "3.5.0"
 
 # Testing
 junit4 = "4.13.2"
