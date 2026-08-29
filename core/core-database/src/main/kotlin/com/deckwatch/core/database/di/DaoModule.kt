@@ -1,6 +1,8 @@
 package com.deckwatch.core.database.di
 
 import com.deckwatch.core.database.DeckWatchDatabase
+import com.deckwatch.core.database.RoomTransactionRunner
+import com.deckwatch.core.database.TransactionRunner
 import com.deckwatch.core.database.dao.CategoryDao
 import com.deckwatch.core.database.dao.DeckDao
 import com.deckwatch.core.database.dao.DeficiencyDao
@@ -19,6 +21,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 /**
  * Exposes every DAO so `data-repository` can inject the ones it needs without depending on the
@@ -27,6 +30,12 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 object DaoModule {
+
+    /** The cross-DAO transaction seam of §11.1 — see [TransactionRunner]. */
+    @Provides
+    @Singleton
+    fun provideTransactionRunner(database: DeckWatchDatabase): TransactionRunner =
+        RoomTransactionRunner(database)
 
     @Provides
     fun provideVesselDao(database: DeckWatchDatabase): VesselDao = database.vesselDao()
