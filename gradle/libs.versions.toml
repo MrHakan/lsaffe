@@ -2,7 +2,7 @@
 # Build
 agp = "8.11.1"
 kotlin = "2.2.0"
-ksp = "2.2.0-2.0.2"
+ksp = "2.3.11"
 detekt = "1.23.8"
 ktlintGradle = "12.1.2"
 
