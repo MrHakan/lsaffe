@@ -29,7 +29,7 @@ biometric = "1.1.0"
 documentfile = "1.0.1"
 
 # DI
-hilt = "2.56.2"
+hilt = "2.60.1"
 
 # Kotlinx
 coroutines = "1.10.2"
