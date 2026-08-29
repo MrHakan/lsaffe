@@ -86,6 +86,9 @@ fun DueWorkListScreen(
     val turkish = isTurkishLocale()
     LaunchedEffect(turkish) { viewModel.setTurkish(turkish) }
 
+    // ClipboardManager rather than the newer suspend Clipboard: the export is a synchronous string
+    // build and this API is the one available on every device down to minSdk 26 (C4).
+    @Suppress("DEPRECATION")
     val clipboard = LocalClipboardManager.current
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -127,13 +130,17 @@ fun DueWorkListScreen(
             DueFilterRow(state = state, viewModel = viewModel)
             HorizontalDivider()
 
-            if (state.surveyPrepEnabled) {
-                SurveyPrepContent(
+            when {
+                state.surveyPrepEnabled -> SurveyPrepContent(
                     state = state,
                     onOpenEquipment = onOpenEquipment,
                 )
-            } else {
-                DueRowList(
+
+                // Nothing anywhere and nothing filtered out: this vessel has no work on file yet.
+                state.counts.values.sum() == 0 && !state.filters.isActive ->
+                    EmptyHint(text = stringResource(R.string.due_empty_hint))
+
+                else -> DueRowList(
                     rows = state.rows,
                     onOpenEquipment = onOpenEquipment,
                     onRequestComplete = { completing = it },

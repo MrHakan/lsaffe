@@ -205,13 +205,13 @@ private fun RoundHistoryRow(round: Round, onClick: () -> Unit) {
             horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingS),
         ) {
             Text(
-                text = stringResource(R.string.rounds_started, Dates.formatIso(round.startedAt.toEpochDay())),
+                text = stringResource(R.string.rounds_started, Dates.formatIso(round.startedAt.epochMillisToDay())),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             round.completedAt?.let { completed ->
                 Text(
-                    text = stringResource(R.string.rounds_completed, Dates.formatIso(completed.toEpochDay())),
+                    text = stringResource(R.string.rounds_completed, Dates.formatIso(completed.epochMillisToDay())),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -296,7 +296,7 @@ private fun StartRoundDialog(
 }
 
 /** Epoch-millis to epoch-days for display — round stamps are millis (§6.7), dates are days (§6). */
-internal fun Long.toEpochDay(): Long = Math.floorDiv(this, MILLIS_PER_DAY)
+internal fun Long.epochMillisToDay(): Long = Math.floorDiv(this, MILLIS_PER_DAY)
 
 private const val MILLIS_PER_DAY = 86_400_000L
 private val PickerMaxHeight = 380.dp

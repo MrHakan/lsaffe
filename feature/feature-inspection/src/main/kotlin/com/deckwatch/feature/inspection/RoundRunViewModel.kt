@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -161,7 +162,8 @@ class RoundRunViewModel(
             val updated = item.copy(checkedAt = now, condition = grade)
             inspectionRepository.upsertRoundItem(updated)
             equipmentRepository.setCondition(item.equipmentId, grade, now)
-            recount(updated)
+            cache(updated)
+            recount()
         }
     }
 
@@ -169,7 +171,9 @@ class RoundRunViewModel(
     fun setRemark(itemId: String, remark: String) {
         val item = itemCache.value[itemId] ?: return
         viewModelScope.launch {
-            inspectionRepository.upsertRoundItem(item.copy(remark = remark.ifBlank { null }))
+            val updated = item.copy(remark = remark.ifBlank { null })
+            inspectionRepository.upsertRoundItem(updated)
+            cache(updated)
         }
     }
 
@@ -181,16 +185,22 @@ class RoundRunViewModel(
         val round = roundCache.value ?: return
         viewModelScope.launch {
             val items = itemCache.value.values.toList()
-            inspectionRepository.upsertRound(
-                RoundMaterialiser.recount(round, items).copy(completedAt = clock()),
-            )
+            val finished = RoundMaterialiser.recount(round, items).copy(completedAt = clock())
+            roundCache.value = finished
+            inspectionRepository.upsertRound(finished)
         }
     }
 
-    private suspend fun recount(updated: RoundItem) {
+    /** Write-through, so a grade is reflected in the counts before the repository echoes back. */
+    private fun cache(updated: RoundItem) {
+        itemCache.update { it + (updated.id to updated) }
+    }
+
+    private suspend fun recount() {
         val round = roundCache.value ?: return
-        val items = itemCache.value.values.map { if (it.id == updated.id) updated else it }
-        inspectionRepository.upsertRound(RoundMaterialiser.recount(round, items))
+        val recounted = RoundMaterialiser.recount(round, itemCache.value.values.toList())
+        roundCache.value = recounted
+        inspectionRepository.upsertRound(recounted)
     }
 
     private companion object {
