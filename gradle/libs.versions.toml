@@ -1,7 +1,7 @@
 [versions]
 # Build
 agp = "8.11.1"
-kotlin = "2.3.21"
+kotlin = "2.4.10"
 ksp = "2.2.0-2.0.2"
 detekt = "1.23.8"
 ktlintGradle = "12.1.2"
