@@ -31,6 +31,9 @@ internal fun sectionTitleRes(section: RegulationSection): Int = when (section) {
     RegulationSection.SOLAS -> R.string.notes_section_solas
     RegulationSection.LSA -> R.string.notes_section_lsa
     RegulationSection.FFE -> R.string.notes_section_ffe
+    RegulationSection.HELIDECK -> R.string.notes_section_helideck
+    RegulationSection.ISGOTT -> R.string.notes_section_isgott
+    RegulationSection.IAMSAR -> R.string.notes_section_iamsar
     RegulationSection.FLAG -> R.string.notes_section_flag
     RegulationSection.CLASS -> R.string.notes_section_class
     RegulationSection.MY_NOTES -> R.string.notes_section_my_notes
@@ -41,6 +44,9 @@ internal fun sectionDescriptionRes(section: RegulationSection): Int = when (sect
     RegulationSection.SOLAS -> R.string.notes_section_solas_desc
     RegulationSection.LSA -> R.string.notes_section_lsa_desc
     RegulationSection.FFE -> R.string.notes_section_ffe_desc
+    RegulationSection.HELIDECK -> R.string.notes_section_helideck_desc
+    RegulationSection.ISGOTT -> R.string.notes_section_isgott_desc
+    RegulationSection.IAMSAR -> R.string.notes_section_iamsar_desc
     RegulationSection.FLAG -> R.string.notes_section_flag_desc
     RegulationSection.CLASS -> R.string.notes_section_class_desc
     RegulationSection.MY_NOTES -> R.string.notes_section_my_notes_desc

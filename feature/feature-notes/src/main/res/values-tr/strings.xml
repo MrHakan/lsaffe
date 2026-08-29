@@ -27,6 +27,12 @@
     <string name="notes_section_lsa_desc">LSA Kod bölümleri I–VII, SOLAS III/20 bakım rejimi, MSC.402(96)</string>
     <string name="notes_section_ffe">FFE</string>
     <string name="notes_section_ffe_desc">FSS Kod bölümleri, SOLAS II-2/14 bakım planı, MSC.1/Circ.1432</string>
+    <string name="notes_section_helideck">Helikopter operasyonları</string>
+    <string name="notes_section_helideck_desc">ICS Helikopter/Gemi Operasyonları Rehberi, SOLAS II-2/18 helikopter tesisleri</string>
+    <string name="notes_section_isgott">ISGOTT</string>
+    <string name="notes_section_isgott_desc">Tanker ve terminal emniyeti: gemi/sahil kontrol listesi, kapalı mahaller, sıcak iş, inert gaz</string>
+    <string name="notes_section_iamsar">IAMSAR</string>
+    <string name="notes_section_iamsar_desc">SOLAS V/21.2 uyarınca gemide bulunan Cilt III: tehlike yanıtı, arama paternleri, kurtarma</string>
     <string name="notes_section_flag">BAYRAK</string>
     <string name="notes_section_flag_desc">Marshall Adaları, Liberya ve Panama sirkülerleri ve düz SOLAS\'tan farkları</string>
     <string name="notes_section_class">KLAS</string>

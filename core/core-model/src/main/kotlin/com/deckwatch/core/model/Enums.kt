@@ -64,9 +64,32 @@ enum class VerificationStatus { VERIFIED, UNVERIFIED, NEEDS_PERIODIC_REVIEW }
 @Serializable
 enum class EquipmentGroup { LSA, FFE, EMERGENCY_ESCAPE, MACHINERY_CONTROLS, SIGNAGE, OTHER }
 
-/** Notes-tab sections — §8.1. */
+/**
+ * Notes-tab sections — §8.1.
+ *
+ * The order is the order the Notes tab lists them: the statutory instruments first, then the
+ * operational codes an officer reaches for on a specific job, then the two that depend on the
+ * particular ship, and the officer's own notes last.
+ */
 @Serializable
-enum class RegulationSection { SOLAS, LSA, FFE, FLAG, CLASS, MY_NOTES }
+enum class RegulationSection {
+    SOLAS,
+    LSA,
+    FFE,
+
+    /** ICS Guide to Helicopter/Ship Operations, and the SOLAS II-2/18 helicopter facilities. */
+    HELIDECK,
+
+    /** International Safety Guide for Oil Tankers and Terminals. */
+    ISGOTT,
+
+    /** IAMSAR Manual Volume III, the volume carried aboard under SOLAS V/21.2. */
+    IAMSAR,
+
+    FLAG,
+    CLASS,
+    MY_NOTES,
+}
 
 /** Attribute field kinds — §9.3. */
 @Serializable
