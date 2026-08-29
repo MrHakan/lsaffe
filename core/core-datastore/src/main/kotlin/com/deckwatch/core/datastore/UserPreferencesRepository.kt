@@ -110,6 +110,9 @@ class UserPreferencesRepository(
 
     suspend fun setFirstRunAt(atMillis: Long) = put(Keys.FIRST_RUN_AT, atMillis)
 
+    /** Records which version of the bundled content the database now holds — §19. */
+    suspend fun setSeededContentVersion(version: Int) = put(Keys.SEEDED_CONTENT_VERSION, version)
+
     /**
      * Records first launch exactly once. Later calls are no-ops, so the §18 "prompt for a backup
      * on the 30th day of use" counter is anchored to the real first run and never resets.
@@ -158,6 +161,7 @@ internal object Keys {
     val DISCLAIMER_ACCEPTED = booleanPreferencesKey("disclaimer_accepted")
     val LAST_BACKUP_AT = longPreferencesKey("last_backup_at")
     val FIRST_RUN_AT = longPreferencesKey("first_run_at")
+    val SEEDED_CONTENT_VERSION = intPreferencesKey("seeded_content_version")
 }
 
 /** Decodes a stored preferences snapshot, falling back to the [UserPreferences] defaults. */
@@ -185,6 +189,7 @@ internal fun Preferences.toUserPreferences(): UserPreferences {
         disclaimerAccepted = this[Keys.DISCLAIMER_ACCEPTED] ?: defaults.disclaimerAccepted,
         lastBackupAt = this[Keys.LAST_BACKUP_AT],
         firstRunAt = this[Keys.FIRST_RUN_AT] ?: defaults.firstRunAt,
+        seededContentVersion = this[Keys.SEEDED_CONTENT_VERSION] ?: defaults.seededContentVersion,
     )
 }
 

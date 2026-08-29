@@ -30,6 +30,9 @@ interface RoundDao {
 
     @Query("DELETE FROM rounds WHERE id = :id")
     suspend fun deleteById(id: String)
+
+    @Query("DELETE FROM rounds WHERE vesselId = :vesselId")
+    suspend fun deleteByVessel(vesselId: String)
 }
 
 /** Items within a round — MASTER_PROMPT §6.7. */
@@ -60,6 +63,9 @@ interface RoundItemDao {
 
     @Query("DELETE FROM round_items WHERE roundId = :roundId")
     suspend fun deleteByRound(roundId: String)
+
+    @Query("DELETE FROM round_items WHERE roundId IN (SELECT id FROM rounds WHERE vesselId = :vesselId)")
+    suspend fun deleteByVessel(vesselId: String)
 }
 
 /**
@@ -116,4 +122,7 @@ interface DeficiencyDao {
 
     @Query("DELETE FROM deficiencies WHERE id = :id")
     suspend fun deleteById(id: String)
+
+    @Query("DELETE FROM deficiencies WHERE vesselId = :vesselId")
+    suspend fun deleteByVessel(vesselId: String)
 }

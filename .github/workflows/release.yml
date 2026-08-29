@@ -64,7 +64,11 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           VERSION_NAME: ${{ steps.ver.outputs.version }}
           VERSION_CODE: ${{ steps.ver.outputs.versionCode }}
-        run: ./gradlew :app:assembleRelease :app:bundleRelease --stacktrace
+        # Two invocations on purpose: per-ABI APK splits and bundle resource shrinking cannot be
+        # configured in one build (see the comment in app/build.gradle.kts).
+        run: |
+          ./gradlew :app:assembleRelease --stacktrace
+          ./gradlew :app:bundleRelease --stacktrace
 
       - name: Collect artifacts and checksums
         run: |

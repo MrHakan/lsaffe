@@ -150,6 +150,30 @@ abstract class EquipmentDao {
     @Query("DELETE FROM equipment WHERE id = :id")
     abstract suspend fun deletePermanently(id: String)
 
+    /**
+     * Hard delete of everything on a vessel. Only for deleting the vessel itself — `equipment`
+     * carries no foreign key (§13.5 needs rows to outlive their parents on import), so the
+     * repository has to do what a cascade would.
+     */
+    @Query("DELETE FROM equipment WHERE vesselId = :vesselId")
+    abstract suspend fun deleteByVessel(vesselId: String)
+
+    /**
+     * Return everything on a deck to the unplaced inbox — what deleting a deck does to the
+     * equipment standing on it. Losing the items with the deck would breach C10.
+     */
+    @Query(
+        """
+        UPDATE equipment SET deckId = NULL, zoneId = NULL, updatedAt = :atMillis
+        WHERE deckId = :deckId AND deletedAt IS NULL
+        """,
+    )
+    abstract suspend fun unplaceAllOnDeck(deckId: String, atMillis: Long)
+
+    /** Drop references to a zone that no longer exists; the equipment stays where it is. */
+    @Query("UPDATE equipment SET zoneId = NULL, updatedAt = :atMillis WHERE zoneId = :zoneId")
+    abstract suspend fun clearZoneReferences(zoneId: String, atMillis: Long)
+
     /** Denormalised due state written by the due engine — §11.1 step 5. Epoch-days. */
     @Query(
         """
