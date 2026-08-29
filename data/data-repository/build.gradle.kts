@@ -22,6 +22,11 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     testImplementation(libs.junit4)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.test.core)
+    testImplementation(libs.androidx.datastore.preferences)
+    // The in-memory DeckWatchDatabase the repository tests run against exposes RoomDatabase types.
+    testImplementation(libs.androidx.room.runtime)
     testImplementation(libs.truth)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.turbine)

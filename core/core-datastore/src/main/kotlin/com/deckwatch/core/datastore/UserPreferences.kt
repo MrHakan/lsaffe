@@ -54,6 +54,12 @@ data class UserPreferences(
     val lastBackupAt: Long? = null,
     /** Epoch-millis of first launch; 0 until [UserPreferencesRepository.markFirstRun] has run. */
     val firstRunAt: Long = 0L,
+    /**
+     * Version of the bundled reference content already imported into the database; 0 until the
+     * first import. A newer bundle re-seeds the bundled rows and leaves the user's own alone
+     * (§19).
+     */
+    val seededContentVersion: Int = 0,
 )
 
 /** Allowed values of [UserPreferences.photoQuality] — the export tiers of §13.2. */

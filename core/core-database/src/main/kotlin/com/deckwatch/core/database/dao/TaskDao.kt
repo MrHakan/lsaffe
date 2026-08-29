@@ -159,6 +159,15 @@ interface TaskInstanceDao {
     @Query("DELETE FROM task_instances WHERE id = :id")
     suspend fun deleteById(id: String)
 
+    /** Deleting a vessel takes its equipment's whole task history with it. */
+    @Query(
+        """
+        DELETE FROM task_instances
+        WHERE equipmentId IN (SELECT id FROM equipment WHERE vesselId = :vesselId)
+        """,
+    )
+    suspend fun deleteForVessel(vesselId: String)
+
     /** The engine re-derives an item's open instances from scratch; completed history stays. */
     @Query("DELETE FROM task_instances WHERE equipmentId = :equipmentId AND status IN ('PENDING', 'DUE_SOON', 'OVERDUE')")
     suspend fun deleteOpenForEquipment(equipmentId: String)

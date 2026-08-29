@@ -1,3 +1,11 @@
+/**
+ * AGP cannot shrink resources for an app bundle while per-ABI splits are enabled
+ * (issuetracker.google.com/402800800), and this build shrinks. The splits are therefore switched
+ * off for a bundle build; the release workflow runs `assembleRelease` and `bundleRelease` as two
+ * invocations so it still gets both the per-ABI APKs and the AAB.
+ */
+val isBundleBuild = gradle.startParameter.taskNames.any { it.contains("undle") }
+
 plugins {
     alias(libs.plugins.deckwatch.android.application)
     alias(libs.plugins.deckwatch.android.compose)
@@ -41,7 +49,7 @@ android {
 
     splits {
         abi {
-            isEnable = true
+            isEnable = !isBundleBuild
             reset()
             include("arm64-v8a", "armeabi-v7a", "x86_64")
             isUniversalApk = true
