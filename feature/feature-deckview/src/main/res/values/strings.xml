@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="deckview_title">Vessel</string>
-    <string name="deckview_empty_hint">Add your first deck to get started.</string>
+    <string name="vessel_tab_add_equipment">Add equipment</string>
+    <string name="vessel_tab_menu">Vessel menu</string>
+    <string name="vessel_tab_manage_vessels">Vessels</string>
+    <string name="vessel_tab_manage_decks">Decks</string>
+    <string name="vessel_tab_manage_categories">Categories</string>
 </resources>

@@ -176,7 +176,7 @@
     <string name="list_mode_unplaced_deck">Unplaced equipment</string>
     <string name="list_mode_empty_title">Add your first deck</string>
     <string name="list_mode_empty_message">DeckWatch builds your ship deck by deck. Pick a plan preset to start — you can rename and reshape it any time.</string>
-    <string name="list_mode_no_vessel">No vessel is active yet. Add one in the vessel manager to start.</string>
+    <string name="list_mode_no_vessel">DeckWatch keeps one ship active at a time. Add yours to start.</string>
     <string name="list_mode_deck_empty">No equipment on this deck yet.</string>
     <string name="list_mode_due">Due %1$s</string>
     <string name="list_mode_no_due">No due date</string>
@@ -191,4 +191,6 @@
         <item quantity="other">%1$d items</item>
     </plurals>
 
+    <string name="list_mode_no_vessel_title">No vessel yet</string>
+    <string name="list_mode_add_vessel">Add vessel</string>
 </resources>

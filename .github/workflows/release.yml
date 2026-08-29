@@ -3,6 +3,9 @@ name: Release
 on:
   push:
     tags: [ 'v*.*.*' ]
+    # Every push to main publishes a build to the rolling "main" pre-release, so the Releases page
+    # always carries an installable APK of the current main without anyone tagging by hand.
+    branches: [ main ]
   workflow_dispatch:
     inputs:
       version:
@@ -16,6 +19,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -28,13 +35,41 @@ jobs:
       - name: Derive version
         id: ver
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            V="${{ inputs.version }}"
-          else
-            V="${GITHUB_REF_NAME#v}"
-          fi
-          echo "version=$V"        >> "$GITHUB_OUTPUT"
-          echo "versionCode=$(git rev-list --count HEAD)" >> "$GITHUB_OUTPUT"
+          CODE="$(git rev-list --count HEAD)"
+          ASSET=""
+          case "${{ github.event_name }}" in
+            workflow_dispatch)
+              V="${{ inputs.version }}"
+              TAG="v$V"
+              PRERELEASE="${{ inputs.prerelease }}"
+              NAME="DeckWatch v$V"
+              ;;
+            push)
+              if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+                V="${GITHUB_REF_NAME#v}"
+                TAG="$GITHUB_REF_NAME"
+                PRERELEASE=false
+                NAME="DeckWatch v$V"
+              else
+                # Rolling build of main: one release that is replaced on every push.
+                V="0.1.0-main.$CODE"
+                TAG="main"
+                PRERELEASE=true
+                NAME="DeckWatch — latest main build"
+                # Fixed asset names: the rolling release is republished on every push, and a
+                # versioned name would leave the previous build's APK sitting beside the new one.
+                ASSET="DeckWatch-main"
+              fi
+              ;;
+          esac
+          {
+            echo "version=$V"
+            echo "versionCode=$CODE"
+            echo "tag=$TAG"
+            echo "prerelease=$PRERELEASE"
+            echo "name=$NAME"
+            echo "asset=${ASSET:-DeckWatch-$V}"
+          } >> "$GITHUB_OUTPUT"
 
       - uses: actions/setup-java@v4
         with:
@@ -57,44 +92,42 @@ jobs:
       - name: Quality gate
         run: ./gradlew ktlintCheck detekt testReleaseUnitTest test --stacktrace
 
-      - name: Build signed APKs and AAB
+      - name: Build signed APK and AAB
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           VERSION_NAME: ${{ steps.ver.outputs.version }}
           VERSION_CODE: ${{ steps.ver.outputs.versionCode }}
-        # Two invocations on purpose: per-ABI APK splits and bundle resource shrinking cannot be
-        # configured in one build (see the comment in app/build.gradle.kts).
-        run: |
-          ./gradlew :app:assembleRelease --stacktrace
-          ./gradlew :app:bundleRelease --stacktrace
+        run: ./gradlew :app:assembleRelease :app:bundleRelease --stacktrace
 
       - name: Collect artifacts and checksums
         run: |
           mkdir -p dist
-          V="${{ steps.ver.outputs.version }}"
-          find app/build/outputs/apk/release -name '*.apk' -exec cp {} dist/ \;
-          find app/build/outputs/bundle/release -name '*.aab' -exec cp {} dist/ \;
+          A="${{ steps.ver.outputs.asset }}"
+          # One APK: the app ships a single universal APK, so the officer downloading it from the
+          # Releases page never has to pick an ABI.
+          cp app/build/outputs/apk/release/app-release.apk "dist/${A}.apk"
+          cp app/build/outputs/bundle/release/app-release.aab "dist/${A}.aab"
           cd dist
-          for f in *; do mv "$f" "DeckWatch-${V}-${f}"; done
           sha256sum * > SHA256SUMS.txt
 
-      - name: Generate changelog
+      - name: Generate release notes
         run: |
-          PREV=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          PREV=$(git describe --tags --abbrev=0 --exclude=main HEAD^ 2>/dev/null || echo "")
           { echo "## What's changed"; echo
             if [ -n "$PREV" ]; then git log --pretty='- %s (%h)' "$PREV..HEAD";
-            else git log --pretty='- %s (%h)'; fi
+            else git log --pretty='- %s (%h)' -20; fi
+            echo; echo "Commit: \`${GITHUB_SHA}\`"
             echo; echo "### Checksums"; echo '```'; cat dist/SHA256SUMS.txt; echo '```'
           } > CHANGELOG_RELEASE.md
 
-      - name: Create GitHub Release
+      - name: Publish GitHub Release
         uses: softprops/action-gh-release@v3
         with:
-          tag_name: v${{ steps.ver.outputs.version }}
-          name: DeckWatch v${{ steps.ver.outputs.version }}
+          tag_name: ${{ steps.ver.outputs.tag }}
+          name: ${{ steps.ver.outputs.name }}
           body_path: CHANGELOG_RELEASE.md
-          prerelease: ${{ inputs.prerelease || false }}
+          prerelease: ${{ steps.ver.outputs.prerelease }}
           files: dist/*
           fail_on_unmatched_files: true

@@ -14,9 +14,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -25,6 +30,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.deckwatch.app.R
 import com.deckwatch.feature.deckview.VesselTabScreen
+import com.deckwatch.feature.equipment.EquipmentDetailScreen
 import com.deckwatch.feature.inspection.DueScreen
 import com.deckwatch.feature.notes.NotesScreen
 import com.deckwatch.feature.settings.MoreScreen
@@ -47,6 +53,7 @@ private data class TopLevelDestination(
 @Composable
 fun DeckWatchApp() {
     val navController = rememberNavController()
+    var openEquipmentId by rememberSaveable { mutableStateOf<String?>(null) }
     val destinations = listOf(
         TopLevelDestination(NotesRoute, R.string.tab_notes, Icons.AutoMirrored.Filled.MenuBook),
         TopLevelDestination(VesselRoute, R.string.tab_vessel, Icons.Filled.Layers),
@@ -93,8 +100,20 @@ fun DeckWatchApp() {
         ) {
             composable<NotesRoute> { NotesScreen() }
             composable<VesselRoute> { VesselTabScreen() }
-            composable<DueRoute> { DueScreen() }
+            // The work list names an equipment id; the record itself belongs to feature-equipment,
+            // so the hand-off between the two features is wired here rather than in either of them.
+            composable<DueRoute> { DueScreen(onOpenEquipment = { openEquipmentId = it }) }
             composable<MoreRoute> { MoreScreen() }
+        }
+    }
+
+    val equipmentId = openEquipmentId
+    if (equipmentId != null) {
+        Dialog(
+            onDismissRequest = { openEquipmentId = null },
+            properties = DialogProperties(usePlatformDefaultWidth = false),
+        ) {
+            EquipmentDetailScreen(equipmentId = equipmentId, onBack = { openEquipmentId = null })
         }
     }
 }

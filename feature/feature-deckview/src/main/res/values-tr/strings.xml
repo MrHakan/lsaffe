@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="deckview_title">Gemi</string>
-    <string name="deckview_empty_hint">Başlamak için ilk güverteni ekle.</string>
+    <string name="vessel_tab_add_equipment">Ekipman ekle</string>
+    <string name="vessel_tab_menu">Gemi menüsü</string>
+    <string name="vessel_tab_manage_vessels">Gemiler</string>
+    <string name="vessel_tab_manage_decks">Güverteler</string>
+    <string name="vessel_tab_manage_categories">Kategoriler</string>
 </resources>

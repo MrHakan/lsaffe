@@ -176,7 +176,7 @@
     <string name="list_mode_unplaced_deck">Yerleştirilmemiş ekipman</string>
     <string name="list_mode_empty_title">İlk güverteni ekle</string>
     <string name="list_mode_empty_message">DeckWatch gemiyi güverte güverte kurar. Başlamak için bir plan şablonu seçin — adını ve şeklini istediğiniz zaman değiştirebilirsiniz.</string>
-    <string name="list_mode_no_vessel">Henüz aktif gemi yok. Başlamak için gemi yöneticisinden bir gemi ekleyin.</string>
+    <string name="list_mode_no_vessel">DeckWatch aynı anda tek gemiyi aktif tutar. Başlamak için geminizi ekleyin.</string>
     <string name="list_mode_deck_empty">Bu güvertede henüz ekipman yok.</string>
     <string name="list_mode_due">Termin %1$s</string>
     <string name="list_mode_no_due">Termin yok</string>
@@ -190,4 +190,6 @@
         <item quantity="other">%1$d kalem</item>
     </plurals>
 
+    <string name="list_mode_no_vessel_title">Henüz gemi yok</string>
+    <string name="list_mode_add_vessel">Gemi ekle</string>
 </resources>
