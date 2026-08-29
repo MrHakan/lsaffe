@@ -70,6 +70,9 @@ fun VesselListModeScreen(
     onOpenEquipment: (String) -> Unit = {},
     onAddDeck: () -> Unit = {},
     modifier: Modifier = Modifier,
+    onAddVessel: (() -> Unit)? = null,
+    topBarActions: @Composable () -> Unit = {},
+    floatingActionButton: @Composable () -> Unit = {},
     viewModel: VesselListModeViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -82,6 +85,9 @@ fun VesselListModeScreen(
         modifier = modifier,
         onOpenEquipment = onOpenEquipment,
         onAddDeck = onAddDeck,
+        onAddVessel = onAddVessel,
+        topBarActions = topBarActions,
+        floatingActionButton = floatingActionButton,
         onPickPreset = { preset ->
             viewModel.createDeckFromPreset(preset, presetDisplayName(context, preset))
         },
@@ -95,6 +101,9 @@ internal fun VesselListModeContent(
     modifier: Modifier = Modifier,
     onOpenEquipment: (String) -> Unit = {},
     onAddDeck: () -> Unit = {},
+    onAddVessel: (() -> Unit)? = null,
+    topBarActions: @Composable () -> Unit = {},
+    floatingActionButton: @Composable () -> Unit = {},
     onPickPreset: (PlanPreset) -> Unit = {},
 ) {
     var collapsed by rememberSaveable { mutableStateOf(setOf<String>()) }
@@ -102,12 +111,19 @@ internal fun VesselListModeContent(
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
-            VesselTopBar(title = state.vessel?.name ?: stringResource(R.string.list_mode_title))
+            VesselTopBar(
+                title = state.vessel?.name ?: stringResource(R.string.list_mode_title),
+                actions = topBarActions,
+            )
         },
+        floatingActionButton = floatingActionButton,
     ) { padding ->
         when {
             !state.hasVessel && !state.isLoading -> TeachingEmptyState(
+                title = stringResource(R.string.list_mode_no_vessel_title),
                 message = stringResource(R.string.list_mode_no_vessel),
+                actionLabel = onAddVessel?.let { stringResource(R.string.list_mode_add_vessel) },
+                onAction = onAddVessel,
                 modifier = Modifier.padding(padding),
             )
 

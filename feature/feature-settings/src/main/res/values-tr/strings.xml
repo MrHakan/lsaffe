@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="more_title">Daha Fazla</string>
+    <string name="more_vessels">Gemiler</string>
+    <string name="more_categories">Kategoriler</string>
+    <string name="more_about_title">Hakkında</string>
+    <string name="more_version">DeckWatch %1$s</string>
+    <string name="more_disclaimer">DeckWatch bir planlama ve kayıt tutma yardımcısıdır. Sertifika değildir; geminin onaylı planlarının, üretici kılavuzlarının, klas kurallarının veya bayrak idaresinin talimatlarının yerine geçmez ve hiçbir yasal yükümlülüğü ortadan kaldırmaz. Mevzuat içeriği belirtilen tarihte alınmış bir özettir ve güncelliğini yitirmiş olabilir. Her zaman yürürlükteki metinle ve geminin kendi dokümantasyonuyla doğrulayın.</string>
 </resources>
