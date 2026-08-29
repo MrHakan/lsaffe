@@ -32,7 +32,7 @@ documentfile = "1.0.1"
 hilt = "2.60.1"
 
 # Kotlinx
-coroutines = "1.10.2"
+coroutines = "1.11.0"
 serializationJson = "1.11.0"
 kotlinxDatetime = "0.6.2"
 
