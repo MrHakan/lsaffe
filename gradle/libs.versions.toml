@@ -1,7 +1,7 @@
 [versions]
 # Build
 agp = "8.11.1"
-kotlin = "2.4.10"
+kotlin = "2.3.21"
 ksp = "2.2.0-2.0.2"
 detekt = "1.23.8"
 ktlintGradle = "12.1.2"
@@ -29,7 +29,7 @@ biometric = "1.1.0"
 documentfile = "1.0.1"
 
 # DI
-hilt = "2.60.1"
+hilt = "2.58"
 
 # Kotlinx
 coroutines = "1.10.2"
@@ -37,7 +37,7 @@ serializationJson = "1.11.0"
 kotlinxDatetime = "0.6.2"
 
 # Other
-sqlcipher = "4.18.0"
+sqlcipher = "4.17.0"
 coil = "3.2.0"
 
 # Testing
