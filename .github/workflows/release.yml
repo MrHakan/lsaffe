@@ -1,0 +1,96 @@
+name: Release
+
+on:
+  push:
+    tags: [ 'v*.*.*' ]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version (e.g. 1.2.0)'
+        required: true
+      prerelease:
+        description: 'Mark as pre-release'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Derive version
+        id: ver
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            V="${{ inputs.version }}"
+          else
+            V="${GITHUB_REF_NAME#v}"
+          fi
+          echo "version=$V"        >> "$GITHUB_OUTPUT"
+          echo "versionCode=$(git rev-list --count HEAD)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Decode keystore
+        env:
+          KEYSTORE_B64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$KEYSTORE_B64" ]; then
+            echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/release.jks"
+            echo "KEYSTORE_PATH=$RUNNER_TEMP/release.jks" >> "$GITHUB_ENV"
+          else
+            echo "No KEYSTORE_BASE64 secret set — release build will use the debug keystore." >&2
+          fi
+
+      - name: Quality gate
+        run: ./gradlew ktlintCheck detekt testReleaseUnitTest test --stacktrace
+
+      - name: Build signed APKs and AAB
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          VERSION_NAME: ${{ steps.ver.outputs.version }}
+          VERSION_CODE: ${{ steps.ver.outputs.versionCode }}
+        run: ./gradlew :app:assembleRelease :app:bundleRelease --stacktrace
+
+      - name: Collect artifacts and checksums
+        run: |
+          mkdir -p dist
+          V="${{ steps.ver.outputs.version }}"
+          find app/build/outputs/apk/release -name '*.apk' -exec cp {} dist/ \;
+          find app/build/outputs/bundle/release -name '*.aab' -exec cp {} dist/ \;
+          cd dist
+          for f in *; do mv "$f" "DeckWatch-${V}-${f}"; done
+          sha256sum * > SHA256SUMS.txt
+
+      - name: Generate changelog
+        run: |
+          PREV=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          { echo "## What's changed"; echo
+            if [ -n "$PREV" ]; then git log --pretty='- %s (%h)' "$PREV..HEAD";
+            else git log --pretty='- %s (%h)'; fi
+            echo; echo "### Checksums"; echo '```'; cat dist/SHA256SUMS.txt; echo '```'
+          } > CHANGELOG_RELEASE.md
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.ver.outputs.version }}
+          name: DeckWatch v${{ steps.ver.outputs.version }}
+          body_path: CHANGELOG_RELEASE.md
+          prerelease: ${{ inputs.prerelease || false }}
+          files: dist/*
+          fail_on_unmatched_files: true

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="deckview_title">Gemi</string>
+    <string name="deckview_empty_hint">Başlamak için ilk güverteni ekle.</string>
+</resources>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="due_title">Vadesi</string>
+    <string name="due_empty_hint">Henüz vadesi gelen iş yok. Önce ekipman ekle.</string>
+</resources>
