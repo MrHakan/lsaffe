@@ -57,12 +57,20 @@ fun VesselTabScreen(
     var overlay by rememberSaveable { mutableStateOf(VesselTabOverlay.NONE) }
     var openEquipmentId by rememberSaveable { mutableStateOf<String?>(null) }
     var detailEquipmentId by rememberSaveable { mutableStateOf<String?>(null) }
+    // Where the next item goes. Null/null is the unplaced inbox, which is what the FAB means.
+    var addToDeckId by rememberSaveable { mutableStateOf<String?>(null) }
+    var addToZoneId by rememberSaveable { mutableStateOf<String?>(null) }
 
     VesselListModeScreen(
         modifier = modifier,
         onOpenEquipment = { openEquipmentId = it },
         onAddDeck = { overlay = VesselTabOverlay.DECKS },
         onAddVessel = { overlay = VesselTabOverlay.NEW_VESSEL },
+        onAddEquipment = { deckId, zoneId ->
+            addToDeckId = deckId
+            addToZoneId = zoneId
+            overlay = VesselTabOverlay.ADD_EQUIPMENT
+        },
         topBarActions = {
             VesselSelector()
             VesselTabMenu(
@@ -75,7 +83,13 @@ fun VesselTabScreen(
             // Equipment belongs to a vessel, so the FAB only appears once one is active.
             if (activeVessel != null) {
                 ExtendedFloatingActionButton(
-                    onClick = { overlay = VesselTabOverlay.ADD_EQUIPMENT },
+                    onClick = {
+                        // The FAB adds to the vessel, not to a place: the deck comes from the row's
+                        // own button, or later from the move picker.
+                        addToDeckId = null
+                        addToZoneId = null
+                        overlay = VesselTabOverlay.ADD_EQUIPMENT
+                    },
                     text = { Text(stringResource(R.string.vessel_tab_add_equipment)) },
                     icon = { Icon(imageVector = Icons.Filled.Add, contentDescription = null) },
                 )
@@ -108,6 +122,8 @@ fun VesselTabScreen(
         VesselTabOverlay.ADD_EQUIPMENT -> if (vesselId != null) {
             AddEquipmentSheet(
                 vesselId = vesselId,
+                deckId = addToDeckId,
+                zoneId = addToZoneId,
                 onDismiss = { overlay = VesselTabOverlay.NONE },
             )
         }

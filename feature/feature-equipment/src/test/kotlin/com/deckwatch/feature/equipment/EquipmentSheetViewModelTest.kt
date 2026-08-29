@@ -283,6 +283,23 @@ class EquipmentSheetViewModelTest {
         assertThat(placed?.zoneId).isNull()
     }
 
+    @Test
+    fun `the move picker offers the chosen deck's zones and lands the item in one`() = runTest {
+        seed()
+        fakes.vessels.upsertZone(TestData.zone(id = ZONE_ID, deckId = DECK_ID, name = "Fwd station"))
+        val viewModel = boundViewModel()
+
+        // Zones only appear once a deck is chosen — the second step of the picker.
+        assertThat(viewModel.zonesForMove.value).isEmpty()
+        viewModel.selectDeckForMove(DECK_ID)
+        assertThat(viewModel.zonesForMove.first { it.isNotEmpty() }.map { it.id }).containsExactly(ZONE_ID)
+
+        viewModel.moveToDeck(DECK_ID, ZONE_ID)
+        val placed = fakes.equipment.getEquipment(EQUIPMENT_ID)
+        assertThat(placed?.deckId).isEqualTo(DECK_ID)
+        assertThat(placed?.zoneId).isEqualTo(ZONE_ID)
+    }
+
     // ------------------------------------------------------------------ helpers
 
     private suspend fun seed(
@@ -337,6 +354,7 @@ class EquipmentSheetViewModelTest {
     private companion object {
         const val VESSEL_ID = "vessel-under-test"
         const val DECK_ID = "deck-under-test"
+        const val ZONE_ID = "zone-under-test"
         const val EQUIPMENT_ID = "equipment-under-test"
     }
 }
