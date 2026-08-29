@@ -1,0 +1,1010 @@
+[
+  {
+    "key": "SC_WEEKLY_VISUAL_INSPECTION",
+    "appliesToTypeKeys": [
+      "LSA_LIFEBOAT_TOTALLY_ENCLOSED",
+      "LSA_LIFEBOAT_PARTIALLY_ENCLOSED",
+      "LSA_LIFEBOAT_FREEFALL",
+      "LSA_RESCUE_BOAT",
+      "LSA_FAST_RESCUE_BOAT",
+      "LSA_LIFEBOAT_DAVIT",
+      "LSA_FREEFALL_LAUNCHING_APPLIANCE",
+      "LSA_LIFEBOAT_WINCH",
+      "LSA_RESCUE_BOAT_DAVIT",
+      "LSA_ONLOAD_RELEASE_GEAR",
+      "LSA_HYDROSTATIC_INTERLOCK",
+      "LSA_LIFERAFT_THROWOVER",
+      "LSA_LIFERAFT_DAVIT_LAUNCHED",
+      "LSA_FALLS_WIRE_ROPES",
+      "LSA_FALL_PREVENTER_DEVICE",
+      "LSA_LIFERAFT_CRADLE",
+      "LSA_HRU",
+      "LSA_MES",
+      "LSA_LIFERAFT_PAINTER_WEAK_LINK"
+    ],
+    "titleEn": "Survival craft, launching appliances and on-load release gear — weekly visual inspection",
+    "titleTr": "Can kurtarma araçları, indirme donanımları ve yük altında bırakma donanımı — haftalık gözle muayene",
+    "descriptionEn": "Visually inspect all survival craft, rescue boats, launching appliances and on-load release gear to confirm they are ready for use. Record the inspection in the log book.",
+    "intervalKind": "WEEKLY",
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 3,
+    "performedBy": "SHIP_STAFF",
+    "evidenceRequired": [
+      "Log book entry, signed"
+    ],
+    "regulationRefs": [
+      "SOLAS_III_20_WEEKLY",
+      "SOLAS_III_20_MAINTENANCE"
+    ],
+    "sourceRef": "SOLAS III/20",
+    "flagOverrides": {
+      "LIB": "Liberia: life-saving equipment is covered by Marine Notice SAF-001.",
+      "PAN": "Panama: records may be kept on paper or computer-based on board (MMC-281)."
+    },
+    "intervalMonths": null,
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "LB_ENGINE_WEEKLY_RUN",
+    "appliesToTypeKeys": [
+      "LSA_LIFEBOAT_ENGINE",
+      "LSA_RESCUE_BOAT_ENGINE",
+      "LSA_LIFEBOAT_TOTALLY_ENCLOSED",
+      "LSA_LIFEBOAT_PARTIALLY_ENCLOSED",
+      "LSA_LIFEBOAT_FREEFALL",
+      "LSA_RESCUE_BOAT",
+      "LSA_FAST_RESCUE_BOAT"
+    ],
+    "titleEn": "Lifeboat engine — weekly run",
+    "titleTr": "Can filikası motoru — haftalık çalıştırma",
+    "descriptionEn": "Start and run the lifeboat and rescue boat engines. Record the run and any defect in the log book.",
+    "intervalKind": "WEEKLY",
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 3,
+    "performedBy": "SHIP_STAFF",
+    "evidenceRequired": [
+      "Log book entry, signed"
+    ],
+    "regulationRefs": [
+      "SOLAS_III_20_WEEKLY",
+      "LSA_CODE_CH4_SURVIVAL_CRAFT"
+    ],
+    "sourceRef": "SOLAS III/20",
+    "flagOverrides": {
+      "PAN": "Panama: records may be kept on paper or computer-based on board (MMC-281)."
+    },
+    "intervalMonths": null,
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "GEA_WEEKLY_TEST",
+    "appliesToTypeKeys": [
+      "LSA_GENERAL_EMERGENCY_ALARM",
+      "LSA_PUBLIC_ADDRESS_SYSTEM"
+    ],
+    "titleEn": "General emergency alarm — weekly test",
+    "titleTr": "Genel acil durum alarmı — haftalık test",
+    "descriptionEn": "Test the general emergency alarm system and record the test in the log book.",
+    "intervalKind": "WEEKLY",
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 3,
+    "performedBy": "SHIP_STAFF",
+    "evidenceRequired": [
+      "Log book entry, signed"
+    ],
+    "regulationRefs": [
+      "SOLAS_III_20_WEEKLY",
+      "SOLAS_III_GENERAL_ALARM"
+    ],
+    "sourceRef": "SOLAS III/20",
+    "intervalMonths": null,
+    "flagOverrides": null,
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "LB_MONTHLY_MOVE_FROM_STOWED",
+    "appliesToTypeKeys": [
+      "LSA_LIFEBOAT_TOTALLY_ENCLOSED",
+      "LSA_LIFEBOAT_PARTIALLY_ENCLOSED",
+      "LSA_LIFEBOAT_FREEFALL",
+      "LSA_RESCUE_BOAT",
+      "LSA_LIFEBOAT_DAVIT",
+      "LSA_LIFEBOAT_WINCH"
+    ],
+    "titleEn": "Lifeboats moved from the stowed position — monthly",
+    "titleTr": "Can filikalarının istif konumundan çıkarılması — aylık",
+    "descriptionEn": "Move each lifeboat from its stowed position, without any person on board, so far as is necessary to demonstrate satisfactory operation — unless weather conditions prevent it, in which case record the reason.",
+    "intervalKind": "MONTHLY",
+    "intervalMonths": 1,
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 7,
+    "performedBy": "SHIP_STAFF",
+    "evidenceRequired": [
+      "Log book entry, signed"
+    ],
+    "regulationRefs": [
+      "SOLAS_III_20_MONTHLY",
+      "SOLAS_III_20_MAINTENANCE"
+    ],
+    "sourceRef": "SOLAS III/20",
+    "flagOverrides": {
+      "PAN": "Panama: records may be kept on paper or computer-based on board (MMC-281)."
+    },
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "LSA_MONTHLY_CHECKLIST_INSPECTION",
+    "appliesToTypeKeys": [
+      "LSA_LIFEBOAT_TOTALLY_ENCLOSED",
+      "LSA_LIFEBOAT_PARTIALLY_ENCLOSED",
+      "LSA_LIFEBOAT_FREEFALL",
+      "LSA_RESCUE_BOAT",
+      "LSA_FAST_RESCUE_BOAT",
+      "LSA_LIFEBOAT_DAVIT",
+      "LSA_FREEFALL_LAUNCHING_APPLIANCE",
+      "LSA_LIFEBOAT_WINCH",
+      "LSA_RESCUE_BOAT_DAVIT",
+      "LSA_ONLOAD_RELEASE_GEAR",
+      "LSA_HYDROSTATIC_INTERLOCK",
+      "LSA_LIFERAFT_THROWOVER",
+      "LSA_LIFERAFT_DAVIT_LAUNCHED",
+      "LSA_FALLS_WIRE_ROPES",
+      "LSA_FALL_PREVENTER_DEVICE",
+      "LSA_LIFERAFT_CRADLE",
+      "LSA_HRU",
+      "LSA_LIFERAFT_PAINTER_WEAK_LINK",
+      "LSA_MES",
+      "LSA_EMBARKATION_LADDER",
+      "LSA_LIFEBUOY_PLAIN",
+      "LSA_LIFEBUOY_SELF_IGNITING_LIGHT",
+      "LSA_LIFEBUOY_SMOKE",
+      "LSA_LIFEBUOY_LIGHT_AND_SMOKE",
+      "LSA_LIFEBUOY_BUOYANT_LINE",
+      "LSA_LIFEJACKET_ADULT",
+      "LSA_LIFEJACKET_CHILD",
+      "LSA_LIFEJACKET_INFANT",
+      "LSA_INFLATABLE_LIFEJACKET",
+      "LSA_LIFEJACKET_LIGHT",
+      "LSA_LIFEJACKET_WHISTLE",
+      "LSA_IMMERSION_SUIT",
+      "LSA_ANTI_EXPOSURE_SUIT",
+      "LSA_THERMAL_PROTECTIVE_AID",
+      "LSA_ROCKET_PARACHUTE_FLARE",
+      "LSA_HAND_FLARE",
+      "LSA_BUOYANT_SMOKE_SIGNAL",
+      "LSA_LINE_THROWING_APPLIANCE",
+      "LSA_EPIRB",
+      "LSA_SART",
+      "LSA_TWO_WAY_VHF",
+      "LSA_DAYLIGHT_SIGNALLING_LAMP",
+      "LSA_BOAT_SPRINKLER_SYSTEM",
+      "LSA_BOAT_AIR_SUPPORT_SYSTEM",
+      "EMR_MUSTER_STATION"
+    ],
+    "titleEn": "LSA inspection using the maintenance checklist — monthly",
+    "titleTr": "Bakım kontrol listesi ile can kurtarma teçhizatı muayenesi — aylık",
+    "descriptionEn": "Inspect all life-saving appliances, including lifeboat equipment, using the checklist from the onboard maintenance instructions, and confirm they are complete and in good order. Report the inspection in the log book.",
+    "intervalKind": "MONTHLY",
+    "intervalMonths": 1,
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 7,
+    "performedBy": "SHIP_STAFF",
+    "evidenceRequired": [
+      "Signed checklist",
+      "Log book entry, signed"
+    ],
+    "regulationRefs": [
+      "SOLAS_III_20_MONTHLY",
+      "SOLAS_III_20_MAINTENANCE",
+      "LSA_MAINTENANCE_MANUAL"
+    ],
+    "sourceRef": "SOLAS III/20",
+    "flagOverrides": {
+      "LIB": "Liberia: life-saving equipment is covered by Marine Notice SAF-001.",
+      "PAN": "Panama: records may be kept on paper or computer-based on board (MMC-281)."
+    },
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "FE_MONTHLY_INSPECTION",
+    "appliesToTypeKeys": [
+      "FFE_PORTABLE_EXTINGUISHER",
+      "FFE_WHEELED_EXTINGUISHER"
+    ],
+    "titleEn": "Portable fire extinguisher — monthly visual check",
+    "titleTr": "Portatif yangın söndürücü — aylık gözle kontrol",
+    "descriptionEn": "Monthly visual check of every portable extinguisher: it is in its designated position, access is unobstructed, the operating instructions are legible, the safety pin and seal are intact, the pressure gauge (where fitted) reads in the operating range, the bracket is secure and there is no visible corrosion or damage.",
+    "intervalKind": "MONTHLY",
+    "intervalMonths": 1,
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 7,
+    "performedBy": "SHIP_STAFF",
+    "evidenceRequired": [
+      "Signed checklist"
+    ],
+    "regulationRefs": [
+      "SOLAS_II2_14_MAINTENANCE_PLAN",
+      "MSC1_CIRC1432_MONTHLY",
+      "FSS_CH4_EXTINGUISHERS"
+    ],
+    "sourceRef": "SOLAS II-2/14, MSC.1/Circ.1432",
+    "flagOverrides": {
+      "RMI": "RMI: maintenance and inspection of fire-protection systems and appliances is covered by Marine Notice 2-011-14.",
+      "PAN": "Panama: the onboard maintenance plan must state which tasks are performed by the crew (advanced fire-fighting trained) and which require specially trained persons (MMC-281)."
+    },
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "FD_MONTHLY_SAMPLE_TEST",
+    "appliesToTypeKeys": [
+      "FFE_SMOKE_DETECTOR",
+      "FFE_HEAT_DETECTOR",
+      "FFE_FLAME_DETECTOR",
+      "FFE_SAMPLE_EXTRACTION_SMOKE_DETECTION",
+      "FFE_MANUAL_CALL_POINT",
+      "FFE_FIRE_DETECTION_PANEL",
+      "FFE_FIRE_ALARM_SOUNDER"
+    ],
+    "titleEn": "Fire detector and manual call point — monthly sample test",
+    "titleTr": "Yangın dedektörü ve ihbar butonu — aylık numune testi",
+    "descriptionEn": "Test a sample of the fire detectors and manual call points and confirm correct indication and alarm at the panel. Record which loop/zone was tested so that the whole installation is covered over time.",
+    "intervalKind": "MONTHLY",
+    "intervalMonths": 1,
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 7,
+    "performedBy": "SHIP_STAFF",
+    "evidenceRequired": [
+      "Signed checklist",
+      "Panel printout or log entry"
+    ],
+    "regulationRefs": [
+      "MSC1_CIRC1432_DETECTION",
+      "FSS_CH9_DETECTION"
+    ],
+    "sourceRef": "MSC.1/Circ.1432",
+    "flagOverrides": {
+      "RMI": "RMI: maintenance and inspection of fire-protection systems and appliances is covered by Marine Notice 2-011-14.",
+      "PAN": "Panama: the onboard maintenance plan must state which tasks are performed by the crew (advanced fire-fighting trained) and which require specially trained persons (MMC-281)."
+    },
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "SCBA_WEEKLY_CYLINDER_PRESSURE_CHECK",
+    "appliesToTypeKeys": [
+      "FFE_SCBA_SET",
+      "FFE_SCBA_SPARE_CYLINDER",
+      "FFE_FIREMANS_OUTFIT"
+    ],
+    "titleEn": "SCBA cylinder pressure — weekly check",
+    "titleTr": "SCBA tüp basıncı — haftalık kontrol",
+    "descriptionEn": "Check and record the cylinder pressure of every breathing apparatus set and spare cylinder. Recharge any set below the pressure stated in the maker's manual.",
+    "intervalKind": "WEEKLY",
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 3,
+    "performedBy": "SHIP_STAFF",
+    "evidenceRequired": [
+      "Signed checklist"
+    ],
+    "regulationRefs": [
+      "MSC1_CIRC1432_SCBA",
+      "FSS_CH3_PERSONNEL_PROTECTION"
+    ],
+    "sourceRef": "MSC.1/Circ.1432",
+    "flagOverrides": {
+      "RMI": "RMI: maintenance and inspection of fire-protection systems and appliances is covered by Marine Notice 2-011-14.",
+      "PAN": "Panama: the onboard maintenance plan must state which tasks are performed by the crew (advanced fire-fighting trained) and which require specially trained persons (MMC-281)."
+    },
+    "intervalMonths": null,
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "SCBA_MONTHLY_OFFICER_CHECK",
+    "appliesToTypeKeys": [
+      "FFE_SCBA_SET",
+      "FFE_SCBA_SPARE_CYLINDER",
+      "FFE_FIREMANS_OUTFIT"
+    ],
+    "titleEn": "SCBA — monthly officer's check",
+    "titleTr": "SCBA — aylık zabit kontrolü",
+    "descriptionEn": "The responsible officer verifies the weekly cylinder pressure records and inspects the sets: face mask, harness, demand valve, low-pressure warning whistle and spare cylinders. Recorded as the officer's check referred to in the weekly requirement.",
+    "intervalKind": "MONTHLY",
+    "intervalMonths": 1,
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 7,
+    "performedBy": "SHIP_STAFF",
+    "evidenceRequired": [
+      "Signed checklist"
+    ],
+    "regulationRefs": [
+      "MSC1_CIRC1432_SCBA",
+      "FSS_CH3_PERSONNEL_PROTECTION"
+    ],
+    "sourceRef": "MSC.1/Circ.1432",
+    "flagOverrides": {
+      "RMI": "RMI: maintenance and inspection of fire-protection systems and appliances is covered by Marine Notice 2-011-14.",
+      "PAN": "Panama: the onboard maintenance plan must state which tasks are performed by the crew (advanced fire-fighting trained) and which require specially trained persons (MMC-281)."
+    },
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "FE_ANNUAL_SERVICE",
+    "appliesToTypeKeys": [
+      "FFE_PORTABLE_EXTINGUISHER",
+      "FFE_WHEELED_EXTINGUISHER"
+    ],
+    "titleEn": "Portable fire extinguisher — annual service",
+    "titleTr": "Portatif yangın söndürücü — yıllık servis",
+    "descriptionEn": "Annual service at intervals not exceeding 12 months by a competent person. The service label must show the date and the identity of the person or company that carried it out. Whether trained ship's crew may perform this service is flag-dependent.",
+    "intervalKind": "ANNUAL",
+    "intervalMonths": 12,
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 0,
+    "performedBy": "AUTHORISED_SERVICE_PROVIDER",
+    "evidenceRequired": [
+      "Service report",
+      "Service label on the appliance"
+    ],
+    "regulationRefs": [
+      "MSC1_CIRC1432_ANNUAL_SERVICE",
+      "RES_A951_23",
+      "FSS_CH4_EXTINGUISHERS"
+    ],
+    "sourceRef": "MSC.1/Circ.1432",
+    "flagOverrides": {
+      "RMI": "RMI: maintenance and inspection of fire-protection systems and appliances is covered by Marine Notice 2-011-14.",
+      "LIB": "Liberia: annual extinguisher servicing may be carried out by trained ship's crew (competence per STCW A-VI/3) as an alternative to a shore facility (Marine Notice FIR-001).",
+      "PAN": "Panama: the onboard maintenance plan must state which tasks are performed by the crew (advanced fire-fighting trained) and which require specially trained persons (MMC-281)."
+    },
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "SC_ANNUAL_THOROUGH_EXAM",
+    "appliesToTypeKeys": [
+      "LSA_LIFEBOAT_TOTALLY_ENCLOSED",
+      "LSA_LIFEBOAT_PARTIALLY_ENCLOSED",
+      "LSA_LIFEBOAT_FREEFALL",
+      "LSA_RESCUE_BOAT",
+      "LSA_FAST_RESCUE_BOAT",
+      "LSA_LIFEBOAT_DAVIT",
+      "LSA_FREEFALL_LAUNCHING_APPLIANCE",
+      "LSA_LIFEBOAT_WINCH",
+      "LSA_RESCUE_BOAT_DAVIT",
+      "LSA_ONLOAD_RELEASE_GEAR",
+      "LSA_HYDROSTATIC_INTERLOCK",
+      "LSA_FALLS_WIRE_ROPES",
+      "LSA_FALL_PREVENTER_DEVICE"
+    ],
+    "titleEn": "Lifeboat, rescue boat, launching appliance and release gear — annual thorough examination and operational test",
+    "titleTr": "Can filikası, kurtarma botu, indirme donanımı ve bırakma donanımı — yıllık detaylı muayene ve fonksiyon testi",
+    "descriptionEn": "Annual thorough examination and operational test of the survival craft, its launching appliance and its on-load release gear, at intervals of 12 months with the HSSC harmonised window of ±3 months. Carried out by an authorised service provider or the manufacturer, authorised for that make and type.",
+    "intervalKind": "ANNUAL",
+    "intervalMonths": 12,
+    "toleranceDaysBefore": 90,
+    "toleranceDaysAfter": 90,
+    "performedBy": "AUTHORISED_SERVICE_PROVIDER",
+    "evidenceRequired": [
+      "Service report",
+      "Statement of fitness",
+      "Certificate"
+    ],
+    "regulationRefs": [
+      "MSC_402_96_ANNUAL",
+      "SOLAS_III_20_MAINTENANCE",
+      "MSC_402_96_AUTHORISATION"
+    ],
+    "sourceRef": "MSC.402(96), SOLAS III/20",
+    "flagOverrides": {
+      "RMI": "RMI: service/inspection reports to be countersigned by the Company representative or the Master (Marine Notice 2-011-37).",
+      "LIB": "Liberia: use a provider from the Administration's published list of authorised lifeboat service providers (Marine Notice SAF-005).",
+      "PAN": "Panama: a ±3-month window applies to annual LSA performance tests (MMC-281). Panama: authorised service providers for lifeboats, rescue boats, launching appliances and release gear are governed by MMC-258."
+    },
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "LR_ANNUAL_SERVICING",
+    "appliesToTypeKeys": [
+      "LSA_LIFERAFT_THROWOVER",
+      "LSA_LIFERAFT_DAVIT_LAUNCHED",
+      "LSA_LIFERAFT_CRADLE"
+    ],
+    "titleEn": "Inflatable liferaft — annual servicing",
+    "titleTr": "Şişme can salı — yıllık servis",
+    "descriptionEn": "Servicing at an approved servicing station at intervals of 12 months, with the HSSC harmonised window of ±3 months. In special cases the Administration may extend the interval to 17 months by dispensation.",
+    "intervalKind": "ANNUAL",
+    "intervalMonths": 12,
+    "toleranceDaysBefore": 90,
+    "toleranceDaysAfter": 90,
+    "performedBy": "AUTHORISED_SERVICE_PROVIDER",
+    "evidenceRequired": [
+      "Servicing certificate",
+      "Service report"
+    ],
+    "regulationRefs": [
+      "SOLAS_III_20_SERVICING",
+      "RES_A761_18_SERVICING_STATIONS"
+    ],
+    "sourceRef": "SOLAS III/20",
+    "flagOverrides": {
+      "LIB": "Liberia: liferaft servicing may be extended to 17 months by dispensation (Marine Notice SAF-001).",
+      "PAN": "Panama: extensions up to 17 months are provided for certain inflatable equipment with Administration authorisation (MMC-281)."
+    },
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "HRU_REPLACEMENT",
+    "appliesToTypeKeys": [
+      "LSA_HRU"
+    ],
+    "titleEn": "Hydrostatic release unit — replacement or servicing",
+    "titleTr": "Hidrostatik bırakma ünitesi — değişim veya servis",
+    "descriptionEn": "Disposable hydrostatic release units are replaced at intervals of 24 months; serviceable units are serviced at an approved station or at the interval stated by the maker. Always read the unit's own marked expiry.",
+    "intervalKind": "BIENNIAL",
+    "intervalMonths": 24,
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 0,
+    "performedBy": "AUTHORISED_SERVICE_PROVIDER",
+    "evidenceRequired": [
+      "Servicing certificate",
+      "Replacement record"
+    ],
+    "regulationRefs": [
+      "SOLAS_III_20_SERVICING",
+      "LSA_HRU_CARD"
+    ],
+    "sourceRef": "SOLAS III/20",
+    "flagOverrides": {
+      "LIB": "Liberia: life-saving equipment is covered by Marine Notice SAF-001."
+    },
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "LJ_INFLATABLE_ANNUAL_SERVICE",
+    "appliesToTypeKeys": [
+      "LSA_INFLATABLE_LIFEJACKET"
+    ],
+    "titleEn": "Inflatable lifejacket — annual service",
+    "titleTr": "Şişme can yeleği — yıllık servis",
+    "descriptionEn": "Inflatable lifejackets are serviced at intervals of 12 months at an approved servicing station, or by trained crew where the flag Administration permits it. The service covers the inflation cylinder, the automatic head and the gas-tightness of the bladder.",
+    "intervalKind": "ANNUAL",
+    "intervalMonths": 12,
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 0,
+    "performedBy": "AUTHORISED_SERVICE_PROVIDER",
+    "evidenceRequired": [
+      "Servicing certificate",
+      "Service label on the lifejacket"
+    ],
+    "regulationRefs": [
+      "SOLAS_III_20_SERVICING",
+      "LSA_CODE_CH2_PERSONAL"
+    ],
+    "sourceRef": "SOLAS III/20",
+    "flagOverrides": {
+      "LIB": "Liberia: lifejackets are covered by Marine Notice SAF-006."
+    },
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "IS_AIR_PRESSURE_TEST",
+    "appliesToTypeKeys": [
+      "LSA_IMMERSION_SUIT",
+      "LSA_ANTI_EXPOSURE_SUIT"
+    ],
+    "titleEn": "Immersion suit — air-pressure test",
+    "titleTr": "Dalma giysisi — hava basınç testi",
+    "descriptionEn": "Air-pressure test of immersion suits at intervals of 3 years for suits less than 10 years old, in accordance with MSC/Circ.1047 and MSC/Circ.1114. For older suits follow the flag Administration's notice and the maker's instructions.",
+    "intervalKind": "CUSTOM_MONTHS",
+    "intervalMonths": 36,
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 0,
+    "performedBy": "SHIP_STAFF_TRAINED",
+    "evidenceRequired": [
+      "Test record",
+      "Service report"
+    ],
+    "regulationRefs": [
+      "MSC_CIRC1047_IMMERSION_SUITS",
+      "MSC_CIRC1114_IMMERSION_SUITS"
+    ],
+    "sourceRef": "Flag notices",
+    "flagOverrides": {
+      "RMI": "RMI: immersion suits less than 10 years old are to be tested at intervals not exceeding 3 years (Marine Notice 2-011-37).",
+      "LIB": "Liberia: immersion suits and thermal protective aids are covered by Marine Notice SAF-007."
+    },
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "FIXED_GAS_CONTENT_CHECK",
+    "appliesToTypeKeys": [
+      "FFE_FIXED_CO2_SYSTEM",
+      "FFE_CO2_CYLINDER_BANK",
+      "FFE_DRY_POWDER_SYSTEM",
+      "FFE_LOCAL_APPLICATION_SYSTEM",
+      "FFE_CO2_RELEASE_STATION",
+      "FFE_GALLEY_HOOD_SYSTEM"
+    ],
+    "titleEn": "Fixed gas fire-extinguishing system — content check",
+    "titleTr": "Sabit gazlı söndürme sistemi — muhteva (dolum) kontrolü",
+    "descriptionEn": "Check the content of the fixed gas fire-extinguishing system at intervals of 2 years, by weighing or by an approved level-indication method, and record the result cylinder by cylinder.",
+    "intervalKind": "BIENNIAL",
+    "intervalMonths": 24,
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 0,
+    "performedBy": "AUTHORISED_SERVICE_PROVIDER",
+    "evidenceRequired": [
+      "Service report",
+      "Per-cylinder weight record"
+    ],
+    "regulationRefs": [
+      "MSC1_CIRC1432_FIXED_GAS",
+      "MSC1_CIRC1318_CO2",
+      "FSS_CH5_FIXED_GAS"
+    ],
+    "sourceRef": "MSC.1/Circ.1432, MSC.1/Circ.1318/Rev.1",
+    "flagOverrides": {
+      "RMI": "RMI: fixed-gas cylinders are to hold not less than 95% of the nominal charge (Marine Notice 2-011-14).",
+      "LIB": "Liberia: fixed CO2 cylinders are to hold not less than 90% of the nominal charge (Marine Notice FIR-001).",
+      "PAN": "Panama: external technicians must provide an inspection report on completion; provider certificates are valid 3 years (MMC-281)."
+    },
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "FE_FIVE_YEARLY_DISCHARGE",
+    "appliesToTypeKeys": [
+      "FFE_PORTABLE_EXTINGUISHER",
+      "FFE_WHEELED_EXTINGUISHER"
+    ],
+    "titleEn": "Fire extinguisher — five-yearly test discharge",
+    "titleTr": "Yangın söndürücü — beş yıllık test boşaltımı",
+    "descriptionEn": "At intervals of 5 years, at least one extinguisher of each type manufactured in the same year is discharged as a test, at a service facility.",
+    "intervalKind": "FIVE_YEARLY",
+    "intervalMonths": 60,
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 0,
+    "performedBy": "SHORE_FACILITY",
+    "evidenceRequired": [
+      "Service report",
+      "Test record"
+    ],
+    "regulationRefs": [
+      "MSC1_CIRC1432_DISCHARGE_TEST",
+      "FSS_CH4_EXTINGUISHERS"
+    ],
+    "sourceRef": "MSC.1/Circ.1432",
+    "flagOverrides": {
+      "RMI": "RMI: maintenance and inspection of fire-protection systems and appliances is covered by Marine Notice 2-011-14.",
+      "PAN": "Panama: external technicians must provide an inspection report on completion; provider certificates are valid 3 years (MMC-281)."
+    },
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "FD_FIVE_YEARLY_FULL_TEST",
+    "appliesToTypeKeys": [
+      "FFE_SMOKE_DETECTOR",
+      "FFE_HEAT_DETECTOR",
+      "FFE_FLAME_DETECTOR",
+      "FFE_SAMPLE_EXTRACTION_SMOKE_DETECTION",
+      "FFE_FIRE_DETECTION_PANEL",
+      "FFE_MANUAL_CALL_POINT"
+    ],
+    "titleEn": "Fire detectors — five-yearly test of all detectors",
+    "titleTr": "Yangın dedektörleri — beş yılda bir tüm dedektörlerin testi",
+    "descriptionEn": "All fire detectors are tested at intervals of 5 years by a service facility, using equipment producing hot air, smoke or aerosol as appropriate to the detector type.",
+    "intervalKind": "FIVE_YEARLY",
+    "intervalMonths": 60,
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 0,
+    "performedBy": "SHORE_FACILITY",
+    "evidenceRequired": [
+      "Service report",
+      "Detector-by-detector test list"
+    ],
+    "regulationRefs": [
+      "MSC1_CIRC1432_DETECTION",
+      "FSS_CH9_DETECTION"
+    ],
+    "sourceRef": "MSC.1/Circ.1432",
+    "flagOverrides": {
+      "RMI": "RMI: maintenance and inspection of fire-protection systems and appliances is covered by Marine Notice 2-011-14.",
+      "PAN": "Panama: external technicians must provide an inspection report on completion; provider certificates are valid 3 years (MMC-281)."
+    },
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "SCBA_CYLINDER_HYDROSTATIC_TEST",
+    "appliesToTypeKeys": [
+      "FFE_SCBA_SET",
+      "FFE_SCBA_SPARE_CYLINDER",
+      "FFE_EEBD",
+      "FFE_FIREMANS_OUTFIT"
+    ],
+    "titleEn": "SCBA / EEBD cylinder — five-yearly hydrostatic test",
+    "titleTr": "SCBA / EEBD tüpü — beş yıllık hidrostatik test",
+    "descriptionEn": "Breathing-apparatus and EEBD cylinders are hydrostatically tested at intervals of 5 years at a certified facility. The test date is stamped on the cylinder.",
+    "intervalKind": "FIVE_YEARLY",
+    "intervalMonths": 60,
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 0,
+    "performedBy": "SHORE_FACILITY",
+    "evidenceRequired": [
+      "Test certificate",
+      "Cylinder stamp"
+    ],
+    "regulationRefs": [
+      "MSC1_CIRC1432_SCBA",
+      "FSS_CH3_PERSONNEL_PROTECTION"
+    ],
+    "sourceRef": "MSC.1/Circ.1432",
+    "flagOverrides": {
+      "RMI": "RMI: maintenance and inspection of fire-protection systems and appliances is covered by Marine Notice 2-011-14.",
+      "PAN": "Panama: external technicians must provide an inspection report on completion; provider certificates are valid 3 years (MMC-281)."
+    },
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "RG_FIVE_YEARLY_OVERLOAD_TEST",
+    "appliesToTypeKeys": [
+      "LSA_ONLOAD_RELEASE_GEAR",
+      "LSA_HYDROSTATIC_INTERLOCK",
+      "LSA_LIFEBOAT_DAVIT",
+      "LSA_FREEFALL_LAUNCHING_APPLIANCE",
+      "LSA_LIFEBOAT_WINCH",
+      "LSA_RESCUE_BOAT_DAVIT",
+      "LSA_LIFEBOAT_TOTALLY_ENCLOSED",
+      "LSA_LIFEBOAT_PARTIALLY_ENCLOSED",
+      "LSA_LIFEBOAT_FREEFALL",
+      "LSA_RESCUE_BOAT",
+      "LSA_FAST_RESCUE_BOAT"
+    ],
+    "titleEn": "On-load release gear — five-yearly overload operational test at 1.1 × fully-loaded mass",
+    "titleTr": "Yük altında bırakma donanımı — beş yıllık 1,1 × tam yüklü kütle ile aşırı yük testi",
+    "descriptionEn": "At intervals of 5 years the on-load release gear is overhauled and subjected to an overload operational test at 1.1 times the fully-loaded mass of the survival craft, by an authorised provider.",
+    "intervalKind": "FIVE_YEARLY",
+    "intervalMonths": 60,
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 0,
+    "performedBy": "AUTHORISED_SERVICE_PROVIDER",
+    "evidenceRequired": [
+      "Service report",
+      "Test certificate",
+      "Statement of fitness"
+    ],
+    "regulationRefs": [
+      "MSC_402_96_FIVE_YEARLY",
+      "MSC_402_96_ANNUAL"
+    ],
+    "sourceRef": "MSC.402(96)",
+    "flagOverrides": {
+      "RMI": "RMI: the five-yearly overload test and overhaul is to be carried out with an RO surveyor in attendance (Marine Notice 2-011-37).",
+      "LIB": "Liberia: use a provider from the Administration's published list of authorised lifeboat service providers (Marine Notice SAF-005).",
+      "PAN": "Panama: authorised service providers for lifeboats, rescue boats, launching appliances and release gear are governed by MMC-258."
+    },
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "WINCH_BRAKE_DYNAMIC_TEST",
+    "appliesToTypeKeys": [
+      "LSA_LIFEBOAT_WINCH",
+      "LSA_LIFEBOAT_DAVIT",
+      "LSA_RESCUE_BOAT_DAVIT"
+    ],
+    "titleEn": "Winch brake — five-yearly dynamic test",
+    "titleTr": "Vinç freni — beş yıllık dinamik test",
+    "descriptionEn": "The launching appliance winch brake is subjected to a dynamic test at intervals of 5 years, by an authorised provider, in accordance with MSC.402(96).",
+    "intervalKind": "FIVE_YEARLY",
+    "intervalMonths": 60,
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 0,
+    "performedBy": "AUTHORISED_SERVICE_PROVIDER",
+    "evidenceRequired": [
+      "Service report",
+      "Test certificate"
+    ],
+    "regulationRefs": [
+      "MSC_402_96_FIVE_YEARLY",
+      "MSC_402_96_ANNUAL"
+    ],
+    "sourceRef": "MSC.402(96)",
+    "flagOverrides": {
+      "RMI": "RMI: service/inspection reports to be countersigned by the Company representative or the Master (Marine Notice 2-011-37).",
+      "PAN": "Panama: authorised service providers for lifeboats, rescue boats, launching appliances and release gear are governed by MMC-258."
+    },
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "FALLS_END_FOR_END_RENEWAL",
+    "appliesToTypeKeys": [
+      "LSA_FALLS_WIRE_ROPES",
+      "LSA_LIFEBOAT_DAVIT",
+      "LSA_RESCUE_BOAT_DAVIT",
+      "LSA_LIFEBOAT_WINCH"
+    ],
+    "titleEn": "Falls — turned end-for-end or renewed",
+    "titleTr": "Fals telleri — baş-kıç değiştirme veya yenileme",
+    "descriptionEn": "Falls used in launching are turned end-for-end and renewed at the intervals required by SOLAS III/20 and the maker's instructions. This app does not assert those intervals — read them from the current text of SOLAS III/20 and from the maker's manual, and enter the resulting date.",
+    "intervalKind": "EVENT_DRIVEN",
+    "intervalMonths": null,
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 0,
+    "performedBy": "SHIP_STAFF_TRAINED",
+    "evidenceRequired": [
+      "Log book entry, signed",
+      "Service report where a provider is used"
+    ],
+    "regulationRefs": [
+      "SOLAS_III_20_FALLS",
+      "LSA_FALLS_CARD"
+    ],
+    "sourceRef": "SOLAS III/20",
+    "flagOverrides": {
+      "RMI": "RMI: bulldog grips are not accepted on load-bearing wire terminations (Marine Notice 2-011-37)."
+    },
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "FE_TEN_YEARLY_HYDROSTATIC",
+    "appliesToTypeKeys": [
+      "FFE_PORTABLE_EXTINGUISHER",
+      "FFE_WHEELED_EXTINGUISHER"
+    ],
+    "titleEn": "Fire extinguisher — ten-yearly hydrostatic test",
+    "titleTr": "Yangın söndürücü — on yıllık hidrostatik test",
+    "descriptionEn": "Extinguisher bodies are hydrostatically tested at intervals of 10 years by a facility certified by a government agency or a recognised organisation.",
+    "intervalKind": "TEN_YEARLY",
+    "intervalMonths": 120,
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 0,
+    "performedBy": "SHORE_FACILITY",
+    "evidenceRequired": [
+      "Test certificate",
+      "Body stamp / label"
+    ],
+    "regulationRefs": [
+      "MSC1_CIRC1432_HYDROSTATIC",
+      "FSS_CH4_EXTINGUISHERS"
+    ],
+    "sourceRef": "MSC.1/Circ.1432",
+    "flagOverrides": {
+      "RMI": "RMI: the ten-yearly hydrostatic test is to be done by a facility certified by a government agency or an RO (Marine Notice 2-011-14).",
+      "PAN": "Panama: external technicians must provide an inspection report on completion; provider certificates are valid 3 years (MMC-281)."
+    },
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "FIXED_SYSTEM_HOSE_REPLACEMENT",
+    "appliesToTypeKeys": [
+      "FFE_FIXED_CO2_SYSTEM",
+      "FFE_CO2_CYLINDER_BANK",
+      "FFE_DRY_POWDER_SYSTEM",
+      "FFE_LOCAL_APPLICATION_SYSTEM",
+      "FFE_FIXED_FOAM_SYSTEM",
+      "FFE_WATER_MIST_SYSTEM",
+      "FFE_DECK_FOAM_SYSTEM",
+      "FFE_GALLEY_HOOD_SYSTEM"
+    ],
+    "titleEn": "Fixed system flexible hoses — ten-yearly replacement",
+    "titleTr": "Sabit sistem esnek hortumları — on yılda bir değişim",
+    "descriptionEn": "Flexible hoses in fixed fire-extinguishing systems are replaced at intervals of 10 years, or earlier if the maker requires it.",
+    "intervalKind": "TEN_YEARLY",
+    "intervalMonths": 120,
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 0,
+    "performedBy": "SHORE_FACILITY",
+    "evidenceRequired": [
+      "Service report",
+      "Replacement record"
+    ],
+    "regulationRefs": [
+      "MSC1_CIRC1432_FIXED_GAS",
+      "MSC1_CIRC1318_CO2"
+    ],
+    "sourceRef": "MSC.1/Circ.1432",
+    "flagOverrides": {
+      "PAN": "Panama: external technicians must provide an inspection report on completion; provider certificates are valid 3 years (MMC-281)."
+    },
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "CO2_CYLINDER_HYDROSTATIC_SAMPLING",
+    "appliesToTypeKeys": [
+      "FFE_FIXED_CO2_SYSTEM",
+      "FFE_CO2_CYLINDER_BANK"
+    ],
+    "titleEn": "CO2 cylinders — hydrostatic test sampling",
+    "titleTr": "CO2 tüpleri — hidrostatik test numunelemesi",
+    "descriptionEn": "Hydrostatic testing of CO2 cylinders is done on a sampling basis: 10% of the bank at 10 years, escalating to 100% at 20 years. Record which cylinders were tested at each sampling so the escalation can be evidenced.",
+    "intervalKind": "TEN_YEARLY",
+    "intervalMonths": 120,
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 0,
+    "performedBy": "SHORE_FACILITY",
+    "evidenceRequired": [
+      "Test certificate",
+      "Cylinder-by-cylinder record"
+    ],
+    "regulationRefs": [
+      "MSC1_CIRC1318_CO2",
+      "MSC1_CIRC1318_SAMPLING"
+    ],
+    "sourceRef": "MSC.1/Circ.1318/Rev.1",
+    "flagOverrides": {
+      "RMI": "RMI: fixed-gas cylinders are to hold not less than 95% of the nominal charge (Marine Notice 2-011-14).",
+      "LIB": "Liberia: fixed CO2 cylinders are to hold not less than 90% of the nominal charge (Marine Notice FIR-001)."
+    },
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "PYRO_EXPIRY_RENEWAL",
+    "appliesToTypeKeys": [
+      "LSA_ROCKET_PARACHUTE_FLARE",
+      "LSA_HAND_FLARE",
+      "LSA_BUOYANT_SMOKE_SIGNAL",
+      "LSA_LINE_THROWING_APPLIANCE",
+      "LSA_LIFEBUOY_SMOKE",
+      "LSA_LIFEBUOY_LIGHT_AND_SMOKE"
+    ],
+    "titleEn": "Pyrotechnics — renewal at the marked expiry",
+    "titleTr": "Piroteknikler — üzerinde yazılı son kullanma tarihinde yenileme",
+    "descriptionEn": "Pyrotechnic signals are renewed at the expiry date marked by the maker. Read the date from the item itself and enter it — do not assume a standard shelf life.",
+    "intervalKind": "EVENT_DRIVEN",
+    "intervalMonths": null,
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 0,
+    "performedBy": "SHIP_STAFF",
+    "evidenceRequired": [
+      "Renewal record",
+      "Landing receipt for the expired stock"
+    ],
+    "regulationRefs": [
+      "SOLAS_III_PYROTECHNICS",
+      "LSA_CODE_CH3_VISUAL_SIGNALS"
+    ],
+    "sourceRef": "SOLAS III",
+    "flagOverrides": null,
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "EPIRB_ANNUAL_PERFORMANCE_TEST",
+    "appliesToTypeKeys": [
+      "LSA_EPIRB"
+    ],
+    "titleEn": "EPIRB — annual performance test, battery and hydrostatic release",
+    "titleTr": "EPIRB — yıllık performans testi, batarya ve hidrostatik bırakma",
+    "descriptionEn": "The EPIRB is subject to an annual performance test. The battery and the hydrostatic release unit are renewed at the intervals stated by the maker and marked on the unit.",
+    "intervalKind": "ANNUAL",
+    "intervalMonths": 12,
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 0,
+    "performedBy": "SHIP_STAFF",
+    "evidenceRequired": [
+      "Test record",
+      "Shore test report",
+      "Battery/HRU expiry marking"
+    ],
+    "regulationRefs": [
+      "SOLAS_IV_EPIRB",
+      "LSA_EPIRB_CARD"
+    ],
+    "sourceRef": "SOLAS IV",
+    "flagOverrides": null,
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "FE_CO2_CYLINDER_WEIGHT_CHECK",
+    "appliesToTypeKeys": [
+      "FFE_PORTABLE_EXTINGUISHER",
+      "FFE_WHEELED_EXTINGUISHER"
+    ],
+    "titleEn": "CO2 extinguisher — cylinder weight check",
+    "titleTr": "CO2 söndürücü — tüp ağırlık kontrolü",
+    "descriptionEn": "Weigh the CO2 extinguisher and compare against the tare and charged weights stamped on the body; recharge if the loss exceeds the maker's limit. Applies when the extinguishing medium is CO2. This app does not assert an interval for this check — take it from the maker's manual and from the vessel's maintenance plan under SOLAS II-2/14, and record it here.",
+    "intervalKind": "EVENT_DRIVEN",
+    "intervalMonths": null,
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 0,
+    "performedBy": "SHIP_STAFF",
+    "evidenceRequired": [
+      "Weight record",
+      "Signed checklist"
+    ],
+    "regulationRefs": [
+      "MSC1_CIRC1432_ANNUAL_SERVICE",
+      "SOLAS_II2_14_MAINTENANCE_PLAN",
+      "FSS_CH4_EXTINGUISHERS"
+    ],
+    "sourceRef": "MSC.1/Circ.1432",
+    "flagOverrides": {
+      "RMI": "RMI: maintenance and inspection of fire-protection systems and appliances is covered by Marine Notice 2-011-14.",
+      "PAN": "Panama: the onboard maintenance plan must state which tasks are performed by the crew (advanced fire-fighting trained) and which require specially trained persons (MMC-281)."
+    },
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  },
+  {
+    "key": "FE_POWDER_CAKING_CHECK",
+    "appliesToTypeKeys": [
+      "FFE_PORTABLE_EXTINGUISHER",
+      "FFE_WHEELED_EXTINGUISHER"
+    ],
+    "titleEn": "Dry powder extinguisher — powder condition / caking check",
+    "titleTr": "Kuru kimyevi tozlu söndürücü — toz durumu / kekleşme kontrolü",
+    "descriptionEn": "Check the dry powder charge for caking and free flow, and check the propellant cartridge where fitted. Applies when the extinguishing medium is a dry powder. This app does not assert an interval for this check — take it from the maker's manual and from the vessel's maintenance plan under SOLAS II-2/14, and record it here.",
+    "intervalKind": "EVENT_DRIVEN",
+    "intervalMonths": null,
+    "toleranceDaysBefore": 0,
+    "toleranceDaysAfter": 0,
+    "performedBy": "SHIP_STAFF",
+    "evidenceRequired": [
+      "Signed checklist",
+      "Service report where opened by a provider"
+    ],
+    "regulationRefs": [
+      "MSC1_CIRC1432_ANNUAL_SERVICE",
+      "SOLAS_II2_14_MAINTENANCE_PLAN",
+      "FSS_CH4_EXTINGUISHERS"
+    ],
+    "sourceRef": "MSC.1/Circ.1432",
+    "flagOverrides": {
+      "RMI": "RMI: maintenance and inspection of fire-protection systems and appliances is covered by Marine Notice 2-011-14.",
+      "PAN": "Panama: the onboard maintenance plan must state which tasks are performed by the crew (advanced fire-fighting trained) and which require specially trained persons (MMC-281)."
+    },
+    "verificationStatus": "UNVERIFIED",
+    "lastReviewed": "2026-08-29",
+    "isUserDefined": false
+  }
+]

@@ -1,0 +1,695 @@
+[
+  {
+    "key": "LSS001",
+    "nameEn": "Lifeboat",
+    "nameTr": "Can filikası",
+    "series": "LSS",
+    "mediaTintable": false
+  },
+  {
+    "key": "LSS002",
+    "nameEn": "Rescue boat",
+    "nameTr": "Kurtarma botu",
+    "series": "LSS",
+    "mediaTintable": false
+  },
+  {
+    "key": "LSS003",
+    "nameEn": "Liferaft",
+    "nameTr": "Can salı",
+    "series": "LSS",
+    "mediaTintable": false
+  },
+  {
+    "key": "LSS004",
+    "nameEn": "Davit-launched liferaft",
+    "nameTr": "Mataforalı can salı",
+    "series": "LSS",
+    "mediaTintable": false
+  },
+  {
+    "key": "LSS005",
+    "nameEn": "Lifebuoy",
+    "nameTr": "Can simidi",
+    "series": "LSS",
+    "mediaTintable": false
+  },
+  {
+    "key": "LSS006",
+    "nameEn": "Lifebuoy with line",
+    "nameTr": "Halatlı can simidi",
+    "series": "LSS",
+    "mediaTintable": false
+  },
+  {
+    "key": "LSS007",
+    "nameEn": "Lifebuoy with light",
+    "nameTr": "Işıklı can simidi",
+    "series": "LSS",
+    "mediaTintable": false
+  },
+  {
+    "key": "LSS008",
+    "nameEn": "Lifebuoy with line and light",
+    "nameTr": "Halatlı ve ışıklı can simidi",
+    "series": "LSS",
+    "mediaTintable": false
+  },
+  {
+    "key": "LSS008_1",
+    "nameEn": "Lifebuoy with light and smoke",
+    "nameTr": "Işıklı ve dumanlı can simidi",
+    "series": "LSS",
+    "mediaTintable": false
+  },
+  {
+    "key": "LSS009",
+    "nameEn": "Lifejacket",
+    "nameTr": "Can yeleği",
+    "series": "LSS",
+    "mediaTintable": false
+  },
+  {
+    "key": "LSS010",
+    "nameEn": "Child's lifejacket",
+    "nameTr": "Çocuk can yeleği",
+    "series": "LSS",
+    "mediaTintable": false
+  },
+  {
+    "key": "LSS011",
+    "nameEn": "Infant's lifejacket",
+    "nameTr": "Bebek can yeleği",
+    "series": "LSS",
+    "mediaTintable": false
+  },
+  {
+    "key": "LSS012",
+    "nameEn": "SART",
+    "nameTr": "SART",
+    "series": "LSS",
+    "mediaTintable": false
+  },
+  {
+    "key": "LSS013",
+    "nameEn": "Survival craft distress signals",
+    "nameTr": "Tehlike işaret fişekleri",
+    "series": "LSS",
+    "mediaTintable": false
+  },
+  {
+    "key": "LSS014",
+    "nameEn": "Rocket parachute flare",
+    "nameTr": "Paraşütlü işaret fişeği",
+    "series": "LSS",
+    "mediaTintable": false
+  },
+  {
+    "key": "LSS015",
+    "nameEn": "Line-throwing appliance",
+    "nameTr": "Halat atma aygıtı",
+    "series": "LSS",
+    "mediaTintable": false
+  },
+  {
+    "key": "LSS016",
+    "nameEn": "Two-way VHF radiotelephone",
+    "nameTr": "Çift yönlü VHF telsiz",
+    "series": "LSS",
+    "mediaTintable": false
+  },
+  {
+    "key": "LSS017",
+    "nameEn": "EPIRB",
+    "nameTr": "EPIRB",
+    "series": "LSS",
+    "mediaTintable": false
+  },
+  {
+    "key": "LSS018",
+    "nameEn": "Embarkation ladder",
+    "nameTr": "Biniş merdiveni",
+    "series": "LSS",
+    "mediaTintable": false
+  },
+  {
+    "key": "LSS019",
+    "nameEn": "Marine evacuation slide",
+    "nameTr": "Denize tahliye kaydırağı",
+    "series": "LSS",
+    "mediaTintable": false
+  },
+  {
+    "key": "LSS020",
+    "nameEn": "Marine evacuation chute",
+    "nameTr": "Denize tahliye tüneli",
+    "series": "LSS",
+    "mediaTintable": false
+  },
+  {
+    "key": "LSS021",
+    "nameEn": "Immersion suit",
+    "nameTr": "Dalma giysisi",
+    "series": "LSS",
+    "mediaTintable": false
+  },
+  {
+    "key": "LSS022",
+    "nameEn": "Liferaft knife",
+    "nameTr": "Can salı bıçağı",
+    "series": "LSS",
+    "mediaTintable": false
+  },
+  {
+    "key": "FES001",
+    "nameEn": "Fire extinguisher",
+    "nameTr": "Yangın söndürücü",
+    "series": "FES",
+    "mediaTintable": true
+  },
+  {
+    "key": "FES002",
+    "nameEn": "Fire hose reel",
+    "nameTr": "Hortum makarası",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "FES003",
+    "nameEn": "Fire locker",
+    "nameTr": "Yangın dolabı",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "FES004",
+    "nameEn": "Fire alarm call point",
+    "nameTr": "Yangın alarm butonu",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "FES005",
+    "nameEn": "Fixed fire-extinguishing battery",
+    "nameTr": "Sabit söndürme bataryası",
+    "series": "FES",
+    "mediaTintable": true
+  },
+  {
+    "key": "FES006",
+    "nameEn": "Wheeled fire extinguisher",
+    "nameTr": "Tekerlekli söndürücü",
+    "series": "FES",
+    "mediaTintable": true
+  },
+  {
+    "key": "FES007",
+    "nameEn": "Portable foam applicator",
+    "nameTr": "Portatif köpük aplikatörü",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "FES008",
+    "nameEn": "Water fog applicator",
+    "nameTr": "Su sisi aplikatörü",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "FES009",
+    "nameEn": "Fixed fire-extinguishing installation",
+    "nameTr": "Sabit söndürme tesisatı",
+    "series": "FES",
+    "mediaTintable": true
+  },
+  {
+    "key": "FES010",
+    "nameEn": "Fixed fire-extinguishing bottle",
+    "nameTr": "Sabit söndürme tüpü",
+    "series": "FES",
+    "mediaTintable": true
+  },
+  {
+    "key": "FES011",
+    "nameEn": "Remote release station",
+    "nameTr": "Uzaktan salım istasyonu",
+    "series": "FES",
+    "mediaTintable": true
+  },
+  {
+    "key": "FES012",
+    "nameEn": "Fire monitor",
+    "nameTr": "Yangın monitörü",
+    "series": "FES",
+    "mediaTintable": true
+  },
+  {
+    "key": "APP_FIRE_BLANKET",
+    "nameEn": "Fire blanket",
+    "nameTr": "Yangın battaniyesi",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_FIRE_HYDRANT",
+    "nameEn": "Fire hydrant",
+    "nameTr": "Yangın hidrantı",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_FIRE_HOSE",
+    "nameEn": "Fire hose",
+    "nameTr": "Yangın hortumu",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_FIRE_NOZZLE",
+    "nameEn": "Fire nozzle",
+    "nameTr": "Yangın lülesi",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_FF_RADIO",
+    "nameEn": "Firefighter's radio",
+    "nameTr": "İtfaiyeci telsizi",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_FIRE_ALARM_BELL",
+    "nameEn": "Fire alarm bell",
+    "nameTr": "Yangın alarm zili",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_FIRE_ALARM_LIGHT",
+    "nameEn": "Fire alarm flashing light",
+    "nameTr": "Flaşörlü yangın alarmı",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_DETECTION_PANEL",
+    "nameEn": "Fire detection panel",
+    "nameTr": "Yangın algılama paneli",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_SMOKE_DETECTOR",
+    "nameEn": "Smoke detector",
+    "nameTr": "Duman dedektörü",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_HEAT_DETECTOR",
+    "nameEn": "Heat detector",
+    "nameTr": "Isı dedektörü",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_FLAME_DETECTOR",
+    "nameEn": "Flame detector",
+    "nameTr": "Alev dedektörü",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_GAS_DETECTOR",
+    "nameEn": "Gas detector",
+    "nameTr": "Gaz dedektörü",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_FIRE_PUMP",
+    "nameEn": "Fire pump",
+    "nameTr": "Yangın pompası",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_EMERGENCY_FIRE_PUMP",
+    "nameEn": "Emergency fire pump",
+    "nameTr": "Acil yangın pompası",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_ISC",
+    "nameEn": "International shore connection",
+    "nameTr": "Uluslararası sahil bağlantısı",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_SECTION_VALVE",
+    "nameEn": "Section valve",
+    "nameTr": "Seksiyon valfi",
+    "series": "FES",
+    "mediaTintable": true
+  },
+  {
+    "key": "APP_SPRINKLER",
+    "nameEn": "Sprinkler system",
+    "nameTr": "Sprinkler sistemi",
+    "series": "FES",
+    "mediaTintable": true
+  },
+  {
+    "key": "APP_CO2_BANK",
+    "nameEn": "CO2 cylinder bank",
+    "nameTr": "CO2 tüp bataryası",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_FOAM_SYSTEM",
+    "nameEn": "Foam system",
+    "nameTr": "Köpük sistemi",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_INERT_GAS",
+    "nameEn": "Inert gas system",
+    "nameTr": "İnert gaz sistemi",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_GALLEY_HOOD",
+    "nameEn": "Galley hood system",
+    "nameTr": "Kuzine davlumbaz söndürme",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_FIRE_DOOR",
+    "nameEn": "Fire door",
+    "nameTr": "Yangın kapısı",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_FIRE_DAMPER",
+    "nameEn": "Fire damper",
+    "nameTr": "Yangın damperi",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_VENT_STOP",
+    "nameEn": "Ventilation stop",
+    "nameTr": "Havalandırma stobu",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_QUICK_CLOSING_VALVE",
+    "nameEn": "Quick-closing valve",
+    "nameTr": "Hızlı kapama valfi",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_SCBA",
+    "nameEn": "SCBA set",
+    "nameTr": "Solunum cihazı (SCBA)",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_FIREMANS_OUTFIT",
+    "nameEn": "Fireman's outfit",
+    "nameTr": "İtfaiyeci teçhizatı",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_SAFETY_LAMP",
+    "nameEn": "Safety lamp",
+    "nameTr": "Emniyet lambası",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_FIRE_AXE",
+    "nameEn": "Fireman's axe",
+    "nameTr": "İtfaiyeci baltası",
+    "series": "FES",
+    "mediaTintable": false
+  },
+  {
+    "key": "MES001",
+    "nameEn": "Muster station",
+    "nameTr": "Toplanma istasyonu",
+    "series": "MES",
+    "mediaTintable": false
+  },
+  {
+    "key": "MES002",
+    "nameEn": "Emergency exit (left)",
+    "nameTr": "Acil çıkış (sol)",
+    "series": "MES",
+    "mediaTintable": false
+  },
+  {
+    "key": "MES003",
+    "nameEn": "Emergency exit (right)",
+    "nameTr": "Acil çıkış (sağ)",
+    "series": "MES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_ARROW",
+    "nameEn": "Directional arrow",
+    "nameTr": "Yön oku",
+    "series": "MES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_LLL",
+    "nameEn": "Low-location lighting",
+    "nameTr": "Alçak konum aydınlatması",
+    "series": "MES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_ESCAPE_TRUNK",
+    "nameEn": "Emergency escape trunk",
+    "nameTr": "Acil kaçış trankı",
+    "series": "MES",
+    "mediaTintable": false
+  },
+  {
+    "key": "EES001",
+    "nameEn": "First aid",
+    "nameTr": "İlk yardım",
+    "series": "EES",
+    "mediaTintable": false
+  },
+  {
+    "key": "EES002",
+    "nameEn": "Emergency telephone",
+    "nameTr": "Acil telefon",
+    "series": "EES",
+    "mediaTintable": false
+  },
+  {
+    "key": "EES003",
+    "nameEn": "Eyewash",
+    "nameTr": "Göz yıkama istasyonu",
+    "series": "EES",
+    "mediaTintable": false
+  },
+  {
+    "key": "EES004",
+    "nameEn": "Safety shower",
+    "nameTr": "Emniyet duşu",
+    "series": "EES",
+    "mediaTintable": false
+  },
+  {
+    "key": "EES005",
+    "nameEn": "Stretcher",
+    "nameTr": "Sedye",
+    "series": "EES",
+    "mediaTintable": false
+  },
+  {
+    "key": "EES006",
+    "nameEn": "Medical grab bag",
+    "nameTr": "Tıbbi acil çantası",
+    "series": "EES",
+    "mediaTintable": false
+  },
+  {
+    "key": "EES007",
+    "nameEn": "Oxygen resuscitator",
+    "nameTr": "Oksijen resüsitatörü",
+    "series": "EES",
+    "mediaTintable": false
+  },
+  {
+    "key": "EES008",
+    "nameEn": "EEBD",
+    "nameTr": "EEBD",
+    "series": "EES",
+    "mediaTintable": false
+  },
+  {
+    "key": "EES009",
+    "nameEn": "Doctor",
+    "nameTr": "Doktor",
+    "series": "EES",
+    "mediaTintable": false
+  },
+  {
+    "key": "EES010",
+    "nameEn": "AED",
+    "nameTr": "OED (AED)",
+    "series": "EES",
+    "mediaTintable": false
+  },
+  {
+    "key": "EES012",
+    "nameEn": "General alarm",
+    "nameTr": "Genel alarm",
+    "series": "EES",
+    "mediaTintable": false
+  },
+  {
+    "key": "EES013",
+    "nameEn": "Break to obtain access",
+    "nameTr": "Erişim için camı kır",
+    "series": "EES",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_EMERGENCY_GENERATOR",
+    "nameEn": "Emergency generator",
+    "nameTr": "Acil jeneratör",
+    "series": "APP",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_EMERGENCY_SWITCHBOARD",
+    "nameEn": "Emergency switchboard",
+    "nameTr": "Acil durum tablosu",
+    "series": "APP",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_BATTERY",
+    "nameEn": "Emergency battery",
+    "nameTr": "Acil durum aküsü",
+    "series": "APP",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_WATERTIGHT_DOOR",
+    "nameEn": "Watertight door",
+    "nameTr": "Su geçirmez kapı",
+    "series": "APP",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_SKYLIGHT",
+    "nameEn": "Skylight closing device",
+    "nameTr": "Aydınlık kapama donanımı",
+    "series": "APP",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_FIRE_CONTROL_PLAN",
+    "nameEn": "Fire control plan",
+    "nameTr": "Yangın kontrol planı",
+    "series": "APP",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_MUSTER_LIST",
+    "nameEn": "Muster list",
+    "nameTr": "Role cetveli",
+    "series": "APP",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_DOCUMENT",
+    "nameEn": "Document / manual",
+    "nameTr": "Doküman / el kitabı",
+    "series": "APP",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_SOPEP",
+    "nameEn": "SOPEP locker",
+    "nameTr": "SOPEP dolabı",
+    "series": "APP",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_HRU",
+    "nameEn": "Hydrostatic release unit",
+    "nameTr": "Hidrostatik bırakma ünitesi",
+    "series": "APP",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_PILOT_LADDER",
+    "nameEn": "Pilot ladder",
+    "nameTr": "Pilot çarmıhı",
+    "series": "APP",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_DAVIT",
+    "nameEn": "Davit / launching appliance",
+    "nameTr": "Matafora / indirme donanımı",
+    "series": "APP",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_WINCH",
+    "nameEn": "Winch",
+    "nameTr": "Vinç",
+    "series": "APP",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_RELEASE_GEAR",
+    "nameEn": "On-load release gear",
+    "nameTr": "Yük altında bırakma donanımı",
+    "series": "APP",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_FALLS",
+    "nameEn": "Falls / wire ropes",
+    "nameTr": "Fals telleri",
+    "series": "APP",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_ENGINE",
+    "nameEn": "Boat engine",
+    "nameTr": "Bot motoru",
+    "series": "APP",
+    "mediaTintable": false
+  },
+  {
+    "key": "APP_GENERIC",
+    "nameEn": "Generic equipment",
+    "nameTr": "Genel ekipman",
+    "series": "APP",
+    "mediaTintable": false
+  }
+]
