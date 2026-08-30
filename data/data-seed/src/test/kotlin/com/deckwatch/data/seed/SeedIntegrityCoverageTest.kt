@@ -75,8 +75,26 @@ class SeedIntegrityCoverageTest {
         assertThat(withNotes.all { type -> type.technicalNotes.all { it.heading.isNotBlank() } }).isTrue()
     }
 
+    @Test
+    fun `the findings an inspection actually raises are carried against the equipment`() = runTest {
+        val bundle = SeedDataSource(ApplicationProvider.getApplicationContext()).loadAll()
+        val byKey = bundle.equipmentTypes.associateBy { it.typeKey }
+
+        // The guide is only useful if the "commonly written up" list is the real one. Spot-check a
+        // few that came from actual vetting reports, on types from three different groups.
+        assertThat(byKey.getValue("FFE_SCBA_SET").commonPscFindings.size).isAtLeast(6)
+        assertThat(byKey.getValue("LSA_LIFEBUOY_LIGHT_AND_SMOKE").commonPscFindings.size).isAtLeast(3)
+        assertThat(byKey.getValue("MCH_EMERGENCY_GENERATOR").commonPscFindings.size).isAtLeast(8)
+
+        // Two types were added because findings referred to equipment the catalogue did not carry.
+        assertThat(byKey).containsKey("MCH_OIL_MIST_DETECTOR")
+        assertThat(byKey).containsKey("FFE_HELIDECK_FIRE_STATION")
+        assertThat(byKey.getValue("MCH_OIL_MIST_DETECTOR").technicalNotes).isNotEmpty()
+        assertThat(byKey.getValue("FFE_HELIDECK_FIRE_STATION").technicalNotes).isNotEmpty()
+    }
+
     private companion object {
         /** Bump with every content change; see the test above for why. */
-        const val BUNDLE_VERSION = 3
+        const val BUNDLE_VERSION = 4
     }
 }

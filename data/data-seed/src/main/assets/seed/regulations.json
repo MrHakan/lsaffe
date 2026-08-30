@@ -7279,5 +7279,253 @@
     "verificationStatus": "UNVERIFIED",
     "flagNotes": {},
     "summaryTr": "Liman devleti kontrolü, gemiyi sefere elverişsiz kılan kusurlar için tutuklama uygular; LSA ve FFE'de tutuklamaların çoğu kısa bir listedeki maddelerden kaynaklanır."
+  },
+  {
+    "refKey": "MSC_581_110_CO2_MONITORING",
+    "section": "SOLAS",
+    "citation": "Res. MSC.581(110)",
+    "title": "Carbon dioxide monitoring for enclosed space entry",
+    "what": "Portable atmosphere testing instruments carried for enclosed space entry are to measure carbon dioxide as well as oxygen, flammable vapour and toxic gases.",
+    "howOften": "Per entry; instruments calibrated to the maker's schedule",
+    "byWhom": "Responsible officer",
+    "evidence": "Entry permit with the CO2 reading, calibration certificates",
+    "detailBullets": [
+      "Carbon dioxide is the hazard the traditional three-gas meter misses: it displaces nothing the oxygen cell notices until the concentration is already dangerous, and it is produced by rusting, by cargo, and by respiration in a poorly ventilated space.",
+      "The instrument needs a dedicated CO2 sensor — commonly infrared — or compatible colorimetric detector tubes; a catalytic or electrochemical multigas set without one cannot measure it.",
+      "The permit and the SMS procedure carry the CO2 reading as a named field, not as a remark.",
+      "Bump-test and calibrate the CO2 channel like any other, and record it.",
+      "A ship carrying no means of measuring CO2 cannot complete a compliant entry permit, however good its procedure looks on paper."
+    ],
+    "appliesToTypeKeys": [
+      "FFE_PORTABLE_GAS_DETECTOR"
+    ],
+    "sourceRef": "IMO Res. MSC.581(110); IMO Res. A.1050(27)",
+    "contentVersion": 4,
+    "lastReviewed": "2026-08-30",
+    "verificationStatus": "UNVERIFIED",
+    "flagNotes": {},
+    "summaryTr": "Kapalı mahal girişi için taşınan portatif ölçüm cihazları; oksijen, yanıcı buhar ve toksik gazların yanı sıra karbondioksiti de ölçebilmelidir."
+  },
+  {
+    "refKey": "PERMIT_TO_WORK_INTEGRITY",
+    "section": "CLASS",
+    "citation": "ISM Code 7; SMS",
+    "title": "Permit to work: the failures inspectors actually find",
+    "what": "A permit is only worth the independence of the person who signs it and the honesty of the record behind it.",
+    "howOften": "Per job",
+    "byWhom": "Master, responsible officer",
+    "evidence": "Permit register, risk assessments, watch schedule",
+    "detailBullets": [
+      "The responsible officer signing an enclosed space entry permit cannot at the same time be the officer of the watch on the bridge — the signature means someone is available to supervise and to raise the alarm.",
+      "Spaces that are not obviously tanks still need a permit: ballast water treatment rooms, paint lockers, chemical sample stores, CO2 rooms, duct keels and chain lockers.",
+      "Working over the side — including boarding a rescue boat off an overside ladder during a drill — needs its own permit and its own risk assessment.",
+      "A permit closed retrospectively, or signed for a period that overlaps the signatory's watch, is a documentary finding on top of the operational one.",
+      "Rescue drill records name the equipment actually deployed on the casualty, including the escape or rescue breathing set fitted to them; a record that says 'casualty recovered' documents nothing."
+    ],
+    "appliesToTypeKeys": [],
+    "sourceRef": "ISM Code; IMO Res. A.1050(27); SOLAS III/19.3.6",
+    "contentVersion": 4,
+    "lastReviewed": "2026-08-30",
+    "verificationStatus": "UNVERIFIED",
+    "flagNotes": {},
+    "summaryTr": "Bir iş izni, ancak imzalayan kişinin bağımsızlığı ve arkasındaki kaydın dürüstlüğü kadar değerlidir."
+  },
+  {
+    "refKey": "DRILL_RECORD_INTEGRITY",
+    "section": "CLASS",
+    "citation": "SOLAS III/19.5; ISM Code",
+    "title": "Drill records that do not survive cross-checking",
+    "what": "A drill record is checked against the engine log, the telegraph printer, the watch schedule and the crew list — and that is where most of them fail.",
+    "howOften": "Every drill",
+    "byWhom": "Master, safety officer",
+    "evidence": "Drill records, engine log book, bell book, crew list",
+    "detailBullets": [
+      "Full crew participation recorded while the engine log shows engineers and ratings overhauling scavenge spaces at the same time.",
+      "A waterborne launching recorded while the deck log and the telegraph printer show the ship at full sea speed.",
+      "The same few people — chief officer, third engineer, the same ABs — lowering and manoeuvring both boats every time, so nobody else gets the practice the drill exists to give.",
+      "Boats lowered to the water and recovered without releasing the falls or starting the engine to manoeuvre clear of the ship's side: that is a lowering, not a drill.",
+      "The honest fix is not a better form. It is rotating the crew through the tasks and recording what was actually done, including what could not be done and why."
+    ],
+    "appliesToTypeKeys": [],
+    "sourceRef": "SOLAS III/19.5; SOLAS II-2/15; ISM Code 12",
+    "contentVersion": 4,
+    "lastReviewed": "2026-08-30",
+    "verificationStatus": "UNVERIFIED",
+    "flagNotes": {},
+    "summaryTr": "Bir tatbikat kaydı; makine jurnali, telgraf yazıcısı, vardiya çizelgesi ve mürettebat listesiyle karşılaştırılır ve çoğu kayıt tam da burada çürür."
+  },
+  {
+    "refKey": "DRILL_SCENARIO_QUALITY",
+    "section": "CLASS",
+    "citation": "SOLAS II-2/15.2.2; III/19.3",
+    "title": "Making a drill teach something",
+    "what": "A drill that repeats the same scenario every month trains nobody; the regulations ask for regular practice in the various emergencies that may occur.",
+    "howOften": "Monthly and as scheduled",
+    "byWhom": "Master, safety officer",
+    "evidence": "Drill plan, drill records, debrief notes",
+    "detailBullets": [
+      "Rotate the scenario and the space: a galley fire every month leaves the pump room, the paint locker and the accommodation untrained.",
+      "Practise the reflexes, not just the muster: crawling below the smoke layer, following the low-location lighting by hand, closing a door behind you.",
+      "Collision and flooding table-top drills need an assumed damage extent, an ingress rate and a stability condition — a generic template with no numbers is a form, not an exercise.",
+      "Debrief: what took longer than expected, what could not be found, what equipment did not work. That list is the value of the drill.",
+      "Rotate who leads. The person who always leads is the person who will be ashore on the day."
+    ],
+    "appliesToTypeKeys": [],
+    "sourceRef": "SOLAS II-2/15.2.2; SOLAS III/19.3; ISM Code 8",
+    "contentVersion": 4,
+    "lastReviewed": "2026-08-30",
+    "verificationStatus": "UNVERIFIED",
+    "flagNotes": {},
+    "summaryTr": "Her ay aynı senaryoyu tekrarlayan bir tatbikat kimseye bir şey öğretmez; mevzuat, olabilecek çeşitli acil durumlarda düzenli pratik ister."
+  },
+  {
+    "refKey": "SOLAS_III_19_4_ONBOARD_TRAINING",
+    "section": "SOLAS",
+    "citation": "SOLAS III/19.4",
+    "title": "On-board training and instruction after joining",
+    "what": "Instruction in the ship's life-saving appliances and in survival at sea is given as soon as possible, and in any case within two weeks of joining.",
+    "howOften": "On joining; within two weeks; then at intervals",
+    "byWhom": "Master, safety officer",
+    "evidence": "Training record signed by the crew member",
+    "detailBullets": [
+      "Where the crew member is on a regularly scheduled rotation, the instruction is given within two weeks of first joining the ship.",
+      "Instruction in the use of the inflatable liferafts is given at intervals of not more than four months, or as the Administration requires.",
+      "Familiarisation with emergency duties comes first, before the ship sails — the two-week window is for the fuller training, not for the basics.",
+      "The classic finding is a joiner who has signed a familiarisation form and cannot demonstrate an SCBA face-seal check or find their muster station.",
+      "Record what was demonstrated, by whom, and that the person did it themselves — a signature against a list of topics proves attendance, not competence."
+    ],
+    "appliesToTypeKeys": [],
+    "sourceRef": "SOLAS III/19.4; STCW A-VI/1",
+    "contentVersion": 4,
+    "lastReviewed": "2026-08-30",
+    "verificationStatus": "UNVERIFIED",
+    "flagNotes": {},
+    "summaryTr": "Geminin can kurtarma teçhizatı ve denizde hayatta kalma eğitimi, mümkün olan en kısa sürede ve her hâlükârda gemiye katılımdan sonraki iki hafta içinde verilir."
+  },
+  {
+    "refKey": "EQUIPMENT_RECORD_RECONCILIATION",
+    "section": "CLASS",
+    "citation": "SOLAS I/12; Form E",
+    "title": "Reconciling the certificate, the safety plan and what is actually on board",
+    "what": "The record of equipment, the ship's safety plan and the physical count have to agree, and reconciling them is the ship's job, not the surveyor's.",
+    "howOften": "Before every survey and at the annual inspection",
+    "byWhom": "Master, safety officer",
+    "evidence": "Form E record of equipment, safety plan, inventory count",
+    "detailBullets": [
+      "Three numbers that disagree — the certificate saying one figure, the plan another, the locker a third — is a finding in itself, whichever is right.",
+      "It is most common with immersion suits, lifejackets and portable extinguishers, because those move and get replaced piecemeal.",
+      "Count physically, against the plan, at the annual inspection, and reconcile before the surveyor does it for you.",
+      "Where the physical count is higher, the surplus still has to be in date, serviced and stowed where the plan says.",
+      "Where a position on the plan has changed, the plan is amended — moving equipment and leaving the plan alone is how the next crew fails to find it."
+    ],
+    "appliesToTypeKeys": [],
+    "sourceRef": "SOLAS I/12 and the Record of Equipment (Form E); ISM Code 10",
+    "contentVersion": 4,
+    "lastReviewed": "2026-08-30",
+    "verificationStatus": "UNVERIFIED",
+    "flagNotes": {},
+    "summaryTr": "Teçhizat kaydı, geminin emniyet planı ve fiziki sayım birbiriyle uyuşmalıdır; bunları uzlaştırmak sörveyörün değil geminin işidir."
+  },
+  {
+    "refKey": "PMS_INTERVAL_COMPLETENESS",
+    "section": "CLASS",
+    "citation": "MSC.1/Circ.1432; ISM Code 10",
+    "title": "Planned maintenance that stops at the yearly interval",
+    "what": "MSC.1/Circ.1432 sets intervals well beyond a year; a maintenance system built only of weekly, monthly and annual routines is incomplete by design.",
+    "howOften": "Reviewed annually",
+    "byWhom": "Superintendent, chief engineer",
+    "evidence": "Planned maintenance system, job history",
+    "detailBullets": [
+      "Two-yearly: blowing through fixed gas distribution piping, and checking release lines for leaks.",
+      "Five-yearly: internal examination and discharge testing of portable extinguishers, and hydrostatic testing of breathing apparatus and other cylinders as their standards require.",
+      "Ten-yearly: hydrostatic testing of a sample of fixed system cylinders, and the longer overhauls of water-mist and other fixed systems.",
+      "The gap shows up as a job that has never once been raised in the ship's whole service life — search the system for routines with no history rather than for overdue ones.",
+      "Manufacturer-mandated routines count too: an extended self-test the maker asks for quarterly is part of the maintenance plan even when no regulation names it."
+    ],
+    "appliesToTypeKeys": [],
+    "sourceRef": "MSC.1/Circ.1432; ISM Code 10",
+    "contentVersion": 4,
+    "lastReviewed": "2026-08-30",
+    "verificationStatus": "UNVERIFIED",
+    "flagNotes": {},
+    "summaryTr": "MSC.1/Circ.1432 bir yıldan çok daha uzun aralıklar da belirler; yalnızca haftalık, aylık ve yıllık rutinlerden kurulu bir bakım sistemi tasarımı gereği eksiktir."
+  },
+  {
+    "refKey": "EMERGENCY_TOWING_FAMILIARISATION",
+    "section": "CLASS",
+    "citation": "SOLAS II-1/3-4; MSC.35(63)",
+    "title": "Knowing where the emergency towing booklet is",
+    "what": "The arrangement is only as good as the crew's knowledge of it; the common finding is officers who cannot say where the booklet is kept.",
+    "howOften": "Familiarisation on joining; reviewed in drills",
+    "byWhom": "Master, chief officer",
+    "evidence": "Emergency towing booklet, familiarisation record, drill record",
+    "detailBullets": [
+      "The booklet is kept on the bridge, at the forecastle and in the engine control room — not filed in the ship's office.",
+      "Officers can describe the deployment sequence for the forward pick-up gear and the aft chafing chain without reading it first.",
+      "The pick-up gear, fairleads and strong points are inspected and the pins freed; this is equipment used once, in the worst weather of the year.",
+      "Include the arrangement in a drill: walking to it and handling it once is worth more than a briefing.",
+      "The same finding pattern applies to the ship structure access manual and the damage control plan — carried, but not known."
+    ],
+    "appliesToTypeKeys": [],
+    "sourceRef": "SOLAS II-1/3-4; MSC.35(63); SOLAS III/19.4",
+    "contentVersion": 4,
+    "lastReviewed": "2026-08-30",
+    "verificationStatus": "UNVERIFIED",
+    "flagNotes": {},
+    "summaryTr": "Donanım, ancak mürettebatın onu bilmesi kadar işe yarar; en sık bulgu, kitapçığın nerede tutulduğunu söyleyemeyen zabitlerdir."
+  },
+  {
+    "refKey": "HELI_EXTINGUISHING_CAPACITY",
+    "section": "HELIDECK",
+    "citation": "SOLAS II-2/18.1.2",
+    "title": "Helideck extinguishing capacity: totals, not a collection of portables",
+    "what": "The helicopter deck outfit is specified as units of adequate capacity — at least 45 kg of dry powder and at least 18 kg of CO2 — not as an arithmetic total of small portables.",
+    "howOften": "Continuous; inspected monthly",
+    "byWhom": "Ship's staff",
+    "evidence": "Record of equipment, monthly inspection record, foam analysis certificate",
+    "detailBullets": [
+      "Dry powder: at least 45 kg in total, in units of adequate capacity.",
+      "CO2: at least 18 kg in total, in single or twin units.",
+      "Six 9 kg portables scattered round the deck reach the arithmetic and miss the requirement: a crash needs a sustained discharge from one place, not six short ones.",
+      "Foam: the discharge rate and the monitor or applicator arrangement follow the deck's D-value.",
+      "At least two dual-purpose nozzles with hoses reaching any part of the deck, plus the rescue kit of II-2/18.1.2.",
+      "Everything in the hazardous area — marshalling batons, torches, radios — carries intrinsic safety certification and the stamp to prove it."
+    ],
+    "appliesToTypeKeys": [
+      "FFE_HELIDECK_FIRE_STATION"
+    ],
+    "sourceRef": "SOLAS II-2/18.1.2; ICS Guide to Helicopter/Ship Operations",
+    "contentVersion": 4,
+    "lastReviewed": "2026-08-30",
+    "verificationStatus": "UNVERIFIED",
+    "flagNotes": {},
+    "summaryTr": "Helikopter güvertesi teçhizatı, küçük portatiflerin aritmetik toplamı olarak değil, yeterli kapasitede üniteler olarak belirlenmiştir: en az 45 kg kuru kimyevi toz ve en az 18 kg CO2."
+  },
+  {
+    "refKey": "SOLAS_III_31_REMOTE_SURVIVAL_CRAFT",
+    "section": "LSA",
+    "citation": "SOLAS III/31.1.4",
+    "title": "Remotely located survival craft: the forward station",
+    "what": "A survival craft stowed away from the main embarkation deck needs its own lighting, its own ladder and its own clear route — the ship's midship arrangements do not cover it.",
+    "howOften": "Continuous; inspected monthly",
+    "byWhom": "Ship's staff",
+    "evidence": "Monthly inspection record, safety plan",
+    "detailBullets": [
+      "Fixed illumination of the launching area and its surroundings, supplied from the emergency source of power. Handheld torches are not a substitute and are the most common substitution found.",
+      "An embarkation ladder at the station itself, deployable by hand — not bundled in delivery lashings that need a knife, and not stowed in a midship locker.",
+      "A single knotted manrope is not an embarkation ladder.",
+      "The route to the station is kept clear, including of anti-piracy razor wire, and is lit.",
+      "The station appears on the safety plan with its equipment, and the monthly inspection covers it separately — a forward raft is the one most often inspected from the deck below."
+    ],
+    "appliesToTypeKeys": [
+      "LSA_LIFERAFT_THROWOVER",
+      "LSA_EMBARKATION_LADDER"
+    ],
+    "sourceRef": "SOLAS III/31.1.4; SOLAS III/11; LSA Code Ch.VI",
+    "contentVersion": 4,
+    "lastReviewed": "2026-08-30",
+    "verificationStatus": "UNVERIFIED",
+    "flagNotes": {},
+    "summaryTr": "Ana binme güvertesinden uzakta istiflenmiş bir can kurtarma aracının kendi aydınlatması, kendi merdiveni ve kendi açık yolu olmalıdır."
   }
 ]
