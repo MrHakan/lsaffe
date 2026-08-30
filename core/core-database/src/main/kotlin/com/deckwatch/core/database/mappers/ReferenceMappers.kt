@@ -24,6 +24,7 @@ fun EquipmentTypeEntity.toModel(): EquipmentType = EquipmentType(
     helpTextEn = helpTextEn,
     helpTextTr = helpTextTr,
     commonPscFindings = commonPscFindings,
+    technicalNotes = technicalNotes,
     isUserDefined = isUserDefined,
 )
 
@@ -41,6 +42,7 @@ fun EquipmentType.toEntity(): EquipmentTypeEntity = EquipmentTypeEntity(
     helpTextEn = helpTextEn,
     helpTextTr = helpTextTr,
     commonPscFindings = commonPscFindings,
+    technicalNotes = technicalNotes,
     isUserDefined = isUserDefined,
 )
 

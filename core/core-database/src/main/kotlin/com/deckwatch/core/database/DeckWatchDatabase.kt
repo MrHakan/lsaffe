@@ -86,7 +86,7 @@ abstract class DeckWatchDatabase : RoomDatabase() {
     abstract fun userNoteDao(): UserNoteDao
 
     companion object {
-        const val VERSION: Int = 1
+        const val VERSION: Int = 2
 
         /** On-disk file name. Kept stable: it is what a restore looks for. */
         const val NAME: String = "deckwatch.db"

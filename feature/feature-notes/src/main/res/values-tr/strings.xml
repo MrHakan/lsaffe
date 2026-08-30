@@ -127,4 +127,28 @@
     <string name="notes_disclaimer_hide_message">Her Notlar ekranının altında görünmeyi bırakır. Tam metin Daha Fazla → Hakkında altında kalır ve uygulamanın statüsü değişmez: DeckWatch bir referans yardımcısıdır, resmî belge değildir.</string>
     <string name="notes_disclaimer_hide_confirm">Gizle</string>
     <string name="notes_disclaimer_hide_cancel">Görünmeye devam etsin</string>
+
+    <!-- ============================================================ ekipman rehberi (§9.1) -->
+    <string name="notes_section_equipment">Ekipman rehberi</string>
+    <string name="notes_section_equipment_desc">Her ekipmanın ne olduğu, sorulan rakamlar ve o ekipmana özgü testler</string>
+    <string name="guide_intro">Önce grubu, sonra ekipmanı seçin. Her sayfada ekipmanın ne olduğu, yapısı ve işaretleri, kendine özgü testleri, arkasındaki kurallar ve denetimlerde en sık yazılanlar bulunur.</string>
+    <string name="guide_type_count">%1$d tip</string>
+    <string name="guide_search">Ekipman ara</string>
+    <string name="guide_search_no_results">\"%1$s\" ile eşleşen ekipman yok.</string>
+    <string name="guide_empty">Henüz ekipman tipi içe aktarılmadı.</string>
+    <string name="guide_type_missing">Bu ekipman tipi artık katalogda yok.</string>
+    <string name="guide_row_counts">%1$d not · %2$d test · %3$d kural</string>
+    <string name="guide_tasks">Testler ve kontroller</string>
+    <string name="guide_rules">Arkasındaki kurallar</string>
+    <string name="guide_psc">Sık yazılan bulgular</string>
+    <string name="guide_disclaimer">Rehber içeriği planlama ve eğitim amaçlı bir özettir. Daima yürürlükteki mevzuata, üretici el kitabına ve geminin onaylı belgelerine karşı doğrulayın.</string>
+    <string name="guide_group_lsa">LSA — can kurtarma teçhizatı</string>
+    <string name="guide_group_ffe">FFE — yangınla mücadele teçhizatı</string>
+    <string name="guide_group_emergency">Acil durum ve kaçış</string>
+    <string name="guide_group_machinery">Makine ve kumandalar</string>
+    <string name="guide_group_signage">İşaretler</string>
+    <string name="guide_group_other">Diğer</string>
+    <string name="guide_tab_rules">Kurallar</string>
+    <string name="guide_tab_equipment">Ekipman</string>
+    <string name="guide_section_link">%1$s bölümüne ekipman bazında göz atın</string>
 </resources>

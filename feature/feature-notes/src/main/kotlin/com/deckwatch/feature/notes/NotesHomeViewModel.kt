@@ -23,6 +23,8 @@ data class NotesHomeUiState(
     val sectionCounts: Map<RegulationSection, Int> = emptyMap(),
     val query: String = "",
     val results: List<RegulationCard> = emptyList(),
+    /** How many types the equipment guide covers — the count on its tile. */
+    val equipmentTypeCount: Int = 0,
 ) {
     /** True once the officer has typed something: the tiles give way to the result list. */
     val isSearching: Boolean get() = query.isNotBlank()
@@ -68,9 +70,11 @@ class NotesHomeViewModel @Inject constructor(
         sectionCounts,
         queryState,
         results,
-    ) { counts, currentQuery, matches ->
+        reference.observeEquipmentTypes(),
+    ) { counts, currentQuery, matches, types ->
         NotesHomeUiState(
             sectionCounts = counts,
+            equipmentTypeCount = types.size,
             query = currentQuery,
             // `results` lags the query by one emission while the search flow restarts; pinning it
             // to blank keeps the state internally consistent instead of briefly showing stale hits.

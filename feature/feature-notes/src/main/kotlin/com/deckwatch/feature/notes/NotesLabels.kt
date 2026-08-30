@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.res.stringResource
 import com.deckwatch.core.designsystem.components.RegulationCardLabels
+import com.deckwatch.core.model.EquipmentGroup
 import com.deckwatch.core.model.IntervalKind
 import com.deckwatch.core.model.PerformedBy
 import com.deckwatch.core.model.RegulationSection
@@ -68,6 +69,17 @@ internal fun performedByRes(performedBy: PerformedBy): Int = when (performedBy) 
     PerformedBy.MANUFACTURER -> R.string.notes_performed_manufacturer
     PerformedBy.RO_SURVEYOR_ATTENDING -> R.string.notes_performed_ro_surveyor
     PerformedBy.SHORE_FACILITY -> R.string.notes_performed_shore_facility
+}
+
+/** Catalogue group names, for the equipment guide — §9.1. */
+@StringRes
+internal fun equipmentGroupLabel(group: EquipmentGroup): Int = when (group) {
+    EquipmentGroup.LSA -> R.string.guide_group_lsa
+    EquipmentGroup.FFE -> R.string.guide_group_ffe
+    EquipmentGroup.EMERGENCY_ESCAPE -> R.string.guide_group_emergency
+    EquipmentGroup.MACHINERY_CONTROLS -> R.string.guide_group_machinery
+    EquipmentGroup.SIGNAGE -> R.string.guide_group_signage
+    EquipmentGroup.OTHER -> R.string.guide_group_other
 }
 
 /** Human-readable cadence for the interval matrix — §8.3. */
