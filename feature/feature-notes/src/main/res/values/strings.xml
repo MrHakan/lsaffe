@@ -125,4 +125,28 @@
     <string name="notes_disclaimer_hide_message">It will stop appearing under every Notes screen. The full text stays under More → About, and nothing about the app\'s status changes: DeckWatch remains a reference aid, not an authority.</string>
     <string name="notes_disclaimer_hide_confirm">Hide it</string>
     <string name="notes_disclaimer_hide_cancel">Keep showing</string>
+
+    <!-- ============================================================ equipment guide (§9.1) -->
+    <string name="notes_section_equipment">Equipment guide</string>
+    <string name="notes_section_equipment_desc">What each piece of kit is, the figures that get asked, and the tests specific to it</string>
+    <string name="guide_intro">Pick a group, then the piece of equipment. Each page carries what the thing is, its construction and markings, the tests specific to it, the rules behind them, and what inspectors usually write up.</string>
+    <string name="guide_type_count">%1$d types</string>
+    <string name="guide_search">Search equipment</string>
+    <string name="guide_search_no_results">No equipment matches \"%1$s\".</string>
+    <string name="guide_empty">No equipment types have been imported yet.</string>
+    <string name="guide_type_missing">That equipment type is no longer in the catalogue.</string>
+    <string name="guide_row_counts">%1$d notes · %2$d tests · %3$d rules</string>
+    <string name="guide_tasks">Tests and checks</string>
+    <string name="guide_rules">Rules behind them</string>
+    <string name="guide_psc">Commonly written up</string>
+    <string name="guide_disclaimer">Guide content is a summary for planning and training. Always verify against the current instrument, the maker\'s manual and the vessel\'s own approved documents.</string>
+    <string name="guide_group_lsa">LSA — life-saving appliances</string>
+    <string name="guide_group_ffe">FFE — fire-fighting equipment</string>
+    <string name="guide_group_emergency">Emergency &amp; escape</string>
+    <string name="guide_group_machinery">Machinery &amp; controls</string>
+    <string name="guide_group_signage">Signage</string>
+    <string name="guide_group_other">Other</string>
+    <string name="guide_tab_rules">Rules</string>
+    <string name="guide_tab_equipment">Equipment</string>
+    <string name="guide_section_link">Browse %1$s by equipment instead</string>
 </resources>

@@ -26,6 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -39,6 +40,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.deckwatch.core.designsystem.theme.ConditionColors
 import com.deckwatch.core.designsystem.theme.Dimens
 import com.deckwatch.core.model.RegulationSection
+import com.deckwatch.feature.notes.equipment.EquipmentGuideScreen
+import com.deckwatch.feature.notes.equipment.EquipmentTypeDetailScreen
 
 /**
  * Tab 1 — the regulatory notebook (§8).
@@ -66,28 +69,27 @@ fun NotesScreen(
 ) {
     val footerVisible by chromeViewModel.footerVisible.collectAsStateWithLifecycle()
     var confirmingFooterDismiss by rememberSaveable { mutableStateOf(false) }
-    var destination by rememberSaveable(stateSaver = NotesDestinationSaver) {
-        mutableStateOf<NotesDestination>(NotesDestination.Home)
+    // A stack, because the equipment guide is two deep (group, then one type): back has to pop one
+    // step, not jump all the way home from a type page.
+    val backStack = rememberSaveable(saver = NotesBackStackSaver) {
+        mutableStateListOf<NotesDestination>()
     }
+    val destination: NotesDestination = backStack.lastOrNull() ?: NotesDestination.Home
+    val push: (NotesDestination) -> Unit = { backStack.add(it) }
+    val pop: () -> Unit = { if (backStack.isNotEmpty()) backStack.removeAt(backStack.lastIndex) }
     var openCardRefKey by rememberSaveable { mutableStateOf<String?>(null) }
     var disclaimerAcknowledged by rememberSaveable { mutableStateOf(false) }
 
-    BackHandler(enabled = destination != NotesDestination.Home) {
-        destination = NotesDestination.Home
-    }
+    BackHandler(enabled = backStack.isNotEmpty(), onBack = pop)
 
     Column(modifier = modifier.fillMaxSize()) {
         NotesHeader(
             title = headerTitle(destination),
-            onBack = if (destination == NotesDestination.Home) {
-                null
-            } else {
-                { destination = NotesDestination.Home }
-            },
+            onBack = pop.takeIf { backStack.isNotEmpty() },
             actions = {
                 if (destination == NotesDestination.Home) {
                     IconButton(
-                        onClick = { destination = NotesDestination.Intervals },
+                        onClick = { push(NotesDestination.Intervals) },
                         modifier = Modifier.size(Dimens.TouchTargetMin),
                     ) {
                         Icon(
@@ -111,11 +113,23 @@ fun NotesScreen(
         Box(modifier = Modifier.weight(1f)) {
             when (val current = destination) {
                 NotesDestination.Home -> NotesHomeScreen(
-                    onSectionClick = { section -> destination = NotesDestination.Section(section) },
+                    onSectionClick = { section -> push(NotesDestination.Section(section)) },
                     onCardClick = { refKey -> openCardRefKey = refKey },
+                    onEquipmentGuideClick = { push(NotesDestination.Equipment()) },
                 )
 
                 NotesDestination.Intervals -> IntervalMatrixScreen(
+                    onCardClick = { refKey -> openCardRefKey = refKey },
+                )
+
+                is NotesDestination.Equipment -> EquipmentGuideScreen(
+                    group = current.group,
+                    onOpenGroup = { group -> push(NotesDestination.Equipment(group)) },
+                    onOpenType = { typeKey -> push(NotesDestination.TypeDetail(typeKey)) },
+                )
+
+                is NotesDestination.TypeDetail -> EquipmentTypeDetailScreen(
+                    typeKey = current.typeKey,
                     onCardClick = { refKey -> openCardRefKey = refKey },
                 )
 
@@ -129,6 +143,9 @@ fun NotesScreen(
                         onCardClick = { refKey -> openCardRefKey = refKey },
                         onShowEquipmentForCard = onShowEquipmentForCard,
                         onFavouriteToggled = onFavouriteToggled,
+                        // LSA and FFE are also catalogue groups, so those two sections offer the
+                        // equipment guide beside their rules; the rest have no equipment of their own.
+                        onOpenEquipmentGroup = { group -> push(NotesDestination.Equipment(group)) },
                     )
                 }
             }
@@ -163,6 +180,12 @@ private fun headerTitle(destination: NotesDestination): String = when (destinati
     NotesDestination.Home -> stringResource(R.string.notes_title)
     NotesDestination.Intervals -> stringResource(R.string.notes_intervals_title)
     is NotesDestination.Section -> stringResource(sectionTitleRes(destination.section))
+    is NotesDestination.Equipment -> destination.group
+        ?.let { stringResource(equipmentGroupLabel(it)) }
+        ?: stringResource(R.string.notes_section_equipment)
+    // The type's own name would be better, but the header renders before the record loads; the
+    // page itself carries the name at the top.
+    is NotesDestination.TypeDetail -> stringResource(R.string.notes_section_equipment)
 }
 
 /**

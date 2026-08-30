@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 import com.deckwatch.core.model.AttributeDefinition
 import com.deckwatch.core.model.EquipmentGroup
 import com.deckwatch.core.model.RegulationSection
+import com.deckwatch.core.model.TechnicalNote
 import com.deckwatch.core.model.VerificationStatus
 
 /**
@@ -38,6 +39,11 @@ data class EquipmentTypeEntity(
     val helpTextEn: String,
     val helpTextTr: String,
     val commonPscFindings: List<String>,
+    /**
+     * The equipment guide of §9.1. Defaulted so that the version-2 migration can add the column
+     * to an installed database without a value for every row; the next content import fills it.
+     */
+    val technicalNotes: List<TechnicalNote> = emptyList(),
     val isUserDefined: Boolean,
 )
 

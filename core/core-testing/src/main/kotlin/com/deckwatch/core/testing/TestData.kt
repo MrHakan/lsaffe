@@ -27,6 +27,7 @@ import com.deckwatch.core.model.StatusFlag
 import com.deckwatch.core.model.SymbolInfo
 import com.deckwatch.core.model.TaskDefinition
 import com.deckwatch.core.model.TaskInstance
+import com.deckwatch.core.model.TechnicalNote
 import com.deckwatch.core.model.TaskStatus
 import com.deckwatch.core.model.UserNote
 import com.deckwatch.core.model.VerificationStatus
@@ -260,6 +261,7 @@ object TestData {
         attributeSchema: List<AttributeDefinition> = listOf(attributeDefinition()),
         taskKeys: List<String> = listOf("FE_MONTHLY_INSPECTION", "FE_ANNUAL_SERVICE"),
         regulationRefs: List<String> = listOf("SOLAS_II2_10_3"),
+        technicalNotes: List<TechnicalNote> = emptyList(),
         isUserDefined: Boolean = false,
     ): EquipmentType = EquipmentType(
         typeKey = typeKey,
@@ -272,6 +274,7 @@ object TestData {
         attributeSchema = attributeSchema,
         taskKeys = taskKeys,
         regulationRefs = regulationRefs,
+        technicalNotes = technicalNotes,
         isUserDefined = isUserDefined,
     )
 
