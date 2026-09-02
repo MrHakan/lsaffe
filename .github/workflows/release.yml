@@ -97,7 +97,11 @@ jobs:
           VERSION_NAME: ${{ steps.ver.outputs.version }}
           VERSION_CODE: ${{ steps.ver.outputs.versionCode }}
         run: |
-          ./gradlew :app:assembleRelease --stacktrace
+          # Both builds are unsplit. The APK because the Releases page ships one universal file
+          # (see the collect step), and the bundle because ABI splits and resource shrinking
+          # cannot run together — the pre-bundle step expects a single shrunk-resources file.
+          # Play derives its own per-device splits from the bundle either way.
+          ./gradlew :app:assembleRelease -Pdeckwatch.noSplits --stacktrace
           ./gradlew :app:bundleRelease -Pdeckwatch.noSplits --stacktrace
 
       - name: Collect artifacts and checksums
