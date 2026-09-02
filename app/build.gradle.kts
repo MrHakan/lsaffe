@@ -45,9 +45,14 @@ android {
         }
     }
 
+    // ABI splits and resource shrinking cannot be bundled in one AGP run (the
+    // pre-bundle step expects a single shrunk-resources file). The AAB is
+    // built with `-Pdeckwatch.noSplits`; Play derives its own splits from it.
+    val abiSplitsEnabled = !providers.gradleProperty("deckwatch.noSplits").isPresent
+
     splits {
         abi {
-            isEnable = true
+            isEnable = abiSplitsEnabled
             reset()
             include("arm64-v8a", "armeabi-v7a", "x86_64")
             isUniversalApk = true

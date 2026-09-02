@@ -64,7 +64,9 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           VERSION_NAME: ${{ steps.ver.outputs.version }}
           VERSION_CODE: ${{ steps.ver.outputs.versionCode }}
-        run: ./gradlew :app:assembleRelease :app:bundleRelease --stacktrace
+        run: |
+          ./gradlew :app:assembleRelease --stacktrace
+          ./gradlew :app:bundleRelease -Pdeckwatch.noSplits --stacktrace
 
       - name: Collect artifacts and checksums
         run: |
