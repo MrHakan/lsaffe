@@ -27,6 +27,23 @@ Appliances and Fire-Fighting Equipment on a merchant vessel.
 > instrument and the vessel's own documentation. The Master's and the Company's
 > responsibilities under SOLAS and the ISM Code are unaffected.
 
+## What is in the app
+
+| Tab | What you get |
+|---|---|
+| **Vessel** | 2.5D isometric deck stack (stack / single-deck flat–iso / list modes), fan spread, pan/zoom, deck spine, long-press to add equipment, drag to reposition, sweep mode that writes a round as you grade |
+| **Due** | Overdue / this week / this month / before next survey / planned work list with filters, swipe or row actions to complete or defer, survey-prep mode with a shore-service shopping list, rounds and deficiency register |
+| **Notes** | SOLAS / LSA / FFE / FLAG (RMI, Liberia, Panama) / CLASS cards with the WHAT · HOW OFTEN · BY WHOM · EVIDENCE quadrant, interval quick-reference matrix, your own notes; every card carries its source and verification status |
+| **More** | Vessel, deck, zone and category managers; HTML reports (six scopes) and import with merge preview; `.dwbackup` backup/restore; settings for all three themes, language, density, reminders; demo vessel in one tap |
+
+Equipment records are built from a bundled catalogue of 122 types with dynamic
+attribute schemas; the due engine derives every task from data
+(`task_definitions.json`) and denormalises the soonest due date onto each item.
+Survival craft and fixed systems open a schematic screen with hotspots, an
+inventory checklist and a drill log.
+
+Usability rules for every screen are in `docs/DESIGN_OVERHAUL.md`.
+
 ## Build
 
 Requirements: JDK 17+, Android SDK (compileSdk 36).
