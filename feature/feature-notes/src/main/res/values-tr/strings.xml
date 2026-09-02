@@ -9,12 +9,16 @@
     -->
     <string name="notes_disclaimer_title">Referans yardımcısı — resmî belge değildir</string>
     <string name="notes_disclaimer_acknowledge">Anladım</string>
+    <string name="notes_disclaimer_expand">Metnin tamamını göster</string>
+    <string name="notes_disclaimer_collapse">Metni daralt</string>
 
     <!-- Ana ekran -->
-    <string name="notes_search_hint">Madde, başlık veya gereklilik ara</string>
+    <string name="notes_search_hint">Kural, başlık veya gereklilik ara</string>
     <string name="notes_search_clear">Aramayı temizle</string>
     <string name="notes_search_results">%1$d eşleşen kart</string>
+    <string name="notes_search_none_title">Sonuç yok</string>
     <string name="notes_search_no_results">“%1$s” ile eşleşen kart yok.</string>
+    <string name="notes_action_search">Ara</string>
     <string name="notes_open_intervals">Periyot hızlı başvuru</string>
     <string name="notes_card_count">%1$d kart</string>
     <string name="notes_note_count">%1$d not</string>
@@ -24,21 +28,22 @@
     <string name="notes_section_solas">SOLAS</string>
     <string name="notes_section_solas_desc">Bölüm II-2, Bölüm III ve LSA/FFE ile ilgili olduğu ölçüde Bölüm V</string>
     <string name="notes_section_lsa">LSA</string>
-    <string name="notes_section_lsa_desc">LSA Kod bölümleri I–VII, SOLAS III/20 bakım rejimi, MSC.402(96)</string>
+    <string name="notes_section_lsa_desc">LSA Kodu bölümleri I–VII, SOLAS III/20 bakım rejimi, MSC.402(96)</string>
     <string name="notes_section_ffe">FFE</string>
-    <string name="notes_section_ffe_desc">FSS Kod bölümleri, SOLAS II-2/14 bakım planı, MSC.1/Circ.1432</string>
+    <string name="notes_section_ffe_desc">FSS Kodu bölümleri, SOLAS II-2/14 bakım planı, MSC.1/Circ.1432</string>
     <string name="notes_section_flag">BAYRAK</string>
-    <string name="notes_section_flag_desc">Marshall Adaları, Liberya ve Panama sirkülerleri ve düz SOLAS\'tan farkları</string>
+    <string name="notes_section_flag_desc">Marshall Adaları, Liberya ve Panama sirkülerleri ve bunların SOLAS\'tan farkları</string>
     <string name="notes_section_class">KLAS</string>
     <string name="notes_section_class_desc">Sörvey kapsamı, IACS UR Z17 servis sağlayıcıları, sık görülen PSC eksiklik kodları</string>
     <string name="notes_section_my_notes">NOTLARIM</string>
     <string name="notes_section_my_notes_desc">Kendi notlarınız; klasörlenir, herhangi bir karta iliştirilebilir</string>
     <string name="notes_section_empty">Bu bölümde henüz kart yok. Paket referans içeriği ilk açılışta yüklenir.</string>
+    <string name="notes_section_filter_hint">Bu bölümde filtrele</string>
 
     <!-- Kart etiketleri — §8.2 -->
-    <string name="notes_card_what">NE</string>
-    <string name="notes_card_how_often">SIKLIK</string>
-    <string name="notes_card_by_whom">KİM</string>
+    <string name="notes_card_what">NE YAPILIR</string>
+    <string name="notes_card_how_often">PERİYOT</string>
+    <string name="notes_card_by_whom">KİM YAPAR</string>
     <string name="notes_card_evidence">KANIT</string>
     <string name="notes_card_flag_notes">BAYRAK NOTLARI</string>
     <string name="notes_card_applies_to">Kapsadığı ekipman</string>
@@ -56,6 +61,12 @@
     <string name="notes_action_cancel">Vazgeç</string>
     <string name="notes_action_delete">Sil</string>
     <string name="notes_action_edit">Düzenle</string>
+    <string name="notes_action_clear_filter">Filtreyi temizle</string>
+
+    <!-- Doğrulama durumu — §8.5 -->
+    <string name="notes_verification_verified">Yürürlükteki metinle doğrulandı</string>
+    <string name="notes_verification_unverified">Doğrulanmadı — metni kontrol edin</string>
+    <string name="notes_verification_review">Periyodik gözden geçirme zamanı geldi</string>
 
     <!-- Bayrak alt bölümleri -->
     <string name="notes_flag_all">Tümü</string>
@@ -73,15 +84,16 @@
 
     <!-- Periyot hızlı başvuru — §8.3 -->
     <string name="notes_intervals_title">Periyot hızlı başvuru</string>
-    <string name="notes_intervals_filter_hint">Ekipman veya göreve göre süz</string>
+    <string name="notes_intervals_filter_hint">Ekipman veya göreve göre filtrele</string>
     <string name="notes_intervals_col_task">GÖREV</string>
     <string name="notes_intervals_col_interval">PERİYOT</string>
-    <string name="notes_intervals_col_by">KİM</string>
+    <string name="notes_intervals_col_by">KİM YAPAR</string>
     <string name="notes_intervals_col_flag">BAYRAK</string>
     <string name="notes_intervals_divergence">Bayrak farkı: %1$s</string>
     <string name="notes_intervals_no_divergence">Kayıtlı bayrak farkı yok</string>
     <string name="notes_intervals_other_tasks">Katalog tipine bağlı olmayan görevler</string>
     <string name="notes_intervals_empty">Henüz görev tanımı yüklenmedi.</string>
+    <string name="notes_intervals_no_match">“%1$s” ile eşleşen görev yok.</string>
     <string name="notes_intervals_row_open">Bu görevin dayandığı kartı aç</string>
 
     <!-- Periyot türleri — §6.6 -->
@@ -102,7 +114,7 @@
     <string name="notes_performed_ship_staff_trained">Eğitimli gemi personeli</string>
     <string name="notes_performed_service_provider">Yetkili servis sağlayıcı</string>
     <string name="notes_performed_manufacturer">Üretici</string>
-    <string name="notes_performed_ro_surveyor">RO sörveyörü refakatinde</string>
+    <string name="notes_performed_ro_surveyor">RO sörveyörü nezaretinde</string>
     <string name="notes_performed_shore_facility">Kara tesisi</string>
 
     <!-- NOTLARIM -->
@@ -114,6 +126,8 @@
     <string name="notes_my_field_body">Not</string>
     <string name="notes_my_field_folder">Klasör</string>
     <string name="notes_my_folder_unfiled">Klasörsüz</string>
+    <string name="notes_my_title_required">Notu sonradan bulabilmek için bir başlık gerekir.</string>
+    <string name="notes_my_open_card">İlişkili kartı aç</string>
     <string name="notes_my_delete_title">Bu not silinsin mi?</string>
     <string name="notes_my_delete_body">“%1$s” bu cihazdan kaldırılacak.</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.deckwatch.feature.notes
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,14 +12,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.EditNote
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -36,16 +35,24 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.deckwatch.core.designsystem.components.ConfirmDialog
+import com.deckwatch.core.designsystem.components.DeckWatchListRow
+import com.deckwatch.core.designsystem.components.EmptyState
+import com.deckwatch.core.designsystem.components.SectionHeader
 import com.deckwatch.core.designsystem.theme.Dimens
 import com.deckwatch.core.model.UserNote
 
 /**
  * MY NOTES — the officer's own notes, grouped into folders, each optionally attached to a
- * regulation card (shown as the citation chip) — §8.1.
+ * regulation card — §8.1.
+ *
+ * Rows are the shared [DeckWatchListRow]: the note's title, then the folder and the attached
+ * citation as the subtitle, and delete in the trailing slot. "New note" is the screen's single
+ * primary action (rule 1) as a 56dp FAB; deleting goes through the shared [ConfirmDialog]
+ * (rule 8).
  */
 @Composable
 internal fun MyNotesScreen(
@@ -60,50 +67,56 @@ internal fun MyNotesScreen(
     var composingNew by rememberSaveable { mutableStateOf(false) }
     var pendingDelete by remember { mutableStateOf<UserNote?>(null) }
 
+    val unfiledLabel = stringResource(R.string.notes_my_folder_unfiled)
+
     Box(modifier = modifier.fillMaxSize()) {
         if (state.isEmpty) {
-            NotesEmptyState(text = stringResource(R.string.notes_my_empty))
+            EmptyState(
+                icon = Icons.Filled.EditNote,
+                title = stringResource(R.string.notes_my_title),
+                body = stringResource(R.string.notes_my_empty),
+                actionLabel = stringResource(R.string.notes_my_new),
+                onAction = { composingNew = true },
+            )
         } else {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(
-                    start = Dimens.SpacingM,
-                    end = Dimens.SpacingM,
-                    top = Dimens.SpacingM,
-                    bottom = ListBottomInset,
-                ),
-                verticalArrangement = Arrangement.spacedBy(Dimens.SpacingS),
+                contentPadding = PaddingValues(bottom = ListBottomInset),
             ) {
                 state.folders.forEach { folder ->
                     item(key = "folder-${folder.name}") {
-                        ListSectionHeading(
-                            text = folder.name.ifEmpty {
-                                stringResource(R.string.notes_my_folder_unfiled)
-                            },
-                        )
+                        SectionHeader(text = folder.name.ifEmpty { unfiledLabel })
                     }
                     items(items = folder.notes, key = { it.id }) { note ->
                         UserNoteRow(
                             note = note,
-                            citation = state.citationFor(note),
+                            subtitle = noteSubtitle(
+                                note = note,
+                                citation = state.citationFor(note),
+                                unfiledLabel = unfiledLabel,
+                            ),
                             onClick = { editing = note },
-                            onCitationClick = { note.regulationRefKey?.let(onCardClick) },
                             onDelete = { pendingDelete = note },
+                            onOpenCard = note.regulationRefKey?.let { key -> { onCardClick(key) } },
                         )
+                        HorizontalDivider()
                     }
                 }
             }
         }
 
-        ExtendedFloatingActionButton(
-            onClick = { composingNew = true },
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(Dimens.SpacingL)
-                .heightIn(min = Dimens.TouchTargetPrimary),
-            icon = { Icon(Icons.Filled.Add, contentDescription = null) },
-            text = { Text(stringResource(R.string.notes_my_new)) },
-        )
+        // Rule 1: the only primary action on this screen.
+        if (!state.isEmpty) {
+            ExtendedFloatingActionButton(
+                onClick = { composingNew = true },
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(Dimens.SpacingL)
+                    .heightIn(min = Dimens.TouchTargetPrimary),
+                icon = { Icon(Icons.Filled.Add, contentDescription = null) },
+                text = { Text(stringResource(R.string.notes_my_new)) },
+            )
+        }
     }
 
     if (composingNew) {
@@ -131,93 +144,73 @@ internal fun MyNotesScreen(
     }
 
     pendingDelete?.let { note ->
-        AlertDialog(
-            onDismissRequest = { pendingDelete = null },
-            title = { Text(stringResource(R.string.notes_my_delete_title)) },
-            text = { Text(stringResource(R.string.notes_my_delete_body, note.title)) },
-            confirmButton = {
-                TextButton(onClick = {
-                    viewModel.deleteNote(note.id)
-                    pendingDelete = null
-                }) {
-                    Text(stringResource(R.string.notes_action_delete))
-                }
+        ConfirmDialog(
+            title = stringResource(R.string.notes_my_delete_title),
+            body = stringResource(R.string.notes_my_delete_body, note.title),
+            confirmLabel = stringResource(R.string.notes_action_delete),
+            cancelLabel = stringResource(R.string.notes_action_cancel),
+            onConfirm = {
+                viewModel.deleteNote(note.id)
+                pendingDelete = null
             },
-            dismissButton = {
-                TextButton(onClick = { pendingDelete = null }) {
-                    Text(stringResource(R.string.notes_action_cancel))
-                }
-            },
+            onDismiss = { pendingDelete = null },
         )
     }
+}
+
+/**
+ * Folder and citation, in that order — the two things that place a note. The body is the fallback
+ * for a note that has neither, so the row is never a bare title.
+ */
+private fun noteSubtitle(note: UserNote, citation: String?, unfiledLabel: String): String {
+    val parts = listOfNotNull(
+        note.folder.trim().ifEmpty { null } ?: unfiledLabel,
+        citation,
+    )
+    return parts.joinToString(separator = " · ").ifBlank { note.body }
 }
 
 @Composable
 private fun UserNoteRow(
     note: UserNote,
-    citation: String?,
+    subtitle: String,
     onClick: () -> Unit,
-    onCitationClick: () -> Unit,
     onDelete: () -> Unit,
     modifier: Modifier = Modifier,
+    onOpenCard: (() -> Unit)? = null,
 ) {
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .heightIn(min = Dimens.ListRowCompact)
-            .clickable(onClick = onClick),
-        shape = RoundedCornerShape(Dimens.CardCorner),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-    ) {
-        Row(
-            modifier = Modifier.padding(
-                start = Dimens.SpacingM,
-                top = Dimens.SpacingS,
-                bottom = Dimens.SpacingS,
-            ),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
-                if (note.title.isNotBlank()) {
-                    Text(
-                        text = note.title,
-                        style = MaterialTheme.typography.titleSmall,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
+    DeckWatchListRow(
+        title = note.title.ifBlank { note.body },
+        modifier = modifier,
+        subtitle = subtitle,
+        onClick = onClick,
+        trailing = {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                if (onOpenCard != null) {
+                    IconButton(onClick = onOpenCard, modifier = Modifier.size(Dimens.TouchTargetMin)) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.OpenInNew,
+                            contentDescription = stringResource(R.string.notes_my_open_card),
+                            tint = MaterialTheme.colorScheme.primary,
+                        )
+                    }
                 }
-                if (note.body.isNotBlank()) {
-                    Text(
-                        text = note.body,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                }
-                if (citation != null) {
-                    MetaChip(
-                        text = citation,
-                        monospace = true,
-                        container = MaterialTheme.colorScheme.primaryContainer,
-                        modifier = Modifier
-                            .padding(top = Dimens.SpacingXs)
-                            .clickable(onClick = onCitationClick),
+                IconButton(onClick = onDelete, modifier = Modifier.size(Dimens.TouchTargetMin)) {
+                    Icon(
+                        imageVector = Icons.Filled.Delete,
+                        contentDescription = stringResource(R.string.notes_action_delete),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
             }
-            IconButton(onClick = onDelete, modifier = Modifier.size(Dimens.TouchTargetMin)) {
-                Icon(
-                    imageVector = Icons.Filled.Delete,
-                    contentDescription = stringResource(R.string.notes_action_delete),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-        }
-    }
+        },
+    )
 }
 
-/** Create or edit. A note is just a title, a body and a free-text folder name. */
+/**
+ * Create or edit. A note is a title, a body and a free-text folder name; Save turns on only once
+ * the title is there, so no note lands in the list without something to recognise it by.
+ */
 @Composable
 private fun NoteEditorDialog(
     note: UserNote?,
@@ -247,6 +240,12 @@ private fun NoteEditorDialog(
                     onValueChange = { title = it },
                     modifier = Modifier.fillMaxWidth(),
                     label = { Text(stringResource(R.string.notes_my_field_title)) },
+                    isError = title.isBlank(),
+                    supportingText = {
+                        if (title.isBlank()) {
+                            Text(stringResource(R.string.notes_my_title_required))
+                        }
+                    },
                     singleLine = true,
                 )
                 OutlinedTextField(
@@ -266,9 +265,10 @@ private fun NoteEditorDialog(
                 if (folderSuggestions.isNotEmpty()) {
                     Row(horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingS)) {
                         folderSuggestions.take(MaxFolderSuggestions).forEach { suggestion ->
-                            MetaChip(
+                            NotesFilterChip(
                                 text = suggestion,
-                                modifier = Modifier.clickable { folder = suggestion },
+                                selected = folder.trim() == suggestion,
+                                onClick = { folder = suggestion },
                             )
                         }
                     }
@@ -278,13 +278,14 @@ private fun NoteEditorDialog(
         confirmButton = {
             TextButton(
                 onClick = { onSave(title, body, folder) },
-                enabled = title.isNotBlank() || body.isNotBlank(),
+                enabled = title.isNotBlank(),
+                modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
             ) {
                 Text(stringResource(R.string.notes_action_save))
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
+            TextButton(onClick = onDismiss, modifier = Modifier.heightIn(min = Dimens.TouchTargetMin)) {
                 Text(stringResource(R.string.notes_action_cancel))
             }
         },
