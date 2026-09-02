@@ -1,0 +1,81 @@
+{
+  "key": "RESCUE_BOAT",
+  "appliesToTypeKeys": [
+    "LSA_RESCUE_BOAT",
+    "LSA_FAST_RESCUE_BOAT"
+  ],
+  "titleEn": "Rescue boat and davit",
+  "titleTr": "Kurtarma botu ve matafora",
+  "aspect": 1.4,
+  "inventoryTemplateKey": "LSA_CH_IV_BOAT",
+  "panels": ["COMPONENTS", "INVENTORY", "TASKS", "DRILL_LOG"],
+  "shapes": [
+    { "kind": "POLYLINE", "points": [0.0, 0.92, 1.0, 0.92], "stroke": "STRUCTURE", "weight": 1.6 },
+
+    { "kind": "RECT", "points": [0.1, 0.2, 0.15, 0.92], "stroke": "STRUCTURE", "fill": "PANEL" },
+    { "kind": "POLYLINE", "points": [0.125, 0.2, 0.3, 0.12, 0.62, 0.14], "stroke": "STRUCTURE", "weight": 1.4 },
+    { "kind": "POLYLINE", "points": [0.15, 0.34, 0.3, 0.14], "stroke": "STRUCTURE" },
+    { "kind": "ELLIPSE", "points": [0.62, 0.165, 0.028, 0.028], "stroke": "STRUCTURE", "fill": "ACCENT" },
+
+    { "kind": "RECT", "points": [0.02, 0.72, 0.1, 0.88], "stroke": "STRUCTURE", "fill": "PANEL" },
+    { "kind": "ELLIPSE", "points": [0.06, 0.8, 0.028, 0.028], "stroke": "DETAIL" },
+    { "kind": "POLYLINE", "points": [0.06, 0.72, 0.125, 0.21], "stroke": "LINE" },
+    { "kind": "POLYLINE", "points": [0.13, 0.195, 0.61, 0.152], "stroke": "LINE" },
+    { "kind": "POLYLINE", "points": [0.625, 0.19, 0.625, 0.42], "stroke": "LINE" },
+
+    { "kind": "POLYGON", "points": [0.605, 0.42, 0.645, 0.42, 0.645, 0.46, 0.625, 0.48, 0.605, 0.46], "stroke": "OUTLINE", "fill": "ACCENT" },
+    { "kind": "POLYLINE", "points": [0.625, 0.48, 0.42, 0.6], "stroke": "LINE" },
+    { "kind": "POLYLINE", "points": [0.625, 0.48, 0.83, 0.6], "stroke": "LINE" },
+
+    { "kind": "POLYGON", "points": [0.34, 0.6, 0.92, 0.6, 0.88, 0.76, 0.5, 0.82, 0.37, 0.72], "stroke": "OUTLINE", "fill": "BODY", "weight": 1.4 },
+    { "kind": "POLYLINE", "points": [0.34, 0.628, 0.92, 0.628], "stroke": "DETAIL" },
+    { "kind": "RECT", "points": [0.6, 0.52, 0.7, 0.6], "stroke": "DETAIL", "fill": "PANEL" },
+    { "kind": "POLYLINE", "points": [0.65, 0.52, 0.65, 0.48], "stroke": "DETAIL" },
+
+    { "kind": "RECT", "points": [0.38, 0.62, 0.5, 0.72], "stroke": "DETAIL", "fill": "PANEL" },
+    { "kind": "POLYLINE", "points": [0.38, 0.68, 0.335, 0.68], "stroke": "DETAIL" },
+    { "kind": "POLYLINE", "points": [0.92, 0.63, 0.97, 0.72, 0.97, 0.88], "stroke": "LINE", "dashed": true }
+  ],
+  "hotspots": [
+    {
+      "key": "davit", "labelEn": "Rescue boat davit", "labelTr": "Kurtarma botu mataforası",
+      "x": 0.125, "y": 0.45,
+      "childTypeKey": "LSA_RESCUE_BOAT_DAVIT",
+      "taskKeys": ["SC_WEEKLY_VISUAL_INSPECTION", "SC_ANNUAL_THOROUGH_EXAM"]
+    },
+    {
+      "key": "winch", "labelEn": "Winch and brake", "labelTr": "Vinç ve fren",
+      "x": 0.06, "y": 0.8,
+      "childTypeKey": "LSA_LIFEBOAT_WINCH",
+      "taskKeys": ["WINCH_BRAKE_DYNAMIC_TEST"]
+    },
+    {
+      "key": "falls", "labelEn": "Falls / wire ropes", "labelTr": "Bosa halatları / tel halatlar",
+      "x": 0.3, "y": 0.14,
+      "childTypeKey": "LSA_FALLS_WIRE_ROPES",
+      "taskKeys": ["FALLS_END_FOR_END_RENEWAL"]
+    },
+    {
+      "key": "sheave", "labelEn": "Head sheave", "labelTr": "Baş makara",
+      "x": 0.62, "y": 0.165, "markerX": 0.62, "markerY": 0.06,
+      "taskKeys": ["SC_ANNUAL_THOROUGH_EXAM"]
+    },
+    {
+      "key": "release_hook", "labelEn": "Single-point release hook", "labelTr": "Tek nokta bırakma kancası",
+      "x": 0.625, "y": 0.45,
+      "childTypeKey": "LSA_ONLOAD_RELEASE_GEAR",
+      "taskKeys": ["SC_ANNUAL_THOROUGH_EXAM", "RG_FIVE_YEARLY_OVERLOAD_TEST"]
+    },
+    {
+      "key": "engine", "labelEn": "Rescue boat engine", "labelTr": "Kurtarma botu motoru",
+      "x": 0.44, "y": 0.67,
+      "childTypeKey": "LSA_RESCUE_BOAT_ENGINE",
+      "taskKeys": ["LB_ENGINE_WEEKLY_RUN"]
+    },
+    {
+      "key": "painter", "labelEn": "Painter and release", "labelTr": "Pruva halatı ve bırakma düzeni",
+      "x": 0.97, "y": 0.8,
+      "taskKeys": ["SC_WEEKLY_VISUAL_INSPECTION"]
+    }
+  ]
+}

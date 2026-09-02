@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- chrome -->
+    <string name="sc_back">Back</string>
+    <string name="sc_loading">Loading…</string>
+    <string name="sc_not_found_title">This craft is no longer on the register</string>
+    <string name="sc_not_found_body">It was deleted or has not been created yet. Go back and pick another item.</string>
+    <string name="sc_ok">OK</string>
+    <string name="sc_save">Save</string>
+    <string name="sc_cancel">Cancel</string>
+    <string name="sc_not_set">—</string>
+    <string name="sc_date_pick">Pick date</string>
+    <string name="sc_date_clear">Clear date</string>
+
+    <!-- panels -->
+    <string name="sc_tab_components">Components</string>
+    <string name="sc_tab_inventory">Inventory</string>
+    <string name="sc_tab_tasks">Tasks</string>
+    <string name="sc_tab_drill">Drills</string>
+
+    <!-- hotspots -->
+    <string name="sc_hotspot_cd">%1$s, %2$s, condition %3$s</string>
+    <string name="sc_hotspot_add_cd">%1$s — not recorded yet, tap to add</string>
+
+    <!-- due dates -->
+    <string name="sc_due_none">No due date</string>
+    <string name="sc_due_today">Due today</string>
+    <string name="sc_due_late">%1$d d late</string>
+    <string name="sc_due_in">in %1$d d</string>
+
+    <!-- condition -->
+    <string name="sc_condition_good">Good</string>
+    <string name="sc_condition_acceptable">Acceptable</string>
+    <string name="sc_condition_monitor">Monitor</string>
+    <string name="sc_condition_defective">Defective</string>
+    <string name="sc_condition_out_of_service">Out of service</string>
+    <string name="sc_condition_not_checked">Not checked</string>
+
+    <!-- components panel -->
+    <string name="sc_components_empty_title">No sub-components yet</string>
+    <string name="sc_components_empty_body">Release gear, falls, winch and engine are recorded as their own items under this craft. Tap a hotspot on the drawing, or add one here.</string>
+    <string name="sc_add_component">Add component</string>
+
+    <!-- inventory panel -->
+    <string name="sc_inventory_caveat">Generic list — verify against LSA Code Ch. IV and the vessel\'s approved inventory before use.</string>
+    <string name="sc_inventory_empty_title">No inventory list</string>
+    <string name="sc_inventory_empty_body">This item type does not carry a boat inventory.</string>
+    <string name="sc_inventory_expiries">Inventory expiries</string>
+    <string name="sc_inventory_none_tracked">No dated items recorded yet.</string>
+    <string name="sc_inventory_expired">%1$d item(s) expired</string>
+    <string name="sc_inventory_due_soon">%1$d item(s) expiring within 30 days</string>
+    <string name="sc_inventory_all_in_date">All %1$d dated items in date</string>
+    <string name="sc_inventory_soonest">Soonest %1$s</string>
+    <string name="sc_inventory_required">Required: %1$d</string>
+    <string name="sc_inventory_quantity">Qty</string>
+    <string name="sc_inventory_expiry">Expiry</string>
+    <string name="sc_inventory_add_row">Add cylinder row</string>
+    <string name="sc_inventory_new_row">Cylinder</string>
+    <string name="sc_inventory_remove">Remove row</string>
+
+    <!-- LSA Code Chapter IV item names (generic) -->
+    <string name="sc_inv_buoyant_oars">Buoyant oars</string>
+    <string name="sc_inv_boat_hook">Boat hook</string>
+    <string name="sc_inv_bailer">Bailer</string>
+    <string name="sc_inv_buckets">Buckets</string>
+    <string name="sc_inv_sea_anchor">Sea anchor</string>
+    <string name="sc_inv_painter">Painter</string>
+    <string name="sc_inv_hatchet">Hatchet</string>
+    <string name="sc_inv_torch">Waterproof torch</string>
+    <string name="sc_inv_signalling_mirror">Signalling mirror</string>
+    <string name="sc_inv_whistle">Whistle</string>
+    <string name="sc_inv_first_aid_kit">First-aid kit</string>
+    <string name="sc_inv_seasickness_bag">Seasickness bags</string>
+    <string name="sc_inv_jack_knife">Jack knife</string>
+    <string name="sc_inv_fishing_tackle">Fishing tackle</string>
+    <string name="sc_inv_rations">Food rations</string>
+    <string name="sc_inv_water">Fresh water</string>
+    <string name="sc_inv_dipper">Rustproof dipper</string>
+    <string name="sc_inv_graduated_cup">Graduated drinking vessel</string>
+    <string name="sc_inv_rocket_parachute_flares">Rocket parachute flares</string>
+    <string name="sc_inv_hand_flares">Hand flares</string>
+    <string name="sc_inv_buoyant_smoke_signals">Buoyant smoke signals</string>
+    <string name="sc_inv_manual_pump">Manual pump</string>
+    <string name="sc_inv_repair_kit">Repair kit</string>
+    <string name="sc_inv_fire_extinguisher">Fire extinguisher</string>
+    <string name="sc_inv_searchlight">Searchlight</string>
+    <string name="sc_inv_radar_reflector">Radar reflector</string>
+    <string name="sc_inv_thermal_protective_aids">Thermal protective aids</string>
+    <string name="sc_inv_immersion_suits">Immersion suits</string>
+    <string name="sc_inv_survival_instructions">Survival instructions</string>
+    <string name="sc_inv_compass">Compass</string>
+    <string name="sc_inv_rescue_quoit">Rescue quoit and line</string>
+    <string name="sc_inv_knife">Safety knife</string>
+    <string name="sc_inv_sponges">Sponges</string>
+    <string name="sc_inv_paddles">Paddles</string>
+    <string name="sc_inv_tin_opener">Tin openers</string>
+
+    <!-- tasks panel -->
+    <string name="sc_group_weekly">Weekly</string>
+    <string name="sc_group_monthly">Monthly</string>
+    <string name="sc_group_annual">Annual</string>
+    <string name="sc_group_five_yearly">Five-yearly and longer</string>
+    <string name="sc_group_other">Other and event-driven</string>
+    <string name="sc_tasks_empty_title">No scheduled tasks</string>
+    <string name="sc_tasks_empty_body">Tasks appear once the due engine has run for this item.</string>
+    <string name="sc_task_due">Due %1$s</string>
+    <string name="sc_task_provider">Service provider</string>
+    <string name="sc_task_pending">Pending</string>
+    <string name="sc_task_due_soon">Due soon</string>
+    <string name="sc_task_overdue">Overdue</string>
+    <string name="sc_task_done">Done</string>
+    <string name="sc_task_skipped">Skipped</string>
+    <string name="sc_task_not_applicable">Not applicable</string>
+    <string name="sc_completed_date">Completed on</string>
+    <string name="sc_completed_by">Completed by</string>
+    <string name="sc_service_provider">Service provider</string>
+    <string name="sc_provider_hint">This task must be signed off by an authorised provider.</string>
+    <string name="sc_certificate_number">Certificate number</string>
+    <string name="sc_findings">Findings</string>
+
+    <!-- drill log -->
+    <string name="sc_drill_record">Record drill</string>
+    <string name="sc_drill_title_default">Survival craft drill</string>
+    <string name="sc_drill_days_since_launch">Days since last launch</string>
+    <string name="sc_drill_never_launched">Never launched</string>
+    <string name="sc_drill_days">%1$d d</string>
+    <string name="sc_drill_last">Last drill %1$s</string>
+    <string name="sc_drill_launched">Launched</string>
+    <string name="sc_drill_not_launched">Not launched</string>
+    <string name="sc_drill_date">Drill date</string>
+    <string name="sc_drill_performed_by">Performed by</string>
+    <string name="sc_drill_launched_switch">Craft was launched</string>
+    <string name="sc_drill_remarks">Remarks</string>
+    <string name="sc_drill_empty_title">No drills recorded</string>
+    <string name="sc_drill_empty_body">SOLAS III/19 drills are logged here, with the days-since-last-launch counter.</string>
+
+    <!-- messages -->
+    <string name="sc_msg_inventory_saved">Inventory saved</string>
+    <string name="sc_msg_task_logged">Completion logged</string>
+    <string name="sc_msg_drill_logged">Drill recorded</string>
+    <string name="sc_msg_child_linked">Component linked to this craft</string>
+
+</resources>

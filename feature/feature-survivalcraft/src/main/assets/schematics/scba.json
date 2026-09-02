@@ -1,0 +1,160 @@
+{
+  "key": "SCBA_SET",
+  "appliesToTypeKeys": ["FFE_SCBA_SET"],
+  "titleEn": "Self-contained breathing apparatus",
+  "titleTr": "Temiz hava solunum cihazı",
+  "aspect": 1.509,
+  "panels": ["COMPONENTS", "TASKS"],
+  "shapes": [
+    {
+      "kind": "POLYGON",
+      "points": [0.3, 0.0886, 0.62, 0.0886, 0.66, 0.9389, 0.26, 0.9389],
+      "stroke": "OUTLINE",
+      "fill": "BODY",
+      "weight": 1.4
+    },
+    {
+      "kind": "POLYLINE",
+      "points": [0.34, 0.0886, 0.3, 0.4177, 0.36, 0.7194],
+      "stroke": "LINE"
+    },
+    {
+      "kind": "POLYLINE",
+      "points": [0.58, 0.0886, 0.62, 0.4177, 0.56, 0.7194],
+      "stroke": "LINE"
+    },
+    {
+      "kind": "RECT",
+      "points": [0.24, 0.7743, 0.68, 0.884],
+      "stroke": "DETAIL",
+      "fill": "PANEL"
+    },
+    {
+      "kind": "RECT",
+      "points": [0.38, 0.1709, 0.56, 0.8291],
+      "stroke": "OUTLINE",
+      "fill": "PANEL",
+      "weight": 1.3
+    },
+    {
+      "kind": "ELLIPSE",
+      "points": [0.47, 0.1709, 0.09, 0.0617],
+      "stroke": "OUTLINE",
+      "fill": "PANEL",
+      "weight": 1.3
+    },
+    {
+      "kind": "ELLIPSE",
+      "points": [0.47, 0.8291, 0.09, 0.0617],
+      "stroke": "OUTLINE",
+      "fill": "PANEL",
+      "weight": 1.3
+    },
+    {
+      "kind": "RECT",
+      "points": [0.44, 0.0611, 0.5, 0.1434],
+      "stroke": "DETAIL",
+      "fill": "ACCENT"
+    },
+    {
+      "kind": "RECT",
+      "points": [0.56, 0.2531, 0.68, 0.4177],
+      "stroke": "OUTLINE",
+      "fill": "PANEL"
+    },
+    {
+      "kind": "POLYLINE",
+      "points": [0.5, 0.0886, 0.62, 0.2531],
+      "stroke": "LINE"
+    },
+    {
+      "kind": "POLYLINE",
+      "points": [0.68, 0.3629, 0.76, 0.5],
+      "stroke": "LINE"
+    },
+    {
+      "kind": "ELLIPSE",
+      "points": [0.82, 0.5823, 0.07, 0.096],
+      "stroke": "OUTLINE",
+      "fill": "PANEL"
+    },
+    {
+      "kind": "POLYLINE",
+      "points": [0.82, 0.5823, 0.86, 0.5137],
+      "stroke": "DETAIL"
+    },
+    {
+      "kind": "ELLIPSE",
+      "points": [0.16, 0.2806, 0.11, 0.1783],
+      "stroke": "OUTLINE",
+      "fill": "BODY",
+      "weight": 1.4
+    },
+    {
+      "kind": "ELLIPSE",
+      "points": [0.16, 0.2394, 0.075, 0.096],
+      "stroke": "DETAIL",
+      "fill": "PANEL"
+    },
+    {
+      "kind": "RECT",
+      "points": [0.2, 0.3766, 0.27, 0.4726],
+      "stroke": "DETAIL",
+      "fill": "PANEL"
+    },
+    {
+      "kind": "POLYLINE",
+      "points": [0.27, 0.4314, 0.4, 0.5137, 0.57, 0.4177],
+      "stroke": "LINE"
+    },
+    {
+      "kind": "ELLIPSE",
+      "points": [0.3, 0.6371, 0.025, 0.0343],
+      "stroke": "DETAIL",
+      "fill": "ACCENT"
+    }
+  ],
+  "hotspots": [
+    {
+      "key": "cylinder",
+      "labelEn": "Cylinder",
+      "labelTr": "Tüp",
+      "x": 0.47,
+      "y": 0.5,
+      "childTypeKey": "FFE_SCBA_SPARE_CYLINDER",
+      "taskKeys": ["SCBA_WEEKLY_CYLINDER_PRESSURE_CHECK", "SCBA_CYLINDER_HYDROSTATIC_TEST"]
+    },
+    {
+      "key": "reducer",
+      "labelEn": "Reducer / first stage",
+      "labelTr": "Basınç düşürücü / birinci kademe",
+      "x": 0.62,
+      "y": 0.3354,
+      "taskKeys": ["SCBA_MONTHLY_OFFICER_CHECK"]
+    },
+    {
+      "key": "mask",
+      "labelEn": "Face mask and demand valve",
+      "labelTr": "Maske ve akciğer otomatiği",
+      "x": 0.16,
+      "y": 0.2806,
+      "taskKeys": ["SCBA_MONTHLY_OFFICER_CHECK"]
+    },
+    {
+      "key": "gauge",
+      "labelEn": "Pressure gauge and whistle",
+      "labelTr": "Basınç göstergesi ve düdük",
+      "x": 0.82,
+      "y": 0.5823,
+      "taskKeys": ["SCBA_WEEKLY_CYLINDER_PRESSURE_CHECK"]
+    },
+    {
+      "key": "harness",
+      "labelEn": "Harness and backplate",
+      "labelTr": "Kayış takımı ve sırtlık",
+      "x": 0.3,
+      "y": 0.8291,
+      "taskKeys": ["SCBA_MONTHLY_OFFICER_CHECK"]
+    }
+  ]
+}
