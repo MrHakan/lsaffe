@@ -2,4 +2,51 @@
 <resources>
     <string name="deckview_title">Gemi</string>
     <string name="deckview_empty_hint">Başlamak için ilk güverteni ekle.</string>
+
+    <!-- §7.1 görünüm modları -->
+    <string name="deckview_mode_stack">Yığın</string>
+    <string name="deckview_mode_deck">Güverte</string>
+    <string name="deckview_mode_list">Liste</string>
+    <string name="deckview_view_flat">Düz plan</string>
+    <string name="deckview_view_isometric">İzometrik</string>
+
+    <!-- §7.2 görünüm ayarları -->
+    <string name="deckview_view_settings">Görünüm ayarları</string>
+    <string name="deckview_spread_label">Güverte aralığı</string>
+    <string name="deckview_spread_value">%1$.1f×</string>
+    <string name="deckview_angle_label">İzometrik açı</string>
+    <string name="deckview_angle_value">%1$d°</string>
+    <string name="deckview_show_grid">Izgarayı göster</string>
+    <string name="deckview_grid_snap">Izgaraya hizala</string>
+
+    <!-- Üst çubuk -->
+    <string name="deckview_more_actions">Diğer işlemler</string>
+    <string name="deckview_manage_decks">Güverteleri yönet</string>
+    <string name="deckview_add_equipment">Ekipman ekle</string>
+
+    <!-- §7.3 tur modu -->
+    <string name="deckview_sweep_start">Turu başlat</string>
+    <string name="deckview_sweep_stop">Turu bitir</string>
+    <string name="deckview_sweep_round_title">Tur — %1$s</string>
+
+    <!-- Boş durumlar (§14) -->
+    <string name="deckview_no_vessel_title">Henüz gemi yok</string>
+    <string name="deckview_no_vessel_body">Bulunduğun gemiyi oluştur, sonra güverte güverte kur.</string>
+    <string name="deckview_create_vessel">Gemi ekle</string>
+    <string name="deckview_no_decks_title">İlk güverteni ekle</string>
+
+    <!-- Erişilebilirlik (§14) -->
+    <string name="deckview_a11y_deck">%1$s, %2$d ekipman, %3$d gecikmiş</string>
+    <string name="deckview_a11y_focus_deck">Bu güverteye git</string>
+    <string name="deckview_a11y_marker">%1$s %2$s, durum %3$s, sonraki termin %4$s</string>
+    <string name="deckview_a11y_no_due_date">termin yok</string>
+    <string name="deckview_a11y_open_equipment">Ekipmanı aç</string>
+
+    <!-- Durum adları, işaret anonsları için -->
+    <string name="deckview_condition_good">İyi</string>
+    <string name="deckview_condition_acceptable">Kabul edilebilir</string>
+    <string name="deckview_condition_monitor">İzlenmeli</string>
+    <string name="deckview_condition_defective">Arızalı</string>
+    <string name="deckview_condition_out_of_service">Servis dışı</string>
+    <string name="deckview_condition_not_checked">Kontrol edilmedi</string>
 </resources>
