@@ -1,8 +1,6 @@
 package com.deckwatch.feature.inspection
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,16 +9,29 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.FactCheck
+import androidx.compose.material.icons.automirrored.filled.OpenInNew
+import androidx.compose.material.icons.filled.Checklist
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.DirectionsBoat
+import androidx.compose.material.icons.filled.DoneAll
+import androidx.compose.material.icons.filled.FilterAlt
+import androidx.compose.material.icons.filled.Inbox
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material.icons.filled.TaskAlt
+import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,15 +39,18 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.InputChip
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -47,18 +61,24 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.deckwatch.core.common.Dates
+import com.deckwatch.core.designsystem.components.DeckWatchListRow
+import com.deckwatch.core.designsystem.components.DeckWatchTopBar
+import com.deckwatch.core.designsystem.components.DueDeltaChip
+import com.deckwatch.core.designsystem.components.EmptyState
+import com.deckwatch.core.designsystem.components.SectionHeader
+import com.deckwatch.core.designsystem.components.StatusChip
 import com.deckwatch.core.designsystem.components.SymbolTile
+import com.deckwatch.core.designsystem.components.TaskStatusChip
 import com.deckwatch.core.designsystem.theme.ConditionColors
 import com.deckwatch.core.designsystem.theme.Dimens
 import com.deckwatch.core.model.PerformedBy
@@ -68,9 +88,11 @@ import kotlinx.coroutines.launch
 /**
  * The Due work list — §12. A dense, swipeable list of what is owed, not a dashboard.
  *
- * Swipe **right** marks a job done (through the completion dialog of §6.6); swipe **left** defers it
- * with a reason. Both gestures snap back and open a dialog rather than committing blind: this data
- * ends up in a survey file, so nothing destructive happens on a gesture alone (C10).
+ * The primary action is completing a job. It is reachable two ways, because a gesture nobody
+ * discovers is not an action: swipe **right** marks done and swipe **left** defers, and tapping the
+ * row opens the same three choices as a bottom sheet with 56dp targets (DESIGN_OVERHAUL rules 1 and
+ * 3). Both gestures snap back and open a dialog rather than committing blind: this data ends up in a
+ * survey file, so nothing destructive happens on a gesture alone (C10).
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -97,6 +119,8 @@ fun DueWorkListScreen(
 
     var completing by remember { mutableStateOf<DueRow?>(null) }
     var deferring by remember { mutableStateOf<DueRow?>(null) }
+    var acting by remember { mutableStateOf<DueRow?>(null) }
+    var filterSheetOpen by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -118,7 +142,11 @@ fun DueWorkListScreen(
     ) { padding ->
         Column(modifier = Modifier.padding(padding).fillMaxSize()) {
             if (!state.hasVessel) {
-                EmptyHint(text = stringResource(R.string.due_no_vessel))
+                EmptyState(
+                    icon = Icons.Filled.DirectionsBoat,
+                    title = stringResource(R.string.due_no_vessel_title),
+                    body = stringResource(R.string.due_no_vessel),
+                )
                 return@Column
             }
 
@@ -127,27 +155,66 @@ fun DueWorkListScreen(
                 counts = state.counts,
                 onSelect = viewModel::selectSegment,
             )
-            DueFilterRow(state = state, viewModel = viewModel)
+            if (!state.surveyPrepEnabled) {
+                DueFilterBar(
+                    state = state,
+                    viewModel = viewModel,
+                    onOpenSheet = { filterSheetOpen = true },
+                )
+            }
             HorizontalDivider()
 
             when {
                 state.surveyPrepEnabled -> SurveyPrepContent(
                     state = state,
-                    onOpenEquipment = onOpenEquipment,
+                    onLeave = viewModel::toggleSurveyPrep,
+                    onOpenRow = { acting = it },
                 )
 
                 // Nothing anywhere and nothing filtered out: this vessel has no work on file yet.
-                state.counts.values.sum() == 0 && !state.filters.isActive ->
-                    EmptyHint(text = stringResource(R.string.due_empty_hint))
+                state.counts.values.sum() == 0 && !state.filters.isActive -> EmptyState(
+                    icon = Icons.Filled.Checklist,
+                    title = stringResource(R.string.due_empty_title),
+                    body = stringResource(R.string.due_empty_hint),
+                )
 
                 else -> DueRowList(
                     rows = state.rows,
-                    onOpenEquipment = onOpenEquipment,
+                    filtersActive = state.filters.isActive,
+                    onClearFilters = viewModel::clearFilters,
+                    onOpenRow = { acting = it },
                     onRequestComplete = { completing = it },
                     onRequestDefer = { deferring = it },
                 )
             }
         }
+    }
+
+    if (filterSheetOpen) {
+        DueFilterSheet(
+            state = state,
+            viewModel = viewModel,
+            onDismiss = { filterSheetOpen = false },
+        )
+    }
+
+    acting?.let { row ->
+        DueRowActionSheet(
+            row = row,
+            onDismiss = { acting = null },
+            onComplete = {
+                acting = null
+                completing = row
+            },
+            onDefer = {
+                acting = null
+                deferring = row
+            },
+            onOpenEquipment = {
+                acting = null
+                onOpenEquipment(row.equipmentId)
+            },
+        )
     }
 
     completing?.let { row ->
@@ -174,7 +241,6 @@ fun DueWorkListScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DueTopBar(
     state: DueUiState,
@@ -185,23 +251,14 @@ private fun DueTopBar(
     onOpenDeficiencies: () -> Unit,
 ) {
     var menuOpen by remember { mutableStateOf(false) }
-    TopAppBar(
-        title = {
-            Column {
-                Text(stringResource(R.string.due_title), style = MaterialTheme.typography.titleLarge)
-                if (state.vesselName.isNotEmpty()) {
-                    Text(
-                        text = state.vesselName,
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                }
-            }
-        },
+    DeckWatchTopBar(
+        title = stringResource(R.string.due_title),
+        subtitle = state.vesselName.takeIf { it.isNotEmpty() },
         actions = {
-            IconButton(onClick = onToggleSurveyPrep) {
+            IconButton(
+                onClick = onToggleSurveyPrep,
+                modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
+            ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.FactCheck,
                     contentDescription = stringResource(R.string.due_survey_prep),
@@ -212,14 +269,17 @@ private fun DueTopBar(
                     },
                 )
             }
-            IconButton(onClick = onCopy) {
+            IconButton(onClick = onCopy, modifier = Modifier.heightIn(min = Dimens.TouchTargetMin)) {
                 Icon(
                     imageVector = Icons.Filled.ContentCopy,
                     contentDescription = stringResource(R.string.due_copy_text),
                 )
             }
             Box {
-                IconButton(onClick = { menuOpen = true }) {
+                IconButton(
+                    onClick = { menuOpen = true },
+                    modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
+                ) {
                     Icon(
                         imageVector = Icons.Filled.MoreVert,
                         contentDescription = stringResource(R.string.due_more_actions),
@@ -277,74 +337,177 @@ private fun SegmentChips(
     }
 }
 
+/** One active filter, as the row shows it: a word and the tap that removes it. */
+private data class ActiveFilter(val key: String, val label: String, val clear: () -> Unit)
+
 @Composable
-private fun DueFilterRow(state: DueUiState, viewModel: DueViewModel) {
-    val options = state.options
+private fun activeFilters(state: DueUiState, viewModel: DueViewModel): List<ActiveFilter> {
     val filters = state.filters
+    val options = state.options
+    val result = mutableListOf<ActiveFilter>()
+    options.decks.firstOrNull { it.id == filters.deckId }?.let {
+        result += ActiveFilter("deck", it.label) { viewModel.setDeckFilter(null) }
+    }
+    options.zones.firstOrNull { it.id == filters.zoneId }?.let {
+        result += ActiveFilter("zone", it.label) { viewModel.setZoneFilter(null) }
+    }
+    options.categories.firstOrNull { it.id == filters.categoryId }?.let {
+        result += ActiveFilter("category", it.label) { viewModel.setCategoryFilter(null) }
+    }
+    filters.group?.let { group ->
+        result += ActiveFilter("group", labelOf(group)) { viewModel.setGroupFilter(null) }
+    }
+    filters.performedBy?.let { performer ->
+        result += ActiveFilter("performer", labelOf(performer)) { viewModel.setPerformedByFilter(null) }
+    }
+    filters.condition?.let { condition ->
+        result += ActiveFilter("condition", labelOf(condition)) { viewModel.setConditionFilter(null) }
+    }
+    return result
+}
+
+/**
+ * Six filter dimensions behind one chip — §12 kept, but folded away so the work list starts at the
+ * top of the screen. What is actually filtering stays visible as removable chips beside it.
+ */
+@Composable
+private fun DueFilterBar(state: DueUiState, viewModel: DueViewModel, onOpenSheet: () -> Unit) {
+    val active = activeFilters(state, viewModel)
     LazyRow(
         modifier = Modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(horizontal = Dimens.SpacingM),
+        contentPadding = PaddingValues(horizontal = Dimens.SpacingM, vertical = Dimens.SpacingXs),
         horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingS),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        item(key = "deck") {
-            FilterDropdownChip(
-                label = stringResource(R.string.due_filter_deck),
-                selectedLabel = options.decks.firstOrNull { it.id == filters.deckId }?.label,
-                options = options.decks,
-                optionLabel = { it.label },
-                onSelect = { viewModel.setDeckFilter(it?.id) },
+        item(key = "filter") {
+            FilterChip(
+                selected = active.isNotEmpty(),
+                onClick = onOpenSheet,
+                leadingIcon = { Icon(Icons.Filled.FilterAlt, contentDescription = null) },
+                label = {
+                    Text(
+                        if (active.isEmpty()) {
+                            stringResource(R.string.due_filter)
+                        } else {
+                            stringResource(R.string.due_filter_badge, active.size)
+                        },
+                    )
+                },
+                shape = RoundedCornerShape(Dimens.ChipCorner),
+                modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
             )
         }
-        item(key = "zone") {
-            FilterDropdownChip(
-                label = stringResource(R.string.due_filter_zone),
-                selectedLabel = options.zones.firstOrNull { it.id == filters.zoneId }?.label,
-                options = options.zones,
-                optionLabel = { it.label },
-                onSelect = { viewModel.setZoneFilter(it?.id) },
+        items(active, key = { it.key }) { filter ->
+            InputChip(
+                selected = true,
+                onClick = filter.clear,
+                label = { Text(filter.label) },
+                trailingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.Close,
+                        contentDescription = stringResource(R.string.due_filter_remove, filter.label),
+                    )
+                },
+                shape = RoundedCornerShape(Dimens.ChipCorner),
+                modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
             )
         }
-        item(key = "category") {
-            FilterDropdownChip(
-                label = stringResource(R.string.due_filter_category),
-                selectedLabel = options.categories.firstOrNull { it.id == filters.categoryId }?.label,
-                options = options.categories,
-                optionLabel = { it.label },
-                onSelect = { viewModel.setCategoryFilter(it?.id) },
-            )
-        }
-        item(key = "group") {
-            FilterDropdownChip(
-                label = stringResource(R.string.due_filter_group),
-                selectedLabel = filters.group?.let { labelOf(it) },
-                options = options.groups,
-                optionLabel = { labelOf(it) },
-                onSelect = { viewModel.setGroupFilter(it) },
-            )
-        }
-        item(key = "performer") {
-            FilterDropdownChip(
-                label = stringResource(R.string.due_filter_performed_by),
-                selectedLabel = filters.performedBy?.let { labelOf(it) },
-                options = options.performers,
-                optionLabel = { labelOf(it) },
-                onSelect = { viewModel.setPerformedByFilter(it) },
-            )
-        }
-        item(key = "condition") {
-            FilterDropdownChip(
-                label = stringResource(R.string.due_filter_condition),
-                selectedLabel = filters.condition?.let { labelOf(it) },
-                options = options.conditions,
-                optionLabel = { labelOf(it) },
-                onSelect = { viewModel.setConditionFilter(it) },
-            )
-        }
-        if (filters.isActive) {
-            item(key = "clear") {
-                TextButton(onClick = viewModel::clearFilters) {
+    }
+}
+
+/** The six dimensions of §12, one glove-sized row each. */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DueFilterSheet(state: DueUiState, viewModel: DueViewModel, onDismiss: () -> Unit) {
+    val options = state.options
+    val filters = state.filters
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+                .navigationBarsPadding()
+                .padding(bottom = Dimens.SpacingL),
+        ) {
+            SectionHeader(text = stringResource(R.string.due_filter_sheet_title))
+            FilterSheetRow(label = stringResource(R.string.due_filter_deck)) {
+                FilterDropdownChip(
+                    label = stringResource(R.string.due_filter_all),
+                    selectedLabel = options.decks.firstOrNull { it.id == filters.deckId }?.label,
+                    options = options.decks,
+                    optionLabel = { it.label },
+                    onSelect = { viewModel.setDeckFilter(it?.id) },
+                )
+            }
+            FilterSheetRow(label = stringResource(R.string.due_filter_zone)) {
+                FilterDropdownChip(
+                    label = stringResource(R.string.due_filter_all),
+                    selectedLabel = options.zones.firstOrNull { it.id == filters.zoneId }?.label,
+                    options = options.zones,
+                    optionLabel = { it.label },
+                    onSelect = { viewModel.setZoneFilter(it?.id) },
+                )
+            }
+            FilterSheetRow(label = stringResource(R.string.due_filter_category)) {
+                FilterDropdownChip(
+                    label = stringResource(R.string.due_filter_all),
+                    selectedLabel = options.categories.firstOrNull { it.id == filters.categoryId }?.label,
+                    options = options.categories,
+                    optionLabel = { it.label },
+                    onSelect = { viewModel.setCategoryFilter(it?.id) },
+                )
+            }
+            FilterSheetRow(label = stringResource(R.string.due_filter_group)) {
+                FilterDropdownChip(
+                    label = stringResource(R.string.due_filter_all),
+                    selectedLabel = filters.group?.let { labelOf(it) },
+                    options = options.groups,
+                    optionLabel = { labelOf(it) },
+                    onSelect = { viewModel.setGroupFilter(it) },
+                )
+            }
+            FilterSheetRow(label = stringResource(R.string.due_filter_performed_by)) {
+                FilterDropdownChip(
+                    label = stringResource(R.string.due_filter_all),
+                    selectedLabel = filters.performedBy?.let { labelOf(it) },
+                    options = options.performers,
+                    optionLabel = { labelOf(it) },
+                    onSelect = { viewModel.setPerformedByFilter(it) },
+                )
+            }
+            FilterSheetRow(label = stringResource(R.string.due_filter_condition)) {
+                FilterDropdownChip(
+                    label = stringResource(R.string.due_filter_all),
+                    selectedLabel = filters.condition?.let { labelOf(it) },
+                    options = options.conditions,
+                    optionLabel = { labelOf(it) },
+                    onSelect = { viewModel.setConditionFilter(it) },
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = Dimens.SpacingL, vertical = Dimens.SpacingM),
+                horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingS),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                TextButton(
+                    onClick = viewModel::clearFilters,
+                    enabled = filters.isActive,
+                    modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
+                ) {
                     Text(stringResource(R.string.due_filter_clear))
+                }
+                Button(
+                    onClick = onDismiss,
+                    modifier = Modifier
+                        .weight(1f)
+                        .heightIn(min = Dimens.TouchTargetPrimary),
+                ) {
+                    Text(stringResource(R.string.due_filter_done))
                 }
             }
         }
@@ -352,21 +515,96 @@ private fun DueFilterRow(state: DueUiState, viewModel: DueViewModel) {
 }
 
 @Composable
+private fun FilterSheetRow(label: String, control: @Composable () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = Dimens.TouchTargetPrimary)
+            .padding(horizontal = Dimens.SpacingL, vertical = Dimens.SpacingXs),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingM),
+    ) {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.weight(1f),
+        )
+        control()
+    }
+}
+
+/** The row action menu — for everyone who never discovers the swipe (DESIGN_OVERHAUL rule 1). */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DueRowActionSheet(
+    row: DueRow,
+    onDismiss: () -> Unit,
+    onComplete: () -> Unit,
+    onDefer: () -> Unit,
+    onOpenEquipment: () -> Unit,
+) {
+    val turkish = isTurkishLocale()
+    ModalBottomSheet(onDismissRequest = onDismiss) {
+        Column(modifier = Modifier.fillMaxWidth().navigationBarsPadding()) {
+            SectionHeader(text = stringResource(R.string.due_row_actions))
+            Text(
+                text = "${row.tag} · ${row.taskTitle.resolve(turkish)}",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(horizontal = Dimens.SpacingL, vertical = Dimens.SpacingXs),
+            )
+            SheetActionRow(
+                icon = Icons.Filled.TaskAlt,
+                label = stringResource(R.string.due_swipe_done),
+                onClick = onComplete,
+            )
+            SheetActionRow(
+                icon = Icons.Filled.Schedule,
+                label = stringResource(R.string.due_swipe_defer),
+                onClick = onDefer,
+            )
+            SheetActionRow(
+                icon = Icons.AutoMirrored.Filled.OpenInNew,
+                label = stringResource(R.string.due_open_equipment),
+                onClick = onOpenEquipment,
+            )
+        }
+    }
+}
+
+@Composable
+private fun SheetActionRow(icon: ImageVector, label: String, onClick: () -> Unit) {
+    DeckWatchListRow(
+        title = label,
+        onClick = onClick,
+        leading = { Icon(imageVector = icon, contentDescription = null) },
+    )
+}
+
+@Composable
 private fun DueRowList(
     rows: List<DueRow>,
-    onOpenEquipment: (String) -> Unit,
+    filtersActive: Boolean,
+    onClearFilters: () -> Unit,
+    onOpenRow: (DueRow) -> Unit,
     onRequestComplete: (DueRow) -> Unit,
     onRequestDefer: (DueRow) -> Unit,
 ) {
     if (rows.isEmpty()) {
-        EmptyHint(text = stringResource(R.string.due_segment_empty))
+        EmptyState(
+            icon = Icons.Filled.Inbox,
+            title = stringResource(R.string.due_segment_empty_title),
+            body = stringResource(R.string.due_segment_empty),
+            actionLabel = stringResource(R.string.due_filter_clear).takeIf { filtersActive },
+            onAction = onClearFilters.takeIf { filtersActive },
+        )
         return
     }
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         items(rows, key = { it.instanceId }) { row ->
             SwipeableDueRow(
                 row = row,
-                onOpenEquipment = onOpenEquipment,
+                onOpenRow = onOpenRow,
                 onRequestComplete = onRequestComplete,
                 onRequestDefer = onRequestDefer,
             )
@@ -379,7 +617,7 @@ private fun DueRowList(
 @Composable
 private fun SwipeableDueRow(
     row: DueRow,
-    onOpenEquipment: (String) -> Unit,
+    onOpenRow: (DueRow) -> Unit,
     onRequestComplete: (DueRow) -> Unit,
     onRequestDefer: (DueRow) -> Unit,
 ) {
@@ -405,116 +643,106 @@ private fun SwipeableDueRow(
                     text = doneLabel,
                     color = ConditionColors.Good,
                     alignment = Alignment.Start,
+                    modifier = Modifier.fillMaxSize(),
                 )
 
                 SwipeToDismissBoxValue.EndToStart -> SwipeActionBackground(
                     text = deferLabel,
                     color = ConditionColors.Monitor,
                     alignment = Alignment.End,
+                    modifier = Modifier.fillMaxSize(),
                 )
 
                 SwipeToDismissBoxValue.Settled -> Unit
             }
         },
     ) {
-        DueRowContent(row = row, onClick = { onOpenEquipment(row.equipmentId) })
+        DueListRow(row = row, onClick = { onOpenRow(row) })
     }
 }
 
+/** One work-list line, on the shared row — symbol, monospace tag, meta line, day-delta chip. */
 @Composable
-private fun DueRowContent(row: DueRow, onClick: () -> Unit) {
+private fun DueListRow(row: DueRow, onClick: () -> Unit) {
     val turkish = isTurkishLocale()
-    val statusColor = ConditionColors.of(row.status)
     val delta = deltaLabel(row.dayDelta)
-    val performer = labelOf(row.performedBy)
+    val dueIso = Dates.formatIso(row.dueDate)
     val semantics = stringResource(
         R.string.due_row_semantics,
         row.tag,
         row.taskTitle.resolve(turkish),
-        Dates.formatIso(row.dueDate),
+        dueIso,
         delta,
     )
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface)
-            .clickable(onClick = onClick)
-            .heightIn(min = Dimens.ListRowComfortable)
-            .padding(horizontal = Dimens.SpacingM, vertical = Dimens.SpacingS)
-            .semantics { contentDescription = semantics },
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingM),
-    ) {
-        StatusRail(color = statusColor)
-        SymbolTile(symbolKey = row.symbolKey, size = SymbolSize)
-        Column(modifier = Modifier.weight(1f)) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingS),
-                verticalAlignment = Alignment.CenterVertically,
+    val meta = listOf(dueIso, row.deckShortName, labelOf(row.performedBy))
+        .filter { it.isNotBlank() }
+        .joinToString(" · ")
+    DeckWatchListRow(
+        title = row.tag,
+        titleIsTag = true,
+        subtitle = "${row.taskTitle.resolve(turkish)}\n$meta",
+        onClick = onClick,
+        leading = { SymbolTile(symbolKey = row.symbolKey, size = SymbolSize) },
+        trailing = {
+            Column(
+                horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.spacedBy(Dimens.SpacingXs),
             ) {
-                TagText(tag = row.tag)
-                if (row.deckShortName.isNotBlank()) {
-                    InfoChip(text = row.deckShortName)
-                }
+                DueDeltaChip(daysUntilDue = row.dayDelta, text = delta)
                 if (row.status == TaskStatus.SKIPPED) {
-                    InfoChip(
+                    TaskStatusChip(
+                        status = TaskStatus.SKIPPED,
                         text = stringResource(R.string.due_deferred),
-                        color = ConditionColors.Defective.copy(alpha = 0.18f),
-                        contentColor = ConditionColors.Defective,
                     )
                 }
             }
-            Text(
-                text = row.taskTitle.resolve(turkish),
-                style = MaterialTheme.typography.bodyMedium,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-            )
-            Row(
-                modifier = Modifier.padding(top = 2.dp),
-                horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingS),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = Dates.formatIso(row.dueDate),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-                Text(
-                    text = delta,
-                    style = MaterialTheme.typography.labelMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = statusColor,
-                )
-                InfoChip(text = performer)
-            }
-        }
-    }
+        },
+        modifier = Modifier.semantics(mergeDescendants = true) { contentDescription = semantics },
+    )
 }
 
-/** Survey prep — §12: the pre-survey workload split by who can legally do it. */
+/**
+ * Survey prep — §12: a separate mode, not a variant of the list. It answers one question, "what
+ * must happen before the certificate expires, and who is allowed to do it", so it carries its own
+ * banner, its own section headers and a plain-language note on the shore-provider split.
+ */
 @Composable
-private fun SurveyPrepContent(state: DueUiState, onOpenEquipment: (String) -> Unit) {
+private fun SurveyPrepContent(
+    state: DueUiState,
+    onLeave: () -> Unit,
+    onOpenRow: (DueRow) -> Unit,
+) {
     val prep = state.surveyPrep
     if (prep == null) {
-        EmptyHint(text = stringResource(R.string.due_survey_no_expiry))
+        EmptyState(
+            icon = Icons.AutoMirrored.Filled.FactCheck,
+            title = stringResource(R.string.due_survey_no_expiry_title),
+            body = stringResource(R.string.due_survey_no_expiry),
+            actionLabel = stringResource(R.string.due_survey_exit),
+            onAction = onLeave,
+        )
         return
     }
     if (prep.shipStaff.isEmpty() && prep.shoreProvider.isEmpty()) {
-        EmptyHint(text = stringResource(R.string.due_survey_nothing))
+        EmptyState(
+            icon = Icons.Filled.DoneAll,
+            title = stringResource(R.string.due_survey_nothing_title),
+            body = stringResource(R.string.due_survey_nothing),
+            actionLabel = stringResource(R.string.due_survey_exit),
+            onAction = onLeave,
+        )
         return
     }
     val turkish = isTurkishLocale()
     LazyColumn(modifier = Modifier.fillMaxSize()) {
-        item(key = "expiry") {
-            Text(
-                text = stringResource(
+        item(key = "mode-banner") {
+            SurveyPrepBanner(
+                expiryLine = stringResource(
                     R.string.due_survey_expiry,
                     Dates.formatIso(prep.certExpiry),
                     prep.daysToExpiry,
                 ),
-                style = MaterialTheme.typography.titleSmall,
-                modifier = Modifier.padding(horizontal = Dimens.SpacingL, vertical = Dimens.SpacingM),
+                onLeave = onLeave,
             )
         }
         if (prep.shoppingList.isNotEmpty()) {
@@ -522,51 +750,98 @@ private fun SurveyPrepContent(state: DueUiState, onOpenEquipment: (String) -> Un
                 SectionHeader(text = stringResource(R.string.due_survey_shopping))
             }
             items(prep.shoppingList, key = { "shop-${it.taskKey}" }) { entry ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = Dimens.SpacingL, vertical = Dimens.SpacingS),
-                    horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingS),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text(
-                        text = entry.title.resolve(turkish),
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.weight(1f),
-                    )
-                    InfoChip(text = labelOf(entry.performedBy))
-                    Text(
-                        text = stringResource(R.string.due_survey_count, entry.count),
-                        style = MaterialTheme.typography.labelLarge,
-                        fontWeight = FontWeight.Bold,
-                    )
-                }
+                DeckWatchListRow(
+                    title = entry.title.resolve(turkish),
+                    subtitle = labelOf(entry.performedBy),
+                    trailing = {
+                        StatusChip(
+                            text = stringResource(R.string.due_survey_count, entry.count),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    },
+                )
             }
             item(key = "shopping-divider") { HorizontalDivider() }
         }
         surveySection(
             title = R.string.due_survey_ship_staff,
             rows = prep.shipStaff,
-            onOpenEquipment = onOpenEquipment,
+            onOpenRow = onOpenRow,
         )
         surveySection(
             title = R.string.due_survey_shore,
             rows = prep.shoreProvider,
-            onOpenEquipment = onOpenEquipment,
+            note = R.string.due_survey_shore_hint,
+            onOpenRow = onOpenRow,
         )
+    }
+}
+
+@Composable
+private fun SurveyPrepBanner(expiryLine: String, onLeave: () -> Unit) {
+    Surface(
+        color = MaterialTheme.colorScheme.secondaryContainer,
+        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = Dimens.TouchTargetPrimary)
+                .padding(horizontal = Dimens.SpacingL, vertical = Dimens.SpacingS),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingM),
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = stringResource(R.string.due_survey_mode),
+                    style = MaterialTheme.typography.titleSmall,
+                )
+                Text(text = expiryLine, style = MaterialTheme.typography.bodySmall)
+            }
+            TextButton(
+                onClick = onLeave,
+                modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
+            ) {
+                Text(stringResource(R.string.due_survey_exit))
+            }
+        }
     }
 }
 
 private fun LazyListScope.surveySection(
     @StringRes title: Int,
     rows: List<DueRow>,
-    onOpenEquipment: (String) -> Unit,
+    onOpenRow: (DueRow) -> Unit,
+    @StringRes note: Int? = null,
 ) {
     item(key = "header-$title") {
-        SectionHeader(text = stringResource(title), trailing = rows.size.toString())
+        SectionHeader(
+            text = stringResource(title),
+            trailing = {
+                StatusChip(
+                    text = rows.size.toString(),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            },
+        )
+    }
+    if (note != null) {
+        item(key = "note-$title") {
+            Text(
+                text = stringResource(note),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(
+                    start = Dimens.SpacingL,
+                    end = Dimens.SpacingL,
+                    bottom = Dimens.SpacingS,
+                ),
+            )
+        }
     }
     items(rows, key = { "$title-${it.instanceId}" }) { row ->
-        DueRowContent(row = row, onClick = { onOpenEquipment(row.equipmentId) })
+        DueListRow(row = row, onClick = { onOpenRow(row) })
         HorizontalDivider()
     }
 }
@@ -593,4 +868,4 @@ private fun rememberExportLabels(segmentName: String): DueExportLabels = DueExpo
     performedByNames = PerformedBy.entries.associateWith { labelOf(it) },
 )
 
-private val SymbolSize = 36.dp
+private val SymbolSize = 40.dp

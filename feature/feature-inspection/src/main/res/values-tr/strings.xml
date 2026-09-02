@@ -1,23 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="due_title">Vadesi</string>
-    <string name="due_empty_hint">Henüz vadesi gelen iş yok. Önce ekipman ekle.</string>
+    <string name="due_title">Vadeler</string>
+    <string name="due_empty_title">Vadesi gelen iş yok</string>
+    <string name="due_empty_hint">Gemiye periyodu tanımlı ekipman eklendiğinde işler burada listelenir.</string>
 
     <!-- Work list -->
-    <string name="due_no_vessel">Aktif gemi yok. Önce Gemi sekmesinden bir gemi oluştur.</string>
+    <string name="due_no_vessel_title">Aktif gemi yok</string>
+    <string name="due_no_vessel">Gemi sekmesinden bir gemi oluşturun; bu liste kendiliğinden dolar.</string>
     <string name="due_segment_overdue">Gecikmiş</string>
     <string name="due_segment_week">Bu hafta</string>
     <string name="due_segment_month">Bu ay</string>
     <string name="due_segment_survey">Sörveyden önce</string>
     <string name="due_segment_planned">Planlı</string>
-    <string name="due_segment_empty">Bu bölümde iş yok.</string>
+    <string name="due_segment_empty_title">Bu bölümde iş yok</string>
+    <string name="due_segment_empty">Yukarıdan başka bir bölüm seçin veya filtreleri temizleyin.</string>
     <string name="due_row_semantics">%1$s, %2$s, vade %3$s, %4$s</string>
     <string name="due_delta_late">%1$d gün gecikti</string>
-    <string name="due_delta_today">bugün</string>
+    <string name="due_delta_today">bugün vadeli</string>
     <string name="due_delta_ahead">%1$d gün kaldı</string>
     <string name="due_deferred">Ertelendi</string>
 
+    <!-- Row action sheet -->
+    <string name="due_row_actions">İş işlemleri</string>
+    <string name="due_open_equipment">Ekipmanı aç</string>
+
     <!-- Filters -->
+    <string name="due_filter">Filtre</string>
+    <string name="due_filter_badge">Filtre · %1$d</string>
+    <string name="due_filter_sheet_title">Vade listesini filtrele</string>
+    <string name="due_filter_done">Sonuçları göster</string>
+    <string name="due_filter_remove">%1$s filtresini kaldır</string>
     <string name="due_filter_deck">Güverte</string>
     <string name="due_filter_zone">Bölge</string>
     <string name="due_filter_category">Kategori</string>
@@ -29,12 +41,17 @@
 
     <!-- Survey prep -->
     <string name="due_survey_prep">Sörvey hazırlığı</string>
-    <string name="due_survey_no_expiry">Gemi kaydında Emniyet Teçhizatı Sertifikası bitiş tarihi yok — sörveyi planlamak için ekle.</string>
-    <string name="due_survey_expiry">SEC bitişi %1$s · %2$d gün</string>
+    <string name="due_survey_mode">Sörvey hazırlığı</string>
+    <string name="due_survey_exit">Sörvey hazırlığından çık</string>
+    <string name="due_survey_no_expiry_title">Sertifika bitiş tarihi yok</string>
+    <string name="due_survey_no_expiry">Gemi kaydına Emniyet Teçhizatı Sertifikası bitiş tarihini ekleyin; sörvey iş yükü sizin için çıkarılsın.</string>
+    <string name="due_survey_expiry">SEC bitiş %1$s · %2$d gün</string>
     <string name="due_survey_ship_staff">Gemi personeli yapabilir</string>
-    <string name="due_survey_shore">Kara servisi / üretici gerekir</string>
+    <string name="due_survey_shore">Kara servisi gerekir</string>
+    <string name="due_survey_shore_hint">Bu işleri yalnızca yetkili servis sağlayıcı, üretici veya nezaret eden sörveyör imzalayabilir — limana girmeden önce sipariş edin.</string>
     <string name="due_survey_shopping">Kara servisi talep listesi</string>
     <string name="due_survey_count">× %1$d</string>
+    <string name="due_survey_nothing_title">Sörvey için eksik yok</string>
     <string name="due_survey_nothing">Sertifika bitmeden vadesi gelen iş yok.</string>
 
     <!-- Actions -->
@@ -46,66 +63,70 @@
     <string name="due_more_actions">Diğer işlemler</string>
 
     <!-- Swipe -->
-    <string name="due_swipe_done">Yapıldı işaretle</string>
+    <string name="due_swipe_done">Yapıldı olarak işaretle</string>
     <string name="due_swipe_defer">Ertele</string>
 
     <!-- Completion dialog -->
     <string name="due_complete_title">Yapıldı olarak işaretle</string>
-    <string name="due_complete_date">Yapılma tarihi (YYYY-AA-GG)</string>
-    <string name="due_complete_by">Yapan</string>
+    <string name="due_complete_date">Yapılma tarihi</string>
+    <string name="due_complete_by">İşi yapan</string>
     <string name="due_complete_provider">Servis firması</string>
     <string name="due_complete_certificate">Sertifika / rapor no.</string>
     <string name="due_complete_findings">Bulgular</string>
     <string name="due_complete_condition">İşlem sonrası durum</string>
-    <string name="due_complete_bad_date">YYYY-AA-GG biçimini kullan.</string>
 
     <!-- Defer dialog -->
     <string name="due_defer_title">Gerekçe ile ertele</string>
     <string name="due_defer_reason">Gerekçe</string>
-    <string name="due_defer_hint">İş vade tarihini korur ve Planlı bölümüne geçer. Gerekçenle birlikte atlandı olarak kaydedilir.</string>
+    <string name="due_defer_hint">İş, vade tarihini korur ve Planlı bölümüne geçer. Gerekçenizle birlikte atlandı olarak kaydedilir.</string>
 
     <!-- Rounds -->
     <string name="rounds_title">Turlar</string>
-    <string name="rounds_empty">Henüz kayıtlı tur yok. Bir şablondan tur başlat.</string>
+    <string name="rounds_empty_title">Henüz tur yok</string>
+    <string name="rounds_empty">Tur, şablondaki öğeleri tek tek gezdirir; her öğeye bir durum verirsiniz.</string>
     <string name="rounds_start">Tur başlat</string>
-    <string name="rounds_pick_template">Tur şablonu seç</string>
+    <string name="rounds_pick_template">Tur şablonu seçin</string>
     <string name="rounds_no_templates">Henüz tur şablonu yok.</string>
     <string name="rounds_performed_by">Turu yapan</string>
-    <string name="rounds_progress">%2$d öğeden %1$d tanesi kontrol edildi</string>
+    <string name="rounds_progress">%2$d öğeden %1$d kontrol edildi</string>
     <string name="rounds_deficiency_count">%1$d eksiklik</string>
     <string name="rounds_in_progress">Devam ediyor</string>
-    <string name="rounds_started">Başlangıç %1$s</string>
+    <string name="rounds_started">Başladı %1$s</string>
     <string name="rounds_completed">Tamamlandı %1$s</string>
     <string name="rounds_no_matching_equipment">Bu gemide şablona uyan ekipman yok.</string>
     <string name="rounds_template_matches">%1$d öğe</string>
 
     <!-- Round run -->
-    <string name="round_run_position">%2$d öğeden %1$d.</string>
+    <string name="round_run_position">Öğe %1$d / %2$d</string>
     <string name="round_run_remark">Not</string>
     <string name="round_run_skip">Atla</string>
     <string name="round_run_finish">Turu bitir</string>
-    <string name="round_run_all_checked">Bütün öğeler kontrol edildi. Kaydetmek için turu bitir.</string>
-    <string name="round_run_previous">Geri</string>
+    <string name="round_run_all_checked">Bütün öğeler kontrol edildi. Kaydetmek için turu bitirin.</string>
+    <string name="round_run_previous">Önceki</string>
     <string name="round_run_condition">Durum</string>
-    <string name="round_run_empty">Bu turda öğe yok.</string>
+    <string name="round_run_empty_title">Tur boş</string>
+    <string name="round_run_empty">Bu turda öğe yok. Tur listesinden başka bir şablon başlatın.</string>
     <string name="round_run_checked">Kontrol edildi</string>
 
     <!-- Deficiencies -->
     <string name="deficiencies_title">Eksiklikler</string>
+    <string name="deficiencies_edit_title">Eksikliği düzenle</string>
     <string name="deficiencies_tab_open">Açık</string>
     <string name="deficiencies_tab_closed">Kapalı</string>
-    <string name="deficiencies_empty_open">Açık eksiklik yok.</string>
-    <string name="deficiencies_empty_closed">Kapatılmış eksiklik yok.</string>
+    <string name="deficiencies_empty_open_title">Açık eksiklik yok</string>
+    <string name="deficiencies_empty_open">Bir bulgu gördüğünüz anda eksiklik açın; sörveyör sormadan kayda geçsin.</string>
+    <string name="deficiencies_empty_closed_title">Henüz kapatılan eksiklik yok</string>
+    <string name="deficiencies_empty_closed">Kapattığınız eksiklikler, kimin ne zaman kapattığıyla birlikte burada görünür.</string>
     <string name="deficiencies_new">Eksiklik aç</string>
     <string name="deficiency_field_title">Başlık</string>
     <string name="deficiency_field_description">Açıklama</string>
     <string name="deficiency_field_severity">Önem derecesi</string>
     <string name="deficiency_field_corrective">Düzeltici faaliyet</string>
-    <string name="deficiency_field_target">Hedef tarih (YYYY-AA-GG)</string>
-    <string name="deficiency_field_raised_by">Açan</string>
+    <string name="deficiency_field_target">Hedef tarih</string>
+    <string name="deficiency_field_raised_by">Tespit eden</string>
     <string name="deficiency_field_closed_by">Kapatan</string>
     <string name="deficiency_field_spare">Gereken yedek parça</string>
-    <string name="deficiency_field_status">Durum</string>
+    <string name="deficiency_field_status">Takip durumu</string>
     <string name="deficiency_close">Eksikliği kapat</string>
     <string name="deficiency_raised">Açılış %1$s</string>
     <string name="deficiency_closed">Kapanış %1$s</string>
@@ -122,7 +143,7 @@
     <string name="insp_performed_by_ship_staff_trained">Eğitimli gemi personeli</string>
     <string name="insp_performed_by_service_provider">Yetkili servis sağlayıcı</string>
     <string name="insp_performed_by_manufacturer">Üretici</string>
-    <string name="insp_performed_by_ro_surveyor">RO sörveyörü katılımıyla</string>
+    <string name="insp_performed_by_ro_surveyor">RO sörveyörü nezaretinde</string>
     <string name="insp_performed_by_shore_facility">Kara tesisi</string>
 
     <string name="insp_condition_good">İyi</string>
@@ -142,12 +163,15 @@
     <string name="insp_severity_observation">Gözlem</string>
     <string name="insp_severity_minor">Küçük</string>
     <string name="insp_severity_major">Büyük</string>
-    <string name="insp_severity_critical">Kritik / tutuklamaya esas</string>
+    <string name="insp_severity_critical">Kritik / tutuklama nedeni</string>
 
     <string name="insp_action_cancel">İptal</string>
     <string name="insp_action_save">Kaydet</string>
     <string name="insp_action_back">Geri</string>
     <string name="insp_action_none">Yok</string>
+    <string name="insp_date_pick">Tarih seçin</string>
+    <string name="insp_date_clear">Tarihi temizle</string>
+    <string name="insp_date_ok">Tamam</string>
 
     <!-- Plaintext export -->
     <string name="insp_export_header">DeckWatch — Vade listesi</string>

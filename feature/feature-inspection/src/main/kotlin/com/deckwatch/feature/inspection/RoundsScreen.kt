@@ -13,14 +13,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
@@ -29,7 +26,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -40,11 +36,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.deckwatch.core.common.Dates
+import com.deckwatch.core.designsystem.components.DeckWatchListRow
+import com.deckwatch.core.designsystem.components.DeckWatchTopBar
+import com.deckwatch.core.designsystem.components.EmptyState
+import com.deckwatch.core.designsystem.components.StatusChip
 import com.deckwatch.core.designsystem.theme.ConditionColors
 import com.deckwatch.core.designsystem.theme.Dimens
 import com.deckwatch.core.model.Round
@@ -52,10 +51,10 @@ import com.deckwatch.core.model.Round
 /**
  * Round history plus the start-a-round flow — §6.7, and the list-mode sweep §7.1 C requires.
  *
- * Starting a round materialises it from a bundled template (§19 (5)) and drops straight into the
- * run screen, because the officer taps "start" while already standing at the first item.
+ * One primary action: "Start round" (DESIGN_OVERHAUL rule 1). Starting a round materialises it from
+ * a bundled template (§19 (5)) and drops straight into the run screen, because the officer taps
+ * "start" while already standing at the first item.
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RoundsScreen(
     onBack: () -> Unit = {},
@@ -102,30 +101,39 @@ fun RoundsScreen(
         modifier = modifier.fillMaxSize(),
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.rounds_title)) },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(R.string.insp_action_back),
-                        )
-                    }
-                },
+            DeckWatchTopBar(
+                title = stringResource(R.string.rounds_title),
+                onBack = onBack,
+                backContentDescription = stringResource(R.string.insp_action_back),
             )
         },
         floatingActionButton = {
-            ExtendedFloatingActionButton(
-                onClick = { pickerOpen = true },
-                icon = { Icon(Icons.Filled.PlayArrow, contentDescription = null) },
-                text = { Text(stringResource(R.string.rounds_start)) },
-            )
+            if (state.hasVessel) {
+                ExtendedFloatingActionButton(
+                    onClick = { pickerOpen = true },
+                    icon = { Icon(Icons.Filled.PlayArrow, contentDescription = null) },
+                    text = { Text(stringResource(R.string.rounds_start)) },
+                    modifier = Modifier.heightIn(min = Dimens.TouchTargetPrimary),
+                )
+            }
         },
     ) { padding ->
         Column(modifier = Modifier.padding(padding).fillMaxSize()) {
             when {
-                !state.hasVessel -> EmptyHint(text = stringResource(R.string.due_no_vessel))
-                state.rounds.isEmpty() -> EmptyHint(text = stringResource(R.string.rounds_empty))
+                !state.hasVessel -> EmptyState(
+                    icon = Icons.Filled.PlayArrow,
+                    title = stringResource(R.string.due_no_vessel_title),
+                    body = stringResource(R.string.due_no_vessel),
+                )
+
+                state.rounds.isEmpty() -> EmptyState(
+                    icon = Icons.Filled.PlayArrow,
+                    title = stringResource(R.string.rounds_empty_title),
+                    body = stringResource(R.string.rounds_empty),
+                    actionLabel = stringResource(R.string.rounds_start),
+                    onAction = { pickerOpen = true },
+                )
+
                 else -> LazyColumn(modifier = Modifier.fillMaxSize()) {
                     items(state.rounds, key = { it.id }) { round ->
                         RoundHistoryRow(
@@ -154,76 +162,44 @@ fun RoundsScreen(
 @Composable
 private fun RoundHistoryRow(round: Round, onClick: () -> Unit) {
     val progress = if (round.itemCount > 0) round.doneCount.toFloat() / round.itemCount else 0f
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .heightIn(min = Dimens.ListRowComfortable)
-            .padding(horizontal = Dimens.SpacingL, vertical = Dimens.SpacingM),
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingS),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(
-                text = round.title,
-                style = MaterialTheme.typography.titleSmall,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.weight(1f),
-            )
-            if (round.completedAt == null) {
-                InfoChip(
-                    text = stringResource(R.string.rounds_in_progress),
-                    color = ConditionColors.Monitor.copy(alpha = 0.18f),
-                    contentColor = ConditionColors.Monitor,
-                )
-            }
-            if (round.deficiencyCount > 0) {
-                InfoChip(
-                    text = stringResource(R.string.rounds_deficiency_count, round.deficiencyCount),
-                    color = ConditionColors.Defective.copy(alpha = 0.18f),
-                    contentColor = ConditionColors.Defective,
-                )
-            }
-        }
-        Text(
-            text = stringResource(R.string.rounds_progress, round.doneCount, round.itemCount),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(top = 2.dp),
+    val dates = listOfNotNull(
+        stringResource(R.string.rounds_started, Dates.formatIso(round.startedAt.epochMillisToDay())),
+        round.completedAt?.let {
+            stringResource(R.string.rounds_completed, Dates.formatIso(it.epochMillisToDay()))
+        },
+        round.performedBy.takeIf { it.isNotBlank() },
+    ).joinToString(" · ")
+    Column(modifier = Modifier.fillMaxWidth()) {
+        DeckWatchListRow(
+            title = round.title,
+            subtitle = "${stringResource(R.string.rounds_progress, round.doneCount, round.itemCount)}\n$dates",
+            onClick = onClick,
+            trailing = {
+                Column(
+                    horizontalAlignment = Alignment.End,
+                    verticalArrangement = Arrangement.spacedBy(Dimens.SpacingXs),
+                ) {
+                    if (round.completedAt == null) {
+                        StatusChip(
+                            text = stringResource(R.string.rounds_in_progress),
+                            color = ConditionColors.Monitor,
+                        )
+                    }
+                    if (round.deficiencyCount > 0) {
+                        StatusChip(
+                            text = stringResource(R.string.rounds_deficiency_count, round.deficiencyCount),
+                            color = ConditionColors.Defective,
+                        )
+                    }
+                }
+            },
         )
         LinearProgressIndicator(
             progress = { progress },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = Dimens.SpacingXs),
+                .padding(horizontal = Dimens.SpacingL, vertical = Dimens.SpacingXs),
         )
-        Row(
-            modifier = Modifier.padding(top = Dimens.SpacingXs),
-            horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingS),
-        ) {
-            Text(
-                text = stringResource(R.string.rounds_started, Dates.formatIso(round.startedAt.epochMillisToDay())),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-            round.completedAt?.let { completed ->
-                Text(
-                    text = stringResource(R.string.rounds_completed, Dates.formatIso(completed.epochMillisToDay())),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-            if (round.performedBy.isNotBlank()) {
-                Text(
-                    text = round.performedBy,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-        }
     }
 }
 
@@ -258,7 +234,8 @@ private fun StartRoundDialog(
                         modifier = Modifier
                             .fillMaxWidth()
                             .heightIn(min = Dimens.TouchTargetMin)
-                            .clickable { selected = option.key },
+                            .clickable { selected = option.key }
+                            .padding(vertical = Dimens.SpacingXs),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingS),
                     ) {
@@ -271,7 +248,10 @@ private fun StartRoundDialog(
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.weight(1f),
                         )
-                        InfoChip(text = stringResource(R.string.rounds_template_matches, option.matchCount))
+                        StatusChip(
+                            text = stringResource(R.string.rounds_template_matches, option.matchCount),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
                     }
                 }
                 DialogField(
@@ -284,13 +264,19 @@ private fun StartRoundDialog(
         confirmButton = {
             TextButton(
                 enabled = selected != null,
+                modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
                 onClick = { selected?.let { onStart(it, performedBy) } },
             ) {
                 Text(stringResource(R.string.rounds_start))
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text(stringResource(R.string.insp_action_cancel)) }
+            TextButton(
+                onClick = onDismiss,
+                modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
+            ) {
+                Text(stringResource(R.string.insp_action_cancel))
+            }
         },
     )
 }

@@ -20,19 +20,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.deckwatch.core.common.Dates
+import com.deckwatch.core.designsystem.components.ConditionChipRow
+import com.deckwatch.core.designsystem.components.DateField
 import com.deckwatch.core.designsystem.theme.Dimens
 import com.deckwatch.core.model.ConditionGrade
-import java.time.LocalDate
-import java.time.format.DateTimeParseException
 
 /**
- * Swipe-right "mark done" — §12, capturing the §6.6 evidence fields: date, who did it, the service
- * provider and certificate number when it was a shore job, findings, and the grade the item is in
- * afterwards (§7.3).
+ * "Mark done" — §12, capturing the §6.6 evidence fields: date, who did it, the service provider and
+ * certificate number when it was a shore job, findings, and the grade the item is in afterwards
+ * (§7.3).
  *
- * Only the date is mandatory, and it is pre-filled with today, so the common case — a ship's-staff
- * check done on the spot — is two taps.
+ * The date is a [DateField] — tapped, never typed (DESIGN_OVERHAUL rule 4) — and pre-filled with
+ * today, so the common case (a ship's-staff check done on the spot) is two taps.
  */
 @Composable
 fun CompletionDialog(
@@ -43,14 +42,12 @@ fun CompletionDialog(
     modifier: Modifier = Modifier,
 ) {
     val turkish = isTurkishLocale()
-    var dateText by rememberSaveable(row.instanceId) { mutableStateOf(Dates.formatIso(defaultDate)) }
+    var completedDate by rememberSaveable(row.instanceId) { mutableStateOf(defaultDate) }
     var completedBy by rememberSaveable(row.instanceId) { mutableStateOf("") }
     var serviceProvider by rememberSaveable(row.instanceId) { mutableStateOf("") }
     var certificateNumber by rememberSaveable(row.instanceId) { mutableStateOf("") }
     var findings by rememberSaveable(row.instanceId) { mutableStateOf("") }
     var conditionAfter by remember(row.instanceId) { mutableStateOf<ConditionGrade?>(null) }
-
-    val parsedDate = parseIsoDate(dateText)
 
     AlertDialog(
         modifier = modifier,
@@ -67,20 +64,14 @@ fun CompletionDialog(
                     text = "${row.tag} · ${row.taskTitle.resolve(turkish)}",
                     style = MaterialTheme.typography.bodyMedium,
                 )
-                OutlinedTextField(
-                    value = dateText,
-                    onValueChange = { dateText = it },
-                    label = { Text(stringResource(R.string.due_complete_date)) },
-                    isError = parsedDate == null,
-                    supportingText = if (parsedDate == null) {
-                        { Text(stringResource(R.string.due_complete_bad_date)) }
-                    } else {
-                        null
-                    },
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = Dimens.SpacingM),
+                DateField(
+                    label = stringResource(R.string.due_complete_date),
+                    epochDay = completedDate,
+                    // The date drives the next occurrence, so it may be adjusted but never cleared.
+                    onChange = { picked -> completedDate = picked ?: completedDate },
+                    labels = dateFieldLabels(),
+                    required = true,
+                    modifier = Modifier.padding(top = Dimens.SpacingM),
                 )
                 DialogField(
                     value = completedBy,
@@ -112,20 +103,20 @@ fun CompletionDialog(
                 ConditionChipRow(
                     selected = conditionAfter,
                     onSelect = { conditionAfter = it },
+                    labels = conditionLabels(),
                     modifier = Modifier.padding(top = Dimens.SpacingXs),
                 )
             }
         },
         confirmButton = {
             TextButton(
-                enabled = parsedDate != null,
+                modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
                 onClick = {
-                    val date = parsedDate ?: return@TextButton
                     onConfirm(
                         TaskCompletionInput(
                             instanceId = row.instanceId,
                             equipmentId = row.equipmentId,
-                            completedDate = date,
+                            completedDate = completedDate,
                             completedBy = completedBy,
                             serviceProvider = serviceProvider,
                             certificateNumber = certificateNumber,
@@ -139,14 +130,19 @@ fun CompletionDialog(
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text(stringResource(R.string.insp_action_cancel)) }
+            TextButton(
+                onClick = onDismiss,
+                modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
+            ) {
+                Text(stringResource(R.string.insp_action_cancel))
+            }
         },
     )
 }
 
 /**
- * Swipe-left "defer with reason" — §12. The reason is mandatory: a deferral without one is exactly
- * the record a surveyor will ask about, so the app does not let the officer leave it blank.
+ * "Defer with reason" — §12. The reason is mandatory: a deferral without one is exactly the record a
+ * surveyor will ask about, so the app does not let the officer leave it blank.
  */
 @Composable
 fun DeferDialog(
@@ -187,13 +183,19 @@ fun DeferDialog(
         confirmButton = {
             TextButton(
                 enabled = reason.isNotBlank(),
+                modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
                 onClick = { onConfirm(reason) },
             ) {
                 Text(stringResource(R.string.due_swipe_defer))
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text(stringResource(R.string.insp_action_cancel)) }
+            TextButton(
+                onClick = onDismiss,
+                modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
+            ) {
+                Text(stringResource(R.string.insp_action_cancel))
+            }
         },
     )
 }
@@ -214,15 +216,9 @@ internal fun DialogField(
         minLines = if (singleLine) 1 else 2,
         modifier = modifier
             .fillMaxWidth()
+            .heightIn(min = Dimens.TouchTargetPrimary)
             .padding(top = Dimens.SpacingS),
     )
-}
-
-/** ISO-8601 (`2026-03-12`) to epoch-days; `null` when the officer is mid-typing — §6 dates. */
-internal fun parseIsoDate(text: String): Long? = try {
-    LocalDate.parse(text.trim()).toEpochDay()
-} catch (_: DateTimeParseException) {
-    null
 }
 
 private val DialogMaxHeight = 420.dp
