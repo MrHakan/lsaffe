@@ -8,6 +8,7 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
+import com.deckwatch.core.model.ListDensity
 import com.deckwatch.core.model.ThemeMode
 
 /**
@@ -65,8 +66,10 @@ private val NightColorScheme: ColorScheme = darkColorScheme(
 )
 
 /**
- * Bridge theme — red-dominant night-vision palette for the bridge at night.
- * No white above 40% luminance — §14.
+ * Bridge theme — red-only palette for a darkened bridge at night — §14.
+ *
+ * It is a theme, not a filter: every role is a red, the ground is near-black, and nothing carries
+ * green or blue. See [Palette] for why readable brightness and night vision are not in conflict.
  */
 private val BridgeColorScheme: ColorScheme = darkColorScheme(
     primary = Palette.BridgeRed,
@@ -95,9 +98,16 @@ private val BridgeColorScheme: ColorScheme = darkColorScheme(
 
 val LocalThemeMode = staticCompositionLocalOf { ThemeMode.DAY }
 
+/**
+ * @param themeMode the officer's choice from §18. Null follows the system's dark setting, which is
+ *   the right default for a preview and for the first frame before preferences have loaded.
+ * @param density the officer's §18 list density, published as [LocalListDensity] so that every
+ *   list can honour it without taking it as a parameter.
+ */
 @Composable
 fun DeckWatchTheme(
     themeMode: ThemeMode? = null,
+    density: ListDensity = ListDensity.COMPACT,
     content: @Composable () -> Unit,
 ) {
     val resolved = themeMode ?: if (isSystemInDarkTheme()) ThemeMode.NIGHT else ThemeMode.DAY
@@ -106,11 +116,21 @@ fun DeckWatchTheme(
         ThemeMode.NIGHT -> NightColorScheme
         ThemeMode.BRIDGE -> BridgeColorScheme
     }
-    CompositionLocalProvider(LocalThemeMode provides resolved) {
+    CompositionLocalProvider(
+        LocalThemeMode provides resolved,
+        LocalListDensity provides density,
+    ) {
         MaterialTheme(
             colorScheme = colorScheme,
             typography = DeckWatchTypography,
             content = content,
         )
     }
+}
+
+/** The three schemes, for a picker that shows what it is offering — §18. */
+fun colorSchemeFor(mode: ThemeMode): ColorScheme = when (mode) {
+    ThemeMode.DAY -> DayColorScheme
+    ThemeMode.NIGHT -> NightColorScheme
+    ThemeMode.BRIDGE -> BridgeColorScheme
 }
