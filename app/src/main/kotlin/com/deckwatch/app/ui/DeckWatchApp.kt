@@ -17,7 +17,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
@@ -42,7 +41,6 @@ import androidx.navigation.toRoute
 import com.deckwatch.app.BuildConfig
 import com.deckwatch.app.R
 import com.deckwatch.core.datastore.UserPreferences
-import com.deckwatch.core.designsystem.components.LocalListDensity
 import com.deckwatch.core.designsystem.theme.DeckWatchTheme
 import com.deckwatch.core.model.ThemeMode
 import com.deckwatch.feature.deckview.VesselTabScreen
@@ -132,8 +130,8 @@ private val topLevelDestinations = listOf(
  * Both come from the settings DataStore. The theme goes through
  * [ThemeSchedule][com.deckwatch.feature.settings.ThemeSchedule] so the §14 automatic schedule is
  * applied in one place — the same function the settings screen documents — and the resolved mode is
- * handed to `DeckWatchTheme`. Density is published through `LocalListDensity`, which is what every
- * `DeckWatchListRow` in every module reads to pick 56dp or 72dp.
+ * handed to `DeckWatchTheme`, which also publishes the density as `LocalListDensity` — the one
+ * local every `DeckWatchListRow` in every module reads to pick 56dp or 72dp.
  *
  * ### The onboarding gate
  *
@@ -163,22 +161,20 @@ fun DeckWatchApp(
     // first frame does not swallow it (§17.4).
     var pendingCreateVessel by rememberSaveable { mutableStateOf(false) }
 
-    DeckWatchTheme(themeMode = themeMode) {
-        CompositionLocalProvider(LocalListDensity provides settings.density) {
-            if (preferences != null && !settings.onboardingDone) {
-                // onDone needs no body: writing the flag flips the gate and replaces this screen.
-                OnboardingScreen(
-                    onDone = {},
-                    onCreateVessel = { pendingCreateVessel = true },
-                )
-            } else {
-                MainScaffold(
-                    start = start,
-                    openVesselEditor = pendingCreateVessel,
-                    onVesselEditorOpened = { pendingCreateVessel = false },
-                    onDisclaimerAccepted = viewModel::onDisclaimerAccepted,
-                )
-            }
+    DeckWatchTheme(themeMode = themeMode, density = settings.density) {
+        if (preferences != null && !settings.onboardingDone) {
+            // onDone needs no body: writing the flag flips the gate and replaces this screen.
+            OnboardingScreen(
+                onDone = {},
+                onCreateVessel = { pendingCreateVessel = true },
+            )
+        } else {
+            MainScaffold(
+                start = start,
+                openVesselEditor = pendingCreateVessel,
+                onVesselEditorOpened = { pendingCreateVessel = false },
+                onDisclaimerAccepted = viewModel::onDisclaimerAccepted,
+            )
         }
     }
 }

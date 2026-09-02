@@ -12,8 +12,11 @@ import androidx.compose.material.icons.automirrored.filled.FactCheck
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.EditNote
 import androidx.compose.material.icons.filled.Flag
+import androidx.compose.material.icons.filled.Flight
 import androidx.compose.material.icons.filled.LocalFireDepartment
+import androidx.compose.material.icons.filled.LocalGasStation
 import androidx.compose.material.icons.filled.Sailing
+import androidx.compose.material.icons.filled.Sos
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -26,6 +29,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.material.icons.filled.SearchOff
+import com.deckwatch.core.designsystem.components.EmptyState
+import com.deckwatch.core.designsystem.components.SearchField
+import com.deckwatch.core.designsystem.components.SectionHeader
+import com.deckwatch.core.designsystem.components.StatusChip
 import com.deckwatch.core.designsystem.theme.ConditionColors
 import com.deckwatch.core.designsystem.theme.Dimens
 import com.deckwatch.core.model.RegulationSection
@@ -105,9 +113,78 @@ internal fun sectionIcon(section: RegulationSection): ImageVector = when (sectio
     RegulationSection.SOLAS -> Icons.AutoMirrored.Filled.MenuBook
     RegulationSection.LSA -> Icons.Filled.Sailing
     RegulationSection.FFE -> Icons.Filled.LocalFireDepartment
+    RegulationSection.HELIDECK -> Icons.Filled.Flight
+    RegulationSection.ISGOTT -> Icons.Filled.LocalGasStation
+    RegulationSection.IAMSAR -> Icons.Filled.Sos
     RegulationSection.FLAG -> Icons.Filled.Flag
     RegulationSection.CLASS -> Icons.AutoMirrored.Filled.FactCheck
     RegulationSection.MY_NOTES -> Icons.Filled.EditNote
 }
 
 private const val DimStarAlpha = 0.45f
+
+/*
+ * The equipment guide (§9.1) was written against this module's own small components, and the rest
+ * of the tab has since moved onto the shared design system. These four are the seam: one place
+ * that says which shared component each of the guide's helpers now means, rather than the guide's
+ * screens each growing their own answer.
+ */
+
+/** The guide's search box — the shared [SearchField] with this tab's clear label and inset. */
+@Composable
+internal fun NotesSearchField(
+    query: String,
+    onQueryChange: (String) -> Unit,
+    placeholder: String,
+    modifier: Modifier = Modifier,
+) {
+    SearchField(
+        query = query,
+        onQueryChange = onQueryChange,
+        placeholder = placeholder,
+        clearContentDescription = stringResource(R.string.notes_search_clear),
+        modifier = modifier.padding(
+            start = Dimens.SpacingM,
+            end = Dimens.SpacingM,
+            top = Dimens.SpacingS,
+            bottom = Dimens.SpacingS,
+        ),
+    )
+}
+
+/**
+ * "Nothing here" inside the guide.
+ *
+ * The caller supplies one sentence, so the shared [EmptyState]'s title carries it and the body is
+ * left empty rather than padded with a second sentence nobody wrote.
+ */
+@Composable
+internal fun NotesEmptyState(text: String, modifier: Modifier = Modifier) {
+    EmptyState(
+        icon = Icons.Filled.SearchOff,
+        title = text,
+        body = "",
+        modifier = modifier,
+    )
+}
+
+/** A heading between groups in the guide — the shared [SectionHeader]. */
+@Composable
+internal fun ListSectionHeading(text: String, modifier: Modifier = Modifier) {
+    SectionHeader(text = text, modifier = modifier)
+}
+
+/**
+ * A small fact about a task — its interval, or who performs it.
+ *
+ * Outlined and in the secondary colour on purpose: saturated colour in this app means condition,
+ * and an interval is not a condition.
+ */
+@Composable
+internal fun MetaChip(text: String, modifier: Modifier = Modifier) {
+    StatusChip(
+        text = text,
+        color = MaterialTheme.colorScheme.secondary,
+        modifier = modifier,
+    )
+}

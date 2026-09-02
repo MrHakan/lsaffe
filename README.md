@@ -60,9 +60,15 @@ Static analysis and tests:
 
 ## Release
 
-Pushing a tag `v*.*.*` (or running the **Release** workflow manually) produces a
-signed universal APK, per-ABI split APKs, an AAB, SHA-256 checksums and a
-GitHub Release with a generated changelog.
+Every push to `main` republishes the rolling **`main`** pre-release, so the
+[Releases page](https://github.com/mrhakan/lsaffe/releases) always carries an
+installable build of the current main — `DeckWatch-main.apk`. Pushing a tag
+`v*.*.*` (or running the **Release** workflow manually) publishes a versioned
+release instead.
+
+Either way the build produces **one signed APK** (universal — every ABI in a
+single file, so there is nothing to choose between when sideloading), an AAB
+for Play, SHA-256 checksums and generated release notes.
 
 Required repository secrets:
 

@@ -258,10 +258,12 @@ class EquipmentSheetViewModelTest {
     fun `the sheet surfaces the type's regulation cards and its task list`() = runTest {
         seed()
         val viewModel = EquipmentSheetViewModel(
-            fakes.equipment,
-            fakes.reference,
-            fakes.maintenance,
-            fakes.inspections,
+            equipmentRepository = fakes.equipment,
+            vesselRepository = fakes.vessels,
+            referenceRepository = fakes.reference,
+            maintenanceRepository = fakes.maintenance,
+            inspectionRepository = fakes.inspections,
+            itemReminders = fakes.reminders,
         )
 
         viewModel.uiState.test {
@@ -277,6 +279,59 @@ class EquipmentSheetViewModelTest {
             assertThat(state.loading).isFalse()
             cancelAndIgnoreRemainingEvents()
         }
+    }
+
+    @Test
+    fun `the move picker offers the vessel's decks and the move lands the item`() = runTest {
+        seed()
+        val viewModel = boundViewModel()
+
+        // What the picker lists: the decks of the vessel this item belongs to.
+        assertThat(viewModel.decks.first { it.isNotEmpty() }.map { it.id }).containsExactly(DECK_ID)
+
+        // Landing an item for service takes it off the deck without deleting it — §6.5.
+        viewModel.moveToDeck(null)
+        assertThat(fakes.equipment.getEquipment(EQUIPMENT_ID)?.deckId).isNull()
+
+        // ...and it goes back onto a deck the same way.
+        viewModel.moveToDeck(DECK_ID)
+        val placed = fakes.equipment.getEquipment(EQUIPMENT_ID)
+        assertThat(placed?.deckId).isEqualTo(DECK_ID)
+        assertThat(placed?.zoneId).isNull()
+    }
+
+    @Test
+    fun `the move picker offers the chosen deck's zones and lands the item in one`() = runTest {
+        seed()
+        fakes.vessels.upsertZone(TestData.zone(id = ZONE_ID, deckId = DECK_ID, name = "Fwd station"))
+        val viewModel = boundViewModel()
+
+        // Zones only appear once a deck is chosen — the second step of the picker.
+        assertThat(viewModel.zonesForMove.value).isEmpty()
+        viewModel.selectDeckForMove(DECK_ID)
+        assertThat(viewModel.zonesForMove.first { it.isNotEmpty() }.map { it.id }).containsExactly(ZONE_ID)
+
+        viewModel.moveToDeck(DECK_ID, ZONE_ID)
+        val placed = fakes.equipment.getEquipment(EQUIPMENT_ID)
+        assertThat(placed?.deckId).isEqualTo(DECK_ID)
+        assertThat(placed?.zoneId).isEqualTo(ZONE_ID)
+    }
+
+    @Test
+    fun `a reminder is armed against the item's tag and re-arming replaces it`() = runTest {
+        seed()
+        val viewModel = boundViewModel()
+
+        viewModel.remindIn(days = 3)
+        assertThat(fakes.reminders.reminderFor(EQUIPMENT_ID)?.days).isEqualTo(3)
+
+        // A second reminder for one item is a mistake, not a queue.
+        viewModel.remindIn(days = 7)
+        assertThat(fakes.reminders.reminders).hasSize(1)
+        assertThat(fakes.reminders.reminderFor(EQUIPMENT_ID)?.days).isEqualTo(7)
+
+        viewModel.cancelReminder()
+        assertThat(fakes.reminders.reminders).isEmpty()
     }
 
     // ------------------------------------------------------------------ helpers
@@ -312,10 +367,12 @@ class EquipmentSheetViewModelTest {
 
     private suspend fun boundViewModel(): EquipmentSheetViewModel {
         val viewModel = EquipmentSheetViewModel(
-            fakes.equipment,
-            fakes.reference,
-            fakes.maintenance,
-            fakes.inspections,
+            equipmentRepository = fakes.equipment,
+            vesselRepository = fakes.vessels,
+            referenceRepository = fakes.reference,
+            maintenanceRepository = fakes.maintenance,
+            inspectionRepository = fakes.inspections,
+            itemReminders = fakes.reminders,
         )
         viewModel.bind(EQUIPMENT_ID)
         viewModel.uiState.first { it.equipment != null }
@@ -332,6 +389,7 @@ class EquipmentSheetViewModelTest {
     private companion object {
         const val VESSEL_ID = "vessel-under-test"
         const val DECK_ID = "deck-under-test"
+        const val ZONE_ID = "zone-under-test"
         const val EQUIPMENT_ID = "equipment-under-test"
 
         /** An arbitrary "the grade was set here" instant, so undo has something to put back. */

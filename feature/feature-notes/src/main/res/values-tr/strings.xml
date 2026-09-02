@@ -31,6 +31,12 @@
     <string name="notes_section_lsa_desc">LSA Kodu bölümleri I–VII, SOLAS III/20 bakım rejimi, MSC.402(96)</string>
     <string name="notes_section_ffe">FFE</string>
     <string name="notes_section_ffe_desc">FSS Kodu bölümleri, SOLAS II-2/14 bakım planı, MSC.1/Circ.1432</string>
+    <string name="notes_section_helideck">Helikopter operasyonları</string>
+    <string name="notes_section_helideck_desc">ICS Helikopter/Gemi Operasyonları Rehberi, SOLAS II-2/18 helikopter tesisleri</string>
+    <string name="notes_section_isgott">ISGOTT</string>
+    <string name="notes_section_isgott_desc">Tanker ve terminal emniyeti: gemi/sahil kontrol listesi, kapalı mahaller, sıcak iş, inert gaz</string>
+    <string name="notes_section_iamsar">IAMSAR</string>
+    <string name="notes_section_iamsar_desc">SOLAS V/21.2 uyarınca gemide bulunan Cilt III: tehlike yanıtı, arama paternleri, kurtarma</string>
     <string name="notes_section_flag">BAYRAK</string>
     <string name="notes_section_flag_desc">Marshall Adaları, Liberya ve Panama sirkülerleri ve bunların SOLAS\'tan farkları</string>
     <string name="notes_section_class">KLAS</string>
@@ -130,4 +136,33 @@
     <string name="notes_my_open_card">İlişkili kartı aç</string>
     <string name="notes_my_delete_title">Bu not silinsin mi?</string>
     <string name="notes_my_delete_body">“%1$s” bu cihazdan kaldırılacak.</string>
+    <string name="notes_disclaimer_hide">Bu uyarıyı gizle</string>
+    <string name="notes_disclaimer_hide_title">Uyarı şeridi gizlensin mi?</string>
+    <string name="notes_disclaimer_hide_message">Her Notlar ekranının altında görünmeyi bırakır. Tam metin Daha Fazla → Hakkında altında kalır ve uygulamanın statüsü değişmez: DeckWatch bir referans yardımcısıdır, resmî belge değildir.</string>
+    <string name="notes_disclaimer_hide_confirm">Gizle</string>
+    <string name="notes_disclaimer_hide_cancel">Görünmeye devam etsin</string>
+
+    <!-- ============================================================ ekipman rehberi (§9.1) -->
+    <string name="notes_section_equipment">Ekipman rehberi</string>
+    <string name="notes_section_equipment_desc">Her ekipmanın ne olduğu, sorulan rakamlar ve o ekipmana özgü testler</string>
+    <string name="guide_intro">Önce grubu, sonra ekipmanı seçin. Her sayfada ekipmanın ne olduğu, yapısı ve işaretleri, kendine özgü testleri, arkasındaki kurallar ve denetimlerde en sık yazılanlar bulunur.</string>
+    <string name="guide_type_count">%1$d tip</string>
+    <string name="guide_search">Ekipman ara</string>
+    <string name="guide_search_no_results">\"%1$s\" ile eşleşen ekipman yok.</string>
+    <string name="guide_empty">Henüz ekipman tipi içe aktarılmadı.</string>
+    <string name="guide_type_missing">Bu ekipman tipi artık katalogda yok.</string>
+    <string name="guide_row_counts">%1$d not · %2$d test · %3$d kural</string>
+    <string name="guide_tasks">Testler ve kontroller</string>
+    <string name="guide_rules">Arkasındaki kurallar</string>
+    <string name="guide_psc">Sık yazılan bulgular</string>
+    <string name="guide_disclaimer">Rehber içeriği planlama ve eğitim amaçlı bir özettir. Daima yürürlükteki mevzuata, üretici el kitabına ve geminin onaylı belgelerine karşı doğrulayın.</string>
+    <string name="guide_group_lsa">LSA — can kurtarma teçhizatı</string>
+    <string name="guide_group_ffe">FFE — yangınla mücadele teçhizatı</string>
+    <string name="guide_group_emergency">Acil durum ve kaçış</string>
+    <string name="guide_group_machinery">Makine ve kumandalar</string>
+    <string name="guide_group_signage">İşaretler</string>
+    <string name="guide_group_other">Diğer</string>
+    <string name="guide_tab_rules">Kurallar</string>
+    <string name="guide_tab_equipment">Ekipman</string>
+    <string name="guide_section_link">%1$s bölümüne ekipman bazında göz atın</string>
 </resources>

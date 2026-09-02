@@ -11,22 +11,20 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import com.deckwatch.core.designsystem.theme.Dimens
-import com.deckwatch.core.model.ListDensity
+import com.deckwatch.core.designsystem.theme.LocalListDensity
 
-/** Set by the app from user preferences; rows pick their height from it. */
-val LocalListDensity = compositionLocalOf { ListDensity.COMPACT }
-
+/**
+ * The row height for the officer's §18 density, from the one composition local the theme
+ * publishes. There is deliberately no second local here: two would let a row and a plate on the
+ * same screen disagree about how tall a row is.
+ */
 @Composable
-fun listRowMinHeight(): Dp = when (LocalListDensity.current) {
-    ListDensity.COMPACT -> Dimens.ListRowCompact
-    ListDensity.COMFORTABLE -> Dimens.ListRowComfortable
-}
+fun listRowMinHeight(): Dp = Dimens.rowHeight(LocalListDensity.current)
 
 /**
  * The standard list row — DESIGN_OVERHAUL rule 3. 56dp / 72dp by density,
@@ -56,12 +54,19 @@ fun DeckWatchListRow(
             Box(modifier = Modifier.padding(end = Dimens.SpacingM)) { leading() }
         }
         Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = title,
-                style = if (titleIsTag) com.deckwatch.core.designsystem.theme.tagTextStyle() else MaterialTheme.typography.bodyLarge,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
+            // A tag is stencilled on a plate beside the equipment, so it is drawn as one here
+            // rather than as a word in a monospace face. That is what makes `FE-UD-01` read as an
+            // identifier when it is being called out against paperwork.
+            if (titleIsTag) {
+                TagPlate(tag = title)
+            } else {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.bodyLarge,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
             if (!subtitle.isNullOrBlank()) {
                 Text(
                     text = subtitle,

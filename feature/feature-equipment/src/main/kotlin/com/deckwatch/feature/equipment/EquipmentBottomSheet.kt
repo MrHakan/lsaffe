@@ -2,6 +2,8 @@
 
 package com.deckwatch.feature.equipment
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,13 +12,16 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -28,18 +33,24 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.coroutines.delay
 import com.deckwatch.core.designsystem.components.ConditionChipRow
 import com.deckwatch.core.designsystem.components.ConfirmDialog
 import com.deckwatch.core.designsystem.components.SectionHeader
 import com.deckwatch.core.designsystem.theme.Dimens
 import com.deckwatch.core.model.ConditionGrade
+import com.deckwatch.core.model.Deck
+import com.deckwatch.core.model.RegulationCard
+import com.deckwatch.core.model.Zone
+import com.deckwatch.feature.equipment.components.AttributesSection
 import com.deckwatch.feature.equipment.components.ConditionUndoBar
 import com.deckwatch.feature.equipment.components.DeficiencyFormCard
 import com.deckwatch.feature.equipment.components.DeficiencyList
@@ -47,6 +58,13 @@ import com.deckwatch.feature.equipment.components.EquipmentIdentity
 import com.deckwatch.feature.equipment.components.LabelValue
 import com.deckwatch.feature.equipment.components.MonthlyChecklistSection
 import com.deckwatch.feature.equipment.components.NextDueRow
+import com.deckwatch.feature.equipment.components.PhotoSection
+import com.deckwatch.feature.equipment.components.RegulationCardDialog
+import com.deckwatch.feature.equipment.components.RequirementsSection
+import com.deckwatch.feature.equipment.components.TaskListSection
+import com.deckwatch.feature.equipment.photo.PhotoStore
+import java.io.File
+import kotlinx.coroutines.delay
 
 /**
  * The equipment bottom sheet — §7.4, and the quick-action condition control of §7.3.
@@ -71,7 +89,8 @@ import com.deckwatch.feature.equipment.components.NextDueRow
  * @param onTakePhoto camera entry point; capture belongs to the photo phase, this only surfaces it.
  * @param onLogInspection full inspection logging belongs to `feature-inspection`; the sheet writes
  *   only the unambiguous monthly-checklist completion itself (§9.3).
- * @param onMoveToDeck the host picks the destination deck and calls back into its own move flow.
+ * @param onMoveToDeck lets a host run its own move flow. Left null, the sheet picks the deck
+ *   itself, so an item created from the tab's FAB can be placed without the host doing anything.
  * @param onDeleted soft delete has happened; the host shows the ten-second undo snackbar and calls
  *   the supplied lambda if the officer takes it (C10).
  */
@@ -84,7 +103,7 @@ fun EquipmentBottomSheet(
     onOpenFullDetail: (String) -> Unit = {},
     onTakePhoto: (String) -> Unit = {},
     onLogInspection: (String) -> Unit = {},
-    onMoveToDeck: (String) -> Unit = {},
+    onMoveToDeck: ((String) -> Unit)? = null,
     onDeleted: (equipmentId: String, undo: suspend () -> Unit) -> Unit = { _, _ -> },
 ) {
     val viewModel: EquipmentSheetViewModel = hiltViewModel()
@@ -94,7 +113,29 @@ fun EquipmentBottomSheet(
     val sheetState = rememberModalBottomSheetState()
     var expanded by rememberSaveable { mutableStateOf(false) }
     var confirmingDelete by remember { mutableStateOf(false) }
+    var movingToDeck by remember { mutableStateOf(false) }
+    var moveDeckChoice by remember { mutableStateOf<String?>(null) }
+    val decks by viewModel.decks.collectAsStateWithLifecycle()
+    val zones by viewModel.zonesForMove.collectAsStateWithLifecycle()
     val haptics = LocalHapticFeedback.current
+
+    // Capture: the file is created before the camera app starts, and only survives if the camera
+    // reports success — a cancelled capture leaves an empty file that nothing should record.
+    val context = LocalContext.current
+    var pendingPhoto by remember { mutableStateOf<File?>(null) }
+    var cameraUnavailable by remember { mutableStateOf(false) }
+    var settingReminder by remember { mutableStateOf(false) }
+    var openCard by remember { mutableStateOf<RegulationCard?>(null) }
+    val capture = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { saved ->
+        val file = pendingPhoto
+        pendingPhoto = null
+        if (file == null) return@rememberLauncherForActivityResult
+        if (saved) {
+            viewModel.addPhoto(PhotoStore.uriFor(context, file).toString())
+        } else {
+            file.delete()
+        }
+    }
 
     // Dragging the sheet up is itself a request for more detail, and vice versa: the stage follows
     // the handle so there is never a second, contradicting control for the same thing.
@@ -202,12 +243,62 @@ fun EquipmentBottomSheet(
                         modifier = Modifier.weight(1f).heightIn(min = Dimens.TouchTargetPrimary),
                     ) { Text(stringResource(R.string.equip_log_inspection)) }
                     OutlinedButton(
-                        onClick = { onTakePhoto(equipment.id) },
+                        onClick = {
+                            onTakePhoto(equipment.id)
+                            val file = PhotoStore.newPhotoFile(context, equipment.id, System.currentTimeMillis())
+                            pendingPhoto = file
+                            // No camera app at all is a normal state on a locked-down phone, and it
+                            // arrives as an exception rather than a result — so it is caught here.
+                            runCatching { capture.launch(PhotoStore.uriFor(context, file)) }
+                                .onFailure {
+                                    pendingPhoto = null
+                                    file.delete()
+                                    cameraUnavailable = true
+                                }
+                        },
                         modifier = Modifier.weight(1f).heightIn(min = Dimens.TouchTargetPrimary),
                     ) { Text(stringResource(R.string.equip_take_photo)) }
                 }
 
+                // The record itself, once the sheet is open all the way. Everything above is what
+                // an officer standing at the equipment needs; this is what they need at a desk.
+                if (expanded) {
+                    HorizontalDivider(modifier = Modifier.padding(vertical = Dimens.SpacingS))
+                    AttributesSection(
+                        schema = type?.attributeSchema.orEmpty(),
+                        values = state.attributeValues,
+                        editorValues = state.editor?.values,
+                        errors = state.editor?.errors.orEmpty(),
+                        onStartEditing = viewModel::startEditingAttributes,
+                        onValueChange = viewModel::updateAttribute,
+                        onSave = viewModel::saveAttributes,
+                        onCancel = viewModel::cancelEditingAttributes,
+                    )
+                    TaskListSection(tasks = state.tasks, todayEpochDay = state.todayEpochDay)
+                    SectionHeader(stringResource(R.string.equip_notes))
+                    Text(
+                        text = equipment.notes?.takeIf { it.isNotBlank() }
+                            ?: stringResource(R.string.equip_notes_none),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                    PhotoSection(
+                        photoUris = equipment.photoUris,
+                        onRemove = { uri ->
+                            viewModel.removePhoto(uri)
+                            PhotoStore.delete(context, uri)
+                        },
+                    )
+                    RequirementsSection(cards = state.requirements, onOpen = { openCard = it })
+                }
+
                 SectionHeader(stringResource(R.string.equip_actions))
+                OutlinedButton(
+                    onClick = { settingReminder = true },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = Dimens.SpacingL)
+                        .heightIn(min = Dimens.TouchTargetPrimary),
+                ) { Text(stringResource(R.string.equip_remind_me)) }
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -215,7 +306,8 @@ fun EquipmentBottomSheet(
                     horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingS),
                 ) {
                     TextButton(
-                        onClick = { onMoveToDeck(equipment.id) },
+                        // A host that owns a move flow runs it; otherwise the sheet asks.
+                        onClick = { onMoveToDeck?.invoke(equipment.id) ?: run { movingToDeck = true } },
                         modifier = Modifier.weight(1f).heightIn(min = Dimens.TouchTargetMin),
                     ) { Text(stringResource(R.string.equip_move_deck)) }
                     TextButton(
@@ -249,6 +341,215 @@ fun EquipmentBottomSheet(
             },
             onDismiss = { confirmingDelete = false },
         )
+    }
+
+    if (settingReminder) {
+        RemindMeDialog(
+            onPick = { days ->
+                settingReminder = false
+                viewModel.remindIn(days)
+            },
+            onClear = {
+                settingReminder = false
+                viewModel.cancelReminder()
+            },
+            onDismiss = { settingReminder = false },
+        )
+    }
+
+    if (cameraUnavailable) {
+        AlertDialog(
+            onDismissRequest = { cameraUnavailable = false },
+            title = { Text(stringResource(R.string.equip_photo_no_camera_title)) },
+            text = { Text(stringResource(R.string.equip_photo_no_camera_body)) },
+            confirmButton = {
+                TextButton(onClick = { cameraUnavailable = false }) {
+                    Text(stringResource(R.string.equip_photo_no_camera_dismiss))
+                }
+            },
+        )
+    }
+
+    if (movingToDeck) {
+        val chosenDeck = moveDeckChoice
+        if (chosenDeck == null) {
+            MoveToDeckDialog(
+                decks = decks,
+                currentDeckId = state.equipment?.deckId,
+                onPick = { deckId ->
+                    if (deckId == null) {
+                        // Landed for service: no deck, so no zone to ask about.
+                        movingToDeck = false
+                        viewModel.moveToDeck(null)
+                    } else {
+                        moveDeckChoice = deckId
+                        viewModel.selectDeckForMove(deckId)
+                    }
+                },
+                onDismiss = { movingToDeck = false },
+            )
+        } else {
+            MoveToZoneDialog(
+                zones = zones,
+                currentZoneId = state.equipment?.zoneId,
+                onPick = { zoneId ->
+                    movingToDeck = false
+                    moveDeckChoice = null
+                    viewModel.selectDeckForMove(null)
+                    viewModel.moveToDeck(chosenDeck, zoneId)
+                },
+                onBack = {
+                    moveDeckChoice = null
+                    viewModel.selectDeckForMove(null)
+                },
+            )
+        }
+    }
+
+    // The rule behind a requirement, read without leaving the equipment it was raised against.
+    openCard?.let { card ->
+        RegulationCardDialog(card = card, onDismiss = { openCard = null })
+    }
+}
+
+/**
+ * "Remind me in…" — §11.3.
+ *
+ * Three horizons, no free-form date: a reminder is a nudge before the next port call, not a second
+ * scheduling system competing with the due engine. Clearing is offered in the same place, because
+ * an armed reminder is otherwise invisible until it fires.
+ */
+@Composable
+private fun RemindMeDialog(onPick: (Int) -> Unit, onClear: () -> Unit, onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.equip_remind_title)) },
+        text = {
+            Column {
+                DeckChoiceRow(
+                    label = stringResource(R.string.equip_remind_tomorrow),
+                    selected = false,
+                    onClick = { onPick(REMIND_TOMORROW_DAYS) },
+                )
+                DeckChoiceRow(
+                    label = stringResource(R.string.equip_remind_three_days),
+                    selected = false,
+                    onClick = { onPick(REMIND_THREE_DAYS) },
+                )
+                DeckChoiceRow(
+                    label = stringResource(R.string.equip_remind_week),
+                    selected = false,
+                    onClick = { onPick(REMIND_WEEK_DAYS) },
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onClear) { Text(stringResource(R.string.equip_remind_clear)) }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.equip_cancel)) }
+        },
+    )
+}
+
+private const val REMIND_TOMORROW_DAYS = 1
+private const val REMIND_THREE_DAYS = 3
+private const val REMIND_WEEK_DAYS = 7
+
+/**
+ * Second step of the move: which zone of that deck — §6.4. Always offers "no zone", because a deck
+ * without drawn zones is normal and an item does not have to sit in one.
+ */
+@Composable
+private fun MoveToZoneDialog(
+    zones: List<Zone>,
+    currentZoneId: String?,
+    onPick: (String?) -> Unit,
+    onBack: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = onBack,
+        title = { Text(stringResource(R.string.equip_move_zone_title)) },
+        text = {
+            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                DeckChoiceRow(
+                    label = stringResource(R.string.equip_move_zone_none),
+                    selected = currentZoneId == null,
+                    onClick = { onPick(null) },
+                )
+                zones.forEach { zone ->
+                    DeckChoiceRow(
+                        label = zone.name,
+                        selected = zone.id == currentZoneId,
+                        onClick = { onPick(zone.id) },
+                    )
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onBack) { Text(stringResource(R.string.equip_move_zone_back)) }
+        },
+    )
+}
+
+/**
+ * Where does this item live? — §6.5.
+ *
+ * The list is the vessel's decks in stack order plus "unplaced", which is where an item goes when
+ * it is landed for service. Zones are not offered: a zone belongs to a deck plan, and picking one
+ * without seeing the plan would be guessing.
+ */
+@Composable
+private fun MoveToDeckDialog(
+    decks: List<Deck>,
+    currentDeckId: String?,
+    onPick: (String?) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.equip_move_deck_title)) },
+        text = {
+            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                if (decks.isEmpty()) {
+                    Text(
+                        text = stringResource(R.string.equip_move_deck_none),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                }
+                decks.forEach { deck ->
+                    DeckChoiceRow(
+                        label = deck.name,
+                        selected = deck.id == currentDeckId,
+                        onClick = { onPick(deck.id) },
+                    )
+                }
+                DeckChoiceRow(
+                    label = stringResource(R.string.equip_move_deck_unplaced),
+                    selected = currentDeckId == null,
+                    onClick = { onPick(null) },
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.equip_cancel)) }
+        },
+    )
+}
+
+@Composable
+private fun DeckChoiceRow(label: String, selected: Boolean, onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = Dimens.TouchTargetMin)
+            .selectable(selected = selected, role = Role.RadioButton, onClick = onClick)
+            .padding(vertical = Dimens.SpacingXs),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingS),
+    ) {
+        RadioButton(selected = selected, onClick = null)
+        Text(text = label, style = MaterialTheme.typography.bodyLarge)
     }
 }
 

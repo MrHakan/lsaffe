@@ -36,4 +36,7 @@ dependencies {
     testImplementation(libs.androidx.datastore.preferences)
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.test.core)
+
+    // The POST_NOTIFICATIONS request goes through the activity result API.
+    implementation(libs.androidx.activity.compose)
 }

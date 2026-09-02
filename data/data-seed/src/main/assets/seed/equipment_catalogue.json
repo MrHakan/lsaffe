@@ -125,7 +125,44 @@
       "On-load release gear annual examination overdue or the report not on board",
       "Boat equipment inventory incomplete — missing rations, water or hand flares",
       "Engine will not start on the weekly run; batteries flat or fuel stale",
-      "Davit limit switches inoperative or the boat's hull damaged/blistered"
+      "Davit limit switches inoperative or the boat's hull damaged/blistered",
+      "Coxswain lookout windows and forward observation ports crazed, soot-pitted or opaque, impeding visibility",
+      "Consecutive safety belts in identical non-contrasting colours, against LSA Code 4.6.3.1",
+      "Entrance door and hatch coaming lips repaired with silicone sealant instead of approved GRP resin and marine-grade gasket",
+      "Internal portable extinguisher gauge reading in the red, or the unit left unsecured in the cabin",
+      "Canopy strobe and internal cabin lighting inoperative from insulation breakdown or damaged supply wiring",
+      "Emergency drinking water substituted with commercial bottled water lacking survival-craft packaging"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "What the boat has to be able to do",
+        "bullets": [
+          "Self-righting when fully enclosed, with everyone strapped in.",
+          "Carries the number of persons marked on it, each with a seat, a seat belt and a lifejacket stowage.",
+          "Fire-protected boats on tankers carry the water spray (sprinkler) system and the air support system, and can run through a fire on the water for the required period.",
+          "The engine starts and runs the boat at not less than 6 knots for the required period, and runs out of the water for the time the maker states — normally 5 minutes."
+        ]
+      },
+      {
+        "heading": "The weekly and monthly regime",
+        "bullets": [
+          "Weekly: start the engine and run it for at least 3 minutes (SOLAS III/20.6.2) — with the boat's own cooling water supply where the arrangement needs it, or the engine will overheat.",
+          "Weekly: operate the general emergency alarm, and inspect the boat, davits, falls and release gear visually.",
+          "Monthly: a full inspection of the boat against the checklist, including the equipment inventory, confirmed in the log.",
+          "Every three months: lower the boat to the embarkation deck where the arrangement allows. Every three months a crew enters and manoeuvres a boat in the water, unless the ship's arrangement makes it impracticable."
+        ]
+      },
+      {
+        "heading": "Inventory items that get written up",
+        "bullets": [
+          "Buoyant oars, boat hooks, bailer and buckets, survival manual, compass, sea anchor with hawser and tripping line.",
+          "Painters — two, one at the forward end with a release arrangement, one secured at or near the bow.",
+          "Fire extinguisher, torch with spare batteries, signalling mirror, whistle, first-aid outfit, seasickness bags and tablets.",
+          "Pyrotechnics: four rocket parachute flares, six hand flares, two buoyant smoke signals — all in date.",
+          "Fresh water at 3 litres per person, food rations, drinking vessel, fishing tackle, jack-knife, tin opener, thermal protective aids.",
+          "Rations and water carry an expiry date and are the most commonly out-of-date item in the boat."
+        ]
+      }
     ]
   },
   {
@@ -395,7 +432,29 @@
       "On-load release gear annual examination overdue or the report not on board",
       "Boat equipment inventory incomplete — missing rations, water or hand flares",
       "Engine will not start on the weekly run; batteries flat or fuel stale",
-      "Davit limit switches inoperative or the boat's hull damaged/blistered"
+      "Davit limit switches inoperative or the boat's hull damaged/blistered",
+      "Emergency steering tiller seized and unable to reach full hard-over travel",
+      "Simulated launch or waterborne free-fall release overdue against the six-month interval"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "What is different about a free-fall boat",
+        "bullets": [
+          "It is launched by falling from a stern ramp, so the certification covers the boat, the ramp and the acceleration on the occupants together.",
+          "Every seat is designed for the free-fall load, and the seat belts and head restraints are part of the structure, not comfort items.",
+          "There is a secondary means of launching — normally a davit — because a free-fall launch cannot be used for routine drills.",
+          "The release is operated from inside the boat by the coxswain."
+        ]
+      },
+      {
+        "heading": "Drills without launching it",
+        "bullets": [
+          "SOLAS III/19.3.3.4: the free-fall boat is either free-fall launched with only the operating crew on board, or lowered into the water by the secondary means, at intervals not exceeding three months.",
+          "Where a free-fall launch is not carried out, a simulated launching is done at intervals not exceeding six months, in accordance with MSC.1/Circ.1206.",
+          "Both are logged, and the log entry says which was done. 'Boat inspected' does not satisfy either.",
+          "Before any launch: the release gear, the ramp, the hydraulic system and the securing arrangement are checked, and the area astern is clear."
+        ]
+      }
     ]
   },
   {
@@ -526,7 +585,12 @@
       "On-load release gear annual examination overdue or the report not on board",
       "Boat equipment inventory incomplete — missing rations, water or hand flares",
       "Engine will not start on the weekly run; batteries flat or fuel stale",
-      "Davit limit switches inoperative or the boat's hull damaged/blistered"
+      "Davit limit switches inoperative or the boat's hull damaged/blistered",
+      "Dedicated high-intensity portable searchlight missing from the boat's inventory",
+      "Compass binnacle illumination and fixed navigation lights inoperative",
+      "Waterborne launch and manoeuvring drill overdue against the three-month limit of SOLAS III/19.3.3.6",
+      "Boarding drill run off an overside ladder with no permit to work for working over the side",
+      "Hanging-off pendants and heavy-weather recovery strops missing, with no test certification on board"
     ]
   },
   {
@@ -768,7 +832,9 @@
       "Sheaves seized, wires unlubricated or showing broken strands",
       "Winch brake test overdue; brake band worn or contaminated with grease",
       "Limit switches bypassed or inoperative",
-      "Davit structure corroded at the pedestal foundations"
+      "Davit structure corroded at the pedestal foundations",
+      "Floating blocks resting on the falls in the stowed position, holding the wire under continuous tensile stress",
+      "Internal brake release wire jumped off its storage drum with the counterweight resting on the hull, so release from inside the boat is impossible"
     ]
   },
   {
@@ -1073,7 +1139,8 @@
       "Brake dynamic test certificate missing or overdue",
       "Brake lining oil-contaminated or worn beyond the maker's limit",
       "Remote brake release wire seized or wrongly adjusted",
-      "Winch foundation or gearbox leaking, guards missing"
+      "Winch foundation or gearbox leaking, guards missing",
+      "Brake casing oil breather cap or valve painted over, preventing atmospheric equalisation and casing ventilation"
     ]
   },
   {
@@ -1164,6 +1231,27 @@
       "Release lever safety pin missing or the interlock defeated",
       "No maker's manual or release-gear operating instructions in the boat",
       "Provider's authorisation does not cover this make and type"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "Why this equipment has its own IMO resolution",
+        "bullets": [
+          "On-load release gear releases a lifeboat's hooks under the full load of the boat. It has killed more seafarers in drills than almost any other item of LSA, which is why MSC.402(96) made servicing a certified activity.",
+          "MSC.402(96) requires an annual thorough examination and operational test, and a five-yearly overload operational test.",
+          "The five-yearly test is done at 1.1 times the total mass of the boat with its full complement and equipment.",
+          "Only a manufacturer, or a service provider certified by the manufacturer and authorised by the Administration, may do the annual and five-yearly work — the ship's staff cannot sign it off."
+        ]
+      },
+      {
+        "heading": "What the ship's staff do check",
+        "bullets": [
+          "Hook setting: the cam or locking arrangement fully home, the indicator showing set, and the safety pin in place with its seal where the design has one.",
+          "The interlock that prevents on-load release while the boat is out of the water.",
+          "Free movement of the operating linkage, and no corrosion or wasted pins.",
+          "The hydrostatic interlock is not a substitute for the safety pin: both exist, and both are checked.",
+          "Never operate the on-load release with people in the boat. Recovery and lowering drills are done with the boat unmanned wherever the arrangement allows."
+        ]
+      }
     ]
   },
   {
@@ -1305,7 +1393,29 @@
       "Broken wires or corrosion at the sheave contact zones",
       "End-for-end / renewal record not available",
       "Bulldog grips used on a load-bearing termination",
-      "Wire certificate not on board"
+      "Wire certificate not on board",
+      "Painters dry, weathered and frayed with broken strands, or replaced with synthetic cordage instead of approved rot-proof fibre",
+      "Forward and aft buoyant grab lines parted and degraded by prolonged UV and salt spray"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "Renewal — and the change people miss",
+        "bullets": [
+          "SOLAS III/20.4 as amended: falls used in launching are inspected periodically, with special regard for areas passing through sheaves, and renewed when necessary due to deterioration or at intervals of not more than five years, whichever is earlier.",
+          "The older requirement to turn falls end-for-end at intervals not exceeding 30 months was removed by amendment — check which edition your ship's certificate is issued under before quoting either.",
+          "Renewal is by date or by condition, whichever comes first: a fall inside five years with broken wires at the sheave is condemned.",
+          "Record the date of renewal against the fall, not against the boat: the two falls of one boat can have different histories."
+        ]
+      },
+      {
+        "heading": "What to look at",
+        "bullets": [
+          "The lengths that sit in a sheave when the boat is stowed: they carry the load, they never move, and they corrode from the inside.",
+          "Broken wires, especially at the terminations and at the drum's first layer.",
+          "Reduction in diameter, birdcaging, kinks and corrosion product weeping from between the strands.",
+          "The eye and the thimble at the hook, and the bulldog grips if the arrangement uses them — the correct number, the correct way round, and torqued."
+        ]
+      }
     ]
   },
   {
@@ -1364,7 +1474,9 @@
     "commonPscFindings": [
       "FPD not fitted during a manned drill where the procedure requires it",
       "Strop or shackle corroded, deformed or of unknown provenance",
-      "No entry in the maintenance record for the FPD"
+      "No entry in the maintenance record for the FPD",
+      "FPD strops left permanently connected to the release hooks, preventing immediate waterborne release in a real emergency",
+      "FPD connection points on hooks and fall blocks lacking the high-visibility stencilling and identification of MSC.1/Circ.1327"
     ]
   },
   {
@@ -1449,7 +1561,11 @@
       "Engine not run for the required period; no log entry",
       "Battery flat or terminals corroded; no charger indication",
       "Fuel stale or tank not full; visible water in the filter bowl",
-      "Cooling water not observed during the run"
+      "Cooling water not observed during the run",
+      "Astern not engaging on test: excessive mechanical play and loose linkage at the telegraph control lever",
+      "Repeated starting failure on dual-battery circuits from wrong fuel stop-lever position and unfamiliarity with the procedure",
+      "Propeller contacting the guard's bottom frame with the rudder hard over under load, with audible metallic friction",
+      "Engine casing access latches damaged, so the cover will not secure flush when stowed"
     ]
   },
   {
@@ -1640,7 +1756,11 @@
     "commonPscFindings": [
       "Cylinder pressure below the maker's minimum",
       "Cylinder hydrostatic test date expired",
-      "Boat door and hatch seals perished so the system cannot hold overpressure"
+      "Boat door and hatch seals perished so the system cannot hold overpressure",
+      "Diaphragm failure and leakage at the main regulator, so continuous positive pressurisation cannot be held",
+      "Pressure discrepancy between the cylinder bank and the delivery-line regulator (e.g. 135 bar against 110 bar)",
+      "Condensation drain valve on the air manifold inoperative; flexible charging hoses bursting on test",
+      "Compressed air cylinders past the five-yearly hydrostatic test interval"
     ]
   },
   {
@@ -1760,7 +1880,39 @@
       "HRU expired or the painter not rigged through the weak link",
       "Container cracked, banding broken or the raft lashed with a solid shackle",
       "Raft stowed so it cannot float free; senhouse slip painted over",
-      "Capacity marking or embarkation instructions illegible"
+      "Capacity marking or embarkation instructions illegible",
+      "Launching instruction placard showing throw-overboard procedure on a davit-launched cradle, or eroded and illegible",
+      "Forward liferaft station: fixed emergency-powered illumination missing, moisture-damaged, or replaced by handheld torches"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "The float-free chain, end to end",
+        "bullets": [
+          "Container, lashing with a slip hook or senhouse slip, cradle, painter, weak link, and the hydrostatic release unit — every link has to be right or the raft goes down with the ship.",
+          "The painter is made fast to the ship's structure through the weak link, never directly to a strong point that the raft cannot break away from.",
+          "Painter length: not less than 15 m, or the distance from the stowage position to the waterline in the lightest seagoing condition plus 10 m, whichever is the greater.",
+          "The weak link breaks at 2.0 ± 0.4 kN — strong enough to pull the painter and inflate the raft, weak enough to let the raft go as the ship sinks.",
+          "The HRU releases the lashing at a depth of not more than 4 m."
+        ]
+      },
+      {
+        "heading": "Inflation and capacity",
+        "bullets": [
+          "Inflates fully within one minute at an ambient temperature of 18 to 20°C, and within three minutes at −30°C.",
+          "Capacity, SOLAS pack (A or B), servicing station and next service date are marked on the container.",
+          "The raft is capable of withstanding a drop into the water from its stowage height, and of being boarded from the water.",
+          "A raft over 185 kg that is not launched by a davit must be stowed for float-free launching, or be movable to either side."
+        ]
+      },
+      {
+        "heading": "Servicing",
+        "bullets": [
+          "Serviced at an approved station at intervals not exceeding 12 months. An extension to 17 months may be permitted in exceptional cases where the ship cannot reach a station — it is an exception, granted, not a routine.",
+          "The HRU is a separate item with its own expiry: most disposable units are replaced at intervals not exceeding two years, and the date is stamped on the unit, not on the raft.",
+          "Check that the raft returned from service is the one that left, that the certificate matches the serial number, and that the container bands are the correct breaking type.",
+          "Look at how the lashing is rigged: a raft lashed with the senhouse slip on the wrong side of the HRU cannot float free, and this is the most common serious finding of the whole LSA suite."
+        ]
+      }
     ]
   },
   {
@@ -1947,7 +2099,9 @@
     "commonPscFindings": [
       "Cradle and senhouse slip seized with paint",
       "Cradle corroded at the deck foundation",
-      "Raft cannot float free because of surrounding structure or stores"
+      "Raft cannot float free because of surrounding structure or stores",
+      "Manual release locking pins frozen solid under accumulated paint, so the cradle cannot be released by hand",
+      "Anti-piracy razor wire rigged across the deck, obstructing the launching path and access to the embarkation ladder"
     ]
   },
   {
@@ -2020,7 +2174,29 @@
       "HRU expired",
       "HRU rigged so the painter bypasses the weak link",
       "Expiry marking painted over or illegible",
-      "Two rafts sharing one HRU arrangement contrary to the maker's instructions"
+      "Two rafts sharing one HRU arrangement contrary to the maker's instructions",
+      "Unit installed inverted, so the hydrostatic diaphragm cannot trip and the weak link never operates",
+      "Service validity expired with no maintenance or renewal record available"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "What it does and how it fails",
+        "bullets": [
+          "The hydrostatic release unit cuts or releases the liferaft's lashing at a depth of not more than 4 m, so that the raft floats free of a sinking ship.",
+          "It is in the lashing, not in the painter: the painter goes to the weak link, and the two do different jobs.",
+          "Most units are disposable with a marked expiry, commonly two years from manufacture or from fitting; some are serviceable. The date on the unit is what counts.",
+          "The single most common rigging error is leading the painter through the HRU's release, or lashing the raft so that cutting the strop still leaves the raft held by the cradle."
+        ]
+      },
+      {
+        "heading": "Checking it without dismantling anything",
+        "bullets": [
+          "Read the expiry stamp and record it: a stainless-looking unit is not an in-date unit.",
+          "Follow the strop by hand from the cradle, through the release, to the slip: it must be one continuous run with nothing else holding the raft.",
+          "Check the painter is made fast to the weak link and the weak link to the ship — not the painter direct to the deck.",
+          "A unit that has been painted over is condemned: the release mechanism is not designed to work through paint."
+        ]
+      }
     ]
   },
   {
@@ -2153,6 +2329,17 @@
       "Deployment test record not available",
       "Container securing arrangements corroded",
       "Embarkation area obstructed"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "What a marine evacuation system is",
+        "bullets": [
+          "A chute or slide from an embarkation station to one or more inflatable liferafts, so that a large number of people can leave without climbing down a ladder.",
+          "Deployment time and the number the system passes per minute are part of its approval.",
+          "The system is stowed inflated-ready and deployed by its own release; the rafts are part of the system, not separate rafts.",
+          "MES is serviced at an approved station; SOLAS III/20.8.3 requires it to be deployed from the ship on a rotational basis at intervals to be agreed with the Administration, so that each system is deployed at intervals not exceeding six years."
+        ]
+      }
     ]
   },
   {
@@ -2225,7 +2412,12 @@
     "commonPscFindings": [
       "Steps split or ropes chafed",
       "Ladder stowed where it cannot be rigged quickly",
-      "Securing arrangement at deck level corroded"
+      "Securing arrangement at deck level corroded",
+      "Missing at the forward station, or replaced by a single knotted manrope",
+      "Still bundled in delivery lashings that need a knife to cut, or stowed in a midship locker away from its station",
+      "Side manila ropes dried out and crumbling around the upper securing thimbles",
+      "No dedicated steel handholds or grab rails on the bulwark coaming for the transfer from deck to ladder head (LSA Code 6.1.6.1)",
+      "Embarkation station deck lacking non-skid coating"
     ]
   },
   {
@@ -2304,6 +2496,30 @@
       "Ladder not certified or the certificate not on board",
       "Man-ropes, lifebuoy with light and heaving line not at the point of access",
       "Ladder secured to the ship's side with rope instead of the approved arrangement"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "Construction — the figures a PSC officer measures",
+        "bullets": [
+          "Steps of hardwood or equivalent, in one piece, free of knots, with an efficient non-slip surface.",
+          "Step dimensions: not less than 400 mm long, 115 mm wide and 25 mm thick, excluding any non-slip device.",
+          "Steps equally spaced at not less than 310 mm and not more than 350 mm apart.",
+          "Side ropes: two pairs of uncovered manila or equivalent rope, not less than 18 mm in diameter on each side, continuous and with no joins below the top step.",
+          "Spreader steps at intervals to stop the ladder twisting; the lowest spreader is on the fifth step from the bottom.",
+          "Not more than two replacement steps secured by a method different from the original, and any replaced step is put back at the original spacing."
+        ]
+      },
+      {
+        "heading": "Rigging, and the 9-metre rule",
+        "bullets": [
+          "A pilot ladder alone is used where the climb from the water to the point of access is not more than 9 m.",
+          "Above 9 m a combination arrangement is used: an accommodation ladder with a pilot ladder, rigged as SOLAS V/23 and IMO Res. A.1045(27) as amended require.",
+          "Man-ropes, where used, are 28 to 32 mm in diameter, of manila or equivalent, secured at deck level.",
+          "Shackles, knots and cable clamps in the side ropes are not permitted; the ladder is secured to strong points on deck, not to a rail.",
+          "A lifebuoy with a self-igniting light and a heaving line are kept ready at the point of access, and the area is lit at night.",
+          "A responsible officer attends the embarkation and there is two-way communication with the bridge."
+        ]
+      }
     ]
   },
   {
@@ -2378,7 +2594,42 @@
       "Lifebuoy not readily available — lashed, painted to the rail or stowed in a locker",
       "Ship's name and port of registry missing or illegible",
       "Retro-reflective tape missing or degraded",
-      "Quick-release bracket seized or the buoy secured with a lashing"
+      "Quick-release bracket seized or the buoy secured with a lashing",
+      "Both a self-igniting light and a buoyant lifeline rigged on the same lifebuoy, against the SOLAS distribution plan",
+      "Grab lines of flat synthetic webbing or cordage under 9.5 mm, brittle and parting under tension",
+      "Stowage cradles lacking photoluminescent IMO symbols and the ship's name and port of registry"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "What a lifebuoy has to be",
+        "bullets": [
+          "Outer diameter not more than 800 mm and inner diameter not less than 400 mm — a ring outside that range is not a SOLAS lifebuoy however new it looks.",
+          "Mass not less than 2.5 kg. The ones fitted with a self-activating smoke signal that releases from the bridge must be at least 4 kg, because the mass is what operates the quick release.",
+          "Supports 14.5 kg of iron in fresh water for 24 hours.",
+          "Buoyancy comes from inherently buoyant material — never from rushes, cork shavings, granulated cork or any loose filling, and never from an air compartment that has to be inflated.",
+          "Withstands a drop into the water from its stowage height, or 30 m, whichever is greater.",
+          "Resistant to deterioration by oil and oil products, and of a highly visible colour."
+        ]
+      },
+      {
+        "heading": "Markings and what an inspector looks for",
+        "bullets": [
+          "Ship's name and port of registry in block capitals of Roman script.",
+          "Retro-reflective material fitted per IMO Res. A.658(16): four patches evenly spaced round the ring, on both faces.",
+          "The grab line is secured at four equidistant points forming four equal loops — not two, and not knotted round the ring.",
+          "Nothing is painted over: paint on a lifebuoy is the single most common way its retro-reflective tape and its markings get written up."
+        ]
+      },
+      {
+        "heading": "How many, and where",
+        "bullets": [
+          "Cargo ships carry a number by length: 8 below 100 m, 10 from 100 to under 150 m, 12 from 150 to under 200 m, 14 at 200 m and above (SOLAS III/32.1).",
+          "They are distributed so as to be readily available on both sides of the ship, and as far as practicable on all open decks leading to the ship's side; at least one is near the stern.",
+          "At least one on each side carries a buoyant lifeline; at least half the total carry self-igniting lights; and not fewer than two of those also carry self-activating smoke signals and can be released quickly from the navigating bridge.",
+          "A lifebuoy with a line is never also fitted with a light and smoke — the line would foul the release.",
+          "Stowed so it can be rapidly cast loose: never permanently secured, never lashed, never behind a lashed cover."
+        ]
+      }
     ]
   },
   {
@@ -2467,7 +2718,30 @@
       "Ship's name and port of registry missing or illegible",
       "Retro-reflective tape missing or degraded",
       "Quick-release bracket seized or the buoy secured with a lashing",
-      "Self-igniting light battery expired or the light does not operate"
+      "Self-igniting light battery expired or the light does not operate",
+      "Non-intrinsically-safe lights fitted to lifebuoys on an open cargo deck of a tanker",
+      "Pilot boarding station light with its water-activation plug lanyard unrigged, so it cannot self-activate"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "What the light has to do",
+        "bullets": [
+          "Burns with a luminous intensity of not less than 2 cd in all directions of the upper hemisphere.",
+          "Carries a source of energy for at least two hours.",
+          "Is not extinguished by water, and cannot be extinguished by the wind.",
+          "Flashing types flash at not less than 50 and not more than 70 flashes per minute, with the same effective luminous intensity.",
+          "Withstands the drop test with the lifebuoy from its stowage height or 30 m, whichever is greater."
+        ]
+      },
+      {
+        "heading": "The check that actually finds faults",
+        "bullets": [
+          "Battery expiry date: read it, do not assume it. An in-date battery with green corrosion round the contacts is a failed light.",
+          "Test the water-activated contact by wetting it, not by pressing a test button that some makers do not fit.",
+          "The light is secured to the lifebuoy by its own lanyard, short enough that it cannot float away and long enough not to hold the ring on its edge.",
+          "Half the ship's lifebuoys must carry a light: count them against the certificate, because the count is what gets written up, not the condition."
+        ]
+      }
     ]
   },
   {
@@ -2560,6 +2834,26 @@
       "Retro-reflective tape missing or degraded",
       "Quick-release bracket seized or the buoy secured with a lashing",
       "Smoke signal expired"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "What the smoke signal has to do",
+        "bullets": [
+          "Emits smoke of a highly visible colour at a uniform rate for at least 15 minutes when floating in calm water.",
+          "Does not ignite or explode in an explosive atmosphere — which is why it is the signal used on a tanker's deck.",
+          "Does not swamp in a seaway, and keeps emitting when submerged in water for 10 seconds.",
+          "Expiry date is marked; it is a pyrotechnic and it expires like one."
+        ]
+      },
+      {
+        "heading": "Quick release from the bridge",
+        "bullets": [
+          "At least two lifebuoys with both light and smoke must be capable of quick release from the navigating bridge.",
+          "The release is tested by operating it — a visual check of the pin proves nothing about the pelican hook underneath.",
+          "The lifebuoy on that release must be at least 4 kg: a lighter ring will not pull the smoke signal's actuating lanyard.",
+          "Expired smoke signals are landed as pyrotechnic waste, not thrown over the side and not kept 'for drills'."
+        ]
+      }
     ]
   },
   {
@@ -2656,7 +2950,22 @@
       "Ship's name and port of registry missing or illegible",
       "Retro-reflective tape missing or degraded",
       "Smoke signal expired",
-      "Quick-release arrangement seized or lashed"
+      "Quick-release arrangement seized or lashed",
+      "Lanyard between the bridge-wing lifebuoy and the marker routed above the bracket arm, so the buoy cannot fall free on release",
+      "Lanyard shorter than the maker's minimum, so gravity never pulls the ignition pin",
+      "Quick-release lifebuoy under the 4 kg needed to trigger the self-activating smoke signal"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "The bridge-wing release chain, link by link",
+        "bullets": [
+          "Three things have to be true together, and a check of any one alone proves nothing.",
+          "The lifebuoy must be at least 4 kg: a lighter ring will not pull the marker's ignition lanyard on the way down.",
+          "The lanyard between buoy and marker must be long enough for gravity to pull the pin as the buoy falls — makers commonly specify around 3.6 m, and a lanyard shortened to keep the deck tidy defeats the whole arrangement.",
+          "The lanyard must be routed **below** the bracket arm. Led over the top, it snubs the buoy against the bracket and the buoy never falls free.",
+          "Test it by releasing it, over the side, with the marker's pin secured — a visual check of the pelican hook proves only that the hook exists."
+        ]
+      }
     ]
   },
   {
@@ -2834,7 +3143,42 @@
       "Whistles missing or lanyards perished",
       "Insufficient lifejackets for the persons on board, or none at the watch stations",
       "Donning instructions not posted at the stowage",
-      "Stowage locker locked or obstructed"
+      "Stowage locker locked or obstructed",
+      "No oversized jackets or belt extenders for persons up to 140 kg and 1750 mm chest girth (SOLAS III/7.2.1.5)",
+      "Bridge watch complement short of jackets and immersion suits for the full watch team",
+      "Form E, the Safety Plan and the physical count disagreeing on the total, with no reconciliation by the ship's officers",
+      "Donning instruction posters missing from the engine control room and remote muster stations"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "Performance the jacket has to meet",
+        "bullets": [
+          "Turns the mouth of an exhausted or unconscious wearer clear of the water in not more than 5 seconds.",
+          "Holds the mouth not less than 120 mm clear of the water, with the body inclined backwards at not less than 20 degrees from the vertical.",
+          "The wearer can jump from a height of at least 4.5 m into the water without injury and without dislodging or damaging the jacket.",
+          "Buoyancy is not reduced by more than 5% after 24 hours' immersion in fresh water.",
+          "Can be donned correctly within one minute without assistance, after a single demonstration — which is what makes the donning demonstration part of the drill and not a formality.",
+          "An adult jacket is for persons of 43 kg and above; below that the child and infant sizes apply."
+        ]
+      },
+      {
+        "heading": "What has to be attached to it",
+        "bullets": [
+          "A whistle, firmly secured by a cord.",
+          "A light of not less than 0.75 cd in all directions of the upper hemisphere, burning for at least 8 hours; a flashing light does 50 to 70 flashes per minute.",
+          "Retro-reflective material to IMO Res. A.658(16).",
+          "Donning instructions, and the ship's name where the flag requires it."
+        ]
+      },
+      {
+        "heading": "Counting and stowing them",
+        "bullets": [
+          "One for every person on board, plus enough for watchkeepers and for persons at remotely located survival craft stations.",
+          "Child lifejackets for at least 10% of the number of passengers, or as many as needed for one per child.",
+          "Stowed so they are readily accessible, with the position plainly indicated — a locker that needs a key is not readily accessible.",
+          "Inflatable lifejackets are serviced annually at an approved station; cylinder mass and cartridge condition are what that service checks."
+        ]
+      }
     ]
   },
   {
@@ -3137,7 +3481,28 @@
       "Inflation cylinder loose, corroded or under its stamped weight",
       "Automatic inflation head expired",
       "Lifejacket lights expired or missing",
-      "Service label missing so the last service cannot be evidenced"
+      "Service label missing so the last service cannot be evidenced",
+      "Non-SOLAS working vests used for overside work, or vests left out of the planned maintenance inspection matrix",
+      "No objective evidence of annual shore-based service and pressure testing"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "Why an inflatable is different",
+        "bullets": [
+          "It has at least two separate compartments, inflates automatically on immersion, has a manual pull, and can be inflated by mouth.",
+          "It meets the same turning, freeboard and jump requirements as a solid jacket once inflated.",
+          "It is the only lifejacket type SOLAS requires to be serviced annually at an approved servicing station (SOLAS III/20.8.2)."
+        ]
+      },
+      {
+        "heading": "The parts that fail",
+        "bullets": [
+          "The gas cylinder: check it is full by mass against the figure stamped on it, and that it is screwed fully home. A finger-tight cylinder is the classic failure.",
+          "The automatic cartridge (bobbin or hydrostatic): it has an expiry date, and a bobbin that has been damp will have fired or will fire in the locker.",
+          "The green indicator on the firing head — red means it has fired or is not armed.",
+          "The oral inflation tube's non-return valve, and the seams: an annual service includes an overnight air-holding test."
+        ]
+      }
     ]
   },
   {
@@ -3196,7 +3561,8 @@
     "commonPscFindings": [
       "Battery expiry passed on part of the batch",
       "Lights fitted but not tested at the monthly inspection",
-      "Spares stock exhausted"
+      "Spares stock exhausted",
+      "Activation pull-pin missing, battery date expired, or an expired unit left attached beside a new one"
     ]
   },
   {
@@ -3335,7 +3701,50 @@
       "Air-pressure test overdue for suits under 10 years old",
       "Zips seized or seals perished",
       "Insufficient suits for the persons on board or none at the watch stations",
-      "Suits stowed in a locked or obstructed locker"
+      "Suits stowed in a locked or obstructed locker",
+      "Certificate, Safety Plan and physical count disagreeing on the number carried, unreconciled",
+      "Periodic pressure test overdue, or done on board with an unapproved kit at the wrong pressure",
+      "Storage bag donning instructions faded illegible by moisture in the forecastle store",
+      "No external stencilling stating whether a lifejacket must be worn with the suit"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "Performance the suit has to meet",
+        "bullets": [
+          "Can be unpacked and donned without assistance within 2 minutes, including any associated clothing and a lifejacket if the suit needs one.",
+          "Covers the whole body except the face; hands are covered unless permanently attached gloves are provided.",
+          "The wearer can climb up and down a vertical ladder of at least 5 m, jump from a height of at least 4.5 m without damaging the suit, swim a short distance, and board a survival craft.",
+          "Limits the fall in body core temperature to not more than 2°C after 6 hours' immersion in calm water of 0 to 2°C.",
+          "A suit not inherently buoyant is worn with a lifejacket; the stowage must hold both."
+        ]
+      },
+      {
+        "heading": "The air-pressure test — the one that finds the real defects",
+        "bullets": [
+          "MSC.1/Circ.1047 and MSC.1/Circ.1114 set out the air-pressure (leak) test: the suit is sealed, inflated to a low pressure and checked for leaks, typically by immersion or by soap solution on the seams.",
+          "Common guidance is a test at intervals not exceeding three years, and annually once the suit is more than ten years old — confirm the interval against the flag's instruction and the maker's manual.",
+          "Zip condition is the usual failure: a stiff, corroded or ungreased zip will not close in the two minutes the officer has.",
+          "Wax or the maker's zip lubricant, not grease or oil, which attacks the zip's tape.",
+          "Check the seals at face, wrists and ankles for perishing, and the retro-reflective tape and light."
+        ]
+      },
+      {
+        "heading": "How many and where",
+        "bullets": [
+          "One for every person on board, stowed at the muster station or at the person's cabin as the ship's arrangement provides.",
+          "Ships operating in cold water carry them for everyone; the count and stowage are on the Safety Equipment Certificate's record of equipment.",
+          "A suit stowed in a bag that has been sat on for a year will have a set crease in the visor area — open and repack them at the annual inspection."
+        ]
+      },
+      {
+        "heading": "Getting the pressure test right",
+        "bullets": [
+          "MSC/Circ.1114 sets a low test pressure — of the order of 0.7 to 1.4 kPa (about 10 mbar). Testing at a few kPa is not a stricter test; it is a different test, and it can damage seams the suit would have passed.",
+          "Use the maker's or an approved kit with a gauge that actually reads in that range: a workshop air line and a coarse gauge cannot hold it.",
+          "Record the pressure used and the hold time, not just 'tested — satisfactory'.",
+          "Suits tested on board with an unapproved kit at the wrong pressure are a finding even when every suit passes."
+        ]
+      }
     ]
   },
   {
@@ -3567,7 +3976,9 @@
       "Pyrotechnics expired or expiring before the next port",
       "Quantity short of the required outfit",
       "Expired stock still stowed with the in-date stock",
-      "Container not watertight; signals damp or corroded"
+      "Container not watertight; signals damp or corroded",
+      "Flares in the bridge distress locker past the maker's expiry date",
+      "Expired units stored mixed in with active stock in the same locker"
     ]
   },
   {
@@ -3828,7 +4239,20 @@
       "Quantity short of the required outfit",
       "Expired stock still stowed with the in-date stock",
       "Container not watertight; signals damp or corroded",
-      "Lines expired although the rockets are in date"
+      "Lines expired although the rockets are in date",
+      "Barrels loaded with replacement rockets from a different maker, with no type-approval compatibility",
+      "Operating instructions on board depicting an unsafe firing technique, such as handling the barrel forward of the blast shield"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "Performance and stock",
+        "bullets": [
+          "Throws a line with reasonable accuracy, carrying a line of not less than 230 m to a range of not less than 230 m in calm weather.",
+          "Not fewer than four projectiles and four lines are carried.",
+          "The rockets are pyrotechnics and expire: the date is on each unit, and expired ones are landed ashore, not fired for practice unless the flag permits and the drill is planned.",
+          "Stowed dry and accessible; a damp locker will ruin the propellant long before the printed date."
+        ]
+      }
     ]
   },
   {
@@ -3915,7 +4339,30 @@
       "Battery or HRU expired",
       "Annual performance test not recorded",
       "Registration details out of date after a change of owner or ship name",
-      "Float-free path obstructed or the bracket painted solid"
+      "Float-free path obstructed or the bracket painted solid",
+      "Maker-required three-monthly extended GPS self-test omitted from the planned maintenance system, only the basic monthly test recorded",
+      "Pre-departure functional test of the float-free unit not entered in the GMDSS radio log"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "What it is and how it is found",
+        "bullets": [
+          "A 406 MHz beacon registered to the ship, whose alert reaches a rescue co-ordination centre via satellite, carrying the ship's identity.",
+          "The 121.5 MHz element is for homing on scene, not for alerting.",
+          "Float-free EPIRBs are released by their own hydrostatic release unit, which has its own expiry date — commonly two years, marked on the unit.",
+          "Registration must be current: a beacon registered to a previous owner sends rescuers to the wrong ship."
+        ]
+      },
+      {
+        "heading": "The tests and the dates",
+        "bullets": [
+          "Monthly: the self-test, using the beacon's own test function — never by letting it transmit a real alert.",
+          "Annual: the test required by SOLAS IV/15.9, checking the beacon for its capability to operate properly, including the frequency, the coded identification and the battery.",
+          "Five-yearly: shore-based maintenance at an approved facility.",
+          "Battery expiry and HRU expiry are separate dates and are both recorded; an in-date battery on an expired HRU is still a finding.",
+          "If it is ever activated by accident, tell the RCC immediately — an unreported false alert is a far bigger problem than the mistake."
+        ]
+      }
     ]
   },
   {
@@ -3984,7 +4431,29 @@
     "commonPscFindings": [
       "Battery expired",
       "Self-test not carried out or not recorded",
-      "SART stowed where it cannot be taken to the survival craft"
+      "SART stowed where it cannot be taken to the survival craft",
+      "Accompanying officer unable to explain the twelve-blip radar response, the mounting on the survival craft pole, or the lanyard securing"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "How a SART shows on a radar",
+        "bullets": [
+          "A 9 GHz radar SART responds to an X-band radar and paints a line of twelve blips extending outward from its position along the bearing.",
+          "As the searching ship closes, the blips become arcs and then concentric circles: that change is the range cue, and it is how you know you are close.",
+          "It does not respond to an S-band (3 GHz) radar — searching on S-band alone will find nothing.",
+          "Detection range is roughly 5 nautical miles from a ship's radar antenna at 15 m, and around 30 nautical miles from an aircraft at 3,000 ft.",
+          "An AIS-SART instead transmits AIS position reports and appears as an AIS target, not as a radar pattern."
+        ]
+      },
+      {
+        "heading": "Checks",
+        "bullets": [
+          "Monthly: the self-test as the maker describes, and confirm the visual/audible indication.",
+          "Do not test by radar interrogation without informing others — it puts a distress pattern on every screen in range.",
+          "Battery expiry date, and the mounting bracket: a SART that cannot be got out of its bracket with cold hands is no use.",
+          "Stowed so it can be rapidly placed in a survival craft, and its position marked."
+        ]
+      }
     ]
   },
   {
@@ -4049,7 +4518,9 @@
     "commonPscFindings": [
       "Primary battery expired or the seal broken",
       "Sets not tested monthly",
-      "Charger for the rechargeable battery inoperative"
+      "Charger for the rechargeable battery inoperative",
+      "Lithium primary battery tamper seals broken on survival craft transceivers",
+      "No wrist lanyards or protective weather holsters with the sets"
     ]
   },
   {
@@ -4111,6 +4582,18 @@
       "Weekly test not recorded",
       "Alarm cannot be sounded from the emergency source of power",
       "Sounders painted over or disconnected during works"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "The signal and the coverage",
+        "bullets": [
+          "Seven or more short blasts followed by one long blast on the ship's whistle and on the electrically operated bell or klaxon.",
+          "Audible throughout all accommodation and normal crew working spaces, and on open decks.",
+          "Sounds until it is manually turned off or interrupted by the public address system.",
+          "Operable from the navigation bridge and, except for the ship's whistle, from other strategic points.",
+          "Tested weekly, and its operation logged. A weekly test that nobody in the engine room can hear is a finding waiting to happen — walk the ship for it at least once a quarter."
+        ]
+      }
     ]
   },
   {
@@ -4429,7 +4912,42 @@
       "Pressure gauge outside the green band",
       "Obstructed access",
       "Missing safety pin or seal",
-      "Annual service or ten-yearly hydrostatic test overdue"
+      "Annual service or ten-yearly hydrostatic test overdue",
+      "Emergency generator room and paint store units stowed metres from the access door instead of beside the entrance",
+      "Foam extinguisher sited directly in front of 440 V motor control centres, with the CO2 unit in another space",
+      "Open deck and manifold foam units rated only from +5 °C, presenting a freezing risk in the ship's trading area",
+      "Annual shore servicing and hydrostatic testing overdue against the twelve-month limit"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "Size, and how many",
+        "bullets": [
+          "A portable extinguisher has a total mass of not more than 23 kg fully charged; anything heavier is a wheeled unit and is counted separately.",
+          "Minimum charges: 5 kg for dry powder, 5 kg for CO2, and 9 litres for a fluid (foam or water) extinguisher.",
+          "Accommodation, service spaces and control stations carry not fewer than five portable extinguishers in total.",
+          "At least one extinguisher intended for use in a space is stowed near the entrance to that space — an extinguisher deep inside a burning space is not an extinguisher.",
+          "CO2 extinguishers are not placed in accommodation spaces. Where they are in control stations or spaces with electrical equipment, their capacity is limited so that the CO2 could not raise the concentration above 5% of the gross volume of the space."
+        ]
+      },
+      {
+        "heading": "Spare charges",
+        "bullets": [
+          "Spare charges are provided for 100% of the first ten extinguishers and 50% of the remainder capable of being recharged on board, up to a maximum of 60 in total.",
+          "For extinguishers that cannot be recharged on board, additional portable extinguishers of the same type, capacity and number are carried instead of spare charges.",
+          "Instructions for recharging are carried on board.",
+          "A ship that keeps its spares locked in a store on the other side of the ship from the extinguishers has met the letter and missed the point."
+        ]
+      },
+      {
+        "heading": "Testing and the dates that matter",
+        "bullets": [
+          "Monthly: a visual check that each extinguisher is in place, unobstructed, the pressure gauge (where fitted) is in the green, the pin and seal are intact, and the hose is not perished.",
+          "Annual: examine every extinguisher against MSC.1/Circ.1432; weigh CO2 extinguishers and recharge any that have lost more than 10% of the charge mass.",
+          "Internal examination and a discharge test at the interval in the maintenance plan — commonly five years — and a hydraulic pressure test of the cylinder at the longer interval the maker and the plan set, commonly ten years for CO2.",
+          "One extinguisher of each type is discharged by the crew each year as part of the training under SOLAS II-2/15, which is also how the crew finds out how short a discharge really is.",
+          "Read the classes on the label. Dry powder on a live switchboard is not the same decision as CO2, and foam on a live electrical fire is not a decision at all."
+        ]
+      }
     ]
   },
   {
@@ -4653,7 +5171,9 @@
       "Missing or illegible service label",
       "Discharge hose perished, kinked or blocked",
       "Annual service or ten-yearly hydrostatic test overdue",
-      "Obstructed access"
+      "Obstructed access",
+      "Steering flat mobile foam unit tied to the guardrail with packaging twine, so it cannot be deployed quickly",
+      "Wheeled foam units condemned internally by the shore contractor but left in service in the machinery space"
     ]
   },
   {
@@ -5068,7 +5588,41 @@
       "Hydrant valve seized or leaking",
       "Blank cap and washer missing",
       "Hydrant painted over or inaccessible behind stores",
-      "Insufficient pressure at the most remote hydrant with two jets"
+      "Insufficient pressure at the most remote hydrant with two jets",
+      "Poop deck and cargo area hydrants leaking continuously past the seat under line pressure",
+      "Hydrants sited within 1.3 m of 440 V group starter panels with no spray protection shield"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "Pressure and placement",
+        "bullets": [
+          "Hydrants are placed so that two jets of water, not emanating from the same hydrant, can reach any part of the ship normally accessible while at sea — one of them from a single length of hose.",
+          "At least one of the two jets can reach any part of any cargo space when empty, any ro-ro space and any vehicle space.",
+          "Minimum pressure at the two hydrants, with the required pumps running: 0.27 N/mm² for cargo ships of 6,000 gross tonnage and above, and 0.25 N/mm² below that. Passenger ships are higher and graded by tonnage.",
+          "The valve is arranged so that a hose can be removed while the fire pumps are running: every hydrant has an isolating valve, and it must actually turn.",
+          "Hydrants in exposed positions are protected against frost where the ship trades cold."
+        ]
+      },
+      {
+        "heading": "The joint the whole system stands on",
+        "bullets": [
+          "The hose coupling is the ship's weakest link when help arrives from outside: a ship whose hoses will not mate with the terminal's is a ship fighting alone.",
+          "Common patterns you will meet: **Storz** — symmetrical (hermaphrodite) lug coupling, quarter-turn, no male or female half, standard across most of continental Europe and widely used at sea; **instantaneous** — British pattern with a male tail and a spring-latched female; **NH / NST** — American threaded, male and female; **Guillemin** — French, lug and cam; **Nakajima** — Japanese, lug type.",
+          "Storz sizes are lettered by nominal bore, commonly A (about 110 mm), B (about 75 mm), C (about 52 mm) and D (about 25 mm). A Storz B will not mate with a Storz C, and adapters between the sizes are what a well-found ship keeps in the fire locker.",
+          "Because a symmetrical coupling has no male half, two ships with Storz can always be joined; two ships with different threaded patterns cannot without an adapter.",
+          "This is exactly why the **international shore connection** exists: it is one standard flange, carried by every ship, that lets shore fire-fighting water into the ship's fire main whatever the local coupling is.",
+          "Keep the gaskets. A coupling with a perished or missing gasket passes a visual check and fails under pressure."
+        ]
+      },
+      {
+        "heading": "Checks that find real defects",
+        "bullets": [
+          "Open every hydrant valve at least once in the maintenance cycle: a valve that has not been turned in three years is seized, and it is seized when you need it.",
+          "Blank caps present, on their chains, and free — a cap that has to be hammered off is a lost minute.",
+          "Corrosion at the valve spindle and at the flange; wastage in the branch pipe behind the hydrant, which is where the fire main actually fails.",
+          "Isolating valves for the section: located, labelled, and free to operate."
+        ]
+      }
     ]
   },
   {
@@ -5155,7 +5709,40 @@
       "Hose perforated, rotted or with damaged couplings",
       "Hose not connected to the hydrant in accommodation and service spaces",
       "Nozzle missing or of the wrong type",
-      "Hose pressure test record not available"
+      "Hose pressure test record not available",
+      "Machinery space hydrants rigged with 20 m hoses where SOLAS allows a maximum of 15 m",
+      "Cargo manifold foam applicator hose too short to reach the forward manifold limit"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "Length, and how many",
+        "bullets": [
+          "Machinery spaces: hoses of 10 to 15 m.",
+          "Other spaces and open decks: 15 to 20 m.",
+          "Open decks of a ship of more than 30 m breadth: up to 25 m.",
+          "Number on a cargo ship: one for each 30 m of ship's length, plus one spare, and never fewer than five in total — excluding any hose required in the machinery space.",
+          "Each hose has a nozzle and the necessary couplings and is kept with its hydrant, not in a store.",
+          "In accommodation, service and machinery spaces hoses may be kept connected to the hydrants at all times."
+        ]
+      },
+      {
+        "heading": "Nozzles",
+        "bullets": [
+          "Standard nozzle sizes are 12, 16 and 19 mm, or as near as possible.",
+          "Accommodation and service spaces: no nozzle larger than 12 mm is needed.",
+          "Machinery spaces and exterior locations: 19 mm, or the nearest size, to give the greatest discharge from the smallest pump.",
+          "All nozzles are dual-purpose — jet and spray — and have a shutoff. Spray is what protects the man behind it; jet is what reaches."
+        ]
+      },
+      {
+        "heading": "Testing and storage",
+        "bullets": [
+          "MSC.1/Circ.1432 requires all hoses, nozzles, couplings and hydrants to be inspected annually.",
+          "Pressure testing is at the interval in the ship's maintenance plan and after any repair; hoses are tested to the maximum fire main pressure. Check the plan and the flag's instruction rather than assuming an interval.",
+          "Store them dry and rolled or flaked as the box allows. A hose stowed wet rots from the inside and passes every visual check until it bursts.",
+          "Mark each hose with its station. A hose that lives at hydrant 12 and is found at hydrant 3 is a hose that was borrowed and not returned."
+        ]
+      }
     ]
   },
   {
@@ -5220,7 +5807,8 @@
     "commonPscFindings": [
       "Single-purpose jet nozzle fitted where dual purpose is required",
       "Changeover seized",
-      "Nozzle missing from the hose box"
+      "Nozzle missing from the hose box",
+      "Dual-purpose jet/spray handle mechanically jammed and unable to open fully"
     ]
   },
   {
@@ -5358,6 +5946,30 @@
       "Bolts, nuts, washers or gasket missing",
       "Connection stowed in a locked store rather than ready for use",
       "Location not marked on the fire control plan"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "The standard dimensions — worth knowing by heart",
+        "bullets": [
+          "Outside diameter of the flange: 178 mm.",
+          "Inside diameter: 64 mm.",
+          "Bolt circle diameter: 132 mm.",
+          "Four holes of 19 mm diameter, equidistant on the bolt circle, slotted out to the flange periphery so the flange can be fitted without withdrawing the bolts.",
+          "Flange thickness: 14.5 mm minimum.",
+          "Four bolts of 16 mm diameter and 50 mm length, with eight washers and a gasket.",
+          "The flange face is flat on one side and fitted with a coupling to suit the ship's hydrants on the other."
+        ]
+      },
+      {
+        "heading": "What it is for, and where it lives",
+        "bullets": [
+          "It lets a shore fire-fighting main, or another ship, feed the ship's fire main through one internationally standard joint, whatever coupling pattern the two sides normally use.",
+          "Cargo ships of 500 gross tonnage and above carry at least one; the ship must be able to use it on either side.",
+          "The connection is kept with its bolts, nuts, washers and gasket, in one place, accessible from either side of the ship, and its position is marked on the fire control plan.",
+          "The complete set is the requirement: a flange found without its gasket and bolts is the same finding as no flange at all.",
+          "Made of material suitable for 1.0 N/mm² service, with a gasket to match."
+        ]
+      }
     ]
   },
   {
@@ -5433,7 +6045,9 @@
     "commonPscFindings": [
       "Valve seized or the handwheel missing",
       "Valve found closed with no reason recorded",
-      "Valve not identified or not shown on the fire control plan"
+      "Valve not identified or not shown on the fire control plan",
+      "Isolating valve between fire main and deck foam main seized, needing a wheel key to force",
+      "Deck foam and fire main isolating valves painted the same colour, so neither can be picked out in an emergency"
     ]
   },
   {
@@ -5619,7 +6233,32 @@
       "Independent fuel tank empty or the supply valve shut",
       "Space used as a store; access obstructed",
       "Isolating valve to the fire main found shut",
-      "Priming arrangement inoperative"
+      "Priming arrangement inoperative",
+      "Vacuum priming pump clutch seizing, or failing to engage automatically when the pump starts",
+      "Attending engineer unfamiliar with manual engagement and disengagement of the priming system on loss of suction",
+      "Discharge pressure swinging between 2 and 4 bar from air entrained in the suction strainer casing",
+      "Discharge gauge stuck at 1.5 bar with the pump stopped, falsifying every test reading taken from it",
+      "Spring-loaded bilge overboard dump valve in the pump space frozen and inoperable"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "What it has to deliver",
+        "bullets": [
+          "Capacity not less than 40% of the total capacity of the fire pumps required, and in any case not less than 25 m³/h.",
+          "Capable of delivering two jets of water at the required pressure.",
+          "Located outside the space containing the main fire pumps, with its own sea suction, so a fire in the machinery space cannot take both.",
+          "Where the driver is diesel, it is capable of being readily started by hand in cold condition down to 0°C; where that is impracticable, other starting means are provided and maintained."
+        ]
+      },
+      {
+        "heading": "Fuel and the weekly test",
+        "bullets": [
+          "Fuel in the service tank sufficient for at least three hours at full load, with reserves outside the main machinery space for a further fifteen hours.",
+          "Weekly: start the pump, run it, and prove it delivers pressure at a hydrant — starting it and stopping it at the pump proves only that it turns.",
+          "Prime the suction and check the sea valve is free: a seized emergency sea suction valve is the failure that makes the whole pump irrelevant.",
+          "Record the running hours and the starting method used; a pump that only ever starts on the electric starter has an untested hand start."
+        ]
+      }
     ]
   },
   {
@@ -5869,7 +6508,21 @@
       "Foam concentrate sample analysis overdue or failed",
       "Foam main not blown through and drained after use",
       "Monitors or applicator connections seized",
-      "Foam tank level low or the tank contaminated"
+      "Foam tank level low or the tank contaminated",
+      "Proportioner inductor set to 6% while the storage tank holds 3% concentrate",
+      "Deck foam monitor body and threaded swivel leaking heavily under line pressure"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "Proportioning: the number on the inductor and the drum must agree",
+        "bullets": [
+          "Concentrates are supplied at 1%, 3% or 6%. The inductor setting names the proportion of concentrate in the finished solution.",
+          "A 6% inductor fed from a 3% tank delivers roughly half the concentrate the system was designed for — the foam looks right and does not hold a seal.",
+          "A 3% inductor fed from a 6% tank wastes concentrate and empties the tank in half the design time.",
+          "Check the drum, the tank marking, the inductor setting and the system's approval document against each other, and record all four.",
+          "The bulk quantity on board is checked against the figure in the approved record of equipment, not against the tank being 'full'."
+        ]
+      }
     ]
   },
   {
@@ -5947,7 +6600,29 @@
     "commonPscFindings": [
       "Analysis certificate missing or out of date",
       "Tank level below the required quantity",
-      "Concentrate degraded — sediment or separation visible"
+      "Concentrate degraded — sediment or separation visible",
+      "Bulk stock below the minimum on the approved record of equipment",
+      "Annual laboratory analysis report omitting the small-scale fire test"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "The sample that matters",
+        "bullets": [
+          "Foam concentrate is sampled and analysed periodically at a competent laboratory — commonly annually after three years from manufacture, per MSC.1/Circ.1312 and MSC.1/Circ.1432; confirm against the ship's plan and the maker.",
+          "The test looks for sediment, pH, viscosity, expansion ratio and drainage time.",
+          "Degraded concentrate is replaced, never topped up with a different brand or type: mixing types can destroy the performance of both.",
+          "Keep the certificate of analysis with the ship's records; the certificate, not the tank level, is what proves the foam works."
+        ]
+      },
+      {
+        "heading": "Practical care",
+        "bullets": [
+          "Tank level, and the tank's coating: many concentrates attack ordinary steel.",
+          "Keep the tank sealed. Evaporation and contamination both change the concentration, and it is the concentration that sets the application rate.",
+          "Note the type — protein, fluoroprotein, AFFF, alcohol-resistant — on the tank and in the plan. The wrong type on a polar solvent cargo does nothing.",
+          "Environmental rules on fluorinated foams are changing; when a foam is replaced, check what the ship's next trading area accepts."
+        ]
+      }
     ]
   },
   {
@@ -6090,7 +6765,40 @@
       "Release cabinet unsealed, or the operating instructions missing",
       "Pre-discharge alarm inoperative or the ventilation does not stop on release",
       "CO2 room ventilation, lighting or door alarm defective",
-      "Cylinder securing clamps corroded or slack"
+      "Cylinder securing clamps corroded or slack",
+      "Pump room CO2 cabinet without the warning placard on electrostatic ignition hazard during discharge",
+      "Paint locker distribution valves found seized in the open position",
+      "Release station without a ship-specific checklist and layout showing the exact sequence of ventilation stops, fire flaps and fuel shut-offs before release"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "How much gas, and how fast",
+        "bullets": [
+          "Machinery spaces: the quantity of CO2 is the greater of 40% of the gross volume of the largest machinery space excluding the casing, or 35% of that volume including the casing.",
+          "Cargo spaces: 30% of the gross volume of the largest cargo space to be protected.",
+          "For machinery spaces, 85% of the gas is discharged within two minutes.",
+          "Two separate controls are required: one for opening the valve of the piping into the space, and one for discharging the gas from the containers. Both are in a release box that gives a clear warning when opened."
+        ]
+      },
+      {
+        "heading": "The interlocks and alarms",
+        "bullets": [
+          "An audible and visual alarm sounds in the protected space before the gas is released, with a delay long enough for people to get out.",
+          "The alarm is distinct from every other alarm on board — that is the point of it.",
+          "Ventilation stops and closures operate; the fuel supply shuts; the space is sealed before release.",
+          "The means of release is in a position readily accessible outside the protected space, unlikely to be cut off by a fire in it."
+        ]
+      },
+      {
+        "heading": "Servicing intervals to know",
+        "bullets": [
+          "Annual: check the cylinders' contents by weight or by level, examine the release lines, alarms, and the door interlocks, and check the pilot cylinders.",
+          "Every two years: blow through the distribution piping with dry air to prove it is clear, and check the release lines for leaks.",
+          "Ten-yearly: hydrostatic testing of a sample of the cylinders, commonly 10%, per the maintenance plan and MSC.1/Circ.1432.",
+          "A cylinder that has lost more than the allowed percentage of its charge is refilled or replaced — the whole system is designed on the total mass.",
+          "Never enter a CO2 room without treating it as an enclosed space: a leaking cylinder makes it one."
+        ]
+      }
     ]
   },
   {
@@ -6507,7 +7215,11 @@
     "commonPscFindings": [
       "Nozzles blocked or filters choked",
       "Pump unit will not achieve the required pressure",
-      "Function test not carried out at the maker's interval"
+      "Function test not carried out at the maker's interval",
+      "Wheelhouse and ECR repeater panels with dead supply bulbs and burned-out system-abnormal lamps",
+      "Fresh water supply tank low-level alarm switch defective",
+      "Planned maintenance covering only weekly, monthly and yearly routines, omitting the five- and ten-yearly overhauls of MSC.1/Circ.1432",
+      "Fire training manual carrying no operating instructions or layout for the fixed water-mist system"
     ]
   },
   {
@@ -6844,6 +7556,28 @@
       "Deck seal or non-return valve defective",
       "Alarms and shutdowns not tested or found inoperative",
       "IG plant cannot maintain the required oxygen content"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "The two numbers",
+        "bullets": [
+          "The gas delivered by the system contains not more than 5% oxygen by volume.",
+          "Cargo tanks are kept at not more than 8% oxygen by volume, and at a positive pressure at all times.",
+          "The system is capable of delivering at least 125% of the maximum discharge rate of the cargo pumps.",
+          "Below those figures the tank is not inerted, whatever the plant is doing."
+        ]
+      },
+      {
+        "heading": "The parts that protect the ship",
+        "bullets": [
+          "The deck water seal: the non-return barrier that stops cargo gas from backing up into the machinery space. Its water level and its low-level alarm are checked daily in service.",
+          "The non-return valve on deck, in series with the water seal.",
+          "The P/V breaker (liquid-filled), which is the last protection against over- and under-pressure. Its liquid level and freezing point matter in cold weather.",
+          "Scrubber, blowers, deck isolating valve, and the oxygen analyser — which is only as good as its last calibration.",
+          "Alarms and trips to check: high oxygen content, low gas pressure, high gas temperature, low water in the seal, blower failure.",
+          "Purging before gas-freeing is done so that the tank atmosphere passes out of the flammable range rather than through it."
+        ]
+      }
     ]
   },
   {
@@ -6936,7 +7670,11 @@
       "Grease build-up in the hood and duct",
       "Manual release obstructed by galley equipment",
       "Service overdue; nozzle caps missing",
-      "Fuel or power shut-off does not operate on release"
+      "Fuel or power shut-off does not operate on release",
+      "Deep fat fryer system operating instructions missing from the fire training manual",
+      "Catering staff and senior officers unable to demonstrate the manual release",
+      "Fryer high-temperature cut-off switch absent from the planned maintenance schedule",
+      "Exhaust duct damper flap and inspection hatch coated with combustible grease"
     ]
   },
   {
@@ -7113,6 +7851,26 @@
       "Monthly sample test not recorded; five-yearly full test overdue",
       "Faults standing at the panel and not rectified",
       "No spare detector heads or test equipment on board"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "Sensitivity and spacing",
+        "bullets": [
+          "Smoke detectors operate before the smoke density exceeds 12.5% obscuration per metre, and not below 2% obscuration per metre.",
+          "Spacing: not more than 11 m apart and not more than 5.5 m from a bulkhead, covering not more than 74 m² of deck area each.",
+          "Detectors are positioned clear of beams and of ventilation inlets and outlets, which is where a badly sited head sits and never sees smoke.",
+          "Every detector is tested for correct operation by producing hot air, smoke or aerosol particles within the appropriate range of sensitivity, and is then restored to normal."
+        ]
+      },
+      {
+        "heading": "Common faults",
+        "bullets": [
+          "Dust and paint: a painted-over detector head is a dead detector, and it is the most common finding after any refit.",
+          "A detector removed for work and never refitted, with its base capped: the panel shows no fault and the space has no cover.",
+          "Zone labelling at the panel that no longer matches the compartment names after a conversion.",
+          "Test heads on a rotation so that every detector on board is tested inside the maintenance cycle, and record which ones — 'panel tested' is not a record."
+        ]
+      }
     ]
   },
   {
@@ -7199,6 +7957,17 @@
       "Monthly sample test not recorded; five-yearly full test overdue",
       "Faults standing at the panel and not rectified",
       "No spare detector heads or test equipment on board"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "Operating temperature and spacing",
+        "bullets": [
+          "Heat detectors operate before the temperature exceeds 78°C, and not before it reaches 54°C, when the temperature rises to those limits at a rate of less than 1°C per minute.",
+          "At higher rates of rise the detector operates within temperature limits appropriate to avoid spurious operation.",
+          "Spacing: not more than 9 m apart and not more than 4.5 m from a bulkhead, covering not more than 37 m² of deck area each.",
+          "In drying rooms, galleys and similar spaces the operating temperature may be raised to suit — but only where the Administration permits it, and not above the limit set."
+        ]
+      }
     ]
   },
   {
@@ -7538,7 +8307,30 @@
       "Zones or loops isolated and left isolated",
       "Standing faults not entered in the defect log",
       "Standby batteries flat or beyond their life",
-      "Panel indications not in the working language of the crew"
+      "Panel indications not in the working language of the crew",
+      "Active fault indications standing on accommodation and engine room loop drivers",
+      "Unauthorised alarm delay timers enabled during sea passages",
+      "No planned maintenance routine for the door-release and ventilation-fan trips that a detector actuation is supposed to initiate"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "What the panel has to do",
+        "bullets": [
+          "Indicate the section in which a detector or manual call point has operated, both visually and audibly, at the panel and at a position where it will be immediately received by a responsible member of the crew.",
+          "Power supply from two sources, one of which is an emergency source, with automatic changeover.",
+          "A fault in the loop must not disable the whole system, and must itself be indicated as a fault distinct from a fire alarm.",
+          "The panel is tested at intervals with a means for functionally testing and restoring the detectors to normal."
+        ]
+      },
+      {
+        "heading": "Working with it honestly",
+        "bullets": [
+          "Isolated zones: keep a written record of every isolation, why, and by whom. An isolation that outlives the work it was for is how ships burn.",
+          "A standing fault that everyone has learned to ignore is a fault, and it will be the first thing an inspector points at.",
+          "Confirm the repeater panels — bridge, ECR, fire station — all show the same state.",
+          "After any hot work, confirm the zone was restored and record the time."
+        ]
+      }
     ]
   },
   {
@@ -7781,6 +8573,26 @@
       "No bump test records",
       "Aspirator hose perished or the probe missing",
       "Insufficient meters for the enclosed-entry procedure"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "The right instrument for the hazard",
+        "bullets": [
+          "A catalytic (pellistor) LFL meter needs oxygen to work and gives a false low reading in an inert atmosphere — it must not be used to clear an inerted tank.",
+          "In an inerted or oxygen-deficient tank, use a tankscope or an equivalent instrument that reads hydrocarbon by volume rather than by combustion.",
+          "Oxygen, hydrocarbon, hydrogen sulphide and benzene are four separate measurements. One reading clears one hazard, not the space.",
+          "Personal H2S monitors are worn where the cargo or the terminal requires it, and their alarms are not silenced."
+        ]
+      },
+      {
+        "heading": "Making a reading mean something",
+        "bullets": [
+          "Bump-test before use with the test gas; calibrate on the maker's schedule. Record both — an uncalibrated instrument produces a number, not evidence.",
+          "Check the sample line and probe for length, condition and blockage; a cracked line reads fresh air all the way down the tank.",
+          "Take readings at several levels: heavier-than-air vapours collect low, and a reading at the hatch clears nothing.",
+          "Allow the full response time for the length of hose being used before you believe the number."
+        ]
+      }
     ]
   },
   {
@@ -7891,7 +8703,65 @@
       "Cylinder pressure below the maker's minimum",
       "Cylinder hydrostatic test date expired",
       "Face mask seal perished; no spare cylinders charged",
-      "Set stowed in a locked space or not with the fireman's outfit"
+      "Set stowed in a locked space or not with the fireman's outfit",
+      "Cylinders charged to 170–250 bar against a 300 bar rated service pressure",
+      "Face-mask connector leaking continuously when the cylinder valve is opened",
+      "Integrated low-pressure warning whistle not sounding on the depressurisation test",
+      "Steering gear locker set with a blank, unreadable pressure gauge",
+      "Set assigned to the steering flat relocated to the manifold, leaving that safety station empty",
+      "Deck ratings unable to demonstrate the pre-donning positive and negative face-seal tests and the low-pressure alarm check"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "What the set has to be",
+        "bullets": [
+          "A self-contained compressed-air breathing apparatus with a cylinder of at least 1,200 litres of free air, or capable of at least 30 minutes' duration.",
+          "Full face mask, positive-pressure demand valve, harness and a low-pressure warning device.",
+          "The warning whistle sounds while about a quarter of the air remains — typically around 50 to 55 bar on a 200 bar set. That is your margin to get out, not your margin to keep working.",
+          "Working pressures are commonly 200 or 300 bar; a 300 bar cylinder in a 200 bar charging line is a mistake that only shows up when you need the duration.",
+          "Cylinders may be steel or composite. Composite cylinders have a finite service life stamped on them — typically 15 years — after which they are withdrawn regardless of condition."
+        ]
+      },
+      {
+        "heading": "Spare charges and the compressor",
+        "bullets": [
+          "Two spare charges are provided for each required breathing apparatus.",
+          "A ship fitted with means to fully recharge the air cylinders free of contamination on board may carry one spare charge per apparatus instead.",
+          "Tankers, and ships carrying more than a stated number of sets, follow the same rule with the higher number of outfits required by SOLAS II-2/10.10.",
+          "Where the ship has a compressor, the air quality is what makes it legal: filters changed on the maker's schedule, and an air-quality test at the interval in the maintenance plan."
+        ]
+      },
+      {
+        "heading": "The monthly check that is worth doing properly",
+        "bullets": [
+          "Cylinder pressure: not less than 80% of the full charge. Below that, recharge — do not sign it as serviceable.",
+          "High-pressure leak test: open the cylinder valve, close it, and watch the gauge. A drop of more than about 10 bar in a minute is a leak to be found.",
+          "Whistle test: vent slowly and confirm the whistle sounds at the correct pressure, and keeps sounding.",
+          "Positive pressure: don the mask, breathe, then break the face seal with a finger — you should feel air flowing outward.",
+          "Face seal test: block the inlet and inhale; the mask should collapse onto the face and hold.",
+          "Harness, straps and buckles, the mask's visor for crazing, and the rubber for perishing. A mask stored in sunlight is a mask with a limited life.",
+          "Beard growth breaks the face seal. This is not a rule about appearance; it is the reason a fit test fails."
+        ]
+      },
+      {
+        "heading": "Cylinder testing",
+        "bullets": [
+          "Hydrostatic (or, where permitted, ultrasonic) testing of the cylinder at the interval stamped on it and required by the standard it was made to — commonly five years.",
+          "The test date is stamped on the cylinder shoulder together with the standard, the working pressure and the test pressure. Read the stamps rather than the paperwork.",
+          "An out-of-test cylinder is unusable, full or not, and a charging station ashore will refuse it.",
+          "Keep a register: cylinder serial, standard, working pressure, last test, next test. Sets get swapped between stations and the register is what keeps the dates with the metal."
+        ]
+      },
+      {
+        "heading": "Charging pressures, and why a single relief setting is a hazard",
+        "bullets": [
+          "A compressor with one fixed high relief setting will happily put 300 bar into a 200 bar cylinder if the operator is not paying attention.",
+          "Boat air cylinders, EEBDs and SCBA sets on the same ship are commonly rated at different pressures — 150, 200, 210 and 300 bar all appear in one fire locker.",
+          "Charge to the pressure stamped on the cylinder, not to the pressure the compressor stops at, and use a dedicated low-pressure line or cut-off where the ship has mixed ratings.",
+          "Label the charging hoses with their rated and test pressures; an unmarked hose is used for whatever is nearest.",
+          "A cylinder found at 170 to 250 bar on a 300 bar set is not 'nearly full' — it is a third of the duration short."
+        ]
+      }
     ]
   },
   {
@@ -8058,7 +8928,10 @@
     "commonPscFindings": [
       "Air quality test overdue or the certificate not on board",
       "Filters beyond their life or no spares held",
-      "Compressor air intake sited where exhaust gas can be drawn in"
+      "Compressor air intake sited where exhaust gas can be drawn in",
+      "A fixed 330 bar relief setting used to charge 150–200 bar boat cylinders and 210 bar EEBDs with no dedicated low-pressure cut-off",
+      "High-pressure charging hoses without permanent identification bands and test pressure markings",
+      "Air purity and moisture analysis overdue against the twelve-month interval"
     ]
   },
   {
@@ -8149,7 +9022,31 @@
       "Unit expired or the hydrostatic test overdue",
       "EEBD stowed behind stores or its position not marked",
       "Fewer units than the number shown on the fire control plan",
-      "Training units mixed in with the service units"
+      "Training units mixed in with the service units",
+      "Pump room intermediate platform without its required set",
+      "Fire training manual illustrating one model while three different makes are installed on board",
+      "No objective evidence of annual inspection and five-yearly hydrostatic testing of the cylinders"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "What an EEBD is, and what it is not",
+        "bullets": [
+          "An emergency escape breathing device provides air or oxygen to escape from a space with a dangerous atmosphere. Service duration is at least 10 minutes.",
+          "It is **not** for fighting a fire, and **not** for entering a space. Using an EEBD to go back in is the misuse the regulation is written against.",
+          "It has a hood covering the whole head, or a full face piece, giving protection to the eyes, nose and mouth.",
+          "Marked with brief instructions or diagrams, clearly illustrating its use, and the marking is visible where it is stowed."
+        ]
+      },
+      {
+        "heading": "How many, and the checks",
+        "bullets": [
+          "At least two in the accommodation spaces, and additional units in machinery spaces as SOLAS II-2/13 requires, positioned so as to be readily accessible from the escape routes.",
+          "Training units are provided separately and are clearly marked as training units — a training unit found in a service position is a serious finding.",
+          "Monthly: check the pressure indicator, the seal, the case for damage, and that the stowage position is marked and unobstructed.",
+          "Service at the interval the maker sets; most units have both a service interval and an overall life.",
+          "A unit whose seal is broken is out of service until it has been checked, regardless of what the gauge shows."
+        ]
+      }
     ]
   },
   {
@@ -8238,7 +9135,41 @@
       "Outfit incomplete — lamp, axe or lifeline missing",
       "Protective clothing damaged, contaminated or beyond its life",
       "Outfits not stowed widely separated as required",
-      "Locker locked and the key not readily available"
+      "Locker locked and the key not readily available",
+      "ATEX fire-fighter radios taken off charge and used for routine deck cargo work",
+      "Outer aluminised heat-reflective coating worn, peeling and cracked",
+      "Lifeline signal code instructions on laminated paper instead of a durable stamped plate"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "What makes up one outfit",
+        "bullets": [
+          "Protective clothing of material to protect the skin from the heat radiating from the fire and from burns and scalding by steam, with an outer surface that is water-resistant.",
+          "Boots of rubber or other electrically non-conducting material, and gloves of the same protection.",
+          "A rigid helmet giving effective protection against impact.",
+          "An electric safety lamp (hand lantern) with a burning period of at least three hours; on tankers and in hazardous spaces it is of an approved explosion-proof type.",
+          "An axe with a handle provided with high-voltage insulation.",
+          "A self-contained breathing apparatus meeting the FSS Code."
+        ]
+      },
+      {
+        "heading": "The lifeline, and the test people forget",
+        "bullets": [
+          "A fireproof lifeline of at least 30 m in length is carried with each breathing apparatus.",
+          "It is tested by suspending a load of 3.2 kN for five minutes without failure.",
+          "The line's snap hook and belt harness are part of the tested item.",
+          "Do the test and record it: it is one of the few LSA/FFE tests that can be done on board with a known weight, and it is one of the most commonly missing records."
+        ]
+      },
+      {
+        "heading": "How many outfits",
+        "bullets": [
+          "Cargo ships carry at least two fireman's outfits.",
+          "Tankers carry at least four (SOLAS II-2/10.10).",
+          "Ships carrying dangerous goods carry additional outfits and equipment as SOLAS II-2/19 requires.",
+          "Outfits are stored in widely separated positions, so that one fire cannot deny the crew all of them, and their positions are on the fire control plan."
+        ]
+      }
     ]
   },
   {
@@ -8605,7 +9536,31 @@
       "Door does not close fully or latch",
       "Remote release from the bridge inoperative",
       "Door seal, hinge or closer defective; holes cut for cables",
-      "Door not marked with its class or the sign painted over"
+      "Door not marked with its class or the sign painted over",
+      "Weather-facing accommodation door with its self-closing mechanism disconnected and removed",
+      "A-60 purifier room door drilled through, degrading the division's rating",
+      "Latch recesses worn oversized, so the leaf will not pull tight against the intumescent seal",
+      "Galley A-class doors to mess rooms held open with hooks, wedges or rope lashings"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "A-class and B-class, and what they mean",
+        "bullets": [
+          "A-class divisions are steel, insulated so the unexposed side does not rise more than the stated amount in 60 minutes (A-60), 30 minutes (A-30), 15 (A-15) or 0 (A-0), and prevent the passage of smoke and flame for one hour in the standard fire test.",
+          "B-class divisions prevent the passage of flame for the first half hour, with insulation ratings B-15 and B-0.",
+          "The door carries the same rating as the division it is in; a fire door held open by a wedge is a hole in that division.",
+          "Self-closing doors close against an inclination of 3.5 degrees opposing closure."
+        ]
+      },
+      {
+        "heading": "Hold-back arrangements",
+        "bullets": [
+          "Where a fire door is held open, the release is remote and fails safe: loss of power closes the door.",
+          "The release is operable from the navigation bridge and from at the door.",
+          "Test both, and test that the door then closes fully and latches — a door that closes to within an inch of the frame has failed.",
+          "Check the intumescent strip and the closing sequence on double doors."
+        ]
+      }
     ]
   },
   {
@@ -8689,7 +9644,22 @@
       "Damper seized or the linkage disconnected from the blade",
       "Position indicator wrong",
       "Damper not identified or not shown on the fire control plan",
-      "Control painted over or inaccessible behind lagging"
+      "Control painted over or inaccessible behind lagging",
+      "Pneumatic actuators and aluminium cylinder housings corroded, preventing full closure",
+      "Pump room flooding damper valves mislabelled by the yard as fire dampers",
+      "Senior deck officer unable to locate the funnel damper closing valves in the foam room"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "What is being tested",
+        "bullets": [
+          "The damper closes fully, from the remote control position and locally, and stays closed.",
+          "Every damper is marked with the space it serves, and the marking matches the fire control plan.",
+          "Remote closing arrangements are tested at the interval in the maintenance plan; a damper that has not been closed in years will be seized by paint.",
+          "The blade's edge seal and the spindle gland: a damper that closes but does not seal has done nothing.",
+          "Ventilation to a machinery space is arranged to be stopped and the openings closed from outside the space."
+        ]
+      }
     ]
   },
   {
@@ -8833,6 +9803,17 @@
       "Remote stop does not stop every fan serving the space",
       "Controls not grouped or not marked",
       "Stop tested only at the panel and never proved at the fan"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "Stopping the air to a fire",
+        "bullets": [
+          "The ventilation serving machinery spaces, cargo spaces, vehicle spaces and accommodation can be stopped from outside the space it serves.",
+          "The stops are grouped and clearly marked, in a position that will not be cut off by the fire.",
+          "Stopping the fans and closing the dampers are two different actions, and a fixed gas system needs both.",
+          "Test the stops from the actual control position — proving the fan stops from the ECR does not prove the emergency stop works."
+        ]
+      }
     ]
   },
   {
@@ -8916,7 +9897,29 @@
       "Valve seized, or the wire and pulleys corroded",
       "Valve left tripped or not re-set after the test",
       "Remote station obstructed or not marked",
-      "Test not recorded in the maintenance plan"
+      "Test not recorded in the maintenance plan",
+      "Main engine high-pressure fuel line anti-splash shielding missing after injector work",
+      "Fuel oil drain pipe lagging saturated with oil and left in place"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "The valve that stops a machinery-space fire feeding itself",
+        "bullets": [
+          "Every fuel oil, lubricating oil and other flammable oil tank with an outlet below the top has a valve capable of being closed from a safe position outside the space.",
+          "The remote closing is normally by pull-wire, hydraulic or pneumatic release, arranged so that loss of the medium closes the valve.",
+          "The release position is outside the space it protects, marked, and unobstructed.",
+          "It is tested by operating the remote release and confirming the valve has actually shut — pulling the wire and hearing a click proves nothing."
+        ]
+      },
+      {
+        "heading": "Why they fail",
+        "bullets": [
+          "The valve is reset after the test and then left in a half-cocked position that will not close on demand.",
+          "Pull-wires seize in their conduits, or are painted into them.",
+          "The release box is behind stores, or its door is locked and the key is in the ECR.",
+          "Test them on a rotation so that every valve is proved within the maintenance cycle, and log which ones."
+        ]
+      }
     ]
   },
   {
@@ -9156,7 +10159,39 @@
       "Independent fuel tank low or the supply valve shut",
       "Starting batteries flat; charger inoperative",
       "Space used for stowage; access obstructed",
-      "Run-on-load record not maintained"
+      "Run-on-load record not maintained",
+      "Electric starting failing to crank from a starter contactor or battery cable fault",
+      "Manual spring starter crank left engaged when the start sequence was triggered",
+      "Local safety trips not reset after stopping, leaving the automatic starter locked out",
+      "Starting battery sets past their certified service life",
+      "Spare starting motor absent from the planned maintenance and functional test routines",
+      "Fuel day tank quick-closing valve seized open by paint on the trip lever or corroded pull-wires",
+      "Save-all drain plug left open, or the tank vent line missing its space identification stencil",
+      "High-pressure fuel injection unions and flanges without anti-splash shielding",
+      "Exhaust manifold heavily rust-scaled with corroded U-bolt clamps, and turbocharger outlet flanges missing lagging",
+      "Radiator fan belt drive running without its guard"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "What it has to do, and how fast",
+        "bullets": [
+          "Supplies the emergency services automatically within 45 seconds of the failure of the main source of electrical power.",
+          "Fuel for at least 18 hours on a cargo ship, and 36 hours on a passenger ship.",
+          "Located above the uppermost continuous deck, outside the machinery casing, and reachable from the open deck.",
+          "Starts in cold condition at 0°C; where that is impracticable, or where lower temperatures are expected, heating is provided.",
+          "Three consecutive starts from the stored energy, with a second independent source unless a hand start is provided."
+        ]
+      },
+      {
+        "heading": "The weekly test, done properly",
+        "bullets": [
+          "Run it on load, not off load. A generator that runs happily with no load can still fail to take the switchboard.",
+          "Prove the automatic start by simulating a blackout where the ship's procedures allow it — the changeover is the thing being tested, not the engine.",
+          "Check the starting batteries' electrolyte and charge, the air bottle pressure where fitted, and the fuel level against the 18-hour figure.",
+          "Emergency lighting, steering, fire pump, and the radio installation are the loads that matter; walk the ship and confirm they come up.",
+          "Log the run: date, duration, load, and what was proved."
+        ]
+      }
     ]
   },
   {
@@ -9227,7 +10262,10 @@
     "commonPscFindings": [
       "Changeover not tested or the record not maintained",
       "Insulating matting missing or damaged",
-      "Space used for stowage"
+      "Space used for stowage",
+      "Insulation earth fault monitor wound down to 0.1–1.5 MΩ instead of the company threshold",
+      "Dielectric rubber matting front and back without a current voltage test certificate",
+      "Electric shock resuscitation instructions missing from the emergency generator room bulkhead"
     ]
   },
   {
@@ -9324,6 +10362,18 @@
       "Battery beyond its service life or failing the discharge test",
       "Terminals corroded; ventilation blocked",
       "Battery room used for stowage or naked lights permitted"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "The transitional source",
+        "bullets": [
+          "Where the emergency generator takes time to come on load, an accumulator battery supplies the transitional source of emergency power automatically and without interruption.",
+          "It supplies the emergency lighting, the navigation-critical systems and the alarms for the period SOLAS II-1 requires, typically 30 minutes.",
+          "The battery room is ventilated to atmosphere, and the ventilation is what stops hydrogen accumulating — check that the trunk is clear before believing the fan.",
+          "Terminals clean and greased, electrolyte level and specific gravity within limits, and the charger's float and boost settings correct.",
+          "No naked light, no smoking, no tools left across the terminals: a spanner bridging a battery bank is the classic engine-room accident."
+        ]
+      }
     ]
   },
   {
@@ -9478,6 +10528,26 @@
       "Alarm inoperative or the local control obstructed",
       "Door left open at sea contrary to the standing order",
       "Seals damaged; door leaks when tested"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "Operation and drills",
+        "bullets": [
+          "Power-operated watertight doors close from the bridge and locally from both sides.",
+          "Closing time is controlled — fast enough to be effective, slow enough to be survivable — with audible and visual warning during closure.",
+          "Local operation is possible with the power off, by hand, from both sides.",
+          "Doors are exercised at the interval SOLAS II-1 requires, and the drill covers closing them from the bridge as well as locally."
+        ]
+      },
+      {
+        "heading": "What is checked",
+        "bullets": [
+          "Rubber seals for permanent set, cracking and missing sections; the sealing faces for paint build-up.",
+          "Indicators on the bridge that agree with the actual door position.",
+          "Hydraulic system level, leaks and accumulator pressure.",
+          "Obstructions: a hose run through a watertight door is a watertight door that does not close."
+        ]
+      }
     ]
   },
   {
@@ -9563,6 +10633,27 @@
       "Plan not in the working language of the crew",
       "Symbols not to the required standard or hand-annotated",
       "Plan faded, torn or obscured behind fittings"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "What has to be on it",
+        "bullets": [
+          "The control stations, the fire sections enclosed by A-class divisions, the sections enclosed by B-class divisions, and the fire detection and alarm systems.",
+          "The sprinkler installation, the extinguishing appliances, the means of access to compartments and decks, and the ventilation system including fan control positions, damper positions and the identification numbers of the ventilating fans serving each section.",
+          "Symbols are those of IMO Res. A.952(23).",
+          "A booklet may be used in place of a plan, and a copy of it or the plan is kept ashore with the company.",
+          "The plan is kept permanently exhibited, and it is in the working language of the ship as well as English or French where the flag requires."
+        ]
+      },
+      {
+        "heading": "The outside container",
+        "bullets": [
+          "A duplicate set of fire control plans, or a booklet, is permanently stored in a prominently marked weathertight enclosure **outside the deckhouse**, for the assistance of shore-side fire-fighting personnel.",
+          "The container is marked so a fire brigade arriving at night can find it: this is what it is for.",
+          "Check it holds the current revision — a plan updated on the bridge and not in the box is the usual finding.",
+          "Check it is weathertight and that the plans inside are dry and legible."
+        ]
+      }
     ]
   },
   {
@@ -9707,6 +10798,27 @@
       "Not posted in the required conspicuous places",
       "Duties or alarm signals not in the working language of the crew",
       "Substitutes for key duties not shown"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "What the muster list must state",
+        "bullets": [
+          "The details of the general emergency alarm and the public address system, and the action to be taken by crew and passengers when it is sounded.",
+          "How the order to abandon ship will be given.",
+          "The duties assigned to each member of the crew, including the closing of watertight doors, fire doors, valves, scuppers, side scuttles, skylights, portholes and similar openings.",
+          "The equipping of survival craft and the other life-saving appliances, the preparation and launching of survival craft, the general preparations of other life-saving appliances, the muster of passengers, and the use of communication equipment.",
+          "The duties assigned to crew in relation to passengers, and the substitutes for key persons who may become disabled."
+        ]
+      },
+      {
+        "heading": "Keeping it true",
+        "bullets": [
+          "Prepared before the ship proceeds to sea, and updated whenever the crew changes — a muster list with last trip's names is not a muster list.",
+          "Exhibited in conspicuous places, including the bridge, the engine room and the crew accommodation.",
+          "The duties on it match the duties actually practised in the drill; if the drill has evolved, the list is amended, not the drill hidden.",
+          "Individual duty cards in the cabins match the list."
+        ]
+      }
     ]
   },
   {
@@ -9970,6 +11082,19 @@
       "Manual not in the working language",
       "No copy in a mess room or recreation room",
       "Manual does not cover the appliances actually fitted"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "What the training manual covers",
+        "bullets": [
+          "SOLAS III/35: a training manual is provided in each crew mess room and recreation room, or in each crew cabin.",
+          "It explains the life-saving appliances and the best methods of survival, in easily understood terms and illustrated wherever possible.",
+          "It covers donning of lifejackets, immersion suits and thermal protective aids; muster at the assigned stations; boarding, launching and clearing the survival craft; the method of launching from within the craft; release from launching appliances.",
+          "It covers methods and use of devices for protection in launching areas; illumination in launching areas; use of all survival equipment; use of all detection equipment; illustrated instructions for the radio life-saving appliances.",
+          "It covers use of drogues, engine and accessories, recovery of survival craft, hazards of exposure and the need for warm clothing, best use of the survival craft facilities, methods of retrieval including helicopter rescue gear, and first aid.",
+          "It is in the working language of the ship."
+        ]
+      }
     ]
   },
   {
@@ -10048,6 +11173,18 @@
       "Manual does not cover an appliance actually fitted",
       "Monthly checklists not signed or not retained",
       "Maker's manual for the release gear missing"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "What SOLAS III/36 requires the manual to contain",
+        "bullets": [
+          "Instructions for on-board maintenance of the life-saving appliances, comprising: checklists for the inspections; maintenance and repair instructions; a schedule of periodic maintenance; a diagram of lubrication points with the recommended lubricants.",
+          "A list of replaceable parts; a list of sources of spare parts; and a log for records of inspections and maintenance.",
+          "It may be replaced by a shipboard planned maintenance programme that includes the same requirements, where the Administration permits.",
+          "It is ship-specific: a generic manual for a boat the ship does not have is a finding.",
+          "The log inside it is the evidence for SOLAS III/20 — the weekly and monthly inspections are recorded there or in the ship's log book."
+        ]
+      }
     ]
   },
   {
@@ -10270,6 +11407,26 @@
       "Signs painted over, missing or pointing the wrong way",
       "Photoluminescent signs no longer charge because the lighting was changed",
       "Mixed symbol standards along one route"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "Low-location lighting and signs",
+        "bullets": [
+          "Escape routes are marked by signs and by low-location lighting, so the route is followable when smoke has filled the upper part of the space.",
+          "Photoluminescent material has to be charged by the ambient lighting; a sign in a compartment that is normally dark will be dark when you need it.",
+          "Signs are placed not more than the stated interval apart along the route and at every change of direction and at every door.",
+          "Markings are checked after every refit and every paint job — this is when they get covered."
+        ]
+      },
+      {
+        "heading": "Checking the route rather than the sign",
+        "bullets": [
+          "Walk the escape route in the dark, from the deepest point outward, at least once in the maintenance cycle.",
+          "Look for stored gear, for doors that need a key, and for the point where the route crosses a fire zone boundary.",
+          "The route on the fire control plan and the route on the deck are supposed to be the same route.",
+          "A dogged escape hatch that needs two hands and a bar is an escape hatch that will not be used."
+        ]
+      }
     ]
   },
   {
@@ -10417,6 +11574,104 @@
       "Escape hatch cannot be opened from inside without a tool",
       "Lighting inoperative; steps corroded",
       "Route not marked at the exit"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "The second way out",
+        "bullets": [
+          "A machinery space has two means of escape, and the trunk is usually the second one: a continuously enclosed fire-rated route to the open deck.",
+          "The trunk's doors, ladders and lighting are part of the escape and are inspected as such.",
+          "Nothing is stored in it. A trunk used as a locker is the finding that most often accompanies an incident report.",
+          "The upper exit opens from inside without a key and against the weather; test it, including in the ice season."
+        ]
+      }
     ]
+  },
+  {
+    "typeKey": "MCH_OIL_MIST_DETECTOR",
+    "group": "MACHINERY_CONTROLS",
+    "subGroup": "FIRE_INTEGRITY_AND_CONTROLS",
+    "nameEn": "Crankcase oil mist detector",
+    "nameTr": "Karter yağ buharı dedektörü",
+    "symbolKey": "APP_SMOKE_DETECTOR",
+    "defaultTagPrefix": "OMD",
+    "attributeSchema": [],
+    "taskKeys": [],
+    "regulationRefs": [],
+    "helpTextEn": "Monitors each crankcase compartment for the oil mist that precedes a crankcase explosion, and alarms and slows or stops the engine before the mist reaches an ignitable concentration.",
+    "helpTextTr": "Her karter bölmesini, karter patlamasından önce oluşan yağ buharına karşı izler; buhar tutuşabilir yoğunluğa ulaşmadan alarm verir ve makineyi yavaşlatır veya durdurur.",
+    "commonPscFindings": [
+      "No step-by-step response in the safety management system for bridge and engine teams when the oil mist alarm actuates",
+      "Engineers unfamiliar with the functional optical test and the sensor lens cleaning routine",
+      "Detector heads fouled with oil film, so the optical path never sees a change",
+      "Alarm shown as a standing fault at the panel and worked around rather than repaired"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "What it is protecting against",
+        "bullets": [
+          "A crankcase explosion needs oil mist, air and a hot spot. The detector removes the first by finding it early — it is not a fire detector and it is not a bearing temperature alarm.",
+          "The first event is usually a hot bearing vaporising oil; the mist then finds the hot spot. The alarm is the window between the two.",
+          "On an alarm the engine is slowed or stopped and the crankcase doors are left shut for the cooling period the maker states — opening a door onto a mist-filled crankcase is what causes the second, larger explosion.",
+          "The response belongs in the SMS and in the drill, because the decision is made in seconds and by whoever is on watch."
+        ]
+      },
+      {
+        "heading": "Keeping it working",
+        "bullets": [
+          "Functional optical test on the maker's schedule: block or attenuate the beam and confirm the alarm, then restore.",
+          "Clean the lenses — an oil film on the optics is the normal failure, and it makes the unit blind rather than faulty.",
+          "Check the sampling pipes for blockage where the design draws mist to a common detector.",
+          "Prove that the alarm actually reaches the bridge as well as the engine control room."
+        ]
+      }
+    ],
+    "isUserDefined": false
+  },
+  {
+    "typeKey": "FFE_HELIDECK_FIRE_STATION",
+    "group": "FFE",
+    "subGroup": "FIXED_SYSTEMS",
+    "nameEn": "Helicopter deck fire-fighting station",
+    "nameTr": "Helikopter güvertesi yangın istasyonu",
+    "symbolKey": "APP_FOAM_SYSTEM",
+    "defaultTagPrefix": "HFS",
+    "attributeSchema": [],
+    "taskKeys": [],
+    "regulationRefs": [
+      "HELI_FIREFIGHTING_APPLIANCES",
+      "HELI_SOLAS_II2_18_FACILITIES"
+    ],
+    "helpTextEn": "The foam, dry powder, CO2, hoses and rescue equipment stowed at a helicopter landing or winching area, close enough to be used immediately and far enough back to survive a deck fire.",
+    "helpTextTr": "Helikopter iniş veya vinç alanında bulundurulan köpük, kuru kimyevi toz, CO2, hortumlar ve kurtarma teçhizatı; derhal kullanılabilecek kadar yakın, güverte yangınında ulaşılabilecek kadar geride.",
+    "commonPscFindings": [
+      "Outfit made up of small portable units instead of the large-capacity extinguishers the regulation requires",
+      "Rescue equipment incomplete: no bolt croppers, hook-type knife, or heavy-duty hacksaw with spare blades",
+      "Foam concentrate never sampled, or the analysis certificate not on board",
+      "Marshalling batons and torches without intrinsically safe certification for a hazardous area",
+      "Hoses stowed where the downwash can lift them onto the landing area"
+    ],
+    "technicalNotes": [
+      {
+        "heading": "Capacity — the figure that gets counted",
+        "bullets": [
+          "Dry powder: at least 45 kg in total. Six 9 kg portables scattered round the deck is 54 kg on paper and is still a finding, because the requirement is for units of adequate capacity, not an arithmetic total.",
+          "CO2: at least 18 kg in total, in single or twin units.",
+          "Foam: the application rate and the monitor or applicator arrangement follow the helideck's D-value, which is the diameter of the largest helicopter the deck is approved for.",
+          "At least two dual-purpose nozzles and hoses able to reach any part of the landing area.",
+          "The rescue kit is specific and complete: rescue axe, crowbar, bolt croppers, hook-type knife, heavy-duty hacksaw with six spare blades, fire-resistant gloves and blanket, ladder, and a lifeline with harness."
+        ]
+      },
+      {
+        "heading": "Where it is stowed, and why",
+        "bullets": [
+          "Close enough that the crew reach it in the first seconds, far enough back that a deck fire does not stand between the crew and their equipment.",
+          "The station is manned and the hoses run out **before** the aircraft is called in, not after it arrives.",
+          "Every item in a hazardous area — batons, torches, radios — is intrinsically safe and stamped as such.",
+          "Nothing that the rotor downwash can lift is left loose anywhere near the deck, hoses and covers included."
+        ]
+      }
+    ],
+    "isUserDefined": false
   }
 ]

@@ -23,4 +23,9 @@ dependencies {
     // The view model reads real settings, so its tests drive a real Preferences DataStore over a
     // temporary file rather than a fake — same approach as core-datastore's own tests.
     testImplementation(libs.androidx.datastore.preferences)
+
+    // VesselTabScreen is verified on the JVM through Robolectric — the emulator suite is
+    // informational (see ci.yml), so the tab's wiring has to be provable without a device.
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.test.core)
 }

@@ -159,7 +159,11 @@ internal class AddEquipmentViewModel @Inject constructor(
 
     /** Bind the drop point the officer long-pressed — §7.5 step 1. */
     fun bind(vesselId: String, deckId: String?, zoneId: String?, posX: Float, posY: Float) {
-        if (bound && this.vesselId == vesselId && this.deckId == deckId) return
+        // Everything about the drop point counts. Two rows on the same deck are two places, and so
+        // are two long-presses on the same zone of the canvas — re-binding must follow the finger.
+        val samePlace = this.vesselId == vesselId && this.deckId == deckId && this.zoneId == zoneId &&
+            this.posX == posX && this.posY == posY
+        if (bound && samePlace) return
         bound = true
         this.vesselId = vesselId
         this.deckId = deckId

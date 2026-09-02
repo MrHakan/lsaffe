@@ -5,11 +5,24 @@
     <string name="tab_due">Vadesi</string>
     <string name="tab_more">Daha Fazla</string>
 
-    <string name="notification_channel_name">Vade hatırlatmaları</string>
-    <string name="notification_channel_description">Gecikmiş ve yaklaşan LSA/FFE işlerinin günlük özeti</string>
-
-    <string name="notification_digest_title">DeckWatch</string>
-    <string name="notification_digest_body">{overdue} gecikmiş, bu hafta {dueThisWeek} iş var</string>
-
     <string name="export_failed">Rapor oluşturulamadı</string>
+
+    <!-- ============================================================ hatırlatıcılar (§11.3) -->
+    <string name="notif_channel_due">Yaklaşan işler</string>
+    <string name="notif_channel_due_description">Gecikmiş ve bu hafta yapılacak işlerin günde bir özeti.</string>
+    <string name="notif_channel_item">Ekipman hatırlatıcıları</string>
+    <string name="notif_channel_item_description">Tek bir ekipman için kurduğunuz hatırlatıcılar.</string>
+    <string name="notif_due_title">DeckWatch</string>
+    <string name="notif_due_body_both">%1$d gecikmiş, %2$d bu hafta</string>
+    <string name="notif_item_title">Hatırlatma: %1$s</string>
+    <string name="notif_item_body">Bu ekipman için hatırlatma istemiştiniz.</string>
+
+    <plurals name="notif_due_body_overdue">
+        <item quantity="one">1 iş gecikmiş</item>
+        <item quantity="other">%1$d iş gecikmiş</item>
+    </plurals>
+    <plurals name="notif_due_body_week">
+        <item quantity="one">Bu hafta 1 iş var</item>
+        <item quantity="other">Bu hafta %1$d iş var</item>
+    </plurals>
 </resources>

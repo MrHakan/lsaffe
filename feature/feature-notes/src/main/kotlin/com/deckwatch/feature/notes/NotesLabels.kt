@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.res.stringResource
 import com.deckwatch.core.designsystem.components.RegulationCardLabels
+import com.deckwatch.core.model.EquipmentGroup
 import com.deckwatch.core.model.IntervalKind
 import com.deckwatch.core.model.PerformedBy
 import com.deckwatch.core.model.RegulationSection
@@ -32,6 +33,9 @@ internal fun sectionTitleRes(section: RegulationSection): Int = when (section) {
     RegulationSection.SOLAS -> R.string.notes_section_solas
     RegulationSection.LSA -> R.string.notes_section_lsa
     RegulationSection.FFE -> R.string.notes_section_ffe
+    RegulationSection.HELIDECK -> R.string.notes_section_helideck
+    RegulationSection.ISGOTT -> R.string.notes_section_isgott
+    RegulationSection.IAMSAR -> R.string.notes_section_iamsar
     RegulationSection.FLAG -> R.string.notes_section_flag
     RegulationSection.CLASS -> R.string.notes_section_class
     RegulationSection.MY_NOTES -> R.string.notes_section_my_notes
@@ -42,6 +46,9 @@ internal fun sectionDescriptionRes(section: RegulationSection): Int = when (sect
     RegulationSection.SOLAS -> R.string.notes_section_solas_desc
     RegulationSection.LSA -> R.string.notes_section_lsa_desc
     RegulationSection.FFE -> R.string.notes_section_ffe_desc
+    RegulationSection.HELIDECK -> R.string.notes_section_helideck_desc
+    RegulationSection.ISGOTT -> R.string.notes_section_isgott_desc
+    RegulationSection.IAMSAR -> R.string.notes_section_iamsar_desc
     RegulationSection.FLAG -> R.string.notes_section_flag_desc
     RegulationSection.CLASS -> R.string.notes_section_class_desc
     RegulationSection.MY_NOTES -> R.string.notes_section_my_notes_desc
@@ -71,6 +78,17 @@ internal fun performedByRes(performedBy: PerformedBy): Int = when (performedBy) 
     PerformedBy.MANUFACTURER -> R.string.notes_performed_manufacturer
     PerformedBy.RO_SURVEYOR_ATTENDING -> R.string.notes_performed_ro_surveyor
     PerformedBy.SHORE_FACILITY -> R.string.notes_performed_shore_facility
+}
+
+/** Catalogue group names, for the equipment guide — §9.1. */
+@StringRes
+internal fun equipmentGroupLabel(group: EquipmentGroup): Int = when (group) {
+    EquipmentGroup.LSA -> R.string.guide_group_lsa
+    EquipmentGroup.FFE -> R.string.guide_group_ffe
+    EquipmentGroup.EMERGENCY_ESCAPE -> R.string.guide_group_emergency
+    EquipmentGroup.MACHINERY_CONTROLS -> R.string.guide_group_machinery
+    EquipmentGroup.SIGNAGE -> R.string.guide_group_signage
+    EquipmentGroup.OTHER -> R.string.guide_group_other
 }
 
 /** Human-readable cadence for the interval matrix — §8.3. */

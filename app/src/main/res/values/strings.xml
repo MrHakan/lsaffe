@@ -8,23 +8,24 @@
     <string name="tab_due">Due</string>
     <string name="tab_more">More</string>
 
-    <!--
-      Notification channel, shown in Android's own settings UI. Created at cold start with these
-      strings so the officer sees the channel in their language; the channel *id* is fixed in
-      NotificationPoster and never changes, which is what preserves their importance and sound
-      choices across updates.
-    -->
-    <string name="notification_channel_name">Due reminders</string>
-    <string name="notification_channel_description">Daily summary of overdue and upcoming LSA/FFE work</string>
-
-    <!--
-      The daily digest — §11.3's "3 overdue, 7 due this week".
-      {overdue} and {dueThisWeek} are substituted by NotificationContentBuilder. They are named
-      placeholders rather than %1$d/%2$d because the text travels through WorkManager's Data as a
-      plain string and a translator must be able to reorder them.
-    -->
-    <string name="notification_digest_title">DeckWatch</string>
-    <string name="notification_digest_body">{overdue} overdue, {dueThisWeek} due this week</string>
-
     <string name="export_failed">The report could not be generated</string>
+
+    <!-- ============================================================ reminders (§11.3) -->
+    <string name="notif_channel_due">Due work</string>
+    <string name="notif_channel_due_description">One summary a day of what is overdue or due this week.</string>
+    <string name="notif_channel_item">Item reminders</string>
+    <string name="notif_channel_item_description">Reminders you set against a single piece of equipment.</string>
+    <string name="notif_due_title">DeckWatch</string>
+    <string name="notif_due_body_both">%1$d overdue, %2$d due this week</string>
+    <string name="notif_item_title">Reminder: %1$s</string>
+    <string name="notif_item_body">You asked to be reminded about this item.</string>
+
+    <plurals name="notif_due_body_overdue">
+        <item quantity="one">1 job is overdue</item>
+        <item quantity="other">%1$d jobs are overdue</item>
+    </plurals>
+    <plurals name="notif_due_body_week">
+        <item quantity="one">1 job is due this week</item>
+        <item quantity="other">%1$d jobs are due this week</item>
+    </plurals>
 </resources>

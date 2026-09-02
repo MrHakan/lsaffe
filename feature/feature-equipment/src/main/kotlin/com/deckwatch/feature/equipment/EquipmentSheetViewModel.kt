@@ -6,8 +6,11 @@ import com.deckwatch.core.common.Dates
 import com.deckwatch.core.common.repository.EquipmentRepository
 import com.deckwatch.core.common.repository.InspectionRepository
 import com.deckwatch.core.common.repository.MaintenanceRepository
+import com.deckwatch.core.common.reminders.ItemReminders
 import com.deckwatch.core.common.repository.ReferenceRepository
+import com.deckwatch.core.common.repository.VesselRepository
 import com.deckwatch.core.model.ConditionGrade
+import com.deckwatch.core.model.Deck
 import com.deckwatch.core.model.Deficiency
 import com.deckwatch.core.model.DeficiencyStatus
 import com.deckwatch.core.model.Equipment
@@ -18,6 +21,7 @@ import com.deckwatch.core.model.Severity
 import com.deckwatch.core.model.TaskDefinition
 import com.deckwatch.core.model.TaskInstance
 import com.deckwatch.core.model.TaskStatus
+import com.deckwatch.core.model.Zone
 import com.deckwatch.feature.equipment.attributes.AttributeCodec
 import com.deckwatch.feature.equipment.attributes.AttributeDraft
 import com.deckwatch.feature.equipment.attributes.AttributeError
@@ -31,6 +35,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
@@ -83,12 +88,15 @@ internal data class EquipmentSheetUiState(
 @HiltViewModel
 internal class EquipmentSheetViewModel @Inject constructor(
     private val equipmentRepository: EquipmentRepository,
+    private val vesselRepository: VesselRepository,
     private val referenceRepository: ReferenceRepository,
     private val maintenanceRepository: MaintenanceRepository,
     private val inspectionRepository: InspectionRepository,
+    private val itemReminders: ItemReminders,
 ) : ViewModel() {
 
     private val boundId = MutableStateFlow<String?>(null)
+    private val moveDeckId = MutableStateFlow<String?>(null)
     private val editor = MutableStateFlow<AttributeEditState?>(null)
     private val deficiencyDraft = MutableStateFlow<DeficiencyDraft?>(null)
     private val conditionUndo = MutableStateFlow<ConditionUndo?>(null)
@@ -114,6 +122,35 @@ internal class EquipmentSheetViewModel @Inject constructor(
                 message = note,
             )
         }.stateIn(viewModelScope, SharingStarted.Eagerly, EquipmentSheetUiState())
+
+    /**
+     * The vessel's decks, for the move picker — §6.5. Equipment created from the tab's FAB lands
+     * unplaced, and this is how it gets onto a deck without the 2.5D canvas (§7.1 A) existing yet.
+     */
+    @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
+    val decks: StateFlow<List<Deck>> = uiState
+        .map { it.equipment?.vesselId }
+        .distinctUntilChanged()
+        .flatMapLatest { vesselId ->
+            if (vesselId == null) flowOf(emptyList()) else vesselRepository.observeDecks(vesselId)
+        }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(DECKS_STOP_TIMEOUT_MILLIS), emptyList())
+
+    /**
+     * Zones of the deck the move picker is currently showing — §6.4. Held here rather than in the
+     * dialog because a zone belongs to a deck, so the list has to follow the deck being picked.
+     */
+    @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
+    val zonesForMove: StateFlow<List<Zone>> = moveDeckId
+        .flatMapLatest { deckId ->
+            if (deckId == null) flowOf(emptyList()) else vesselRepository.observeZones(deckId)
+        }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(DECKS_STOP_TIMEOUT_MILLIS), emptyList())
+
+    /** Show the zones of [deckId] in the move picker; null clears the second step. */
+    fun selectDeckForMove(deckId: String?) {
+        moveDeckId.value = deckId
+    }
 
     /** Point the sheet at an equipment record; re-binding to the same id is a no-op. */
     fun bind(equipmentId: String) {
@@ -378,6 +415,58 @@ internal class EquipmentSheetViewModel @Inject constructor(
     }
 
     /**
+     * Arm a local reminder for this item — §11.3.
+     *
+     * Deliberately not a task and not a deficiency: it is a private nudge, so nothing about the
+     * record or the schedule changes. If notifications are off or blocked, nothing arrives and
+     * nothing breaks.
+     */
+    fun remindIn(days: Int) {
+        val current = uiState.value.equipment ?: return
+        itemReminders.scheduleIn(current.id, current.tag, days)
+    }
+
+    /** Drop a pending reminder for this item. */
+    fun cancelReminder() {
+        val current = uiState.value.equipment ?: return
+        itemReminders.cancel(current.id)
+    }
+
+    /**
+     * Record a photo the camera has just written — §7.6.
+     *
+     * The file already exists on disk by the time this runs (the capture wrote into it), so the
+     * only thing left is to append its URI. Re-adding a URI already on the record is a no-op, which
+     * makes a duplicated result callback harmless.
+     */
+    fun addPhoto(uri: String) {
+        val current = uiState.value.equipment ?: return
+        if (uri in current.photoUris) return
+        viewModelScope.launch {
+            val stored = equipmentRepository.getEquipment(current.id) ?: return@launch
+            if (uri in stored.photoUris) return@launch
+            equipmentRepository.upsertEquipment(
+                stored.copy(photoUris = stored.photoUris + uri, updatedAt = Dates.nowMillis()),
+            )
+        }
+    }
+
+    /**
+     * Drop a photo from the record. The caller deletes the file itself — this owns the record, not
+     * the filesystem, and a failed delete must not leave a URI pointing at nothing.
+     */
+    fun removePhoto(uri: String) {
+        val current = uiState.value.equipment ?: return
+        viewModelScope.launch {
+            val stored = equipmentRepository.getEquipment(current.id) ?: return@launch
+            if (uri !in stored.photoUris) return@launch
+            equipmentRepository.upsertEquipment(
+                stored.copy(photoUris = stored.photoUris - uri, updatedAt = Dates.nowMillis()),
+            )
+        }
+    }
+
+    /**
      * Soft-delete, and hand the caller the undo — C10.
      *
      * Nothing is destroyed: `deletedAt` is stamped, the record leaves every observation, and
@@ -501,6 +590,7 @@ internal class EquipmentSheetViewModel @Inject constructor(
         const val UNDO_WINDOW_MILLIS: Long = 10_000L
 
         private const val DEFAULT_POSITION = 0.5f
+        private const val DECKS_STOP_TIMEOUT_MILLIS = 5_000L
         private val DEFAULT_PERFORMED_BY = PerformedBy.SHIP_STAFF
     }
 }

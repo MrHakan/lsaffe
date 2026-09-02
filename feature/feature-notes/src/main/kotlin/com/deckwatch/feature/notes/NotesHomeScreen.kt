@@ -51,8 +51,9 @@ import com.deckwatch.core.model.RegulationSection
  *
  * The shared [SearchField] is the very first thing on the screen and is keyboard-ready: the top
  * bar's search action bumps [focusSearchSignal], which puts the cursor in it and raises the
- * keyboard. Below it are the six sections as large tappable cards (rule 3) — icon, name, one line
- * of what is inside, and a count chip.
+ * keyboard. Below it are the equipment guide's tile and then the six sections as large tappable
+ * cards (rule 3) — icon, name, one line of what is inside, and a count chip. The guide leads
+ * because an officer standing in front of a piece of kit reaches the rule through the equipment.
  *
  * As soon as the officer types, the cards give way to a result list of [DeckWatchListRow]s: the
  * citation reads as the title in the tag face, the card title is the subtitle and the section is a
@@ -63,6 +64,7 @@ import com.deckwatch.core.model.RegulationSection
 internal fun NotesHomeScreen(
     onSectionClick: (RegulationSection) -> Unit,
     onCardClick: (String) -> Unit,
+    onEquipmentGuideClick: () -> Unit,
     modifier: Modifier = Modifier,
     focusSearchSignal: Int = 0,
     viewModel: NotesHomeViewModel = hiltViewModel(),
@@ -97,7 +99,11 @@ internal fun NotesHomeScreen(
         if (state.isSearching) {
             SearchResults(state = state, onCardClick = onCardClick)
         } else {
-            SectionList(state = state, onSectionClick = onSectionClick)
+            SectionList(
+                state = state,
+                onSectionClick = onSectionClick,
+                onEquipmentGuideClick = onEquipmentGuideClick,
+            )
         }
     }
 }
@@ -106,6 +112,7 @@ internal fun NotesHomeScreen(
 private fun SectionList(
     state: NotesHomeUiState,
     onSectionClick: (RegulationSection) -> Unit,
+    onEquipmentGuideClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -113,6 +120,11 @@ private fun SectionList(
         contentPadding = PaddingValues(Dimens.SpacingM),
         verticalArrangement = Arrangement.spacedBy(Dimens.SpacingM),
     ) {
+        // The guide is first: an officer standing in front of a piece of kit wants the equipment,
+        // and reaches the instrument through it rather than the other way round.
+        item(key = "equipment-guide") {
+            GuideTile(typeCount = state.equipmentTypeCount, onClick = onEquipmentGuideClick)
+        }
         items(items = RegulationSection.entries, key = { it.name }) { section ->
             val count = state.countFor(section)
             SectionCard(
@@ -194,6 +206,41 @@ private fun SectionCard(
     }
 }
 
+/**
+ * The equipment guide's own tile. It is deliberately not a [RegulationSection]: the sections are
+ * bodies of rules, and this is the catalogue seen from the other side.
+ */
+@Composable
+private fun GuideTile(typeCount: Int, onClick: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = TileMinHeight)
+            .clickable(onClick = onClick),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+        ),
+    ) {
+        Column(modifier = Modifier.padding(Dimens.SpacingM)) {
+            Text(
+                text = stringResource(R.string.notes_section_equipment),
+                style = MaterialTheme.typography.titleMedium,
+            )
+            Text(
+                text = stringResource(R.string.notes_section_equipment_desc),
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(top = Dimens.SpacingXs),
+            )
+            Text(
+                text = stringResource(R.string.guide_type_count, typeCount),
+                style = MaterialTheme.typography.labelMedium,
+                modifier = Modifier.padding(top = Dimens.SpacingS),
+            )
+        }
+    }
+}
+
 @Composable
 private fun SearchResults(
     state: NotesHomeUiState,
@@ -243,3 +290,4 @@ private fun SearchResultRow(
 
 private val SectionCardMinHeight = 80.dp
 private val SectionIconSize = 28.dp
+private val TileMinHeight = 96.dp

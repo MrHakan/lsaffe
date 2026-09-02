@@ -14,7 +14,8 @@ import androidx.sqlite.db.SupportSQLiteOpenHelper
  * library on the JVM and there is still only one schema and one set of DAOs.
  *
  * No `fallbackToDestructiveMigration` anywhere: C10 forbids silently losing data, so a missing
- * migration must fail loudly rather than wipe a vessel's register.
+ * migration must fail loudly rather than wipe a vessel's register. The migrations themselves are
+ * in [DECKWATCH_MIGRATIONS].
  */
 fun createDeckWatchDatabase(
     context: Context,
@@ -23,6 +24,7 @@ fun createDeckWatchDatabase(
 ): DeckWatchDatabase =
     Room.databaseBuilder(context.applicationContext, DeckWatchDatabase::class.java, name)
         .apply { openHelperFactory?.let { openHelperFactory(it) } }
+        .apply { DECKWATCH_MIGRATIONS.forEach { addMigrations(it) } }
         .build()
 
 /**

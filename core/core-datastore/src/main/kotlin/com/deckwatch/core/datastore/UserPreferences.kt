@@ -50,10 +50,22 @@ data class UserPreferences(
     val onboardingDone: Boolean = false,
     /** The §17.6 disclaimer must be accepted on first run. */
     val disclaimerAccepted: Boolean = false,
+    /**
+     * Hides the permanent disclaimer strip at the foot of the Notes tab once the officer has
+     * dismissed it. The disclaimer itself is not removed from the app — the first-run banner and
+     * More → About still carry it in full — only the strip that repeats it on every screen.
+     */
+    val notesFooterDismissed: Boolean = false,
     /** Epoch-millis of the last successful backup; null == never — drives the §18 day-30 prompt. */
     val lastBackupAt: Long? = null,
     /** Epoch-millis of first launch; 0 until [UserPreferencesRepository.markFirstRun] has run. */
     val firstRunAt: Long = 0L,
+    /**
+     * Version of the bundled reference content already imported into the database; 0 until the
+     * first import. A newer bundle re-seeds the bundled rows and leaves the user's own alone
+     * (§19).
+     */
+    val seededContentVersion: Int = 0,
 )
 
 /** Allowed values of [UserPreferences.photoQuality] — the export tiers of §13.2. */

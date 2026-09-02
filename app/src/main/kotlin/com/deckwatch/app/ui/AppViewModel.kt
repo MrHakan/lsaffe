@@ -66,5 +66,8 @@ class AppViewModel @Inject constructor(
         // §11.2: recompute due state whenever the officer switches ship. Tied to the shell's
         // lifetime, so it stops with the UI rather than running for the life of the process.
         viewModelScope.launch { appStartup.observeActiveVessel() }
+        // §11.3: the settings screen only writes the preference; re-arming the queue is this
+        // module's job, because the workers are here.
+        viewModelScope.launch { appStartup.observeReminderSettings() }
     }
 }

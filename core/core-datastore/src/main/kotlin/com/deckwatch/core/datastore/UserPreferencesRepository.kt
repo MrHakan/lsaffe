@@ -101,6 +101,10 @@ class UserPreferencesRepository(
 
     suspend fun setDisclaimerAccepted(accepted: Boolean) = put(Keys.DISCLAIMER_ACCEPTED, accepted)
 
+    /** Hide (or restore) the repeating disclaimer strip in the Notes tab. */
+    suspend fun setNotesFooterDismissed(dismissed: Boolean) =
+        put(Keys.NOTES_FOOTER_DISMISSED, dismissed)
+
     /** Epoch-millis. Passing null clears it, which makes the app treat the vessel as never backed up. */
     suspend fun setLastBackupAt(atMillis: Long?) {
         dataStore.edit { prefs ->
@@ -109,6 +113,9 @@ class UserPreferencesRepository(
     }
 
     suspend fun setFirstRunAt(atMillis: Long) = put(Keys.FIRST_RUN_AT, atMillis)
+
+    /** Records which version of the bundled content the database now holds — §19. */
+    suspend fun setSeededContentVersion(version: Int) = put(Keys.SEEDED_CONTENT_VERSION, version)
 
     /**
      * Records first launch exactly once. Later calls are no-ops, so the §18 "prompt for a backup
@@ -156,8 +163,10 @@ internal object Keys {
     val ACTIVE_VESSEL_ID = stringPreferencesKey("active_vessel_id")
     val ONBOARDING_DONE = booleanPreferencesKey("onboarding_done")
     val DISCLAIMER_ACCEPTED = booleanPreferencesKey("disclaimer_accepted")
+    val NOTES_FOOTER_DISMISSED = booleanPreferencesKey("notes_footer_dismissed")
     val LAST_BACKUP_AT = longPreferencesKey("last_backup_at")
     val FIRST_RUN_AT = longPreferencesKey("first_run_at")
+    val SEEDED_CONTENT_VERSION = intPreferencesKey("seeded_content_version")
 }
 
 /** Decodes a stored preferences snapshot, falling back to the [UserPreferences] defaults. */
@@ -183,8 +192,10 @@ internal fun Preferences.toUserPreferences(): UserPreferences {
         activeVesselId = this[Keys.ACTIVE_VESSEL_ID]?.takeIf(String::isNotBlank),
         onboardingDone = this[Keys.ONBOARDING_DONE] ?: defaults.onboardingDone,
         disclaimerAccepted = this[Keys.DISCLAIMER_ACCEPTED] ?: defaults.disclaimerAccepted,
+        notesFooterDismissed = this[Keys.NOTES_FOOTER_DISMISSED] ?: defaults.notesFooterDismissed,
         lastBackupAt = this[Keys.LAST_BACKUP_AT],
         firstRunAt = this[Keys.FIRST_RUN_AT] ?: defaults.firstRunAt,
+        seededContentVersion = this[Keys.SEEDED_CONTENT_VERSION] ?: defaults.seededContentVersion,
     )
 }
 

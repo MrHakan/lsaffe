@@ -1,13 +1,12 @@
 package com.deckwatch.app
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.Context
+import com.deckwatch.app.reminders.ReminderScheduler
+import com.deckwatch.app.reminders.Reminders
 import com.deckwatch.core.common.DispatcherProvider
 import com.deckwatch.core.common.repository.MaintenanceRepository
 import com.deckwatch.core.datastore.UserPreferencesRepository
 import com.deckwatch.data.repository.SeedInitializer
-import com.deckwatch.data.repository.work.NotificationPoster
 import com.deckwatch.data.repository.work.WorkScheduler
 import com.deckwatch.feature.settings.backup.AutoBackupScheduler
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -29,16 +28,25 @@ import javax.inject.Singleton
  *    once, ever — later calls are no-ops, so the counter never resets.
  * 3. **Recompute due state for the active vessel** (§11.2's "on app cold start"). Only the active
  *    one: the officer is about to look at it, and the 03:00 worker does every vessel anyway.
- * 4. **Create the notification channel** with a localised name,
- * 5. **Schedule the daily job** with the localised digest strings, and
+ * 4. **Create the notification channels** with localised names (§11.3),
+ * 5. **Schedule the 03:00 recomputation** (§11.2) and re-arm the daily digest at the officer's own
+ *    hour (§11.3), and
  * 6. **Re-arm the weekly backup** if — and only if — a backup folder is set (§18).
  *
- * Steps 4 and 5 exist here rather than in `data-repository` because C8 puts every user-visible
- * string in the app module's `strings.xml`. `NotificationPoster` creates the channel defensively
- * with English text if it has to; creating it here first, with the officer's language, means the
- * name they see in Android's own notification settings is in their language. The channel **id** is
- * `NotificationPoster.CHANNEL_ID` and never changes — that is what carries the user's own
- * importance and sound choices across app updates.
+ * Step 4 exists here rather than in `data-repository` because C8 puts every user-visible string in
+ * the app module's `strings.xml`. `Reminders` creates the channels defensively before every post if
+ * it has to; creating them here first means the names the officer sees in Android's own
+ * notification settings are in their language. The channel **ids** are fixed in `Reminders` and
+ * never change — that is what carries the user's own importance and sound choices across updates.
+ *
+ * ### Why the digest is re-armed on every cold start
+ *
+ * WorkManager loses its queue when the app is force-stopped or reinstalled, and the officer should
+ * not have to open settings and toggle the reminder to get it back. [ReminderScheduler.apply] is
+ * idempotent — it replaces the pending request or cancels it, according to the stored preference.
+ * Two schedules are involved and they are deliberately separate: the recomputation is fixed at
+ * 03:00 because it is about the date boundary, while the digest fires at the hour the officer chose
+ * (§18, default 08:00) because it is about them.
  *
  * ### Vessel switching (§11.2)
  *
@@ -71,13 +79,56 @@ class AppStartup @Inject constructor(
             runCatching {
                 preferences.get().activeVesselId?.let { maintenanceRepository.recomputeDueForVessel(it) }
             }
-            runCatching { ensureNotificationChannel() }
-            runCatching { scheduleDailyDigest() }
+            runCatching { Reminders.createChannels(context) }
+            runCatching { WorkScheduler.scheduleDaily(context) }
+            runCatching {
+                val prefs = preferences.get()
+                ReminderScheduler.apply(
+                    context = context,
+                    enabled = prefs.notificationsEnabled,
+                    hour = prefs.notificationHour,
+                    minute = prefs.notificationMinute,
+                )
+            }
             // §18's weekly backup exists only while the officer has chosen a folder; re-arming it
             // here brings it back after a "clear app data" or a lost WorkManager database.
             runCatching { autoBackupScheduler.sync() }
         }
     }
+
+    /**
+     * Keep the daily digest armed at whatever hour the officer has chosen — §11.3, §18.
+     *
+     * The settings screen writes the preference and nothing else: `feature-settings` has no
+     * business knowing that WorkManager exists, and the workers live in this module. So the queue
+     * follows the preference from here instead, which also means a change made on one screen
+     * cannot be forgotten by another that failed to call a scheduler.
+     *
+     * The first emission is skipped — [start] has already armed it from the stored values, and
+     * re-arming immediately would cancel and re-enqueue the request for nothing.
+     */
+    suspend fun observeReminderSettings() {
+        var first = true
+        preferences.userPreferences
+            .map { ReminderSettings(it.notificationsEnabled, it.notificationHour, it.notificationMinute) }
+            .distinctUntilChanged()
+            .collect { settings ->
+                if (first) {
+                    first = false
+                    return@collect
+                }
+                runCatching {
+                    ReminderScheduler.apply(
+                        context = context,
+                        enabled = settings.enabled,
+                        hour = settings.hour,
+                        minute = settings.minute,
+                    )
+                }
+            }
+    }
+
+    private data class ReminderSettings(val enabled: Boolean, val hour: Int, val minute: Int)
 
     /**
      * §11.2's "on vessel switch": recompute whenever the active vessel changes.
@@ -101,31 +152,5 @@ class AppStartup @Inject constructor(
                     }
                 }
             }
-    }
-
-    /**
-     * Create (or update the name of) the digest channel — §11.3.
-     *
-     * Re-creating a channel with an existing id only refreshes its name and description; the user's
-     * own importance, sound and vibration choices are untouched. That is what makes it safe to call
-     * on every cold start, which is how a language change reaches Android's settings UI.
-     */
-    private fun ensureNotificationChannel() {
-        val manager = context.getSystemService(NotificationManager::class.java) ?: return
-        val channel = NotificationChannel(
-            NotificationPoster.CHANNEL_ID,
-            context.getString(R.string.notification_channel_name),
-            NotificationManager.IMPORTANCE_DEFAULT,
-        ).apply { description = context.getString(R.string.notification_channel_description) }
-        manager.createNotificationChannel(channel)
-    }
-
-    /** Enqueue the 03:00 recomputation with this locale's digest strings — §11.2, §11.3. */
-    private fun scheduleDailyDigest() {
-        WorkScheduler.scheduleDaily(
-            context = context,
-            notificationTitle = context.getString(R.string.notification_digest_title),
-            notificationBodyTemplate = context.getString(R.string.notification_digest_body),
-        )
     }
 }

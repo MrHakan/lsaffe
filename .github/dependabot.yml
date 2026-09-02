@@ -1,11 +1,45 @@
 version: 2
 updates:
+  # One grouped pull request a month, not one per dependency. The point of dependency updates here
+  # is that the app stays patchable, not that the repository carries a standing queue of red PRs.
   - package-ecosystem: gradle
     directory: /
     schedule:
-      interval: weekly
-    open-pull-requests-limit: 5
+      interval: monthly
+    open-pull-requests-limit: 1
+    groups:
+      gradle:
+        patterns: [ "*" ]
+    ignore:
+      # The toolchain is pinned by the spec: compileSdk 36, Gradle 8.x (MASTER_PROMPT C4, "Build").
+      # These four families each break that build at the version given, so proposing them again
+      # only produces a pull request that cannot go green:
+      #
+      #   Hilt 2.59+     calls ScopedArtifact.POST_COMPILATION_CLASSES, an AGP 9 API, and 2.60
+      #                  refuses to apply below AGP 9.0.0 outright.
+      #   Kotlin 2.4+    emits metadata 2.4.0; the kotlin-metadata-jvm inside Hilt 2.58 reads 2.3.0.
+      #   SQLCipher 4.18 declares minCompileSdk=37.
+      #   AGP 9+         requires Gradle 9.
+      #
+      # Lift an entry here only together with the toolchain move it belongs to.
+      - dependency-name: "com.google.dagger*"
+        versions: [ ">= 2.59" ]
+      - dependency-name: "org.jetbrains.kotlin*"
+        versions: [ ">= 2.4" ]
+      - dependency-name: "net.zetetic:sqlcipher-android"
+        versions: [ ">= 4.18" ]
+      - dependency-name: "com.android.tools.build:gradle"
+        versions: [ ">= 9" ]
+      - dependency-name: "com.android.application*"
+        versions: [ ">= 9" ]
+      - dependency-name: "com.android.library*"
+        versions: [ ">= 9" ]
+
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: weekly
+      interval: monthly
+    open-pull-requests-limit: 1
+    groups:
+      actions:
+        patterns: [ "*" ]

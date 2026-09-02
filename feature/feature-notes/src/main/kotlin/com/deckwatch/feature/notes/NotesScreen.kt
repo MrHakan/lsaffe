@@ -2,7 +2,6 @@ package com.deckwatch.feature.notes
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,13 +11,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.WarningAmber
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -29,6 +28,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -36,12 +36,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.deckwatch.core.designsystem.components.DeckWatchTopBar
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.deckwatch.core.designsystem.theme.ConditionColors
 import com.deckwatch.core.designsystem.theme.Dimens
 import com.deckwatch.core.model.RegulationSection
+import com.deckwatch.feature.notes.equipment.EquipmentGuideScreen
+import com.deckwatch.feature.notes.equipment.EquipmentTypeDetailScreen
 
 /**
  * Tab 1 — the regulatory notebook (§8).
@@ -72,30 +75,31 @@ fun NotesScreen(
     onShowEquipmentForCard: (List<String>) -> Unit = {},
     onDisclaimerAccepted: () -> Unit = {},
     onFavouriteToggled: (refKey: String, isFavourite: Boolean) -> Unit = { _, _ -> },
+    chromeViewModel: NotesChromeViewModel = hiltViewModel(),
 ) {
-    var destination by rememberSaveable(stateSaver = NotesDestinationSaver) {
-        mutableStateOf<NotesDestination>(NotesDestination.Home)
+    val footerVisible by chromeViewModel.footerVisible.collectAsStateWithLifecycle()
+    var confirmingFooterDismiss by rememberSaveable { mutableStateOf(false) }
+    // A stack, because the equipment guide is two deep (group, then one type): back has to pop one
+    // step, not jump all the way home from a type page.
+    val backStack = rememberSaveable(saver = NotesBackStackSaver) {
+        mutableStateListOf<NotesDestination>()
     }
+    val destination: NotesDestination = backStack.lastOrNull() ?: NotesDestination.Home
+    val push: (NotesDestination) -> Unit = { backStack.add(it) }
+    val pop: () -> Unit = { if (backStack.isNotEmpty()) backStack.removeAt(backStack.lastIndex) }
     var openCardRefKey by rememberSaveable { mutableStateOf<String?>(null) }
     var openCardWithComposer by rememberSaveable { mutableStateOf(false) }
     var disclaimerAcknowledged by rememberSaveable { mutableStateOf(false) }
-    var disclaimerExpanded by rememberSaveable { mutableStateOf(false) }
 
     // Bumped by the top bar's search action; the Home screen focuses its field on every change.
     var focusSearchSignal by rememberSaveable { mutableIntStateOf(0) }
 
-    BackHandler(enabled = destination != NotesDestination.Home) {
-        destination = NotesDestination.Home
-    }
+    BackHandler(enabled = backStack.isNotEmpty(), onBack = pop)
 
     Column(modifier = modifier.fillMaxSize()) {
         DeckWatchTopBar(
             title = headerTitle(destination),
-            onBack = if (destination == NotesDestination.Home) {
-                null
-            } else {
-                { destination = NotesDestination.Home }
-            },
+            onBack = pop.takeIf { backStack.isNotEmpty() },
             backContentDescription = stringResource(R.string.notes_action_back),
             actions = {
                 if (destination == NotesDestination.Home) {
@@ -109,7 +113,7 @@ fun NotesScreen(
                         )
                     }
                     IconButton(
-                        onClick = { destination = NotesDestination.Intervals },
+                        onClick = { push(NotesDestination.Intervals) },
                         modifier = Modifier.size(Dimens.TouchTargetMin),
                     ) {
                         Icon(
@@ -133,11 +137,12 @@ fun NotesScreen(
         Box(modifier = Modifier.weight(1f)) {
             when (val current = destination) {
                 NotesDestination.Home -> NotesHomeScreen(
-                    onSectionClick = { section -> destination = NotesDestination.Section(section) },
+                    onSectionClick = { section -> push(NotesDestination.Section(section)) },
                     onCardClick = { refKey ->
                         openCardRefKey = refKey
                         openCardWithComposer = false
                     },
+                    onEquipmentGuideClick = { push(NotesDestination.Equipment()) },
                     focusSearchSignal = focusSearchSignal,
                 )
 
@@ -146,6 +151,17 @@ fun NotesScreen(
                         openCardRefKey = refKey
                         openCardWithComposer = false
                     },
+                )
+
+                is NotesDestination.Equipment -> EquipmentGuideScreen(
+                    group = current.group,
+                    onOpenGroup = { group -> push(NotesDestination.Equipment(group)) },
+                    onOpenType = { typeKey -> push(NotesDestination.TypeDetail(typeKey)) },
+                )
+
+                is NotesDestination.TypeDetail -> EquipmentTypeDetailScreen(
+                    typeKey = current.typeKey,
+                    onCardClick = { refKey -> openCardRefKey = refKey },
                 )
 
                 is NotesDestination.Section -> when (current.section) {
@@ -168,14 +184,26 @@ fun NotesScreen(
                         },
                         onShowEquipmentForCard = onShowEquipmentForCard,
                         onFavouriteToggled = onFavouriteToggled,
+                        // LSA and FFE are also catalogue groups, so those two sections offer the
+                        // equipment guide beside their rules; the rest have no equipment of their own.
+                        onOpenEquipmentGroup = { group -> push(NotesDestination.Equipment(group)) },
                     )
                 }
             }
         }
 
-        NotesFooterDisclaimer(
-            expanded = disclaimerExpanded,
-            onToggle = { disclaimerExpanded = !disclaimerExpanded },
+        if (footerVisible) {
+            NotesFooterDisclaimer(onDismiss = { confirmingFooterDismiss = true })
+        }
+    }
+
+    if (confirmingFooterDismiss) {
+        ConfirmFooterDismissDialog(
+            onConfirm = {
+                confirmingFooterDismiss = false
+                chromeViewModel.dismissFooter()
+            },
+            onDismiss = { confirmingFooterDismiss = false },
         )
     }
 
@@ -197,6 +225,12 @@ private fun headerTitle(destination: NotesDestination): String = when (destinati
     NotesDestination.Home -> stringResource(R.string.notes_title)
     NotesDestination.Intervals -> stringResource(R.string.notes_intervals_title)
     is NotesDestination.Section -> stringResource(sectionTitleRes(destination.section))
+    is NotesDestination.Equipment -> destination.group
+        ?.let { stringResource(equipmentGroupLabel(it)) }
+        ?: stringResource(R.string.notes_section_equipment)
+    // The type's own name would be better, but the header renders before the record loads; the
+    // page itself carries the name at the top.
+    is NotesDestination.TypeDetail -> stringResource(R.string.notes_section_equipment)
 }
 
 /**
@@ -247,51 +281,47 @@ private fun DisclaimerBanner(onAcknowledge: () -> Unit, modifier: Modifier = Mod
 }
 
 /**
- * Permanently visible in the tab's footer — §8.5. The wording is §17.6 verbatim and is never
- * shortened, but it is not allowed to eat the list either: collapsed it is one ellipsised
- * `labelSmall` line, and one tap anywhere on it expands the whole text (itself scrollable, so
- * 200 % font scaling cannot clip it).
+ * The disclaimer strip at the foot of the tab — §8.5. Never truncated: the wording is §17.6
+ * verbatim and a shortened disclaimer is not the disclaimer.
+ *
+ * It can be dismissed, because repeating it under every screen costs a third of a phone display
+ * on the tab an officer reads most. Dismissing it removes the repetition, not the disclaimer: the
+ * first-entry banner still requires an acknowledgement on a fresh install, and More → About
+ * carries the full text permanently.
  */
 @Composable
-private fun NotesFooterDisclaimer(
-    expanded: Boolean,
-    onToggle: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    val toggleDescription = stringResource(
-        if (expanded) R.string.notes_disclaimer_collapse else R.string.notes_disclaimer_expand,
-    )
+private fun NotesFooterDisclaimer(onDismiss: () -> Unit, modifier: Modifier = Modifier) {
     Surface(
         modifier = modifier.fillMaxWidth(),
         color = MaterialTheme.colorScheme.surfaceVariant,
     ) {
         Column {
             HorizontalDivider()
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    // onClickLabel rather than contentDescription: the disclaimer's own words must
-                    // stay readable to a screen reader, so the label describes only the tap.
-                    .clickable(onClickLabel = toggleDescription, onClick = onToggle)
-                    .then(
-                        if (expanded) {
-                            Modifier
-                                .heightIn(max = FooterExpandedMaxHeight)
-                                .verticalScroll(rememberScrollState())
-                        } else {
-                            Modifier.heightIn(min = Dimens.TouchTargetMin)
-                        },
-                    )
-                    .padding(horizontal = Dimens.SpacingM, vertical = Dimens.SpacingS),
-                contentAlignment = Alignment.CenterStart,
-            ) {
+            // The close button sits beside the text rather than above it: a row of its own would
+            // make the strip taller than it already is, which is the thing being complained about.
+            Row(verticalAlignment = Alignment.Top) {
                 Text(
                     text = stringResource(R.string.notes_disclaimer_body),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = if (expanded) Int.MAX_VALUE else 1,
-                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(
+                            start = Dimens.SpacingM,
+                            top = Dimens.SpacingS,
+                            bottom = Dimens.SpacingS,
+                        ),
                 )
+                IconButton(
+                    onClick = onDismiss,
+                    modifier = Modifier.size(Dimens.TouchTargetMin),
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Close,
+                        contentDescription = stringResource(R.string.notes_disclaimer_hide),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
             }
         }
     }
@@ -300,4 +330,26 @@ private fun NotesFooterDisclaimer(
 /** Kept out of the shared [NotesComponents] file: only the banner and the footer use these. */
 private const val BannerTintAlpha = 0.16f
 private val BannerIconSize = 20.dp
-private val FooterExpandedMaxHeight = 180.dp
+
+/**
+ * Asks before the strip goes away for good, and says where the text stays reachable — hiding a
+ * safety notice should be a deliberate act, not a mis-tap.
+ */
+@Composable
+private fun ConfirmFooterDismissDialog(onConfirm: () -> Unit, onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.notes_disclaimer_hide_title)) },
+        text = { Text(stringResource(R.string.notes_disclaimer_hide_message)) },
+        confirmButton = {
+            TextButton(onClick = onConfirm) {
+                Text(stringResource(R.string.notes_disclaimer_hide_confirm))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.notes_disclaimer_hide_cancel))
+            }
+        },
+    )
+}

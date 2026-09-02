@@ -211,4 +211,36 @@
     <!-- ============================ Ortak ============================ -->
     <string name="action_cancel">Vazgeç</string>
     <string name="action_ok">Tamam</string>
+    <string name="more_vessels">Gemiler</string>
+    <string name="more_about_title">Hakkında</string>
+    <string name="more_version">DeckWatch %1$s</string>
+    <string name="more_disclaimer">DeckWatch bir planlama ve kayıt tutma yardımcısıdır. Sertifika değildir; geminin onaylı planlarının, üretici kılavuzlarının, klas kurallarının veya bayrak idaresinin talimatlarının yerine geçmez ve hiçbir yasal yükümlülüğü ortadan kaldırmaz. Mevzuat içeriği belirtilen tarihte alınmış bir özettir ve güncelliğini yitirmiş olabilir. Her zaman yürürlükteki metinle ve geminin kendi dokümantasyonuyla doğrulayın.</string>
+    <string name="more_notifications">Bildirimler</string>
+    <string name="notifications_title">Bildirimler</string>
+    <string name="notifications_back">Geri</string>
+    <string name="notifications_enable">Günlük hatırlatma</string>
+    <string name="notifications_enable_subtitle">Gecikmiş ve bu hafta yapılacak işlerin günde bir özeti.</string>
+    <string name="notifications_time">Hatırlatma saati</string>
+    <string name="notifications_time_set">Ayarla</string>
+    <string name="notifications_time_cancel">İptal</string>
+    <string name="notifications_blocked">Android, DeckWatch bildirimlerini engelliyor; izin verilene kadar hiçbir bildirim gelmez.</string>
+    <string name="notifications_open_system_settings">Bildirim ayarlarını aç</string>
+    <string name="notifications_explainer">Hatırlatmalar bu cihazda iş listesinden üretilir. Hiçbir yere veri gönderilmez ve uygulama, bildirimler kapalıyken de aynı şekilde çalışır.</string>
+    <string name="notifications_allow">Bildirimlere izin ver</string>
+    <string name="more_appearance">Görünüm</string>
+    <string name="appearance_title">Görünüm</string>
+    <string name="appearance_back">Geri</string>
+    <string name="appearance_theme">Tema</string>
+    <string name="appearance_theme_day">Gündüz</string>
+    <string name="appearance_theme_day_desc">Güvertede güneş için yüksek kontrast</string>
+    <string name="appearance_theme_night">Gece</string>
+    <string name="appearance_theme_night_desc">Güverte altı ve karanlık için koyu tema</string>
+    <string name="appearance_theme_bridge">Köprüüstü</string>
+    <string name="appearance_theme_bridge_desc">Vardiyada gece görüşünü korumak için yalnızca kırmızı</string>
+    <string name="appearance_theme_note">Tema bir tercihtir, telefonun gündüz/gece ayarı değil: köprüüstü kırmızısının sistemde karşılığı yoktur ve gün ışığı yüzünden kapanmamalıdır.</string>
+    <string name="appearance_density">Liste yoğunluğu</string>
+    <string name="appearance_density_compact">Sıkışık</string>
+    <string name="appearance_density_compact_desc">Ekranda daha çok satır</string>
+    <string name="appearance_density_comfortable">Rahat</string>
+    <string name="appearance_density_comfortable_desc">Daha yüksek satırlar, eldivenle kolay</string>
 </resources>

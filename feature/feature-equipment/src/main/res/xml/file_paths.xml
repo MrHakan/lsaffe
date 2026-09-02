@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Only the app's own photo directory is shared. The camera app receives a write grant for one
+  file at a time; nothing else in filesDir is reachable through this provider.
+-->
+<paths>
+    <files-path name="equipment_photos" path="photos/" />
+</paths>

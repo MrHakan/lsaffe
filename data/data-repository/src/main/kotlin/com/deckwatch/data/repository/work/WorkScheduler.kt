@@ -1,7 +1,6 @@
 package com.deckwatch.data.repository.work
 
 import android.content.Context
-import androidx.work.Data
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
@@ -22,8 +21,8 @@ import java.util.concurrent.TimeUnit
  * may push it later — so the initial delay is computed to the next 03:00 and the period is 24 hours
  * from there. The recomputation is idempotent, so an early, late or repeated run is harmless.
  *
- * `ExistingPeriodicWorkPolicy.UPDATE` means calling this on every app start is safe and picks up
- * new notification strings (a language change) without cancelling the pending run.
+ * `ExistingPeriodicWorkPolicy.UPDATE` means calling this on every app start is safe: it keeps the
+ * pending run rather than cancelling and re-enqueuing it.
  */
 object WorkScheduler {
 
@@ -33,36 +32,22 @@ object WorkScheduler {
     /** Local hour the daily recomputation runs — §11.2. */
     const val DAILY_HOUR: Int = 3
 
-    /**
-     * Schedule (or update) the daily job.
-     *
-     * @param notificationTitle the app's localised notification title; null uses the English
-     *   fallback in [NotificationContentBuilder].
-     * @param notificationBodyTemplate the app's localised body containing
-     *   `{overdue}` and `{dueThisWeek}`; null uses the English fallback.
-     */
+    /** Schedule (or update) the daily recomputation. */
     fun scheduleDaily(
         context: Context,
-        notificationTitle: String? = null,
-        notificationBodyTemplate: String? = null,
         now: LocalDateTime = LocalDateTime.now(ZoneId.systemDefault()),
     ) = scheduleDaily(
         workManager = WorkManager.getInstance(context.applicationContext),
-        notificationTitle = notificationTitle,
-        notificationBodyTemplate = notificationBodyTemplate,
         now = now,
     )
 
     /** The [WorkManager]-taking form, so a test can drive it without a `Context`. */
     fun scheduleDaily(
         workManager: WorkManager,
-        notificationTitle: String? = null,
-        notificationBodyTemplate: String? = null,
         now: LocalDateTime = LocalDateTime.now(ZoneId.systemDefault()),
     ) {
         val request = PeriodicWorkRequestBuilder<DueRecomputeWorker>(1, TimeUnit.DAYS)
             .setInitialDelay(initialDelayMinutes(now), TimeUnit.MINUTES)
-            .setInputData(notificationData(notificationTitle, notificationBodyTemplate))
             .addTag(UNIQUE_WORK_NAME)
             .build()
         workManager.enqueueUniquePeriodicWork(
@@ -77,15 +62,6 @@ object WorkScheduler {
     fun cancel(workManager: WorkManager) {
         workManager.cancelUniqueWork(UNIQUE_WORK_NAME)
     }
-
-    /** The strings the worker needs, as WorkManager input data. */
-    fun notificationData(title: String?, bodyTemplate: String?): Data = Data.Builder()
-        .putString(DueRecomputeWorker.KEY_TITLE, title ?: NotificationContentBuilder.DEFAULT_TITLE)
-        .putString(
-            DueRecomputeWorker.KEY_BODY_TEMPLATE,
-            bodyTemplate ?: NotificationContentBuilder.DEFAULT_BODY_TEMPLATE,
-        )
-        .build()
 
     /**
      * Minutes from [now] until the next [DAILY_HOUR] o'clock local. Exactly 03:00 counts as

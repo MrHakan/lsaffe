@@ -15,6 +15,7 @@ import com.deckwatch.core.model.RegulationSection
 import com.deckwatch.core.model.Severity
 import com.deckwatch.core.model.StatusFlag
 import com.deckwatch.core.model.TaskStatus
+import com.deckwatch.core.model.TechnicalNote
 import com.deckwatch.core.model.VerificationStatus
 import com.deckwatch.core.model.VesselType
 import kotlinx.serialization.json.Json
@@ -160,6 +161,14 @@ class DeckWatchTypeConverters {
 
     @TypeConverter
     fun toAttributeDefinitionList(value: String): List<AttributeDefinition> =
+        databaseJson.decodeFromString(value)
+
+    @TypeConverter
+    fun fromTechnicalNoteList(value: List<TechnicalNote>): String =
+        databaseJson.encodeToString(value)
+
+    @TypeConverter
+    fun toTechnicalNoteList(value: String): List<TechnicalNote> =
         databaseJson.decodeFromString(value)
 
     @TypeConverter

@@ -45,6 +45,10 @@ android {
         }
     }
 
+    // Per-ABI splits shave a few MB off a sideloaded download. The universal APK is still built,
+    // so an officer who picks wrong is not left with an install that fails on SQLCipher's native
+    // library, and Play derives its own per-device splits from the bundle regardless.
+    //
     // ABI splits and resource shrinking cannot be bundled in one AGP run (the
     // pre-bundle step expects a single shrunk-resources file). The AAB is
     // built with `-Pdeckwatch.noSplits`; Play derives its own splits from it.
