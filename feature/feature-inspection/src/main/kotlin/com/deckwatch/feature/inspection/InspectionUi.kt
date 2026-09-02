@@ -31,15 +31,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.deckwatch.core.designsystem.components.StatusSpine
+import com.deckwatch.core.designsystem.components.TagPlate
 import com.deckwatch.core.designsystem.theme.ConditionColors
 import com.deckwatch.core.designsystem.theme.Dimens
-import com.deckwatch.core.designsystem.theme.tagTextStyle
 import com.deckwatch.core.model.ConditionGrade
 import com.deckwatch.core.model.DeficiencyStatus
 import com.deckwatch.core.model.EquipmentGroup
@@ -141,14 +141,7 @@ fun deltaLabel(dayDelta: Long): String = when {
 /** The ship's own identifier, in the monospace that disambiguates 0/O and 1/l/I — §14. */
 @Composable
 fun TagText(tag: String, modifier: Modifier = Modifier) {
-    Text(
-        text = tag,
-        style = tagTextStyle(),
-        color = MaterialTheme.colorScheme.onSurface,
-        maxLines = 1,
-        overflow = TextOverflow.Ellipsis,
-        modifier = modifier,
-    )
+    TagPlate(tag = tag, modifier = modifier)
 }
 
 /** A small filled pill — who must do the job, the deck code, a status word. */
@@ -360,15 +353,13 @@ fun EmptyHint(text: String, modifier: Modifier = Modifier) {
 /** A fixed-width coloured rail that carries a row's due status without needing a word — §14. */
 @Composable
 fun StatusRail(color: Color, modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier
-            .width(RailWidth)
-            .height(Dimens.ListRowCompact)
-            .clip(RoundedCornerShape(2.dp))
-            .background(color)
-            .clearAndSetSemantics { },
+    // The shared component, at this feature's fixed row height. The description is null because
+    // every row that uses a rail already names its state in text beside it — the due row in its
+    // row-level description, the deficiency row in its severity chip.
+    StatusSpine(
+        color = color,
+        contentDescription = null,
+        modifier = modifier.height(Dimens.ListRowCompact),
     )
 }
-
-private val RailWidth = 4.dp
 private const val SUBDUED_ALPHA = 0.16f

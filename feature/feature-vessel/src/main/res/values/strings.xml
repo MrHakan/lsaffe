@@ -194,4 +194,7 @@
     <string name="list_mode_no_vessel_title">No vessel yet</string>
     <string name="list_mode_add_vessel">Add vessel</string>
     <string name="list_mode_add_equipment_here">Add equipment to %1$s</string>
+    <string name="list_mode_due_overdue">%1$d d overdue</string>
+    <string name="list_mode_due_today">Due today</string>
+    <string name="list_mode_due_in_days">in %1$d d</string>
 </resources>

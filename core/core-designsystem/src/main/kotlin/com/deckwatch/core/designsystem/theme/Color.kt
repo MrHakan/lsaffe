@@ -78,10 +78,20 @@ internal object Palette {
     val Amber = Color(0xFFFFB000)
     val AmberDeep = Color(0xFF8A5B00)
 
-    // Bridge (red night-vision) ramp — no white above 40% luminance.
-    val BridgeRed = Color(0xFFB01818)
-    val BridgeRedDim = Color(0xFF7A1010)
-    val BridgeOnDark = Color(0xFF992222)
-    val BridgeSurface = Color(0xFF120404)
-    val BridgeSurfaceHigh = Color(0xFF1C0808)
+    /*
+     * Bridge (night-vision) ramp.
+     *
+     * What preserves dark adaptation is the *spectrum*, not the dimness: rods are insensitive to
+     * long wavelengths, so a red with almost no green or blue in it leaves night vision alone even
+     * when it is bright enough to read. Absolute brightness is the phone's own slider, and dimming
+     * the ink in the theme as well only produces text nobody can read on a moving bridge.
+     *
+     * So these are chosen for two things: green and blue held far below red, and enough contrast
+     * against a near-black ground to clear WCAG AA. ThemeContrastTest holds both.
+     */
+    val BridgeRed = Color(0xFFFF2E1F)
+    val BridgeRedDim = Color(0xFF7A1410)
+    val BridgeOnDark = Color(0xFFE04034)
+    val BridgeSurface = Color(0xFF0D0202)
+    val BridgeSurfaceHigh = Color(0xFF1A0505)
 }

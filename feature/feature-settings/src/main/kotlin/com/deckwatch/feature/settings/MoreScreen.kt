@@ -65,6 +65,8 @@ fun MoreScreen(
             HorizontalDivider()
             MoreRow(R.string.more_notifications) { destination = MoreDestination.NOTIFICATIONS }
             HorizontalDivider()
+            MoreRow(R.string.more_appearance) { destination = MoreDestination.APPEARANCE }
+            HorizontalDivider()
 
             Text(
                 text = stringResource(R.string.more_about_title),
@@ -111,10 +113,14 @@ fun MoreScreen(
                 onSettingsChanged = onRemindersChanged,
             )
         }
+
+        MoreDestination.APPEARANCE -> FullScreen(onDismiss = { destination = MoreDestination.NONE }) {
+            AppearanceScreen(onBack = { destination = MoreDestination.NONE })
+        }
     }
 }
 
-private enum class MoreDestination { NONE, VESSELS, CATEGORIES, NOTIFICATIONS }
+private enum class MoreDestination { NONE, VESSELS, CATEGORIES, NOTIFICATIONS, APPEARANCE }
 
 @Composable
 private fun MoreRow(@StringRes labelRes: Int, onClick: () -> Unit) {

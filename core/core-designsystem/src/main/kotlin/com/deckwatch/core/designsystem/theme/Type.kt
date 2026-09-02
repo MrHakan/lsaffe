@@ -27,6 +27,26 @@ val DeckWatchTypography = Typography(
     labelSmall = TextStyle(fontWeight = FontWeight.Medium, fontSize = 10.sp, lineHeight = 14.sp),
 )
 
+/**
+ * Section headings in the app's signage voice — §14.
+ *
+ * Capitals on wide tracking is how a deck marking, a locker label and a ship's plate are set, and
+ * it is the app's display personality: there is no bundled typeface (an offline app should not
+ * carry a font file it does not need), so the character comes from treatment. Small and tracked
+ * rather than large and bold, because a heading on a phone held at arm's length needs to be
+ * *distinguishable* from body text, not louder than it.
+ *
+ * Use it through [com.deckwatch.core.designsystem.components.PlateHeading], which adds the rule.
+ */
+@Composable
+@ReadOnlyComposable
+fun plateTextStyle(): TextStyle = TextStyle(
+    fontWeight = FontWeight.Bold,
+    fontSize = 11.sp,
+    lineHeight = 14.sp,
+    letterSpacing = 1.2.sp,
+)
+
 /** Monospace style for equipment tags / serial numbers. */
 @Composable
 @ReadOnlyComposable

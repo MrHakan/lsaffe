@@ -18,4 +18,20 @@
     <string name="notifications_open_system_settings">Bildirim ayarlarını aç</string>
     <string name="notifications_explainer">Hatırlatmalar bu cihazda iş listesinden üretilir. Hiçbir yere veri gönderilmez ve uygulama, bildirimler kapalıyken de aynı şekilde çalışır.</string>
     <string name="notifications_allow">Bildirimlere izin ver</string>
+    <string name="more_appearance">Görünüm</string>
+    <string name="appearance_title">Görünüm</string>
+    <string name="appearance_back">Geri</string>
+    <string name="appearance_theme">Tema</string>
+    <string name="appearance_theme_day">Gündüz</string>
+    <string name="appearance_theme_day_desc">Güvertede güneş için yüksek kontrast</string>
+    <string name="appearance_theme_night">Gece</string>
+    <string name="appearance_theme_night_desc">Güverte altı ve karanlık için koyu tema</string>
+    <string name="appearance_theme_bridge">Köprüüstü</string>
+    <string name="appearance_theme_bridge_desc">Vardiyada gece görüşünü korumak için yalnızca kırmızı</string>
+    <string name="appearance_theme_note">Tema bir tercihtir, telefonun gündüz/gece ayarı değil: köprüüstü kırmızısının sistemde karşılığı yoktur ve gün ışığı yüzünden kapanmamalıdır.</string>
+    <string name="appearance_density">Liste yoğunluğu</string>
+    <string name="appearance_density_compact">Sıkışık</string>
+    <string name="appearance_density_compact_desc">Ekranda daha çok satır</string>
+    <string name="appearance_density_comfortable">Rahat</string>
+    <string name="appearance_density_comfortable_desc">Daha yüksek satırlar, eldivenle kolay</string>
 </resources>

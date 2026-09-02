@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -33,6 +34,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -43,10 +45,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.deckwatch.core.common.Dates
+import com.deckwatch.core.designsystem.components.PlateHeading
+import com.deckwatch.core.designsystem.components.StatusSpine
 import com.deckwatch.core.designsystem.components.SymbolTile
+import com.deckwatch.core.designsystem.components.TagPlate
+import com.deckwatch.core.designsystem.theme.ConditionColors
 import com.deckwatch.core.designsystem.theme.DeckWatchTheme
 import com.deckwatch.core.designsystem.theme.Dimens
-import com.deckwatch.core.designsystem.theme.tagTextStyle
+import com.deckwatch.core.designsystem.theme.LocalListDensity
 import com.deckwatch.core.model.ConditionGrade
 import com.deckwatch.core.model.Deck
 import com.deckwatch.core.model.Equipment
@@ -54,11 +60,11 @@ import com.deckwatch.core.model.EquipmentType
 import com.deckwatch.core.model.PlanPreset
 import com.deckwatch.core.model.Vessel
 import com.deckwatch.feature.vessel.R
-import com.deckwatch.feature.vessel.common.ConditionDot
 import com.deckwatch.feature.vessel.common.DeckPlanThumbnail
 import com.deckwatch.feature.vessel.common.PrimaryButton
 import com.deckwatch.feature.vessel.common.TeachingEmptyState
 import com.deckwatch.feature.vessel.common.VesselTopBar
+import com.deckwatch.feature.vessel.common.labelRes
 import com.deckwatch.feature.vessel.deck.BuiltInPlanPresets
 import com.deckwatch.feature.vessel.deck.presetName
 
@@ -261,8 +267,10 @@ private fun DeckHeader(
         horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingM),
     ) {
         val deck = group.deck
+        // The deck code is an identifier stencilled on the ship, so it is set like every other
+        // identifier in the app rather than as loose monospace text.
         if (deck?.shortCode != null) {
-            Text(text = deck.shortCode.orEmpty(), style = tagTextStyle())
+            TagPlate(tag = deck.shortCode.orEmpty())
         }
         Column(modifier = Modifier.weight(1f)) {
             Text(
@@ -302,32 +310,30 @@ private fun DeckHeader(
 
 @Composable
 private fun ZoneHeader(zoneGroup: ZoneGroup, onAddEquipment: (() -> Unit)? = null) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = Dimens.SpacingXl, end = Dimens.SpacingL),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(
-            text = zoneGroup.zone?.name ?: stringResource(R.string.list_mode_no_zone),
-            style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier
-                .weight(1f)
-                .padding(top = Dimens.SpacingM, bottom = Dimens.SpacingXs),
-        )
-        if (onAddEquipment != null) {
-            IconButton(onClick = onAddEquipment, modifier = Modifier.size(Dimens.TouchTargetMin)) {
-                Icon(
-                    imageVector = Icons.Filled.Add,
-                    contentDescription = stringResource(
-                        R.string.list_mode_add_equipment_here,
-                        zoneGroup.zone?.name.orEmpty(),
-                    ),
-                )
+    // A zone is a subdivision of the deck above it, so it is set as a rule with a tracked label
+    // rather than as coloured text: colour in this app means condition, and nothing else.
+    PlateHeading(
+        text = zoneGroup.zone?.name ?: stringResource(R.string.list_mode_no_zone),
+        modifier = Modifier.padding(
+            start = Dimens.SpacingXl,
+            end = Dimens.SpacingL,
+            top = Dimens.SpacingM,
+            bottom = Dimens.SpacingXs,
+        ),
+        trailing = {
+            if (onAddEquipment != null) {
+                IconButton(onClick = onAddEquipment, modifier = Modifier.size(Dimens.TouchTargetMin)) {
+                    Icon(
+                        imageVector = Icons.Filled.Add,
+                        contentDescription = stringResource(
+                            R.string.list_mode_add_equipment_here,
+                            zoneGroup.zone?.name.orEmpty(),
+                        ),
+                    )
+                }
             }
-        }
-    }
+        },
+    )
 }
 
 @Composable
@@ -350,35 +356,79 @@ private fun EquipmentListRow(
 ) {
     val language = LocalContext.current.resources.configuration.locales[0].language
     val typeName = type?.let { if (language == TURKISH_LANGUAGE) it.nameTr else it.nameEn }
+    val rowHeight = Dimens.rowHeight(LocalListDensity.current)
+    val due = dueSummary(equipment.nextDueDate)
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(min = Dimens.ListRowCompact)
+            .height(rowHeight)
             .clickable(onClick = onClick)
-            .padding(start = Dimens.SpacingXl, end = Dimens.SpacingL, top = Dimens.SpacingS, bottom = Dimens.SpacingS),
+            .padding(start = Dimens.SpacingL, end = Dimens.SpacingL),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingM),
     ) {
+        // Condition leads the row rather than trailing it: it is the thing being scanned for, and
+        // at the leading edge it survives sunlight, gloves and the hand holding the phone.
+        StatusSpine(
+            color = ConditionColors.of(equipment.condition),
+            contentDescription = stringResource(
+                R.string.deck_manager_condition,
+                stringResource(equipment.condition.labelRes),
+            ),
+            modifier = Modifier.height(rowHeight - Dimens.SpacingM),
+        )
         SymbolTile(symbolKey = equipment.symbolKey, size = SYMBOL_SIZE)
         Column(modifier = Modifier.weight(1f)) {
-            Text(text = equipment.tag, style = tagTextStyle())
             Text(
                 text = equipment.name ?: typeName ?: equipment.typeKey,
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
+            TagPlate(tag = equipment.tag, modifier = Modifier.padding(top = Dimens.SpacingXs))
         }
         Text(
-            text = equipment.nextDueDate?.let { stringResource(R.string.list_mode_due, Dates.formatIso(it)) }
-                ?: stringResource(R.string.list_mode_no_due),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            text = due.text,
+            style = MaterialTheme.typography.labelMedium,
+            color = due.color ?: MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.End,
         )
-        ConditionDot(grade = equipment.condition)
     }
 }
+
+/** What the due column says, and whether it says it in a colour. */
+private data class DueSummary(val text: String, val color: Color?)
+
+/**
+ * The due column, as a delta rather than a date.
+ *
+ * "2026-09-14" makes the reader do arithmetic against today; "12 d overdue" is the answer they
+ * were going to work out. The date itself is one tap away on the item's own sheet, where there is
+ * room for it and where it is being read rather than scanned.
+ *
+ * Colour appears only when the answer is *act now* — overdue, or due today. Anything further out
+ * is neutral, so that a screen of colour never dilutes the rows that need it.
+ */
+@Composable
+private fun dueSummary(nextDueDate: Long?): DueSummary {
+    if (nextDueDate == null) {
+        return DueSummary(stringResource(R.string.list_mode_no_due), null)
+    }
+    val days = nextDueDate - Dates.todayEpochDay()
+    return when {
+        days < 0 -> DueSummary(
+            stringResource(R.string.list_mode_due_overdue, -days),
+            ConditionColors.OutOfService,
+        )
+        days == 0L -> DueSummary(stringResource(R.string.list_mode_due_today), ConditionColors.Monitor)
+        days <= DUE_SOON_DAYS -> DueSummary(stringResource(R.string.list_mode_due_in_days, days), null)
+        else -> DueSummary(stringResource(R.string.list_mode_due, Dates.formatIso(nextDueDate)), null)
+    }
+}
+
+/** Inside this many days the delta is more useful than the date; beyond it, the date is. */
+private const val DUE_SOON_DAYS = 30L
 
 /** Preset name outside composition, for the view model call that creates the deck. */
 private fun presetDisplayName(context: android.content.Context, preset: PlanPreset): String {

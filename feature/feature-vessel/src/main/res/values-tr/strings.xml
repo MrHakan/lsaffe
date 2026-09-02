@@ -193,4 +193,7 @@
     <string name="list_mode_no_vessel_title">Henüz gemi yok</string>
     <string name="list_mode_add_vessel">Gemi ekle</string>
     <string name="list_mode_add_equipment_here">%1$s güvertesine ekipman ekle</string>
+    <string name="list_mode_due_overdue">%1$d gün gecikmiş</string>
+    <string name="list_mode_due_today">Bugün</string>
+    <string name="list_mode_due_in_days">%1$d gün sonra</string>
 </resources>
