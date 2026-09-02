@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.deckwatch.core.designsystem.theme.Dimens
 import com.deckwatch.core.designsystem.theme.plateTextStyle
@@ -76,6 +77,10 @@ fun TagPlate(tag: String, modifier: Modifier = Modifier) {
         text = tag,
         style = tagTextStyle(),
         color = MaterialTheme.colorScheme.onSurface,
+        // A tag is an identifier, so it never wraps: a two-line plate would push the row past the
+        // height its density fixes, and a wrapped tag is unreadable as an identifier anyway.
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
         modifier = modifier
             .clip(RoundedCornerShape(Dimens.PlateCorner))
             .background(MaterialTheme.colorScheme.surfaceVariant)

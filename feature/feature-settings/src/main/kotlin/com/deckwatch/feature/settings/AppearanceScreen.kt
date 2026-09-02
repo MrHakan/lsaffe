@@ -224,9 +224,12 @@ private fun DensityChoice(density: ListDensity, selected: Boolean, onSelect: () 
                 .padding(Dimens.SpacingXs),
             verticalAlignment = Alignment.CenterVertically,
         ) {
+            // Null, not empty: this spine is a picture of a row, and the row it illustrates is
+            // already named by the label beside it. An empty description would leave a node for a
+            // screen reader to land on with nothing to say.
             StatusSpine(
                 color = ConditionColors.Good,
-                contentDescription = "",
+                contentDescription = null,
                 modifier = Modifier.height(Dimens.rowHeight(density) - Dimens.SpacingS),
             )
             Text(
