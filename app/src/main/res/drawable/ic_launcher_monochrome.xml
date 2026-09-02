@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The themed-icon layer (Android 13+). Same three decks as the foreground, flattened to one colour
+  because the system tints this layer itself; the deck surfaces are drawn as outlines so the stack
+  still reads when everything is a single hue.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108"
+    android:tint="#000000">
+
+    <path
+        android:fillColor="#000000"
+        android:pathData="M54,58 L80,70 L54,82 L28,70 Z M54,64 L67,70 L54,76 L41,70 Z" />
+    <path
+        android:fillColor="#000000"
+        android:pathData="M54,40 L80,52 L54,64 L28,52 Z M54,46 L67,52 L54,58 L41,52 Z" />
+    <path
+        android:fillColor="#000000"
+        android:pathData="M54,22 L80,34 L54,46 L28,34 Z" />
+</vector>

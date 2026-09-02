@@ -1,4 +1,222 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- ============================ More tab (§5 tab 4) ============================ -->
     <string name="more_title">More</string>
+
+    <string name="more_section_vessel">Vessel</string>
+    <string name="more_section_reports">Reports</string>
+    <string name="more_section_data">Data</string>
+    <string name="more_section_app">App</string>
+
+    <string name="more_vessel_manager">Vessel manager</string>
+    <string name="more_vessel_manager_desc">Add, edit and switch between your ships</string>
+    <string name="more_decks_zones">Decks &amp; zones</string>
+    <string name="more_decks_zones_desc">Build the deck stack and draw spatial zones</string>
+    <string name="more_categories">Categories</string>
+    <string name="more_categories_desc">Logical tags such as “Weekly round” or “PSC focus”</string>
+
+    <string name="more_reports">Reports &amp; export</string>
+    <string name="more_reports_desc">One self-contained HTML file for the office or a surveyor</string>
+    <string name="more_import">Import from file</string>
+    <string name="more_import_desc">Read a DeckWatch report back in, with a merge preview</string>
+    <string name="more_share_last">Share last report</string>
+    <string name="more_share_last_desc">Send the most recent export again</string>
+    <string name="more_share_last_none">No report has been generated yet</string>
+
+    <string name="more_backup_now">Back up now</string>
+    <string name="more_backup_now_desc">Write a .dwbackup file — everything, plus photos</string>
+    <string name="more_restore">Restore backup</string>
+    <string name="more_restore_desc">Merge a .dwbackup file back in; nothing is overwritten silently</string>
+    <string name="more_demo_load">Load demo vessel</string>
+    <string name="more_demo_load_desc">MV Example — five decks, ~60 items, a few overdue</string>
+    <string name="more_demo_remove">Remove demo vessel</string>
+    <string name="more_demo_remove_desc">Delete MV Example and everything on it</string>
+    <string name="more_auto_backup_folder">Automatic backup folder</string>
+    <string name="more_auto_backup_folder_none">Not set — weekly backups are off</string>
+    <string name="more_auto_backup_folder_set">Weekly backup to %1$s, last %2$d kept</string>
+
+    <string name="more_settings">Settings</string>
+    <string name="more_settings_desc">Theme, language, reminders, units</string>
+    <string name="more_about">About</string>
+    <string name="more_about_desc">Version, disclaimer, sources and licence</string>
+
+    <!-- Day-30 backup nudge (§18) -->
+    <string name="more_nudge_title">You have never taken a backup</string>
+    <string name="more_nudge_body">You have been using DeckWatch for %1$d days. A backup is one file and it takes seconds — without one, uninstalling the app loses the register.</string>
+    <string name="more_nudge_action">Back up now</string>
+    <string name="more_nudge_dismiss">Not now</string>
+
+    <!-- Demo vessel confirmations (§14) -->
+    <string name="demo_install_title">Load the demo vessel?</string>
+    <string name="demo_install_body">MV Example will be added and made the active vessel. Your own vessels are not touched. You can remove it again in one tap.</string>
+    <string name="demo_install_confirm">Load</string>
+    <string name="demo_remove_title">Remove the demo vessel?</string>
+    <string name="demo_remove_body">MV Example, its decks, equipment, tasks and deficiencies are deleted. Your own vessels are not touched.</string>
+    <string name="demo_remove_confirm">Remove</string>
+    <string name="demo_installed">Demo vessel loaded</string>
+    <string name="demo_removed">Demo vessel removed</string>
+    <string name="demo_failed">The demo vessel could not be loaded</string>
+    <string name="demo_working">Working…</string>
+
+    <!-- ============================ Backup (§18) ============================ -->
+    <string name="backup_title">Back up</string>
+    <string name="backup_passphrase_title">Protect with a passphrase?</string>
+    <string name="backup_passphrase_body">A passphrase encrypts the backup with AES-256. There is no way to recover it — if you forget it, the file is unreadable.</string>
+    <string name="backup_passphrase_label">Passphrase (optional)</string>
+    <string name="backup_passphrase_confirm_label">Repeat passphrase</string>
+    <string name="backup_passphrase_mismatch">The two passphrases are different</string>
+    <string name="backup_passphrase_required">This backup is encrypted. Enter its passphrase.</string>
+    <string name="backup_passphrase_wrong">Wrong passphrase, or the file is damaged</string>
+    <string name="backup_continue">Continue</string>
+    <string name="backup_cancel">Cancel</string>
+    <string name="backup_running">Backing up…</string>
+    <string name="backup_done">Backed up: %1$d vessels, %2$d photos, %3$s</string>
+    <string name="backup_empty">There is nothing to back up yet</string>
+    <string name="backup_failed">Backup failed: %1$s</string>
+
+    <string name="restore_title">Restore</string>
+    <string name="restore_running">Restoring…</string>
+    <string name="restore_done">Restored %1$d records and %2$d photos</string>
+    <string name="restore_rejected">Nothing was written: %1$s</string>
+    <string name="restore_partial">Partly applied: %1$s (%2$d records could not be withdrawn)</string>
+    <string name="restore_unreadable">That file could not be read as a DeckWatch backup</string>
+    <string name="restore_schema">That backup was written by a newer version of DeckWatch</string>
+    <string name="restore_confirm_title">Restore this backup?</string>
+    <string name="restore_confirm_body">Records newer than yours are taken from the file; records older than yours are skipped. Nothing is deleted except items the file records as deleted.</string>
+    <string name="restore_confirm_action">Restore</string>
+
+    <string name="backup_folder_title">Automatic backup folder</string>
+    <string name="backup_folder_body">Choose a folder for the weekly backup. DeckWatch keeps the last %1$d files there and deletes older ones.</string>
+    <string name="backup_folder_choose">Choose folder</string>
+    <string name="backup_folder_clear">Turn off</string>
+    <string name="backup_folder_set">Weekly backups will be written to %1$s</string>
+    <string name="backup_folder_denied">Android did not grant lasting access to that folder</string>
+    <string name="backup_folder_cleared">Automatic backups turned off</string>
+
+    <!-- ============================ Settings (§18) ============================ -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_back">Back</string>
+
+    <string name="settings_section_appearance">Appearance</string>
+    <string name="settings_section_work">Work &amp; reminders</string>
+    <string name="settings_section_deckview">Deck view</string>
+    <string name="settings_section_records">Records</string>
+
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_day">Day</string>
+    <string name="settings_theme_night">Night</string>
+    <string name="settings_theme_bridge">Bridge</string>
+    <string name="settings_theme_schedule">Switch automatically after dark</string>
+    <string name="settings_theme_schedule_desc">Day from 06:00, your chosen dark theme from 20:00</string>
+
+    <string name="settings_language">Language</string>
+    <string name="settings_language_en">English</string>
+    <string name="settings_language_tr">Türkçe</string>
+    <string name="settings_language_restart">Restart DeckWatch for the change to reach every screen</string>
+
+    <string name="settings_density">List density</string>
+    <string name="settings_density_compact">Compact</string>
+    <string name="settings_density_comfortable">Comfortable</string>
+
+    <string name="settings_lead_time">Due-soon lead time</string>
+    <string name="settings_lead_time_value">%1$d days</string>
+    <string name="settings_lead_time_desc">How far ahead an item starts showing as due soon</string>
+
+    <string name="settings_notifications">Daily reminder</string>
+    <string name="settings_notifications_desc">One digest a day: overdue and due this week</string>
+    <string name="settings_notification_time">Reminder time</string>
+    <string name="settings_notification_permission_denied">Android is blocking notifications for DeckWatch. Everything else still works.</string>
+    <string name="settings_notification_time_picker_title">Daily reminder at</string>
+
+    <string name="settings_default_flag">Default flag</string>
+    <string name="settings_default_flag_desc">Pre-selected when you create a vessel</string>
+    <string name="settings_flag_rmi">Marshall Islands</string>
+    <string name="settings_flag_liberia">Liberia</string>
+    <string name="settings_flag_panama">Panama</string>
+    <string name="settings_flag_other">Other</string>
+
+    <string name="settings_iso_angle">Isometric angle</string>
+    <string name="settings_iso_angle_value">%1$d°</string>
+    <string name="settings_iso_angle_desc">0° is a flat plan; 30° is the default deck stack</string>
+    <string name="settings_grid_snap">Snap markers to a grid</string>
+    <string name="settings_grid_snap_desc">Dragged equipment lands on a fixed grid</string>
+
+    <string name="settings_tag_format">Tag numbering</string>
+    <string name="settings_tag_format_desc">{PREFIX} type code · {DECK} deck code · {NNN} number</string>
+    <string name="settings_tag_format_example">Example: %1$s</string>
+
+    <string name="settings_photo_quality">Photo quality</string>
+    <string name="settings_photo_low">Low</string>
+    <string name="settings_photo_medium">Medium</string>
+    <string name="settings_photo_high">High</string>
+
+    <string name="settings_units">Units</string>
+    <string name="settings_units_metric">Metric (kg, L, bar)</string>
+    <string name="settings_units_imperial">Imperial (lb, gal, psi)</string>
+
+    <string name="settings_first_day">Week starts on</string>
+    <string name="settings_day_monday">Monday</string>
+    <string name="settings_day_sunday">Sunday</string>
+    <string name="settings_day_saturday">Saturday</string>
+
+    <!-- ============================ About (§17.6) ============================ -->
+    <string name="app_name_about" translatable="false">DeckWatch</string>
+    <string name="about_title">About</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_tagline">Offline LSA and FFE inspection, tracking and regulatory reference.</string>
+
+    <string name="about_section_disclaimer">Disclaimer</string>
+    <!--
+      §17.6, verbatim, in every locale. translatable="false" is deliberate: a softened translation
+      of a legal disclaimer is worse than an English one, and this exact wording is what appears in
+      the footer of every exported report a third party will read.
+    -->
+    <string name="about_disclaimer" translatable="false">DeckWatch is a planning and record-keeping aid. It is not a certificate, not a substitute for the vessel\'s approved plans, the manufacturer\'s manuals, class rules or the flag Administration\'s instructions, and it does not discharge any statutory obligation. Regulatory content is a summary captured on a stated date and may be superseded. Always verify against the current instrument and the vessel\'s own documentation. The Master\'s and the Company\'s responsibilities under SOLAS and the ISM Code are unaffected.</string>
+
+    <string name="about_section_content">Where the content comes from</string>
+    <string name="about_content_body">Every regulatory card names the instrument it summarises, the date it was captured and whether that figure has been verified. Cards marked “verify against the current instrument” are exactly that — unconfirmed.</string>
+    <string name="about_content_sources">docs/REGULATORY_SOURCES.md — every instrument cited, with its capture date</string>
+    <string name="about_content_symbols">docs/SYMBOL_LICENSING.md — how each pictogram was drawn and what a signage deployment still needs</string>
+    <string name="about_content_model">docs/DATA_MODEL.md — the record schema behind exports and backups</string>
+
+    <string name="about_section_flags">Check for newer flag notice revisions</string>
+    <string name="about_flags_body">Flag-state notices change and DeckWatch never claims a revision is current. These links open the registry\'s own public notice index in your browser — the only time this app uses the network, and only when you tap.</string>
+    <string name="about_flag_rmi">Marshall Islands registry (external)</string>
+    <string name="about_flag_liberia">Liberian registry (external)</string>
+    <string name="about_flag_panama">Panama Maritime Authority (external)</string>
+    <string name="about_flag_no_browser">No browser is available to open that link</string>
+
+    <string name="about_section_licence">Licence</string>
+    <string name="about_licence_body">DeckWatch\'s source code is MIT-licensed. The regulatory content and the symbol artwork have their own provenance and are not covered by that licence.</string>
+
+    <!-- ============================ Onboarding (§14) ============================ -->
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_page">Step %1$d of %2$d</string>
+
+    <string name="onboarding_disclaimer_title">Before you start</string>
+    <string name="onboarding_disclaimer_accept">I understand</string>
+
+    <string name="onboarding_1_title">Your LSA and FFE register, offline</string>
+    <string name="onboarding_1_body">Everything lives on this phone. No account, no server, no signal needed — it works the same in the middle of an ocean as it does alongside.</string>
+
+    <string name="onboarding_2_title">Build the ship deck by deck</string>
+    <string name="onboarding_2_body">Start from a plan preset, stack the decks, then drop equipment where it actually is. Tap any marker to see what is due on it.</string>
+
+    <string name="onboarding_3_title">Grade with one tap</string>
+    <string name="onboarding_3_body">Five condition grades, 56 mm targets, gloves-on. Sweep a deck item by item and the round writes itself.</string>
+
+    <string name="onboarding_4_title">One file to send anywhere</string>
+    <string name="onboarding_4_body">Export a self-contained HTML report that opens by double-click, prints cleanly and can be imported back on another phone.</string>
+
+    <string name="onboarding_start_title">How would you like to start?</string>
+    <string name="onboarding_start_demo">Load demo vessel (MV Example)</string>
+    <string name="onboarding_start_demo_desc">Five decks and about sixty items to look around</string>
+    <string name="onboarding_start_create">Create my vessel</string>
+    <string name="onboarding_start_create_desc">Enter your ship and start with an empty register</string>
+    <string name="onboarding_demo_loading">Loading the demo vessel…</string>
+
+    <!-- ============================ Shared ============================ -->
+    <string name="action_cancel">Cancel</string>
+    <string name="action_ok">OK</string>
 </resources>

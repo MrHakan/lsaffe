@@ -1,8 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">DeckWatch</string>
+
+    <!-- Bottom navigation — §5. -->
     <string name="tab_notes">Notes</string>
     <string name="tab_vessel">Vessel</string>
     <string name="tab_due">Due</string>
     <string name="tab_more">More</string>
+
+    <!--
+      Notification channel, shown in Android's own settings UI. Created at cold start with these
+      strings so the officer sees the channel in their language; the channel *id* is fixed in
+      NotificationPoster and never changes, which is what preserves their importance and sound
+      choices across updates.
+    -->
+    <string name="notification_channel_name">Due reminders</string>
+    <string name="notification_channel_description">Daily summary of overdue and upcoming LSA/FFE work</string>
+
+    <!--
+      The daily digest — §11.3's "3 overdue, 7 due this week".
+      {overdue} and {dueThisWeek} are substituted by NotificationContentBuilder. They are named
+      placeholders rather than %1$d/%2$d because the text travels through WorkManager's Data as a
+      plain string and a translator must be able to reorder them.
+    -->
+    <string name="notification_digest_title">DeckWatch</string>
+    <string name="notification_digest_body">{overdue} overdue, {dueThisWeek} due this week</string>
+
+    <string name="export_failed">The report could not be generated</string>
 </resources>

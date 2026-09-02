@@ -4,4 +4,12 @@
     <string name="tab_vessel">Gemi</string>
     <string name="tab_due">Vadesi</string>
     <string name="tab_more">Daha Fazla</string>
+
+    <string name="notification_channel_name">Vade hatırlatmaları</string>
+    <string name="notification_channel_description">Gecikmiş ve yaklaşan LSA/FFE işlerinin günlük özeti</string>
+
+    <string name="notification_digest_title">DeckWatch</string>
+    <string name="notification_digest_body">{overdue} gecikmiş, bu hafta {dueThisWeek} iş var</string>
+
+    <string name="export_failed">Rapor oluşturulamadı</string>
 </resources>

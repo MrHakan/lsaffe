@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      Launcher-icon and splash colours. These are the only colours the app declares as Android
+      resources: everything inside the UI comes from the Compose palette in core-designsystem, and
+      duplicating that ramp here would give it a second place to drift.
+
+      Navy 800 (#1C2536) is the structural colour of §14; the amber (#FFB000) is the one accent.
+    -->
+    <color name="ic_launcher_background">#1C2536</color>
+    <color name="deckwatch_navy">#1C2536</color>
+    <color name="deckwatch_amber">#FFB000</color>
+
+    <!-- Slate 50: the Day theme's ground, so a window background never flashes a different white. -->
+    <color name="deckwatch_window_background">#F4F5F7</color>
+</resources>

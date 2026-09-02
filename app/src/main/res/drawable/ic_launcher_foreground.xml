@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  DeckWatch launcher foreground — an original glyph, drawn here, of nothing but the app's own
+  subject: three deck plans stacked in the dimetric projection of §7.2, the top one picked out in
+  the signal amber of §14 because "the deck you are looking at" is the whole idea of the Vessel tab.
+
+  No IMO or ISO pictogram is used or traced. §10.2 makes that a hard constraint — the standards'
+  artwork is licensed — and a launcher icon is exactly the sort of place a borrowed pictogram would
+  end up. The geometry here is three rhombi and their extruded near edges, and nothing else.
+
+  108x108 adaptive viewport; the glyph sits inside the 72x72 safe zone (y 22..86, x 28..80) so no
+  launcher mask can clip a deck off.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Bottom deck: near edge, then surface. Painter's algorithm, bottom first — §7.2. -->
+    <path
+        android:fillColor="#8B94A3"
+        android:pathData="M28,70 L54,82 L80,70 L80,74 L54,86 L28,74 Z" />
+    <path
+        android:fillColor="#C9CED8"
+        android:pathData="M54,58 L80,70 L54,82 L28,70 Z" />
+
+    <!-- Middle deck. -->
+    <path
+        android:fillColor="#8B94A3"
+        android:pathData="M28,52 L54,64 L80,52 L80,56 L54,68 L28,56 Z" />
+    <path
+        android:fillColor="#C9CED8"
+        android:pathData="M54,40 L80,52 L54,64 L28,52 Z" />
+
+    <!-- Top deck, in the signal amber — the one that needs your attention. -->
+    <path
+        android:fillColor="#B37B00"
+        android:pathData="M28,34 L54,46 L80,34 L80,38 L54,50 L28,38 Z" />
+    <path
+        android:fillColor="#FFB000"
+        android:pathData="M54,22 L80,34 L54,46 L28,34 Z" />
+</vector>

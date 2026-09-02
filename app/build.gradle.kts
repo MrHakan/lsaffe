@@ -15,6 +15,12 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildFeatures {
+        // Settings → About shows the installed version (§17.6); BuildConfig.VERSION_NAME is the
+        // one place that value exists without asking the package manager at runtime.
+        buildConfig = true
+    }
+
     signingConfigs {
         create("release") {
             val ksPath = System.getenv("KEYSTORE_PATH")
