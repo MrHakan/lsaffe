@@ -15,6 +15,9 @@ dependencies {
     implementation(project(":core:core-datastore"))
     implementation(project(":data:data-seed"))
     implementation(libs.androidx.core.ktx)
+    // Room's `withTransaction` — the multi-write consistency of C10 lives on it.
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.androidx.hilt.work)
     ksp(libs.androidx.hilt.compiler)
@@ -28,6 +31,9 @@ dependencies {
     // The in-memory DeckWatchDatabase the repository tests run against exposes RoomDatabase types.
     testImplementation(libs.androidx.room.runtime)
     testImplementation(libs.truth)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.test.core)
+    testImplementation(libs.androidx.datastore.preferences)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.turbine)
     testImplementation(project(":core:core-testing"))

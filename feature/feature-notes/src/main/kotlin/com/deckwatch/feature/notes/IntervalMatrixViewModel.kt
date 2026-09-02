@@ -46,6 +46,13 @@ data class IntervalMatrixUiState(
 ) {
     val isEmpty: Boolean get() = groups.isEmpty()
     val rowCount: Int get() = groups.sumOf { it.rows.size }
+    val isFiltering: Boolean get() = query.isNotBlank()
+
+    /**
+     * Empty because the filter excluded everything, rather than because no task definitions are
+     * loaded — the two need different empty states (DESIGN_OVERHAUL rule 7).
+     */
+    val isFilteredToNothing: Boolean get() = isEmpty && isFiltering
 }
 
 @HiltViewModel

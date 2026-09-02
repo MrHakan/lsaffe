@@ -1,23 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="due_title">Due</string>
-    <string name="due_empty_hint">Nothing due yet. Add equipment first.</string>
+    <string name="due_empty_title">Nothing due yet</string>
+    <string name="due_empty_hint">Work lands here as soon as the vessel has equipment with a schedule.</string>
 
     <!-- Work list -->
-    <string name="due_no_vessel">No active vessel. Create one on the Vessel tab first.</string>
+    <string name="due_no_vessel_title">No active vessel</string>
+    <string name="due_no_vessel">Create a vessel on the Vessel tab and this list fills itself.</string>
     <string name="due_segment_overdue">Overdue</string>
     <string name="due_segment_week">This week</string>
     <string name="due_segment_month">This month</string>
     <string name="due_segment_survey">Before next survey</string>
     <string name="due_segment_planned">Planned</string>
-    <string name="due_segment_empty">Nothing in this segment.</string>
+    <string name="due_segment_empty_title">Nothing in this segment</string>
+    <string name="due_segment_empty">Pick another segment above, or clear the filters to see everything.</string>
     <string name="due_row_semantics">%1$s, %2$s, due %3$s, %4$s</string>
     <string name="due_delta_late">%1$d d late</string>
     <string name="due_delta_today">due today</string>
     <string name="due_delta_ahead">in %1$d d</string>
     <string name="due_deferred">Deferred</string>
 
+    <!-- Row action sheet -->
+    <string name="due_row_actions">Job actions</string>
+    <string name="due_open_equipment">Open equipment</string>
+
     <!-- Filters -->
+    <string name="due_filter">Filter</string>
+    <string name="due_filter_badge">Filter · %1$d</string>
+    <string name="due_filter_sheet_title">Filter the work list</string>
+    <string name="due_filter_done">Show results</string>
+    <string name="due_filter_remove">Remove filter %1$s</string>
     <string name="due_filter_deck">Deck</string>
     <string name="due_filter_zone">Zone</string>
     <string name="due_filter_category">Category</string>
@@ -29,12 +41,17 @@
 
     <!-- Survey prep -->
     <string name="due_survey_prep">Survey prep</string>
-    <string name="due_survey_no_expiry">No Safety Equipment Certificate expiry on the vessel record — add one to plan the survey.</string>
+    <string name="due_survey_mode">Survey prep</string>
+    <string name="due_survey_exit">Leave survey prep</string>
+    <string name="due_survey_no_expiry_title">No certificate expiry</string>
+    <string name="due_survey_no_expiry">Add the Safety Equipment Certificate expiry to the vessel record and the survey workload is worked out for you.</string>
     <string name="due_survey_expiry">SEC expires %1$s · %2$d days</string>
     <string name="due_survey_ship_staff">Ship\'s staff can do</string>
-    <string name="due_survey_shore">Needs shore provider / manufacturer</string>
+    <string name="due_survey_shore">Needs shore provider</string>
+    <string name="due_survey_shore_hint">Only an authorised service provider, the maker or an attending surveyor may sign these off — order them before the port call.</string>
     <string name="due_survey_shopping">Shore-service shopping list</string>
     <string name="due_survey_count">× %1$d</string>
+    <string name="due_survey_nothing_title">Survey is covered</string>
     <string name="due_survey_nothing">Nothing falls due before the certificate expires.</string>
 
     <!-- Actions -->
@@ -51,13 +68,12 @@
 
     <!-- Completion dialog -->
     <string name="due_complete_title">Mark done</string>
-    <string name="due_complete_date">Date completed (YYYY-MM-DD)</string>
+    <string name="due_complete_date">Date completed</string>
     <string name="due_complete_by">Completed by</string>
     <string name="due_complete_provider">Service provider</string>
     <string name="due_complete_certificate">Certificate / report no.</string>
     <string name="due_complete_findings">Findings</string>
     <string name="due_complete_condition">Condition after</string>
-    <string name="due_complete_bad_date">Use the form YYYY-MM-DD.</string>
 
     <!-- Defer dialog -->
     <string name="due_defer_title">Defer with reason</string>
@@ -66,7 +82,8 @@
 
     <!-- Rounds -->
     <string name="rounds_title">Rounds</string>
-    <string name="rounds_empty">No rounds recorded yet. Start one from a template.</string>
+    <string name="rounds_empty_title">No rounds yet</string>
+    <string name="rounds_empty">A round walks you through one deck\'s items, one grade per item.</string>
     <string name="rounds_start">Start round</string>
     <string name="rounds_pick_template">Pick a round template</string>
     <string name="rounds_no_templates">No round templates are available yet.</string>
@@ -87,21 +104,25 @@
     <string name="round_run_all_checked">Every item is checked. Finish the round to record it.</string>
     <string name="round_run_previous">Previous</string>
     <string name="round_run_condition">Condition</string>
-    <string name="round_run_empty">This round has no items.</string>
+    <string name="round_run_empty_title">Empty round</string>
+    <string name="round_run_empty">This round has no items. Start another template from the round list.</string>
     <string name="round_run_checked">Checked</string>
 
     <!-- Deficiencies -->
     <string name="deficiencies_title">Deficiencies</string>
+    <string name="deficiencies_edit_title">Edit deficiency</string>
     <string name="deficiencies_tab_open">Open</string>
     <string name="deficiencies_tab_closed">Closed</string>
-    <string name="deficiencies_empty_open">No open deficiencies.</string>
-    <string name="deficiencies_empty_closed">No closed deficiencies.</string>
+    <string name="deficiencies_empty_open_title">No open deficiencies</string>
+    <string name="deficiencies_empty_open">Raise one the moment you find something, so it is on the record before the surveyor asks.</string>
+    <string name="deficiencies_empty_closed_title">Nothing closed yet</string>
+    <string name="deficiencies_empty_closed">Deficiencies you close appear here with who closed them and when.</string>
     <string name="deficiencies_new">Raise deficiency</string>
     <string name="deficiency_field_title">Title</string>
     <string name="deficiency_field_description">Description</string>
     <string name="deficiency_field_severity">Severity</string>
     <string name="deficiency_field_corrective">Corrective action</string>
-    <string name="deficiency_field_target">Target date (YYYY-MM-DD)</string>
+    <string name="deficiency_field_target">Target date</string>
     <string name="deficiency_field_raised_by">Raised by</string>
     <string name="deficiency_field_closed_by">Closed by</string>
     <string name="deficiency_field_spare">Spare part required</string>
@@ -148,6 +169,9 @@
     <string name="insp_action_save">Save</string>
     <string name="insp_action_back">Back</string>
     <string name="insp_action_none">None</string>
+    <string name="insp_date_pick">Pick a date</string>
+    <string name="insp_date_clear">Clear the date</string>
+    <string name="insp_date_ok">OK</string>
 
     <!-- Plaintext export -->
     <string name="insp_export_header">DeckWatch — Due list</string>

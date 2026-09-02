@@ -1,70 +1,50 @@
 package com.deckwatch.app
 
 import android.app.Application
-import android.util.Log
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import com.deckwatch.app.reminders.ReminderScheduler
-import com.deckwatch.app.reminders.Reminders
-import com.deckwatch.core.datastore.UserPreferencesRepository
-import com.deckwatch.data.repository.ContentSeeder
 import dagger.hilt.android.HiltAndroidApp
 import java.util.Locale
 import javax.inject.Inject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
 
+/**
+ * The application object — and, deliberately, almost nothing else.
+ *
+ * ### Why it implements [Configuration.Provider]
+ *
+ * `DueRecomputeWorker` (§11.2) and the reminder workers (§11.3) are `@HiltWorker`s: their
+ * dependencies are injected, so WorkManager must build them through a [HiltWorkerFactory] rather
+ * than by calling their constructors reflectively. That means WorkManager has to be initialised
+ * **on demand, with this configuration** instead of by the default `androidx.startup` provider —
+ * which is why `AndroidManifest.xml` removes `WorkManagerInitializer` from the startup provider.
+ * The two changes go together: remove the initialiser without this interface and the first
+ * `WorkManager.getInstance` throws; implement the interface without removing the initialiser and
+ * the default configuration wins, the factory is never consulted, and the worker fails at 03:00
+ * with `Could not instantiate`.
+ *
+ * ### Nothing blocking in `onCreate`
+ *
+ * The only work here is setting the default locale, which is a field write. §17.3 budgets 1.5 s for
+ * a cold start, and every millisecond spent here is spent before the first frame can even be
+ * measured. Seeding, the due recomputation, the notification channels and the work schedules all
+ * belong to [AppStartup], which the activity's view model kicks off in a coroutine once there is a
+ * UI to show progress in.
+ */
 @HiltAndroidApp
 class DeckWatchApplication : Application(), Configuration.Provider {
 
     @Inject
-    lateinit var contentSeeder: ContentSeeder
-
-    @Inject
-    lateinit var preferences: UserPreferencesRepository
-
-    @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
-    /**
-     * WorkManager is initialised on demand from here rather than by its default content provider,
-     * which is what lets the reminder workers take repositories through Hilt.
-     */
     override val workManagerConfiguration: Configuration
-        get() = Configuration.Builder().setWorkerFactory(workerFactory).build()
-
-    /**
-     * Application-scoped: the import must finish even if the activity that started it goes away,
-     * and there is nothing to cancel it back to — the process ending is the cancellation.
-     */
-    private val appScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+        get() = Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .build()
 
     override fun onCreate() {
         super.onCreate()
-        // Work that runs without an activity — the content import and the reminder workers —
-        // formats dates and text in the app's language too.
+        // Work that runs without an activity — the reminder workers — formats dates and text in
+        // the app's language too. A field write, so it does not cost the cold-start budget.
         Locale.setDefault(AppLocale.current)
-        Reminders.createChannels(this)
-        appScope.launch {
-            runCatching { contentSeeder.seedIfNeeded() }
-                .onFailure { Log.e(TAG, "Bundled content import failed", it) }
-            // Re-arm on every launch: WorkManager loses its queue when the app is force-stopped or
-            // reinstalled, and the officer should not have to touch settings to get it back.
-            runCatching {
-                val prefs = preferences.get()
-                ReminderScheduler.apply(
-                    context = this@DeckWatchApplication,
-                    enabled = prefs.notificationsEnabled,
-                    hour = prefs.notificationHour,
-                    minute = prefs.notificationMinute,
-                )
-            }.onFailure { Log.e(TAG, "Reminder scheduling failed", it) }
-        }
-    }
-
-    private companion object {
-        const val TAG = "DeckWatch"
     }
 }

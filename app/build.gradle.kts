@@ -15,6 +15,12 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildFeatures {
+        // Settings → About shows the installed version (§17.6); BuildConfig.VERSION_NAME is the
+        // one place that value exists without asking the package manager at runtime.
+        buildConfig = true
+    }
+
     signingConfigs {
         create("release") {
             val ksPath = System.getenv("KEYSTORE_PATH")
@@ -39,9 +45,23 @@ android {
         }
     }
 
-    // One APK, every ABI. Per-ABI splits would shave a few MB off a sideloaded download, at the
-    // cost of four files an officer has to choose between — and the wrong choice installs and then
-    // fails on SQLCipher's native library. The Play bundle still splits per device on its own.
+    // Per-ABI splits shave a few MB off a sideloaded download. The universal APK is still built,
+    // so an officer who picks wrong is not left with an install that fails on SQLCipher's native
+    // library, and Play derives its own per-device splits from the bundle regardless.
+    //
+    // ABI splits and resource shrinking cannot be bundled in one AGP run (the
+    // pre-bundle step expects a single shrunk-resources file). The AAB is
+    // built with `-Pdeckwatch.noSplits`; Play derives its own splits from it.
+    val abiSplitsEnabled = !providers.gradleProperty("deckwatch.noSplits").isPresent
+
+    splits {
+        abi {
+            isEnable = abiSplitsEnabled
+            reset()
+            include("arm64-v8a", "armeabi-v7a", "x86_64")
+            isUniversalApk = true
+        }
+    }
 
     packaging {
         resources.excludes += "/META-INF/{AL2.0,LGPL2.1}"

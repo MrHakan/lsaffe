@@ -1,7 +1,6 @@
 package com.deckwatch.feature.vessel.category
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,10 +14,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Label
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.AssistChip
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -41,24 +42,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.deckwatch.core.designsystem.components.ConfirmDialog
+import com.deckwatch.core.designsystem.components.DeckWatchListRow
+import com.deckwatch.core.designsystem.components.DeckWatchTopBar
+import com.deckwatch.core.designsystem.components.EmptyState
 import com.deckwatch.core.designsystem.theme.DeckWatchTheme
 import com.deckwatch.core.designsystem.theme.Dimens
 import com.deckwatch.core.model.Category
 import com.deckwatch.feature.vessel.R
-import com.deckwatch.feature.vessel.common.ConfirmDialog
 import com.deckwatch.feature.vessel.common.SwatchRow
 import com.deckwatch.feature.vessel.common.Swatches
-import com.deckwatch.feature.vessel.common.TeachingEmptyState
-import com.deckwatch.feature.vessel.common.VesselTopBar
+import com.deckwatch.feature.vessel.common.requiredLabel
 
 /**
  * CRUD over the logical categories of §6.4. A null [vesselId] resolves to the active vessel; a
  * category can be scoped to that vessel or made global.
+ *
+ * One primary action (DESIGN_OVERHAUL rule 1): the "Add category" FAB.
  */
 @Composable
 fun CategoryManagerScreen(
@@ -104,8 +108,9 @@ fun CategoryManagerScreen(
         val name = state.categories.firstOrNull { it.id == pending }?.name.orEmpty()
         ConfirmDialog(
             title = stringResource(R.string.category_manager_delete_title),
-            message = stringResource(R.string.category_manager_delete_message, name),
+            body = stringResource(R.string.category_manager_delete_message, name),
             confirmLabel = stringResource(R.string.vessel_action_delete),
+            cancelLabel = stringResource(R.string.vessel_action_cancel),
             onConfirm = { viewModel.confirmDelete(pending) },
             onDismiss = viewModel::cancelDelete,
         )
@@ -124,9 +129,11 @@ internal fun CategoryManagerContent(
     Surface(modifier = modifier.fillMaxSize()) {
         Scaffold(
             topBar = {
-                VesselTopBar(
+                DeckWatchTopBar(
                     title = stringResource(R.string.category_manager_title),
+                    subtitle = state.vessel?.name,
                     onBack = onBack,
+                    backContentDescription = stringResource(R.string.vessel_cd_back),
                 )
             },
             floatingActionButton = {
@@ -139,8 +146,10 @@ internal fun CategoryManagerContent(
             },
         ) { padding ->
             if (state.isEmpty) {
-                TeachingEmptyState(
-                    message = stringResource(R.string.category_manager_empty_message),
+                EmptyState(
+                    icon = Icons.AutoMirrored.Filled.Label,
+                    title = stringResource(R.string.category_manager_empty_title),
+                    body = stringResource(R.string.category_manager_empty_message),
                     actionLabel = stringResource(R.string.category_manager_add),
                     onAction = onAdd,
                     modifier = Modifier.padding(padding),
@@ -167,49 +176,57 @@ private fun CategoryRowItem(
     onEdit: () -> Unit,
     onDelete: () -> Unit,
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = Dimens.ListRowCompact)
-            .clickable(onClick = onEdit)
-            .padding(horizontal = Dimens.SpacingL, vertical = Dimens.SpacingS),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingM),
-    ) {
-        Box(
-            modifier = Modifier
-                .size(CATEGORY_DOT)
-                .clip(CircleShape)
-                .background(Color(category.colorArgb)),
-        )
-        Text(
-            text = category.name,
-            style = MaterialTheme.typography.titleMedium,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.weight(1f),
-        )
-        AssistChip(
-            onClick = onEdit,
-            label = {
-                Text(
-                    stringResource(
-                        if (category.vesselId == null) {
-                            R.string.category_scope_global
-                        } else {
-                            R.string.category_scope_vessel
-                        },
-                    ),
-                )
-            },
-        )
-        IconButton(onClick = onDelete, modifier = Modifier.size(Dimens.TouchTargetMin)) {
-            Icon(
-                imageVector = Icons.Filled.Delete,
-                contentDescription = stringResource(R.string.vessel_action_delete),
+    var menuOpen by remember { mutableStateOf(false) }
+    DeckWatchListRow(
+        title = category.name,
+        subtitle = categorySubtitle(category),
+        onClick = onEdit,
+        leading = {
+            Box(
+                modifier = Modifier
+                    .size(CATEGORY_DOT)
+                    .clip(CircleShape)
+                    .background(Color(category.colorArgb)),
             )
-        }
-    }
+        },
+        trailing = {
+            Box {
+                IconButton(onClick = { menuOpen = true }, modifier = Modifier.size(Dimens.TouchTargetMin)) {
+                    Icon(
+                        imageVector = Icons.Filled.MoreVert,
+                        contentDescription = stringResource(R.string.vessel_cd_more_actions),
+                    )
+                }
+                DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
+                    DropdownMenuItem(
+                        text = { Text(stringResource(R.string.vessel_action_edit)) },
+                        onClick = {
+                            menuOpen = false
+                            onEdit()
+                        },
+                        modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
+                    )
+                    DropdownMenuItem(
+                        text = { Text(stringResource(R.string.vessel_action_delete)) },
+                        onClick = {
+                            menuOpen = false
+                            onDelete()
+                        },
+                        modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
+                    )
+                }
+            }
+        },
+    )
+}
+
+/** "Global · Amber" — the scope in words, and the swatch named so colour is not the only signal. */
+@Composable
+private fun categorySubtitle(category: Category): String {
+    val scope = stringResource(
+        if (category.vesselId == null) R.string.category_scope_global else R.string.category_scope_vessel,
+    )
+    return scope + SEPARATOR + stringResource(Swatches.of(category.colorArgb).labelRes)
 }
 
 @Composable
@@ -224,7 +241,6 @@ internal fun CategoryEditDialog(
     var isGlobal by remember(category) {
         mutableStateOf(category?.vesselId == null || !canScopeToVessel)
     }
-    var showNameError by remember(category) { mutableStateOf(false) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -243,22 +259,20 @@ internal fun CategoryEditDialog(
             Column(verticalArrangement = Arrangement.spacedBy(Dimens.SpacingS)) {
                 OutlinedTextField(
                     value = name,
-                    onValueChange = {
-                        name = it
-                        showNameError = false
-                    },
-                    label = { Text(stringResource(R.string.category_edit_name)) },
-                    isError = showNameError,
+                    onValueChange = { name = it },
+                    label = { Text(requiredLabel(R.string.category_edit_name)) },
                     singleLine = true,
                     supportingText = {
-                        if (showNameError) {
+                        if (name.isBlank()) {
                             Text(
                                 text = stringResource(R.string.category_edit_name_required),
-                                color = MaterialTheme.colorScheme.error,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         }
                     },
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(min = Dimens.TouchTargetPrimary),
                 )
                 Text(
                     text = stringResource(R.string.category_edit_colour),
@@ -293,19 +307,16 @@ internal fun CategoryEditDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    if (name.isBlank()) {
-                        showNameError = true
-                    } else {
-                        onSave(
-                            CategoryDraft(
-                                id = category?.id,
-                                name = name,
-                                colorArgb = colour,
-                                isGlobal = isGlobal,
-                            ),
-                        )
-                    }
+                    onSave(
+                        CategoryDraft(
+                            id = category?.id,
+                            name = name,
+                            colorArgb = colour,
+                            isGlobal = isGlobal,
+                        ),
+                    )
                 },
+                enabled = name.isNotBlank(),
                 modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
             ) {
                 Text(stringResource(R.string.vessel_action_save))
@@ -320,6 +331,7 @@ internal fun CategoryEditDialog(
 }
 
 private val CATEGORY_DOT = 16.dp
+private const val SEPARATOR = " · "
 
 @Preview
 @Composable

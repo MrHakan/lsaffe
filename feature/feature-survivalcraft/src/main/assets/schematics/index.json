@@ -1,0 +1,11 @@
+{
+  "files": [
+    "schematics/lifeboat.json",
+    "schematics/liferaft.json",
+    "schematics/rescue_boat.json",
+    "schematics/fixed_co2.json",
+    "schematics/scba.json",
+    "schematics/firemans_outfit.json",
+    "schematics/generic.json"
+  ]
+}

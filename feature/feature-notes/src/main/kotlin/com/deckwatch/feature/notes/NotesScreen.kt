@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.WarningAmber
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.HorizontalDivider
@@ -26,6 +27,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -35,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.deckwatch.core.designsystem.components.DeckWatchTopBar
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.deckwatch.core.designsystem.theme.ConditionColors
@@ -46,11 +49,18 @@ import com.deckwatch.feature.notes.equipment.EquipmentTypeDetailScreen
 /**
  * Tab 1 — the regulatory notebook (§8).
  *
- * Entry point for the whole tab. It owns the tab chrome (header, first-entry disclaimer banner,
- * permanent footer disclaimer — §8.5) and a one-level internal navigation stack; each destination
- * has its own `@HiltViewModel`.
+ * Entry point for the whole tab. It owns the tab chrome (the shared [DeckWatchTopBar], the
+ * first-entry disclaimer banner and the permanent footer disclaimer — §8.5) and a one-level
+ * internal navigation stack; each destination has its own `@HiltViewModel`.
  *
  * Callable with no arguments: the app shell calls `NotesScreen()`.
+ *
+ * ### Chrome — DESIGN_OVERHAUL rule 2
+ *
+ * One title line, a back button on every destination below Home, and at most two actions: the
+ * interval quick reference (§8.3) and "search", which puts the cursor in the Home search field
+ * rather than opening a second search surface (rule 9 — the field is already the first thing on
+ * the screen; the action is for the officer who scrolled past it).
  *
  * @param onShowEquipmentForCard invoked with a card's `appliesToTypeKeys` when the officer asks to
  *   see their own equipment of those types (§8.2). Wired to the Vessel tab later.
@@ -78,16 +88,30 @@ fun NotesScreen(
     val push: (NotesDestination) -> Unit = { backStack.add(it) }
     val pop: () -> Unit = { if (backStack.isNotEmpty()) backStack.removeAt(backStack.lastIndex) }
     var openCardRefKey by rememberSaveable { mutableStateOf<String?>(null) }
+    var openCardWithComposer by rememberSaveable { mutableStateOf(false) }
     var disclaimerAcknowledged by rememberSaveable { mutableStateOf(false) }
+
+    // Bumped by the top bar's search action; the Home screen focuses its field on every change.
+    var focusSearchSignal by rememberSaveable { mutableIntStateOf(0) }
 
     BackHandler(enabled = backStack.isNotEmpty(), onBack = pop)
 
     Column(modifier = modifier.fillMaxSize()) {
-        NotesHeader(
+        DeckWatchTopBar(
             title = headerTitle(destination),
             onBack = pop.takeIf { backStack.isNotEmpty() },
+            backContentDescription = stringResource(R.string.notes_action_back),
             actions = {
                 if (destination == NotesDestination.Home) {
+                    IconButton(
+                        onClick = { focusSearchSignal++ },
+                        modifier = Modifier.size(Dimens.TouchTargetMin),
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Search,
+                            contentDescription = stringResource(R.string.notes_action_search),
+                        )
+                    }
                     IconButton(
                         onClick = { push(NotesDestination.Intervals) },
                         modifier = Modifier.size(Dimens.TouchTargetMin),
@@ -114,12 +138,19 @@ fun NotesScreen(
             when (val current = destination) {
                 NotesDestination.Home -> NotesHomeScreen(
                     onSectionClick = { section -> push(NotesDestination.Section(section)) },
-                    onCardClick = { refKey -> openCardRefKey = refKey },
+                    onCardClick = { refKey ->
+                        openCardRefKey = refKey
+                        openCardWithComposer = false
+                    },
                     onEquipmentGuideClick = { push(NotesDestination.Equipment()) },
+                    focusSearchSignal = focusSearchSignal,
                 )
 
                 NotesDestination.Intervals -> IntervalMatrixScreen(
-                    onCardClick = { refKey -> openCardRefKey = refKey },
+                    onCardClick = { refKey ->
+                        openCardRefKey = refKey
+                        openCardWithComposer = false
+                    },
                 )
 
                 is NotesDestination.Equipment -> EquipmentGuideScreen(
@@ -135,12 +166,22 @@ fun NotesScreen(
 
                 is NotesDestination.Section -> when (current.section) {
                     RegulationSection.MY_NOTES -> MyNotesScreen(
-                        onCardClick = { refKey -> openCardRefKey = refKey },
+                        onCardClick = { refKey ->
+                            openCardRefKey = refKey
+                            openCardWithComposer = false
+                        },
                     )
 
                     else -> SectionListScreen(
                         section = current.section,
-                        onCardClick = { refKey -> openCardRefKey = refKey },
+                        onCardClick = { refKey ->
+                            openCardRefKey = refKey
+                            openCardWithComposer = false
+                        },
+                        onAddNoteForCard = { refKey ->
+                            openCardRefKey = refKey
+                            openCardWithComposer = true
+                        },
                         onShowEquipmentForCard = onShowEquipmentForCard,
                         onFavouriteToggled = onFavouriteToggled,
                         // LSA and FFE are also catalogue groups, so those two sections offer the
@@ -169,7 +210,11 @@ fun NotesScreen(
     openCardRefKey?.let { refKey ->
         CardDetailDialog(
             refKey = refKey,
-            onDismiss = { openCardRefKey = null },
+            onDismiss = {
+                openCardRefKey = null
+                openCardWithComposer = false
+            },
+            startWithComposer = openCardWithComposer,
             onShowEquipmentForCard = onShowEquipmentForCard,
         )
     }
@@ -282,7 +327,7 @@ private fun NotesFooterDisclaimer(onDismiss: () -> Unit, modifier: Modifier = Mo
     }
 }
 
-/** Kept out of the shared [NotesComponents] file: only the banner uses these. */
+/** Kept out of the shared [NotesComponents] file: only the banner and the footer use these. */
 private const val BannerTintAlpha = 0.16f
 private val BannerIconSize = 20.dp
 

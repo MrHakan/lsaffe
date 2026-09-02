@@ -7,6 +7,10 @@ android {
 }
 
 dependencies {
+    // The teaching empty states of DESIGN_OVERHAUL rule 7 need a vessel, a deck stack, a zone and
+    // a category icon — none of which are in the material-icons-core set.
+    implementation(libs.androidx.compose.material.icons.extended)
+
     // Compose screens are verified on the JVM through Robolectric: this project's emulator suite
     // is informational (see ci.yml), so a screen's wiring has to be provable without a device.
     //

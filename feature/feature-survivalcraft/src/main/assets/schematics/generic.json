@@ -1,0 +1,10 @@
+{
+  "key": "GENERIC_COMPONENTS",
+  "appliesToTypeKeys": [],
+  "titleEn": "Components",
+  "titleTr": "Bileşenler",
+  "aspect": 2.4,
+  "panels": ["COMPONENTS", "TASKS"],
+  "shapes": [],
+  "hotspots": []
+}

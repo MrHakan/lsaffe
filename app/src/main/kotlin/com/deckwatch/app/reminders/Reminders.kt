@@ -39,6 +39,16 @@ object Reminders {
     private const val REQUEST_CODE_OPEN = 0
 
     /**
+     * Intent extra naming the tab to open — §11.3's "tapping opens the Due tab pre-filtered".
+     *
+     * Only the digest carries it. A per-item reminder deliberately does not: it names one piece of
+     * equipment, and dropping the officer on a cross-vessel work list would be a worse answer than
+     * the app's own last screen.
+     */
+    const val EXTRA_OPEN_TAB: String = "com.deckwatch.extra.OPEN_TAB"
+    const val TAB_DUE: String = "due"
+
+    /**
      * Creates the channels. Safe to call repeatedly — Android treats a second create of the same id
      * as a no-op and, importantly, will not override a volume or importance the officer has changed.
      */
@@ -91,7 +101,14 @@ object Reminders {
                 digest.thisWeek,
             )
         }
-        post(context, CHANNEL_DUE, NOTIFICATION_ID_DIGEST, context.getString(R.string.notif_due_title), text)
+        post(
+            context = context,
+            channelId = CHANNEL_DUE,
+            notificationId = NOTIFICATION_ID_DIGEST,
+            title = context.getString(R.string.notif_due_title),
+            text = text,
+            openTab = TAB_DUE,
+        )
     }
 
     /** Posts a one-off reminder the officer set against a single item. */
@@ -106,13 +123,22 @@ object Reminders {
         )
     }
 
-    private fun post(context: Context, channelId: String, notificationId: Int, title: String, text: String) {
+    private fun post(
+        context: Context,
+        channelId: String,
+        notificationId: Int,
+        title: String,
+        text: String,
+        openTab: String? = null,
+    ) {
         createChannels(context)
+        val intent = Intent(context, MainActivity::class.java)
+            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            .apply { openTab?.let { putExtra(EXTRA_OPEN_TAB, it) } }
         val open = PendingIntent.getActivity(
             context,
             REQUEST_CODE_OPEN,
-            Intent(context, MainActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP),
+            intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
         )
         val notification = NotificationCompat.Builder(context, channelId)

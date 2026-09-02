@@ -1,5 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="deckview_title">Vessel</string>
+    <string name="deckview_empty_hint">Add your first deck to get started.</string>
+
+    <!-- §7.1 view modes -->
+    <string name="deckview_mode_stack">Stack</string>
+    <string name="deckview_mode_deck">Deck</string>
+    <string name="deckview_mode_list">List</string>
+    <string name="deckview_view_flat">Flat plan</string>
+    <string name="deckview_view_isometric">Isometric</string>
+
+    <!-- §7.2 view settings -->
+    <string name="deckview_view_settings">View settings</string>
+    <string name="deckview_spread_label">Deck spread</string>
+    <string name="deckview_spread_value">%1$.1f×</string>
+    <string name="deckview_angle_label">Isometric angle</string>
+    <string name="deckview_angle_value">%1$d°</string>
+    <string name="deckview_show_grid">Show grid</string>
+    <string name="deckview_grid_snap">Snap to grid</string>
+
+    <!-- Top bar -->
+    <string name="deckview_more_actions">More actions</string>
+    <string name="deckview_manage_decks">Manage decks</string>
+    <string name="deckview_add_equipment">Add equipment</string>
+
+    <!-- §7.3 sweep mode -->
+    <string name="deckview_sweep_start">Start sweep</string>
+    <string name="deckview_sweep_stop">Finish sweep</string>
+    <string name="deckview_sweep_round_title">Sweep — %1$s</string>
+
+    <!-- Empty states (§14) -->
+    <string name="deckview_no_vessel_title">No vessel yet</string>
+    <string name="deckview_no_vessel_body">Create the ship you are on, then build it deck by deck.</string>
+    <string name="deckview_create_vessel">Add a vessel</string>
+    <string name="deckview_no_decks_title">Add your first deck</string>
+
+    <!-- Accessibility (§14) -->
+    <string name="deckview_a11y_deck">%1$s, %2$d items, %3$d overdue</string>
+    <string name="deckview_a11y_focus_deck">Go to this deck</string>
+    <string name="deckview_a11y_marker">%1$s %2$s, condition %3$s, next due %4$s</string>
+    <string name="deckview_a11y_no_due_date">no due date</string>
+    <string name="deckview_a11y_open_equipment">Open equipment</string>
+
+    <!-- Condition names, for the marker announcements -->
+    <string name="deckview_condition_good">Good</string>
+    <string name="deckview_condition_acceptable">Acceptable</string>
+    <string name="deckview_condition_monitor">Monitor</string>
+    <string name="deckview_condition_defective">Defective</string>
+    <string name="deckview_condition_out_of_service">Out of service</string>
+    <string name="deckview_condition_not_checked">Not checked</string>
     <string name="vessel_tab_add_equipment">Add equipment</string>
     <string name="vessel_tab_menu">Vessel menu</string>
     <string name="vessel_tab_manage_vessels">Vessels</string>

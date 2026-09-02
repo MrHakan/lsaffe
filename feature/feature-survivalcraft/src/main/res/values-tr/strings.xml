@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- chrome -->
+    <string name="sc_back">Geri</string>
+    <string name="sc_loading">Yükleniyor…</string>
+    <string name="sc_not_found_title">Bu araç kayıtta bulunamadı</string>
+    <string name="sc_not_found_body">Silinmiş ya da henüz oluşturulmamış. Geri dönüp başka bir kayıt seçin.</string>
+    <string name="sc_ok">Tamam</string>
+    <string name="sc_save">Kaydet</string>
+    <string name="sc_cancel">Vazgeç</string>
+    <string name="sc_not_set">—</string>
+    <string name="sc_date_pick">Tarih seç</string>
+    <string name="sc_date_clear">Tarihi temizle</string>
+
+    <!-- panels -->
+    <string name="sc_tab_components">Bileşenler</string>
+    <string name="sc_tab_inventory">Zimmet listesi</string>
+    <string name="sc_tab_tasks">Görevler</string>
+    <string name="sc_tab_drill">Role talimleri</string>
+
+    <!-- hotspots -->
+    <string name="sc_hotspot_cd">%1$s, %2$s, durum %3$s</string>
+    <string name="sc_hotspot_add_cd">%1$s — henüz kayıtlı değil, eklemek için dokunun</string>
+
+    <!-- due dates -->
+    <string name="sc_due_none">Termin yok</string>
+    <string name="sc_due_today">Bugün</string>
+    <string name="sc_due_late">%1$d gün gecikmiş</string>
+    <string name="sc_due_in">%1$d gün sonra</string>
+
+    <!-- condition -->
+    <string name="sc_condition_good">İyi</string>
+    <string name="sc_condition_acceptable">Kabul edilebilir</string>
+    <string name="sc_condition_monitor">İzlenmeli</string>
+    <string name="sc_condition_defective">Arızalı</string>
+    <string name="sc_condition_out_of_service">Hizmet dışı</string>
+    <string name="sc_condition_not_checked">Kontrol edilmedi</string>
+
+    <!-- components panel -->
+    <string name="sc_components_empty_title">Henüz alt bileşen yok</string>
+    <string name="sc_components_empty_body">Yük altında bırakma kancası, tel halat, vinç ve motor bu aracın altında ayrı birer kayıt olarak tutulur. Çizim üzerindeki bir noktaya dokunun ya da buradan ekleyin.</string>
+    <string name="sc_add_component">Bileşen ekle</string>
+
+    <!-- inventory panel -->
+    <string name="sc_inventory_caveat">Genel liste — kullanmadan önce LSA Kod Bölüm IV ve geminin onaylı zimmet listesi ile doğrulayın.</string>
+    <string name="sc_inventory_empty_title">Zimmet listesi yok</string>
+    <string name="sc_inventory_empty_body">Bu ekipman tipinde filika zimmet listesi bulunmaz.</string>
+    <string name="sc_inventory_expiries">Zimmet son kullanma tarihleri</string>
+    <string name="sc_inventory_none_tracked">Henüz tarihli malzeme kaydedilmedi.</string>
+    <string name="sc_inventory_expired">%1$d malzemenin süresi dolmuş</string>
+    <string name="sc_inventory_due_soon">%1$d malzemenin süresi 30 gün içinde doluyor</string>
+    <string name="sc_inventory_all_in_date">Tarihli %1$d malzemenin tamamı geçerli</string>
+    <string name="sc_inventory_soonest">En yakın %1$s</string>
+    <string name="sc_inventory_required">Gerekli: %1$d</string>
+    <string name="sc_inventory_quantity">Adet</string>
+    <string name="sc_inventory_expiry">Son kullanma</string>
+    <string name="sc_inventory_add_row">Tüp satırı ekle</string>
+    <string name="sc_inventory_new_row">Tüp</string>
+    <string name="sc_inventory_remove">Satırı sil</string>
+
+    <!-- LSA Kod Bölüm IV malzeme adları (genel) -->
+    <string name="sc_inv_buoyant_oars">Yüzer kürekler</string>
+    <string name="sc_inv_boat_hook">Bot kancası</string>
+    <string name="sc_inv_bailer">Su boşaltma kabı</string>
+    <string name="sc_inv_buckets">Kovalar</string>
+    <string name="sc_inv_sea_anchor">Deniz demiri</string>
+    <string name="sc_inv_painter">Pruva halatı</string>
+    <string name="sc_inv_hatchet">Balta</string>
+    <string name="sc_inv_torch">Su geçirmez el feneri</string>
+    <string name="sc_inv_signalling_mirror">İşaret aynası</string>
+    <string name="sc_inv_whistle">Düdük</string>
+    <string name="sc_inv_first_aid_kit">İlk yardım çantası</string>
+    <string name="sc_inv_seasickness_bag">Deniz tutması torbaları</string>
+    <string name="sc_inv_jack_knife">Çakı</string>
+    <string name="sc_inv_fishing_tackle">Balık avlama takımı</string>
+    <string name="sc_inv_rations">Acil durum erzakı</string>
+    <string name="sc_inv_water">İçme suyu</string>
+    <string name="sc_inv_dipper">Paslanmaz su tası</string>
+    <string name="sc_inv_graduated_cup">Dereceli ölçü kabı</string>
+    <string name="sc_inv_rocket_parachute_flares">Paraşütlü işaret fişekleri</string>
+    <string name="sc_inv_hand_flares">El işaret fişekleri</string>
+    <string name="sc_inv_buoyant_smoke_signals">Yüzer duman kandilleri</string>
+    <string name="sc_inv_manual_pump">El pompası</string>
+    <string name="sc_inv_repair_kit">Tamir takımı</string>
+    <string name="sc_inv_fire_extinguisher">Yangın söndürücü</string>
+    <string name="sc_inv_searchlight">Projektör</string>
+    <string name="sc_inv_radar_reflector">Radar reflektörü</string>
+    <string name="sc_inv_thermal_protective_aids">Termal koruyucu giysiler</string>
+    <string name="sc_inv_immersion_suits">Dalma elbiseleri</string>
+    <string name="sc_inv_survival_instructions">Hayatta kalma talimatları</string>
+    <string name="sc_inv_compass">Pusula</string>
+    <string name="sc_inv_rescue_quoit">Atma halatlı kurtarma halkası</string>
+    <string name="sc_inv_knife">Emniyet bıçağı</string>
+    <string name="sc_inv_sponges">Süngerler</string>
+    <string name="sc_inv_paddles">Kısa kürekler</string>
+    <string name="sc_inv_tin_opener">Konserve açacakları</string>
+
+    <!-- tasks panel -->
+    <string name="sc_group_weekly">Haftalık</string>
+    <string name="sc_group_monthly">Aylık</string>
+    <string name="sc_group_annual">Yıllık</string>
+    <string name="sc_group_five_yearly">Beş yıllık ve üzeri</string>
+    <string name="sc_group_other">Diğer ve olaya bağlı</string>
+    <string name="sc_tasks_empty_title">Planlı görev yok</string>
+    <string name="sc_tasks_empty_body">Termin motoru bu kayıt için çalıştığında görevler burada görünür.</string>
+    <string name="sc_task_due">Termin %1$s</string>
+    <string name="sc_task_provider">Yetkili servis</string>
+    <string name="sc_task_pending">Bekliyor</string>
+    <string name="sc_task_due_soon">Yaklaşıyor</string>
+    <string name="sc_task_overdue">Gecikmiş</string>
+    <string name="sc_task_done">Tamamlandı</string>
+    <string name="sc_task_skipped">Atlandı</string>
+    <string name="sc_task_not_applicable">Uygulanmaz</string>
+    <string name="sc_completed_date">Tamamlanma tarihi</string>
+    <string name="sc_completed_by">Yapan</string>
+    <string name="sc_service_provider">Yetkili servis</string>
+    <string name="sc_provider_hint">Bu görev yetkili servis tarafından imzalanmalıdır.</string>
+    <string name="sc_certificate_number">Sertifika numarası</string>
+    <string name="sc_findings">Bulgular</string>
+
+    <!-- drill log -->
+    <string name="sc_drill_record">Role talimi kaydet</string>
+    <string name="sc_drill_title_default">Can kurtarma aracı role talimi</string>
+    <string name="sc_drill_days_since_launch">Son denize indirmeden bu yana geçen gün</string>
+    <string name="sc_drill_never_launched">Hiç denize indirilmedi</string>
+    <string name="sc_drill_days">%1$d gün</string>
+    <string name="sc_drill_last">Son talim %1$s</string>
+    <string name="sc_drill_launched">Denize indirildi</string>
+    <string name="sc_drill_not_launched">İndirilmedi</string>
+    <string name="sc_drill_date">Talim tarihi</string>
+    <string name="sc_drill_performed_by">Yapan</string>
+    <string name="sc_drill_launched_switch">Araç denize indirildi</string>
+    <string name="sc_drill_remarks">Açıklamalar</string>
+    <string name="sc_drill_empty_title">Kayıtlı role talimi yok</string>
+    <string name="sc_drill_empty_body">SOLAS III/19 role talimleri burada kaydedilir; son denize indirmeden bu yana geçen gün sayacı ile birlikte.</string>
+
+    <!-- messages -->
+    <string name="sc_msg_inventory_saved">Zimmet listesi kaydedildi</string>
+    <string name="sc_msg_task_logged">Tamamlama kaydedildi</string>
+    <string name="sc_msg_drill_logged">Role talimi kaydedildi</string>
+    <string name="sc_msg_child_linked">Bileşen bu araca bağlandı</string>
+
+</resources>

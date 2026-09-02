@@ -1,0 +1,92 @@
+{
+  "key": "FIXED_CO2",
+  "appliesToTypeKeys": [
+    "FFE_FIXED_CO2_SYSTEM",
+    "FFE_DRY_POWDER_SYSTEM"
+  ],
+  "titleEn": "Fixed gas system — cylinder room",
+  "titleTr": "Sabit gazlı sistem — tüp odası",
+  "aspect": 1.35,
+  "inventoryTemplateKey": "CO2_CYLINDER_RECORD",
+  "panels": ["COMPONENTS", "INVENTORY", "TASKS"],
+  "shapes": [
+    { "kind": "RECT", "points": [0.03, 0.06, 0.97, 0.94], "stroke": "STRUCTURE" },
+
+    { "kind": "RECT", "points": [0.1, 0.42, 0.16, 0.78], "stroke": "OUTLINE", "fill": "PANEL" },
+    { "kind": "ELLIPSE", "points": [0.13, 0.42, 0.03, 0.035], "stroke": "OUTLINE", "fill": "PANEL" },
+    { "kind": "RECT", "points": [0.19, 0.42, 0.25, 0.78], "stroke": "OUTLINE", "fill": "PANEL" },
+    { "kind": "ELLIPSE", "points": [0.22, 0.42, 0.03, 0.035], "stroke": "OUTLINE", "fill": "PANEL" },
+    { "kind": "RECT", "points": [0.28, 0.42, 0.34, 0.78], "stroke": "OUTLINE", "fill": "PANEL" },
+    { "kind": "ELLIPSE", "points": [0.31, 0.42, 0.03, 0.035], "stroke": "OUTLINE", "fill": "PANEL" },
+    { "kind": "RECT", "points": [0.37, 0.42, 0.43, 0.78], "stroke": "OUTLINE", "fill": "PANEL" },
+    { "kind": "ELLIPSE", "points": [0.4, 0.42, 0.03, 0.035], "stroke": "OUTLINE", "fill": "PANEL" },
+    { "kind": "RECT", "points": [0.46, 0.42, 0.52, 0.78], "stroke": "OUTLINE", "fill": "PANEL" },
+    { "kind": "ELLIPSE", "points": [0.49, 0.42, 0.03, 0.035], "stroke": "OUTLINE", "fill": "PANEL" },
+    { "kind": "RECT", "points": [0.55, 0.42, 0.61, 0.78], "stroke": "OUTLINE", "fill": "PANEL" },
+    { "kind": "ELLIPSE", "points": [0.58, 0.42, 0.03, 0.035], "stroke": "OUTLINE", "fill": "PANEL" },
+
+    { "kind": "POLYLINE", "points": [0.07, 0.8, 0.64, 0.8], "stroke": "STRUCTURE", "weight": 1.3 },
+    { "kind": "POLYLINE", "points": [0.07, 0.56, 0.64, 0.56], "stroke": "STRUCTURE" },
+    { "kind": "POLYLINE", "points": [0.07, 0.56, 0.07, 0.8], "stroke": "STRUCTURE" },
+    { "kind": "POLYLINE", "points": [0.64, 0.56, 0.64, 0.8], "stroke": "STRUCTURE" },
+
+    { "kind": "POLYLINE", "points": [0.1, 0.32, 0.66, 0.32], "stroke": "STRUCTURE", "weight": 1.5 },
+    { "kind": "POLYLINE", "points": [0.13, 0.385, 0.13, 0.325], "stroke": "LINE" },
+    { "kind": "POLYLINE", "points": [0.22, 0.385, 0.22, 0.325], "stroke": "LINE" },
+    { "kind": "POLYLINE", "points": [0.31, 0.385, 0.31, 0.325], "stroke": "LINE" },
+    { "kind": "POLYLINE", "points": [0.4, 0.385, 0.4, 0.325], "stroke": "LINE" },
+    { "kind": "POLYLINE", "points": [0.49, 0.385, 0.49, 0.325], "stroke": "LINE" },
+    { "kind": "POLYLINE", "points": [0.58, 0.385, 0.58, 0.325], "stroke": "LINE" },
+
+    { "kind": "RECT", "points": [0.66, 0.28, 0.8, 0.46], "stroke": "OUTLINE", "fill": "PANEL" },
+    { "kind": "ELLIPSE", "points": [0.7, 0.37, 0.022, 0.022], "stroke": "DETAIL", "fill": "ACCENT" },
+    { "kind": "ELLIPSE", "points": [0.76, 0.37, 0.022, 0.022], "stroke": "DETAIL", "fill": "ACCENT" },
+    { "kind": "POLYLINE", "points": [0.8, 0.34, 0.95, 0.34], "stroke": "LINE" },
+    { "kind": "POLYLINE", "points": [0.8, 0.41, 0.95, 0.41], "stroke": "LINE" },
+
+    { "kind": "RECT", "points": [0.66, 0.6, 0.86, 0.84], "stroke": "OUTLINE", "fill": "PANEL" },
+    { "kind": "POLYLINE", "points": [0.76, 0.6, 0.76, 0.84], "stroke": "DETAIL" },
+    { "kind": "ELLIPSE", "points": [0.71, 0.7, 0.022, 0.022], "stroke": "DETAIL", "fill": "ACCENT" },
+    { "kind": "ELLIPSE", "points": [0.81, 0.7, 0.022, 0.022], "stroke": "DETAIL", "fill": "ACCENT" },
+    { "kind": "POLYLINE", "points": [0.73, 0.6, 0.73, 0.47], "stroke": "LINE", "dashed": true },
+
+    { "kind": "ELLIPSE", "points": [0.9, 0.62, 0.04, 0.04], "stroke": "OUTLINE", "fill": "ACCENT" },
+    { "kind": "POLYLINE", "points": [0.9, 0.66, 0.9, 0.74], "stroke": "DETAIL" },
+    { "kind": "RECT", "points": [0.1, 0.86, 0.32, 0.92], "stroke": "DETAIL" }
+  ],
+  "hotspots": [
+    {
+      "key": "cylinder_bank", "labelEn": "Cylinder bank", "labelTr": "Tüp bataryası",
+      "x": 0.28, "y": 0.62,
+      "childTypeKey": "FFE_CO2_CYLINDER_BANK",
+      "taskKeys": ["FIXED_GAS_CONTENT_CHECK", "CO2_CYLINDER_HYDROSTATIC_SAMPLING"]
+    },
+    {
+      "key": "manifold", "labelEn": "Manifold header", "labelTr": "Manifold kolektörü",
+      "x": 0.36, "y": 0.32, "markerX": 0.36, "markerY": 0.24,
+      "taskKeys": ["FIXED_GAS_CONTENT_CHECK"]
+    },
+    {
+      "key": "flexible_hoses", "labelEn": "Flexible discharge hoses", "labelTr": "Esnek boşaltma hortumları",
+      "x": 0.16, "y": 0.36, "markerX": 0.16, "markerY": 0.24,
+      "taskKeys": ["FIXED_SYSTEM_HOSE_REPLACEMENT"]
+    },
+    {
+      "key": "distribution_valves", "labelEn": "Distribution valves", "labelTr": "Dağıtım vanaları",
+      "x": 0.73, "y": 0.37,
+      "taskKeys": ["FIXED_GAS_CONTENT_CHECK"]
+    },
+    {
+      "key": "release_station", "labelEn": "Release station", "labelTr": "Bırakma istasyonu",
+      "x": 0.76, "y": 0.72,
+      "childTypeKey": "FFE_CO2_RELEASE_STATION",
+      "taskKeys": ["FIXED_GAS_CONTENT_CHECK"]
+    },
+    {
+      "key": "alarm", "labelEn": "Discharge alarm", "labelTr": "Boşaltma alarmı",
+      "x": 0.9, "y": 0.62, "markerX": 0.93, "markerY": 0.48,
+      "childTypeKey": "FFE_FIRE_ALARM_SOUNDER",
+      "taskKeys": ["FIXED_GAS_CONTENT_CHECK"]
+    }
+  ]
+}

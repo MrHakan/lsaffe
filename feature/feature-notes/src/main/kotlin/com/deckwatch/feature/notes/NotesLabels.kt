@@ -9,6 +9,7 @@ import com.deckwatch.core.model.EquipmentGroup
 import com.deckwatch.core.model.IntervalKind
 import com.deckwatch.core.model.PerformedBy
 import com.deckwatch.core.model.RegulationSection
+import com.deckwatch.core.model.VerificationStatus
 
 /**
  * `core-designsystem` carries no string resources, so the shared §8.2 card is localised from the
@@ -51,6 +52,14 @@ internal fun sectionDescriptionRes(section: RegulationSection): Int = when (sect
     RegulationSection.FLAG -> R.string.notes_section_flag_desc
     RegulationSection.CLASS -> R.string.notes_section_class_desc
     RegulationSection.MY_NOTES -> R.string.notes_section_my_notes_desc
+}
+
+/** The card's verification state, read as a chip in the detail dialog — §8.5. */
+@StringRes
+internal fun verificationLabelRes(status: VerificationStatus): Int = when (status) {
+    VerificationStatus.VERIFIED -> R.string.notes_verification_verified
+    VerificationStatus.UNVERIFIED -> R.string.notes_verification_unverified
+    VerificationStatus.NEEDS_PERIODIC_REVIEW -> R.string.notes_verification_review
 }
 
 @StringRes

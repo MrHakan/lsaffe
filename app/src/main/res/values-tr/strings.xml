@@ -5,6 +5,8 @@
     <string name="tab_due">Vadesi</string>
     <string name="tab_more">Daha Fazla</string>
 
+    <string name="export_failed">Rapor oluşturulamadı</string>
+
     <!-- ============================================================ hatırlatıcılar (§11.3) -->
     <string name="notif_channel_due">Yaklaşan işler</string>
     <string name="notif_channel_due_description">Gecikmiş ve bu hafta yapılacak işlerin günde bir özeti.</string>

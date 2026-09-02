@@ -1,7 +1,5 @@
 package com.deckwatch.feature.vessel.deck
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,24 +9,25 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Layers
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -37,28 +36,27 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.deckwatch.core.designsystem.components.ConfirmDialog
+import com.deckwatch.core.designsystem.components.DeckWatchListRow
+import com.deckwatch.core.designsystem.components.DeckWatchTopBar
+import com.deckwatch.core.designsystem.components.EmptyState
+import com.deckwatch.core.designsystem.components.SectionHeader
 import com.deckwatch.core.designsystem.theme.DeckWatchTheme
 import com.deckwatch.core.designsystem.theme.Dimens
-import com.deckwatch.core.designsystem.theme.tagTextStyle
 import com.deckwatch.core.model.ConditionGrade
 import com.deckwatch.core.model.Deck
 import com.deckwatch.core.model.Vessel
 import com.deckwatch.feature.vessel.R
-import com.deckwatch.feature.vessel.common.ConditionDot
-import com.deckwatch.feature.vessel.common.ConfirmDialog
+import com.deckwatch.feature.vessel.common.ConditionIndicator
 import com.deckwatch.feature.vessel.common.DeckPlanOutline
-import com.deckwatch.feature.vessel.common.TeachingEmptyState
-import com.deckwatch.feature.vessel.common.VesselTopBar
 import com.deckwatch.feature.vessel.zone.ZoneManagerScreen
 
 /**
@@ -67,6 +65,9 @@ import com.deckwatch.feature.vessel.zone.ZoneManagerScreen
  * A null [vesselId] resolves to the active vessel. Zones open through [onOpenZones] when a host
  * graph supplies one; otherwise the screen opens the zone manager itself, so deck → zone works
  * without navigation wiring.
+ *
+ * One primary action (DESIGN_OVERHAUL rule 1): the "Add deck" FAB, which asks above-or-below in a
+ * sheet. Inserting between two decks stays the small affordance in the gap where it belongs.
  */
 @Composable
 fun DeckManagerScreen(
@@ -117,12 +118,13 @@ fun DeckManagerScreen(
         val row = state.decks.firstOrNull { it.id == pending }
         ConfirmDialog(
             title = stringResource(R.string.deck_manager_delete_title, row?.deck?.name.orEmpty()),
-            message = if (row == null || row.equipmentCount == 0) {
+            body = if (row == null || row.equipmentCount == 0) {
                 stringResource(R.string.deck_manager_delete_message_empty)
             } else {
                 stringResource(R.string.deck_manager_delete_message_equipment, row.equipmentCount)
             },
             confirmLabel = stringResource(R.string.vessel_action_delete),
+            cancelLabel = stringResource(R.string.vessel_action_cancel),
             onConfirm = { viewModel.confirmDeleteDeck(pending) },
             onDismiss = viewModel::cancelDeleteDeck,
         )
@@ -151,36 +153,44 @@ internal fun DeckManagerContent(
     onDelete: (String) -> Unit = {},
     onOpenZones: (String) -> Unit = {},
 ) {
+    var chooserOpen by remember { mutableStateOf(false) }
+
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
-            VesselTopBar(
-                title = state.vessel?.name ?: stringResource(R.string.deck_manager_title),
+            DeckWatchTopBar(
+                title = stringResource(R.string.deck_manager_title),
+                subtitle = state.vessel?.name,
                 onBack = onBack,
+                backContentDescription = stringResource(R.string.vessel_cd_back),
             )
         },
         floatingActionButton = {
             if (state.hasVessel && state.decks.isNotEmpty()) {
                 FloatingActionButton(
-                    onClick = onAddAbove,
+                    onClick = { chooserOpen = true },
                     modifier = Modifier.size(Dimens.TouchTargetPrimary),
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Add,
-                        contentDescription = stringResource(R.string.deck_manager_add_above),
+                        contentDescription = stringResource(R.string.deck_manager_add),
                     )
                 }
             }
         },
     ) { padding ->
         when {
-            !state.hasVessel && !state.isLoading -> TeachingEmptyState(
-                message = stringResource(R.string.deck_manager_no_vessel),
+            !state.hasVessel && !state.isLoading -> EmptyState(
+                icon = Icons.Filled.Layers,
+                title = stringResource(R.string.deck_manager_no_vessel_title),
+                body = stringResource(R.string.deck_manager_no_vessel),
                 modifier = Modifier.padding(padding),
             )
 
-            state.isEmpty -> TeachingEmptyState(
-                message = stringResource(R.string.deck_manager_empty_message),
+            state.isEmpty -> EmptyState(
+                icon = Icons.Filled.Layers,
+                title = stringResource(R.string.deck_manager_empty_title),
+                body = stringResource(R.string.deck_manager_empty_message),
                 actionLabel = stringResource(R.string.deck_manager_add_first),
                 onAction = onAddAbove,
                 modifier = Modifier.padding(padding),
@@ -198,6 +208,51 @@ internal fun DeckManagerContent(
             )
         }
     }
+
+    if (chooserOpen) {
+        AddDeckChooser(
+            onAddAbove = {
+                chooserOpen = false
+                onAddAbove()
+            },
+            onAddBelow = {
+                chooserOpen = false
+                onAddBelow()
+            },
+            onDismiss = { chooserOpen = false },
+        )
+    }
+}
+
+/**
+ * Above or below? The FAB asks once instead of the list carrying two competing buttons at its
+ * ends (DESIGN_OVERHAUL rule 1).
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun AddDeckChooser(
+    onAddAbove: () -> Unit,
+    onAddBelow: () -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    ModalBottomSheet(onDismissRequest = onDismiss, sheetState = sheetState) {
+        Column(modifier = Modifier.padding(bottom = Dimens.SpacingXl)) {
+            SectionHeader(text = stringResource(R.string.deck_manager_add_where))
+            DeckWatchListRow(
+                title = stringResource(R.string.deck_manager_add_above),
+                subtitle = stringResource(R.string.deck_manager_add_above_help),
+                onClick = onAddAbove,
+                leading = { Icon(Icons.Filled.KeyboardArrowUp, contentDescription = null) },
+            )
+            DeckWatchListRow(
+                title = stringResource(R.string.deck_manager_add_below),
+                subtitle = stringResource(R.string.deck_manager_add_below_help),
+                onClick = onAddBelow,
+                leading = { Icon(Icons.Filled.KeyboardArrowDown, contentDescription = null) },
+            )
+        }
+    }
 }
 
 @Composable
@@ -212,13 +267,6 @@ private fun DeckList(
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(modifier = modifier.fillMaxSize()) {
-        item(key = "add-above") {
-            StackEndAction(
-                label = stringResource(R.string.deck_manager_add_above),
-                icon = { Icon(Icons.Filled.KeyboardArrowUp, contentDescription = null) },
-                onClick = onAddAbove,
-            )
-        }
         state.decks.forEachIndexed { index, row ->
             item(key = row.id) {
                 DeckRowItem(
@@ -245,33 +293,10 @@ private fun DeckList(
                 }
             }
         }
-        item(key = "add-below") {
-            StackEndAction(
-                label = stringResource(R.string.deck_manager_add_below),
-                icon = { Icon(Icons.Filled.KeyboardArrowDown, contentDescription = null) },
-                onClick = onAddBelow,
-            )
-        }
     }
 }
 
-@Composable
-private fun StackEndAction(
-    label: String,
-    icon: @Composable () -> Unit,
-    onClick: () -> Unit,
-) {
-    TextButton(
-        onClick = onClick,
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = Dimens.TouchTargetPrimary),
-    ) {
-        icon()
-        Text(text = label, modifier = Modifier.padding(start = Dimens.SpacingS))
-    }
-}
-
+/** The gap between two decks is where "insert between" belongs — small, in place, never a FAB. */
 @Composable
 private fun InsertBetweenRow(slot: InsertSlot, onClick: () -> Unit) {
     TextButton(
@@ -303,85 +328,78 @@ private fun DeckRowItem(
     onInsertBelow: () -> Unit,
 ) {
     var menuOpen by remember { mutableStateOf(false) }
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = Dimens.ListRowComfortable)
-            .clickable(onClick = onOpenZones)
-            .padding(horizontal = Dimens.SpacingL, vertical = Dimens.SpacingS),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingM),
-    ) {
-        ShortCodePill(code = row.deck.shortCode, tintArgb = row.deck.colorTint)
-        DeckPlanOutline(
-            plan = row.deck.plan,
-            fill = MaterialTheme.colorScheme.surfaceVariant,
-            stroke = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.size(width = PLAN_THUMB_W, height = PLAN_THUMB_H),
-        )
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = row.deck.name,
-                style = MaterialTheme.typography.titleMedium,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
+    val tint = deckTintColor(row.deck.colorTint)
+    DeckWatchListRow(
+        title = row.deck.name,
+        subtitle = deckSubtitle(row),
+        onClick = onOpenZones,
+        leading = {
+            DeckPlanOutline(
+                plan = row.deck.plan,
+                fill = tint.copy(alpha = PLAN_FILL_ALPHA),
+                stroke = tint,
+                modifier = Modifier.size(width = PLAN_THUMB_W, height = PLAN_THUMB_H),
             )
+        },
+        trailing = {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingS),
             ) {
-                Text(
-                    text = stringResource(R.string.deck_manager_level, row.levelIndex),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-                Text(
-                    text = if (row.equipmentCount == 0) {
-                        stringResource(R.string.deck_manager_no_equipment)
-                    } else {
-                        pluralStringResource(
-                            R.plurals.deck_manager_equipment_count,
-                            row.equipmentCount,
-                            row.equipmentCount,
+                ConditionIndicator(grade = row.worstCondition)
+                Box {
+                    IconButton(
+                        onClick = { menuOpen = true },
+                        modifier = Modifier.size(Dimens.TouchTargetMin),
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.MoreVert,
+                            contentDescription = stringResource(R.string.vessel_cd_more_actions),
                         )
-                    },
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-        }
-        ConditionDot(grade = row.worstCondition)
-        Box {
-            IconButton(onClick = { menuOpen = true }, modifier = Modifier.size(Dimens.TouchTargetMin)) {
-                Icon(
-                    imageVector = Icons.Filled.MoreVert,
-                    contentDescription = stringResource(R.string.vessel_cd_more_actions),
-                )
-            }
-            DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
-                DeckMenuItem(R.string.deck_manager_insert_above) {
-                    menuOpen = false
-                    onInsertAbove()
-                }
-                DeckMenuItem(R.string.deck_manager_insert_below) {
-                    menuOpen = false
-                    onInsertBelow()
-                }
-                DeckMenuItem(R.string.zone_manager_title) {
-                    menuOpen = false
-                    onOpenZones()
-                }
-                DeckMenuItem(R.string.vessel_action_edit) {
-                    menuOpen = false
-                    onEdit()
-                }
-                DeckMenuItem(R.string.vessel_action_delete) {
-                    menuOpen = false
-                    onDelete()
+                    }
+                    DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
+                        DeckMenuItem(R.string.deck_manager_insert_above) {
+                            menuOpen = false
+                            onInsertAbove()
+                        }
+                        DeckMenuItem(R.string.deck_manager_insert_below) {
+                            menuOpen = false
+                            onInsertBelow()
+                        }
+                        DeckMenuItem(R.string.zone_manager_title) {
+                            menuOpen = false
+                            onOpenZones()
+                        }
+                        DeckMenuItem(R.string.vessel_action_edit) {
+                            menuOpen = false
+                            onEdit()
+                        }
+                        DeckMenuItem(R.string.vessel_action_delete) {
+                            menuOpen = false
+                            onDelete()
+                        }
+                    }
                 }
             }
-        }
+        },
+    )
+}
+
+/** "UD · Level 20 · 14 items" — the spine code, where the deck sits and what is on it. */
+@Composable
+private fun deckSubtitle(row: DeckRow): String {
+    val code = row.deck.shortCode?.takeIf { it.isNotBlank() }
+    val level = stringResource(R.string.deck_manager_level, row.levelIndex)
+    val count = if (row.equipmentCount == 0) {
+        stringResource(R.string.deck_manager_no_equipment)
+    } else {
+        pluralStringResource(
+            R.plurals.deck_manager_equipment_count,
+            row.equipmentCount,
+            row.equipmentCount,
+        )
     }
+    return listOfNotNull(code, level, count).joinToString(SEPARATOR)
 }
 
 @Composable
@@ -393,29 +411,10 @@ private fun DeckMenuItem(labelRes: Int, onClick: () -> Unit) {
     )
 }
 
-/** The stack-spine pill: monospace short code on the deck's own tint (§7.2 deck spine). */
-@Composable
-private fun ShortCodePill(code: String?, tintArgb: Int?, modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier
-            .width(PILL_WIDTH)
-            .heightIn(min = Dimens.TouchTargetMin)
-            .clip(RoundedCornerShape(Dimens.ChipCorner))
-            .background(deckTintColor(tintArgb)),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(
-            text = code.orEmpty(),
-            style = tagTextStyle(),
-            color = androidx.compose.ui.graphics.Color.White,
-            maxLines = 1,
-        )
-    }
-}
-
-private val PILL_WIDTH = 48.dp
 private val PLAN_THUMB_W = 28.dp
 private val PLAN_THUMB_H = 40.dp
+private const val PLAN_FILL_ALPHA = 0.30f
+private const val SEPARATOR = " · "
 
 @Preview
 @Composable

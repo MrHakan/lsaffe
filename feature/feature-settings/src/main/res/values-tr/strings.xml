@@ -1,8 +1,217 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- ============================ Daha Fazla sekmesi (§5) ============================ -->
     <string name="more_title">Daha Fazla</string>
-    <string name="more_vessels">Gemiler</string>
+
+    <string name="more_section_vessel">Gemi</string>
+    <string name="more_section_reports">Raporlar</string>
+    <string name="more_section_data">Veri</string>
+    <string name="more_section_app">Uygulama</string>
+
+    <string name="more_vessel_manager">Gemi yöneticisi</string>
+    <string name="more_vessel_manager_desc">Gemi ekleyin, düzenleyin ve gemiler arasında geçiş yapın</string>
+    <string name="more_decks_zones">Güverteler ve bölgeler</string>
+    <string name="more_decks_zones_desc">Güverte istifini kurun ve bölgeleri çizin</string>
     <string name="more_categories">Kategoriler</string>
+    <string name="more_categories_desc">“Haftalık tur” veya “PSC odak” gibi mantıksal etiketler</string>
+
+    <string name="more_reports">Raporlar ve dışa aktarma</string>
+    <string name="more_reports_desc">Ofise veya sörveyöre gönderilecek tek parça HTML dosyası</string>
+    <string name="more_import">Dosyadan içe aktar</string>
+    <string name="more_import_desc">Bir DeckWatch raporunu birleştirme önizlemesiyle geri okuyun</string>
+    <string name="more_share_last">Son raporu paylaş</string>
+    <string name="more_share_last_desc">En son dışa aktarılan dosyayı yeniden gönderin</string>
+    <string name="more_share_last_none">Henüz rapor oluşturulmadı</string>
+
+    <string name="more_backup_now">Şimdi yedekle</string>
+    <string name="more_backup_now_desc">.dwbackup dosyası yazar — her şey, fotoğraflar dâhil</string>
+    <string name="more_restore">Yedeği geri yükle</string>
+    <string name="more_restore_desc">Bir .dwbackup dosyasını birleştirir; hiçbir şey sessizce üzerine yazılmaz</string>
+    <string name="more_demo_load">Örnek gemiyi yükle</string>
+    <string name="more_demo_load_desc">MV Example — beş güverte, ~60 ekipman, birkaçı gecikmiş</string>
+    <string name="more_demo_remove">Örnek gemiyi kaldır</string>
+    <string name="more_demo_remove_desc">MV Example\'ı ve üzerindeki her şeyi siler</string>
+    <string name="more_auto_backup_folder">Otomatik yedekleme klasörü</string>
+    <string name="more_auto_backup_folder_none">Ayarlanmadı — haftalık yedekleme kapalı</string>
+    <string name="more_auto_backup_folder_set">Haftalık yedek %1$s klasörüne, son %2$d dosya saklanır</string>
+
+    <string name="more_settings">Ayarlar</string>
+    <string name="more_settings_desc">Tema, dil, hatırlatmalar, birimler</string>
+    <string name="more_about">Hakkında</string>
+    <string name="more_about_desc">Sürüm, sorumluluk reddi, kaynaklar ve lisans</string>
+
+    <string name="more_nudge_title">Henüz hiç yedek almadınız</string>
+    <string name="more_nudge_body">DeckWatch\'i %1$d gündür kullanıyorsunuz. Yedek tek bir dosyadır ve saniyeler sürer — yedek olmadan uygulamayı kaldırmak kaydı tamamen siler.</string>
+    <string name="more_nudge_action">Şimdi yedekle</string>
+    <string name="more_nudge_dismiss">Şimdi değil</string>
+
+    <string name="demo_install_title">Örnek gemi yüklensin mi?</string>
+    <string name="demo_install_body">MV Example eklenir ve etkin gemi yapılır. Kendi gemilerinize dokunulmaz. Tek dokunuşla yeniden kaldırabilirsiniz.</string>
+    <string name="demo_install_confirm">Yükle</string>
+    <string name="demo_remove_title">Örnek gemi kaldırılsın mı?</string>
+    <string name="demo_remove_body">MV Example, güverteleri, ekipmanı, görevleri ve eksiklikleri silinir. Kendi gemilerinize dokunulmaz.</string>
+    <string name="demo_remove_confirm">Kaldır</string>
+    <string name="demo_installed">Örnek gemi yüklendi</string>
+    <string name="demo_removed">Örnek gemi kaldırıldı</string>
+    <string name="demo_failed">Örnek gemi yüklenemedi</string>
+    <string name="demo_working">Çalışıyor…</string>
+
+    <!-- ============================ Yedekleme (§18) ============================ -->
+    <string name="backup_title">Yedekle</string>
+    <string name="backup_passphrase_title">Parola ile korunsun mu?</string>
+    <string name="backup_passphrase_body">Parola, yedeği AES-256 ile şifreler. Kurtarma yolu yoktur — parolayı unutursanız dosya okunamaz.</string>
+    <string name="backup_passphrase_label">Parola (isteğe bağlı)</string>
+    <string name="backup_passphrase_confirm_label">Parolayı tekrarlayın</string>
+    <string name="backup_passphrase_mismatch">İki parola birbirinden farklı</string>
+    <string name="backup_passphrase_required">Bu yedek şifreli. Parolasını girin.</string>
+    <string name="backup_passphrase_wrong">Parola yanlış veya dosya bozuk</string>
+    <string name="backup_continue">Devam</string>
+    <string name="backup_cancel">Vazgeç</string>
+    <string name="backup_running">Yedekleniyor…</string>
+    <string name="backup_done">Yedeklendi: %1$d gemi, %2$d fotoğraf, %3$s</string>
+    <string name="backup_empty">Henüz yedeklenecek bir şey yok</string>
+    <string name="backup_failed">Yedekleme başarısız: %1$s</string>
+
+    <string name="restore_title">Geri yükle</string>
+    <string name="restore_running">Geri yükleniyor…</string>
+    <string name="restore_done">%1$d kayıt ve %2$d fotoğraf geri yüklendi</string>
+    <string name="restore_rejected">Hiçbir şey yazılmadı: %1$s</string>
+    <string name="restore_partial">Kısmen uygulandı: %1$s (%2$d kayıt geri alınamadı)</string>
+    <string name="restore_unreadable">Bu dosya bir DeckWatch yedeği olarak okunamadı</string>
+    <string name="restore_schema">Bu yedek DeckWatch\'in daha yeni bir sürümüyle yazılmış</string>
+    <string name="restore_confirm_title">Bu yedek geri yüklensin mi?</string>
+    <string name="restore_confirm_body">Sizinkinden yeni kayıtlar dosyadan alınır; eski kayıtlar atlanır. Dosyanın silinmiş olarak kaydettiği ekipman dışında hiçbir şey silinmez.</string>
+    <string name="restore_confirm_action">Geri yükle</string>
+
+    <string name="backup_folder_title">Otomatik yedekleme klasörü</string>
+    <string name="backup_folder_body">Haftalık yedek için bir klasör seçin. DeckWatch son %1$d dosyayı saklar, eskileri siler.</string>
+    <string name="backup_folder_choose">Klasör seç</string>
+    <string name="backup_folder_clear">Kapat</string>
+    <string name="backup_folder_set">Haftalık yedekler %1$s klasörüne yazılacak</string>
+    <string name="backup_folder_denied">Android o klasöre kalıcı erişim vermedi</string>
+    <string name="backup_folder_cleared">Otomatik yedekleme kapatıldı</string>
+
+    <!-- ============================ Ayarlar (§18) ============================ -->
+    <string name="settings_title">Ayarlar</string>
+    <string name="settings_back">Geri</string>
+
+    <string name="settings_section_appearance">Görünüm</string>
+    <string name="settings_section_work">İş ve hatırlatmalar</string>
+    <string name="settings_section_deckview">Güverte görünümü</string>
+    <string name="settings_section_records">Kayıtlar</string>
+
+    <string name="settings_theme">Tema</string>
+    <string name="settings_theme_day">Gündüz</string>
+    <string name="settings_theme_night">Gece</string>
+    <string name="settings_theme_bridge">Köprüüstü</string>
+    <string name="settings_theme_schedule">Karardıktan sonra otomatik geç</string>
+    <string name="settings_theme_schedule_desc">06:00\'dan itibaren gündüz, 20:00\'den itibaren seçtiğiniz karanlık tema</string>
+
+    <string name="settings_language">Dil</string>
+    <string name="settings_language_en">English</string>
+    <string name="settings_language_tr">Türkçe</string>
+    <string name="settings_language_restart">Değişikliğin her ekrana ulaşması için DeckWatch\'i yeniden başlatın</string>
+
+    <string name="settings_density">Liste yoğunluğu</string>
+    <string name="settings_density_compact">Sıkışık</string>
+    <string name="settings_density_comfortable">Rahat</string>
+
+    <string name="settings_lead_time">Yaklaşan iş süresi</string>
+    <string name="settings_lead_time_value">%1$d gün</string>
+    <string name="settings_lead_time_desc">Bir işin ne kadar önceden “yaklaşıyor” sayılacağı</string>
+
+    <string name="settings_notifications">Günlük hatırlatma</string>
+    <string name="settings_notifications_desc">Günde bir özet: gecikmiş ve bu hafta vadesi gelen</string>
+    <string name="settings_notification_time">Hatırlatma saati</string>
+    <string name="settings_notification_permission_denied">Android, DeckWatch bildirimlerini engelliyor. Diğer her şey çalışmaya devam eder.</string>
+    <string name="settings_notification_time_picker_title">Günlük hatırlatma saati</string>
+
+    <string name="settings_default_flag">Varsayılan bayrak</string>
+    <string name="settings_default_flag_desc">Gemi oluştururken önceden seçili gelir</string>
+    <string name="settings_flag_rmi">Marshall Adaları</string>
+    <string name="settings_flag_liberia">Liberya</string>
+    <string name="settings_flag_panama">Panama</string>
+    <string name="settings_flag_other">Diğer</string>
+
+    <string name="settings_iso_angle">İzometrik açı</string>
+    <string name="settings_iso_angle_value">%1$d°</string>
+    <string name="settings_iso_angle_desc">0° düz plan; 30° varsayılan güverte istifi</string>
+    <string name="settings_grid_snap">İşaretleri ızgaraya yasla</string>
+    <string name="settings_grid_snap_desc">Sürüklenen ekipman sabit bir ızgaraya oturur</string>
+
+    <string name="settings_tag_format">Etiket numaralandırma</string>
+    <string name="settings_tag_format_desc">{PREFIX} tür kodu · {DECK} güverte kodu · {NNN} numara</string>
+    <string name="settings_tag_format_example">Örnek: %1$s</string>
+
+    <string name="settings_photo_quality">Fotoğraf kalitesi</string>
+    <string name="settings_photo_low">Düşük</string>
+    <string name="settings_photo_medium">Orta</string>
+    <string name="settings_photo_high">Yüksek</string>
+
+    <string name="settings_units">Birimler</string>
+    <string name="settings_units_metric">Metrik (kg, L, bar)</string>
+    <string name="settings_units_imperial">İngiliz (lb, gal, psi)</string>
+
+    <string name="settings_first_day">Hafta başlangıcı</string>
+    <string name="settings_day_monday">Pazartesi</string>
+    <string name="settings_day_sunday">Pazar</string>
+    <string name="settings_day_saturday">Cumartesi</string>
+
+    <!-- ============================ Hakkında (§17.6) ============================ -->
+    <string name="app_name_about" translatable="false">DeckWatch</string>
+    <string name="about_title">Hakkında</string>
+    <string name="about_version">Sürüm %1$s</string>
+    <string name="about_tagline">Çevrimdışı can kurtarma ve yangın ekipmanı denetimi, takibi ve mevzuat başvurusu.</string>
+
+    <string name="about_section_disclaimer">Sorumluluk reddi</string>
+
+    <string name="about_section_content">İçerik nereden geliyor</string>
+    <string name="about_content_body">Her mevzuat kartı özetlediği enstrümanı, alındığı tarihi ve o rakamın doğrulanıp doğrulanmadığını belirtir. “Güncel enstrümana karşı doğrulayın” işaretli kartlar tam olarak bunu ifade eder — doğrulanmamıştır.</string>
+    <string name="about_content_sources">docs/REGULATORY_SOURCES.md — atıf yapılan her enstrüman ve alındığı tarih</string>
+    <string name="about_content_symbols">docs/SYMBOL_LICENSING.md — her piktogramın nasıl çizildiği ve işaretleme kullanımının neye ihtiyacı olduğu</string>
+    <string name="about_content_model">docs/DATA_MODEL.md — dışa aktarma ve yedeklemenin arkasındaki kayıt şeması</string>
+
+    <string name="about_section_flags">Yeni bayrak devleti genelgesi var mı</string>
+    <string name="about_flags_body">Bayrak devleti genelgeleri değişir ve DeckWatch hiçbir revizyonun güncel olduğunu iddia etmez. Bu bağlantılar sicilin kendi genelge dizinini tarayıcınızda açar — uygulamanın ağı kullandığı tek yer, yalnızca siz dokunduğunuzda.</string>
+    <string name="about_flag_rmi">Marshall Adaları sicili (harici)</string>
+    <string name="about_flag_liberia">Liberya sicili (harici)</string>
+    <string name="about_flag_panama">Panama Deniz İdaresi (harici)</string>
+    <string name="about_flag_no_browser">Bu bağlantıyı açacak bir tarayıcı yok</string>
+
+    <string name="about_section_licence">Lisans</string>
+    <string name="about_licence_body">DeckWatch kaynak kodu MIT lisanslıdır. Mevzuat içeriği ve sembol çizimleri kendi kaynaklarına sahiptir ve bu lisansın kapsamında değildir.</string>
+
+    <!-- ============================ Tanıtım (§14) ============================ -->
+    <string name="onboarding_skip">Atla</string>
+    <string name="onboarding_next">İleri</string>
+    <string name="onboarding_page">Adım %1$d / %2$d</string>
+
+    <string name="onboarding_disclaimer_title">Başlamadan önce</string>
+    <string name="onboarding_disclaimer_accept">Anladım</string>
+
+    <string name="onboarding_1_title">LSA ve FFE kaydınız, çevrimdışı</string>
+    <string name="onboarding_1_body">Her şey bu telefonda durur. Hesap yok, sunucu yok, sinyal gerekmez — okyanusun ortasında da rıhtımda olduğu gibi çalışır.</string>
+
+    <string name="onboarding_2_title">Gemiyi güverte güverte kurun</string>
+    <string name="onboarding_2_body">Bir plan şablonundan başlayın, güverteleri istifleyin, sonra ekipmanı gerçekte olduğu yere bırakın. Herhangi bir işarete dokunup vadesi geleni görün.</string>
+
+    <string name="onboarding_3_title">Tek dokunuşla derecelendirin</string>
+    <string name="onboarding_3_body">Beş durum derecesi, eldivenle kullanılabilen büyük hedefler. Bir güverteyi sırayla tarayın, tur kaydı kendiliğinden oluşsun.</string>
+
+    <string name="onboarding_4_title">Her yere gönderilebilen tek dosya</string>
+    <string name="onboarding_4_body">Çift tıklayınca açılan, temiz basılan ve başka bir telefonda geri içe aktarılabilen tek parça bir HTML raporu dışa aktarın.</string>
+
+    <string name="onboarding_start_title">Nasıl başlamak istersiniz?</string>
+    <string name="onboarding_start_demo">Örnek gemiyi yükle (MV Example)</string>
+    <string name="onboarding_start_demo_desc">Göz atmak için beş güverte ve yaklaşık altmış ekipman</string>
+    <string name="onboarding_start_create">Kendi gemimi oluştur</string>
+    <string name="onboarding_start_create_desc">Gemiyi girin ve boş bir kayıtla başlayın</string>
+    <string name="onboarding_demo_loading">Örnek gemi yükleniyor…</string>
+
+    <!-- ============================ Ortak ============================ -->
+    <string name="action_cancel">Vazgeç</string>
+    <string name="action_ok">Tamam</string>
+    <string name="more_vessels">Gemiler</string>
     <string name="more_about_title">Hakkında</string>
     <string name="more_version">DeckWatch %1$s</string>
     <string name="more_disclaimer">DeckWatch bir planlama ve kayıt tutma yardımcısıdır. Sertifika değildir; geminin onaylı planlarının, üretici kılavuzlarının, klas kurallarının veya bayrak idaresinin talimatlarının yerine geçmez ve hiçbir yasal yükümlülüğü ortadan kaldırmaz. Mevzuat içeriği belirtilen tarihte alınmış bir özettir ve güncelliğini yitirmiş olabilir. Her zaman yürürlükteki metinle ve geminin kendi dokümantasyonuyla doğrulayın.</string>

@@ -27,8 +27,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-/** The three steps of §7.5. */
-internal enum class AddStep { CATALOGUE, DETAILS, ATTRIBUTES }
+/**
+ * The two steps of §7.5.
+ *
+ * The fixed fields and the type's dynamic attributes (§9.3) are one scrolling form, not two pages:
+ * DESIGN_OVERHAUL asks for a single primary action per screen, and a *Next* that only leads to more
+ * of the same form is a second one. [DETAILS] is therefore the whole record.
+ */
+internal enum class AddStep { CATALOGUE, DETAILS }
 
 /** The catalogue's two tabs — §7.5 step 2. */
 internal enum class CatalogueTab { BY_CATEGORY, RECENT }
@@ -85,6 +91,12 @@ internal data class AddEquipmentUiState(
     val vesselContext: VesselDueContext = VesselDueContext(),
     val copies: Int = 1,
     val tagError: Boolean = false,
+    /**
+     * True when the form would save cleanly — a non-blank tag and every required attribute present
+     * and well formed. The save button is enabled only on this (DESIGN_OVERHAUL, *Forms*), so the
+     * officer is never sent to a button that refuses.
+     */
+    val canSave: Boolean = false,
     val saving: Boolean = false,
     /** Non-empty once the items are written; the host closes the sheet on this. */
     val createdIds: List<String> = emptyList(),
@@ -201,6 +213,7 @@ internal class AddEquipmentViewModel @Inject constructor(
                 attributes = AttributeCodec.decode(type.attributeSchema, "{}"),
                 attributeErrors = emptyMap(),
                 tagError = false,
+                canSave = false,
                 form = EquipmentFormState(),
             )
         }
@@ -215,6 +228,7 @@ internal class AddEquipmentViewModel @Inject constructor(
                 }
             }
             refreshDuePreview()
+            refreshValidity()
         }
     }
 
@@ -223,27 +237,30 @@ internal class AddEquipmentViewModel @Inject constructor(
     fun updateForm(transform: (EquipmentFormState) -> EquipmentFormState) {
         state.update { it.copy(form = transform(it.form), tagError = false) }
         refreshDuePreview()
+        refreshValidity()
     }
 
     fun setCopies(count: Int) = state.update { it.copy(copies = count.coerceIn(1, MAX_COPIES)) }
-
-    // ------------------------------------------------------------------ step 3: attributes
 
     fun setAttribute(key: String, raw: String) {
         state.update {
             it.copy(attributes = it.attributes + (key to raw), attributeErrors = it.attributeErrors - key)
         }
         refreshDuePreview()
-    }
-
-    fun goTo(step: AddStep) {
-        if (step == AddStep.DETAILS && state.value.selectedType == null) return
-        state.update { it.copy(step = step) }
+        refreshValidity()
     }
 
     /** Back out of the form to the catalogue, clearing the selection — §7.5. */
-    fun backToCatalogue() = state.update {
-        it.copy(step = AddStep.CATALOGUE, selectedType = null, attributeErrors = emptyMap(), tagError = false)
+    fun backToCatalogue() {
+        state.update {
+            it.copy(
+                step = AddStep.CATALOGUE,
+                selectedType = null,
+                attributeErrors = emptyMap(),
+                tagError = false,
+                canSave = false,
+            )
+        }
     }
 
     // ------------------------------------------------------------------ create
@@ -327,6 +344,18 @@ internal class AddEquipmentViewModel @Inject constructor(
                 expandedGroups = if (needle.isEmpty()) current.expandedGroups else groups.map { it.group }.toSet(),
             )
         }
+    }
+
+    /**
+     * Recompute [AddEquipmentUiState.canSave] — the same check [create] applies, run on every edit
+     * so the save button's enabled state and the outcome of pressing it can never disagree.
+     */
+    private fun refreshValidity() = state.update { current ->
+        val type = current.selectedType
+        val valid = type != null &&
+            current.form.tag.isNotBlank() &&
+            AttributeCodec.validate(type.attributeSchema, current.attributes).isEmpty()
+        current.copy(canSave = valid)
     }
 
     /** §7.5.4 — the preview recomputes on every keystroke that can move a date. */

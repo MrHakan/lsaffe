@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        §13.6 — exported reports are written to cacheDir/exports and handed to other apps through
+        a FileProvider. The provider is declared here, in the feature that owns the files, and the
+        manifest merger folds it into the host app: the app module needs no change, and
+        ${applicationId} resolves to whatever application id the app is built with, so debug and
+        release builds get distinct authorities and can be installed side by side.
+
+        The class is this module's own FileProvider subclass rather than the framework one, because
+        feature-equipment declares a provider for photos the same way: two library manifests naming
+        androidx.core.content.FileProvider are a single node to the merger, and it fails on the two
+        differing authorities. A subclass per module gives each its own node.
+    -->
+    <application>
+        <provider
+            android:name="com.deckwatch.feature.report.ReportFileProvider"
+            android:authorities="${applicationId}.reports"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/deckwatch_report_paths" />
+        </provider>
+    </application>
+</manifest>

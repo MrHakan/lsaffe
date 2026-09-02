@@ -6,6 +6,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.intl.Locale
 import com.deckwatch.core.common.Dates
+import com.deckwatch.core.designsystem.components.ConditionLabels
+import com.deckwatch.core.designsystem.components.DateFieldLabels
 import com.deckwatch.core.designsystem.components.RegulationCardLabels
 import com.deckwatch.core.designsystem.theme.ConditionColors
 import com.deckwatch.core.model.ConditionGrade
@@ -73,6 +75,32 @@ internal fun conditionLabel(grade: ConditionGrade): String = stringResource(
         ConditionGrade.OUT_OF_SERVICE -> R.string.equip_condition_out_of_service
         ConditionGrade.NOT_CHECKED -> R.string.equip_condition_not_checked
     },
+)
+
+/**
+ * The five grade labels for the shared
+ * [com.deckwatch.core.designsystem.components.ConditionChipRow] — DESIGN_OVERHAUL rule 5. The
+ * design system carries no string resources, so the labels travel from this module's strings.
+ */
+@Composable
+@ReadOnlyComposable
+internal fun conditionLabels(): ConditionLabels = ConditionLabels(
+    good = stringResource(R.string.equip_condition_good),
+    acceptable = stringResource(R.string.equip_condition_acceptable),
+    monitor = stringResource(R.string.equip_condition_monitor),
+    defective = stringResource(R.string.equip_condition_defective),
+    outOfService = stringResource(R.string.equip_condition_out_of_service),
+    notChecked = stringResource(R.string.equip_condition_not_checked),
+)
+
+/** Localised labels for the shared [com.deckwatch.core.designsystem.components.DateField] — rule 4. */
+@Composable
+@ReadOnlyComposable
+internal fun dateFieldLabels(): DateFieldLabels = DateFieldLabels(
+    pick = stringResource(R.string.attr_pick_date),
+    clear = stringResource(R.string.attr_clear),
+    confirm = stringResource(R.string.attr_ok),
+    cancel = stringResource(R.string.equip_cancel),
 )
 
 @Composable

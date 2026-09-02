@@ -1,0 +1,166 @@
+{
+  "key": "LIFEBOAT",
+  "appliesToTypeKeys": [
+    "LSA_LIFEBOAT_TOTALLY_ENCLOSED",
+    "LSA_LIFEBOAT_PARTIALLY_ENCLOSED",
+    "LSA_LIFEBOAT_FREEFALL"
+  ],
+  "titleEn": "Lifeboat and launching appliance",
+  "titleTr": "Can filikası ve indirme donanımı",
+  "aspect": 1.35,
+  "inventoryTemplateKey": "LSA_CH_IV_BOAT",
+  "panels": ["COMPONENTS", "INVENTORY", "TASKS", "DRILL_LOG"],
+  "shapes": [
+    { "kind": "POLYLINE", "points": [0.0, 0.94, 1.0, 0.94], "stroke": "STRUCTURE", "weight": 1.6 },
+
+    { "kind": "RECT", "points": [0.205, 0.20, 0.245, 0.94], "stroke": "STRUCTURE", "fill": "PANEL" },
+    { "kind": "RECT", "points": [0.84, 0.20, 0.88, 0.94], "stroke": "STRUCTURE", "fill": "PANEL" },
+    { "kind": "RECT", "points": [0.195, 0.175, 0.89, 0.205], "stroke": "STRUCTURE", "fill": "PANEL" },
+    { "kind": "POLYLINE", "points": [0.225, 0.62, 0.34, 0.94], "stroke": "STRUCTURE" },
+    { "kind": "POLYLINE", "points": [0.86, 0.62, 0.75, 0.94], "stroke": "STRUCTURE" },
+
+    { "kind": "ELLIPSE", "points": [0.225, 0.225, 0.03, 0.03], "stroke": "STRUCTURE", "fill": "ACCENT" },
+    { "kind": "ELLIPSE", "points": [0.86, 0.225, 0.03, 0.03], "stroke": "STRUCTURE", "fill": "ACCENT" },
+    { "kind": "RECT", "points": [0.28, 0.155, 0.33, 0.2], "stroke": "DETAIL", "fill": "PANEL" },
+
+    { "kind": "RECT", "points": [0.02, 0.84, 0.18, 0.935], "stroke": "STRUCTURE", "fill": "PANEL" },
+    { "kind": "ELLIPSE", "points": [0.1, 0.888, 0.045, 0.035], "stroke": "DETAIL" },
+    { "kind": "POLYLINE", "points": [0.15, 0.845, 0.185, 0.79], "stroke": "DETAIL" },
+
+    { "kind": "POLYLINE", "points": [0.1, 0.845, 0.212, 0.245], "stroke": "LINE" },
+    { "kind": "POLYLINE", "points": [0.225, 0.196, 0.86, 0.196], "stroke": "LINE" },
+    { "kind": "POLYLINE", "points": [0.213, 0.245, 0.3, 0.42], "stroke": "LINE" },
+    { "kind": "POLYLINE", "points": [0.872, 0.245, 0.8, 0.42], "stroke": "LINE" },
+    { "kind": "POLYGON", "points": [0.284, 0.42, 0.316, 0.42, 0.316, 0.452, 0.3, 0.47, 0.284, 0.452], "stroke": "OUTLINE", "fill": "ACCENT" },
+    { "kind": "POLYGON", "points": [0.784, 0.42, 0.816, 0.42, 0.816, 0.452, 0.8, 0.47, 0.784, 0.452], "stroke": "OUTLINE", "fill": "ACCENT" },
+
+    { "kind": "POLYGON", "points": [0.24, 0.56, 0.9, 0.56, 0.875, 0.74, 0.43, 0.8, 0.3, 0.76, 0.25, 0.66], "stroke": "OUTLINE", "fill": "BODY", "weight": 1.4 },
+    { "kind": "POLYGON", "points": [0.27, 0.56, 0.32, 0.44, 0.43, 0.4, 0.66, 0.4, 0.79, 0.44, 0.86, 0.56], "stroke": "OUTLINE", "fill": "BODY", "weight": 1.4 },
+    { "kind": "POLYLINE", "points": [0.255, 0.64, 0.885, 0.64], "stroke": "DETAIL" },
+    { "kind": "RECT", "points": [0.47, 0.395, 0.58, 0.445], "stroke": "DETAIL", "fill": "PANEL" },
+    { "kind": "RECT", "points": [0.7, 0.455, 0.78, 0.51], "stroke": "DETAIL", "fill": "PANEL" },
+
+    { "kind": "POLYLINE", "points": [0.33, 0.385, 0.78, 0.385], "stroke": "LINE", "dashed": true },
+    { "kind": "POLYLINE", "points": [0.4, 0.385, 0.4, 0.36], "stroke": "LINE" },
+    { "kind": "POLYLINE", "points": [0.56, 0.385, 0.56, 0.355], "stroke": "LINE" },
+    { "kind": "POLYLINE", "points": [0.7, 0.385, 0.7, 0.36], "stroke": "LINE" },
+
+    { "kind": "RECT", "points": [0.44, 0.46, 0.56, 0.55], "stroke": "DETAIL", "fill": "PANEL" },
+    { "kind": "POLYLINE", "points": [0.48, 0.46, 0.48, 0.55], "stroke": "DETAIL" },
+    { "kind": "POLYLINE", "points": [0.52, 0.46, 0.52, 0.55], "stroke": "DETAIL" },
+    { "kind": "RECT", "points": [0.6, 0.47, 0.65, 0.52], "stroke": "DETAIL", "fill": "PANEL" },
+    { "kind": "ELLIPSE", "points": [0.69, 0.545, 0.032, 0.032], "stroke": "DETAIL", "fill": "PANEL" },
+    { "kind": "POLYLINE", "points": [0.69, 0.515, 0.69, 0.575], "stroke": "DETAIL" },
+    { "kind": "RECT", "points": [0.78, 0.47, 0.855, 0.53], "stroke": "DETAIL", "fill": "PANEL" },
+    { "kind": "POLYLINE", "points": [0.845, 0.47, 0.875, 0.4], "stroke": "LINE" },
+
+    { "kind": "RECT", "points": [0.3, 0.64, 0.42, 0.735], "stroke": "DETAIL", "fill": "PANEL" },
+    { "kind": "POLYLINE", "points": [0.3, 0.7, 0.255, 0.7], "stroke": "DETAIL" },
+    { "kind": "RECT", "points": [0.45, 0.645, 0.57, 0.74], "stroke": "DETAIL", "fill": "PANEL" },
+    { "kind": "POLYLINE", "points": [0.51, 0.645, 0.51, 0.61], "stroke": "DETAIL" },
+    { "kind": "RECT", "points": [0.61, 0.655, 0.74, 0.74], "stroke": "DETAIL", "fill": "PANEL" },
+    { "kind": "POLYLINE", "points": [0.645, 0.655, 0.645, 0.63], "stroke": "DETAIL" },
+    { "kind": "POLYLINE", "points": [0.705, 0.655, 0.705, 0.63], "stroke": "DETAIL" },
+    { "kind": "ELLIPSE", "points": [0.48, 0.793, 0.022, 0.014], "stroke": "DETAIL", "fill": "ACCENT" },
+
+    { "kind": "POLYLINE", "points": [0.9, 0.6, 0.95, 0.7, 0.96, 0.86], "stroke": "LINE", "dashed": true }
+  ],
+  "hotspots": [
+    {
+      "key": "davit", "labelEn": "Davit / launching appliance", "labelTr": "Matafora / indirme donanımı",
+      "x": 0.225, "y": 0.31,
+      "childTypeKey": "LSA_LIFEBOAT_DAVIT",
+      "taskKeys": ["SC_WEEKLY_VISUAL_INSPECTION", "SC_ANNUAL_THOROUGH_EXAM", "WINCH_BRAKE_DYNAMIC_TEST"]
+    },
+    {
+      "key": "winch", "labelEn": "Winch and brake", "labelTr": "Vinç ve fren",
+      "x": 0.1, "y": 0.888,
+      "childTypeKey": "LSA_LIFEBOAT_WINCH",
+      "taskKeys": ["WINCH_BRAKE_DYNAMIC_TEST", "SC_ANNUAL_THOROUGH_EXAM"]
+    },
+    {
+      "key": "falls", "labelEn": "Falls / wire ropes", "labelTr": "Bosa halatları / tel halatlar",
+      "x": 0.153, "y": 0.56,
+      "childTypeKey": "LSA_FALLS_WIRE_ROPES",
+      "taskKeys": ["FALLS_END_FOR_END_RENEWAL", "SC_WEEKLY_VISUAL_INSPECTION"]
+    },
+    {
+      "key": "sheaves", "labelEn": "Sheaves and blocks", "labelTr": "Makaralar ve bastikalar",
+      "x": 0.86, "y": 0.225, "markerX": 0.86, "markerY": 0.1,
+      "taskKeys": ["SC_ANNUAL_THOROUGH_EXAM"]
+    },
+    {
+      "key": "limit_switches", "labelEn": "Limit switches", "labelTr": "Limit şalterleri",
+      "x": 0.305, "y": 0.178, "markerX": 0.305, "markerY": 0.1,
+      "taskKeys": ["SC_WEEKLY_VISUAL_INSPECTION"]
+    },
+    {
+      "key": "hook_fwd", "labelEn": "On-load release hook — forward", "labelTr": "Yük altında bırakma kancası — pruva",
+      "x": 0.8, "y": 0.45, "markerX": 0.78, "markerY": 0.31,
+      "childTypeKey": "LSA_ONLOAD_RELEASE_GEAR", "ordinal": 0,
+      "taskKeys": ["SC_ANNUAL_THOROUGH_EXAM", "RG_FIVE_YEARLY_OVERLOAD_TEST"]
+    },
+    {
+      "key": "hook_aft", "labelEn": "On-load release hook — aft", "labelTr": "Yük altında bırakma kancası — kıç",
+      "x": 0.3, "y": 0.45, "markerX": 0.33, "markerY": 0.49,
+      "childTypeKey": "LSA_ONLOAD_RELEASE_GEAR", "ordinal": 1,
+      "taskKeys": ["SC_ANNUAL_THOROUGH_EXAM", "RG_FIVE_YEARLY_OVERLOAD_TEST"]
+    },
+    {
+      "key": "hydrostatic_interlock", "labelEn": "Hydrostatic interlock", "labelTr": "Hidrostatik kilit",
+      "x": 0.625, "y": 0.495, "markerX": 0.68, "markerY": 0.11,
+      "childTypeKey": "LSA_HYDROSTATIC_INTERLOCK",
+      "taskKeys": ["SC_ANNUAL_THOROUGH_EXAM"]
+    },
+    {
+      "key": "sprinkler", "labelEn": "Boat sprinkler system", "labelTr": "Filika yağmurlama sistemi",
+      "x": 0.56, "y": 0.375, "markerX": 0.56, "markerY": 0.3,
+      "childTypeKey": "LSA_BOAT_SPRINKLER_SYSTEM",
+      "taskKeys": ["LSA_MONTHLY_CHECKLIST_INSPECTION"]
+    },
+    {
+      "key": "air_support", "labelEn": "Air support system", "labelTr": "Hava destek sistemi",
+      "x": 0.5, "y": 0.505,
+      "childTypeKey": "LSA_BOAT_AIR_SUPPORT_SYSTEM",
+      "taskKeys": ["LSA_MONTHLY_CHECKLIST_INSPECTION"]
+    },
+    {
+      "key": "compass", "labelEn": "Boat compass", "labelTr": "Filika pusulası",
+      "x": 0.69, "y": 0.545,
+      "taskKeys": ["LSA_MONTHLY_CHECKLIST_INSPECTION"]
+    },
+    {
+      "key": "radio", "labelEn": "Two-way VHF radiotelephone", "labelTr": "Çift yönlü VHF telsiz",
+      "x": 0.817, "y": 0.5, "markerX": 0.89, "markerY": 0.58,
+      "childTypeKey": "LSA_TWO_WAY_VHF",
+      "taskKeys": ["LSA_MONTHLY_CHECKLIST_INSPECTION"]
+    },
+    {
+      "key": "engine", "labelEn": "Boat engine", "labelTr": "Filika motoru",
+      "x": 0.36, "y": 0.688,
+      "childTypeKey": "LSA_LIFEBOAT_ENGINE",
+      "taskKeys": ["LB_ENGINE_WEEKLY_RUN", "SC_ANNUAL_THOROUGH_EXAM"]
+    },
+    {
+      "key": "fuel", "labelEn": "Fuel tank", "labelTr": "Yakıt tankı",
+      "x": 0.51, "y": 0.692,
+      "taskKeys": ["LSA_MONTHLY_CHECKLIST_INSPECTION"]
+    },
+    {
+      "key": "batteries", "labelEn": "Boat batteries", "labelTr": "Filika aküleri",
+      "x": 0.675, "y": 0.697, "markerX": 0.675, "markerY": 0.76,
+      "childTypeKey": "MCH_EMERGENCY_BATTERY",
+      "taskKeys": ["LSA_MONTHLY_CHECKLIST_INSPECTION"]
+    },
+    {
+      "key": "drain_plugs", "labelEn": "Drain plugs", "labelTr": "Su boşaltma tapaları",
+      "x": 0.48, "y": 0.793, "markerX": 0.4, "markerY": 0.89,
+      "taskKeys": ["SC_WEEKLY_VISUAL_INSPECTION"]
+    },
+    {
+      "key": "painter", "labelEn": "Painter and release", "labelTr": "Pruva halatı ve bırakma düzeni",
+      "x": 0.95, "y": 0.7, "markerX": 0.93, "markerY": 0.87,
+      "taskKeys": ["SC_WEEKLY_VISUAL_INSPECTION"]
+    }
+  ]
+}

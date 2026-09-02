@@ -1,0 +1,218 @@
+{
+  "key": "LIFERAFT_HRU",
+  "appliesToTypeKeys": ["LSA_LIFERAFT_THROWOVER", "LSA_LIFERAFT_DAVIT_LAUNCHED"],
+  "titleEn": "Liferaft, cradle and hydrostatic release",
+  "titleTr": "Can salı, beşik ve hidrostatik kilit",
+  "aspect": 1.783,
+  "inventoryTemplateKey": "LSA_CH_IV_RAFT",
+  "panels": ["COMPONENTS", "INVENTORY", "TASKS"],
+  "shapes": [
+    {
+      "kind": "POLYLINE",
+      "points": [0.0, 0.8977, 1.0, 0.8977],
+      "stroke": "STRUCTURE",
+      "weight": 1.6
+    },
+    {
+      "kind": "POLYLINE",
+      "points": [0.92, 0.8977, 0.92, 0.2394],
+      "stroke": "STRUCTURE"
+    },
+    {
+      "kind": "POLYLINE",
+      "points": [0.86, 0.2394, 0.99, 0.2394],
+      "stroke": "STRUCTURE"
+    },
+    {
+      "kind": "POLYLINE",
+      "points": [0.24, 0.8977, 0.3, 0.5686],
+      "stroke": "STRUCTURE",
+      "weight": 1.3
+    },
+    {
+      "kind": "POLYLINE",
+      "points": [0.78, 0.8977, 0.72, 0.5686],
+      "stroke": "STRUCTURE",
+      "weight": 1.3
+    },
+    {
+      "kind": "POLYLINE",
+      "points": [0.26, 0.5686, 0.76, 0.5686],
+      "stroke": "STRUCTURE",
+      "weight": 1.3
+    },
+    {
+      "kind": "POLYLINE",
+      "points": [0.29, 0.7331, 0.73, 0.7331],
+      "stroke": "STRUCTURE"
+    },
+    {
+      "kind": "RECT",
+      "points": [0.32, 0.1846, 0.7, 0.5137],
+      "stroke": "OUTLINE",
+      "fill": "BODY",
+      "weight": 1.4
+    },
+    {
+      "kind": "ELLIPSE",
+      "points": [0.32, 0.3491, 0.06, 0.1646],
+      "stroke": "OUTLINE",
+      "fill": "BODY",
+      "weight": 1.4
+    },
+    {
+      "kind": "ELLIPSE",
+      "points": [0.7, 0.3491, 0.06, 0.1646],
+      "stroke": "OUTLINE",
+      "fill": "BODY",
+      "weight": 1.4
+    },
+    {
+      "kind": "POLYLINE",
+      "points": [0.26, 0.3491, 0.76, 0.3491],
+      "stroke": "DETAIL"
+    },
+    {
+      "kind": "POLYLINE",
+      "points": [0.4, 0.1914, 0.4, 0.5069],
+      "stroke": "DETAIL"
+    },
+    {
+      "kind": "POLYLINE",
+      "points": [0.62, 0.1914, 0.62, 0.5069],
+      "stroke": "DETAIL"
+    },
+    {
+      "kind": "RECT",
+      "points": [0.44, 0.2669, 0.56, 0.3354],
+      "stroke": "DETAIL",
+      "fill": "PANEL"
+    },
+    {
+      "kind": "POLYLINE",
+      "points": [0.28, 0.8977, 0.3, 0.5137, 0.34, 0.212, 0.5, 0.1503, 0.66, 0.212, 0.7, 0.5137, 0.72, 0.6509],
+      "stroke": "LINE"
+    },
+    {
+      "kind": "RECT",
+      "points": [0.6, 0.7057, 0.7, 0.8703],
+      "stroke": "DETAIL",
+      "fill": "PANEL"
+    },
+    {
+      "kind": "ELLIPSE",
+      "points": [0.65, 0.6989, 0.018, 0.0247],
+      "stroke": "DETAIL",
+      "fill": "ACCENT"
+    },
+    {
+      "kind": "RECT",
+      "points": [0.635, 0.6234, 0.665, 0.7057],
+      "stroke": "DETAIL",
+      "fill": "ACCENT"
+    },
+    {
+      "kind": "POLYLINE",
+      "points": [0.7, 0.788, 0.82, 0.788],
+      "stroke": "LINE",
+      "dashed": true
+    },
+    {
+      "kind": "ELLIPSE",
+      "points": [0.76, 0.788, 0.014, 0.0192],
+      "stroke": "DETAIL",
+      "fill": "ACCENT"
+    },
+    {
+      "kind": "POLYLINE",
+      "points": [0.76, 0.4314, 0.86, 0.5686, 0.86, 0.8703],
+      "stroke": "LINE",
+      "dashed": true
+    },
+    {
+      "kind": "POLYLINE",
+      "points": [0.93, 0.26, 0.93, 0.88],
+      "stroke": "STRUCTURE"
+    },
+    {
+      "kind": "POLYLINE",
+      "points": [0.985, 0.26, 0.985, 0.88],
+      "stroke": "STRUCTURE"
+    },
+    {
+      "kind": "POLYLINE",
+      "points": [0.93, 0.36, 0.985, 0.36],
+      "stroke": "DETAIL"
+    },
+    {
+      "kind": "POLYLINE",
+      "points": [0.93, 0.48, 0.985, 0.48],
+      "stroke": "DETAIL"
+    },
+    {
+      "kind": "POLYLINE",
+      "points": [0.93, 0.6, 0.985, 0.6],
+      "stroke": "DETAIL"
+    },
+    {
+      "kind": "POLYLINE",
+      "points": [0.93, 0.72, 0.985, 0.72],
+      "stroke": "DETAIL"
+    },
+    {
+      "kind": "POLYLINE",
+      "points": [0.93, 0.84, 0.985, 0.84],
+      "stroke": "DETAIL"
+    }
+  ],
+  "hotspots": [
+    {
+      "key": "cradle",
+      "labelEn": "Cradle and lashing frame",
+      "labelTr": "Beşik ve bağlama çerçevesi",
+      "x": 0.24,
+      "y": 0.7331,
+      "childTypeKey": "LSA_LIFERAFT_CRADLE",
+      "taskKeys": ["SC_WEEKLY_VISUAL_INSPECTION"]
+    },
+    {
+      "key": "lashing",
+      "labelEn": "Lashing and senhouse slip",
+      "labelTr": "Bağlama ve çabuk bırakma kilidi",
+      "x": 0.5,
+      "y": 0.1503,
+      "markerX": 0.5,
+      "markerY": 0.0474,
+      "taskKeys": ["SC_WEEKLY_VISUAL_INSPECTION"]
+    },
+    {
+      "key": "hru",
+      "labelEn": "Hydrostatic release unit",
+      "labelTr": "Hidrostatik kilit (HRU)",
+      "x": 0.65,
+      "y": 0.788,
+      "childTypeKey": "LSA_HRU",
+      "taskKeys": ["HRU_REPLACEMENT", "SC_WEEKLY_VISUAL_INSPECTION"]
+    },
+    {
+      "key": "painter_weak_link",
+      "labelEn": "Painter and weak link",
+      "labelTr": "Pruva halatı ve zayıf halka",
+      "x": 0.86,
+      "y": 0.5686,
+      "childTypeKey": "LSA_LIFERAFT_PAINTER_WEAK_LINK",
+      "taskKeys": ["LR_ANNUAL_SERVICING", "SC_WEEKLY_VISUAL_INSPECTION"]
+    },
+    {
+      "key": "embarkation_ladder",
+      "labelEn": "Embarkation ladder",
+      "labelTr": "Bindirme merdiveni",
+      "x": 0.9575,
+      "y": 0.48,
+      "markerX": 0.9575,
+      "markerY": 0.09,
+      "childTypeKey": "LSA_EMBARKATION_LADDER",
+      "taskKeys": ["SC_WEEKLY_VISUAL_INSPECTION"]
+    }
+  ]
+}

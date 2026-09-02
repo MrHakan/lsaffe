@@ -1,24 +1,18 @@
 package com.deckwatch.feature.inspection
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
@@ -28,18 +22,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
-import com.deckwatch.core.designsystem.components.StatusSpine
-import com.deckwatch.core.designsystem.components.TagPlate
-import com.deckwatch.core.designsystem.theme.ConditionColors
+import com.deckwatch.core.designsystem.components.ConditionLabels
+import com.deckwatch.core.designsystem.components.DateFieldLabels
 import com.deckwatch.core.designsystem.theme.Dimens
+import com.deckwatch.core.designsystem.theme.tagTextStyle
 import com.deckwatch.core.model.ConditionGrade
 import com.deckwatch.core.model.DeficiencyStatus
 import com.deckwatch.core.model.EquipmentGroup
@@ -47,8 +37,10 @@ import com.deckwatch.core.model.PerformedBy
 import com.deckwatch.core.model.Severity
 
 /**
- * Shared chrome for the inspection feature: the bilingual enum labels of C8, the tag monospace of
- * §14, the five-grade condition control of §7.3 and the dropdown filter chip of §12.
+ * Shared chrome for the inspection feature: the bilingual enum labels of C8 and the tag monospace of
+ * §14. Everything visual — top bar, empty state, condition chips, status chips, date input, list
+ * rows — comes from `core-designsystem/components`; this file only feeds it localised words
+ * (DESIGN_OVERHAUL, "definition of done").
  */
 
 /** True when the device is running Turkish, so authored `*Tr` content is preferred — C8. */
@@ -138,106 +130,43 @@ fun deltaLabel(dayDelta: Long): String = when {
     else -> stringResource(R.string.due_delta_ahead, dayDelta)
 }
 
+/** The module's words for the shared five-grade control — DESIGN_OVERHAUL rule 5. */
+@Composable
+@ReadOnlyComposable
+fun conditionLabels(): ConditionLabels = ConditionLabels(
+    good = stringResource(R.string.insp_condition_good),
+    acceptable = stringResource(R.string.insp_condition_acceptable),
+    monitor = stringResource(R.string.insp_condition_monitor),
+    defective = stringResource(R.string.insp_condition_defective),
+    outOfService = stringResource(R.string.insp_condition_out_of_service),
+    notChecked = stringResource(R.string.insp_condition_not_checked),
+)
+
+/** The module's words for the shared date picker field — DESIGN_OVERHAUL rule 4. */
+@Composable
+@ReadOnlyComposable
+fun dateFieldLabels(): DateFieldLabels = DateFieldLabels(
+    pick = stringResource(R.string.insp_date_pick),
+    clear = stringResource(R.string.insp_date_clear),
+    confirm = stringResource(R.string.insp_date_ok),
+    cancel = stringResource(R.string.insp_action_cancel),
+)
+
 /** The ship's own identifier, in the monospace that disambiguates 0/O and 1/l/I — §14. */
 @Composable
 fun TagText(tag: String, modifier: Modifier = Modifier) {
-    TagPlate(tag = tag, modifier = modifier)
-}
-
-/** A small filled pill — who must do the job, the deck code, a status word. */
-@Composable
-fun InfoChip(
-    text: String,
-    modifier: Modifier = Modifier,
-    color: Color = MaterialTheme.colorScheme.surfaceVariant,
-    contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
-) {
-    Surface(
+    Text(
+        text = tag,
+        style = tagTextStyle(),
+        color = MaterialTheme.colorScheme.onSurface,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
         modifier = modifier,
-        shape = RoundedCornerShape(Dimens.ChipCorner),
-        color = color,
-        contentColor = contentColor,
-    ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.labelMedium,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(horizontal = Dimens.SpacingS, vertical = 2.dp),
-        )
-    }
+    )
 }
 
 /**
- * The quick-action condition control — §7.3: five 56dp chips, colour-coded per §6.9, icon-free but
- * high contrast so they are readable in sunlight and hittable with gloves (C6).
- */
-val QuickGrades: List<ConditionGrade> = listOf(
-    ConditionGrade.GOOD,
-    ConditionGrade.ACCEPTABLE,
-    ConditionGrade.MONITOR,
-    ConditionGrade.DEFECTIVE,
-    ConditionGrade.OUT_OF_SERVICE,
-)
-
-@Composable
-fun ConditionChipRow(
-    selected: ConditionGrade?,
-    onSelect: (ConditionGrade) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingXs),
-    ) {
-        QuickGrades.forEach { grade ->
-            ConditionChip(
-                grade = grade,
-                selected = grade == selected,
-                onClick = { onSelect(grade) },
-                modifier = Modifier.weight(1f),
-            )
-        }
-    }
-}
-
-@Composable
-private fun ConditionChip(
-    grade: ConditionGrade,
-    selected: Boolean,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    val accent = ConditionColors.of(grade)
-    val label = labelOf(grade)
-    Box(
-        modifier = modifier
-            .heightIn(min = Dimens.TouchTargetPrimary)
-            .clip(RoundedCornerShape(Dimens.ChipCorner))
-            .background(if (selected) accent else accent.copy(alpha = SUBDUED_ALPHA))
-            .border(
-                width = if (selected) 2.dp else 1.dp,
-                color = accent,
-                shape = RoundedCornerShape(Dimens.ChipCorner),
-            )
-            .clickable(onClick = onClick)
-            .padding(horizontal = Dimens.SpacingXs, vertical = Dimens.SpacingS),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(
-            text = label,
-            style = MaterialTheme.typography.labelMedium,
-            fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium,
-            color = if (selected) Color.White else MaterialTheme.colorScheme.onSurface,
-            textAlign = TextAlign.Center,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-        )
-    }
-}
-
-/**
- * One dimension of the Due tab's filter row — §12. Selecting a value narrows the list; the "All"
+ * One dimension of the Due tab's filter sheet — §12. Selecting a value narrows the list; the "All"
  * entry clears just that dimension, so the dimensions stay independent and combinable.
  */
 @Composable
@@ -282,7 +211,11 @@ fun <T> FilterDropdownChip(
     }
 }
 
-/** A left/right swipe backdrop: a coloured panel with its action word on the side being revealed. */
+/**
+ * A left/right swipe backdrop: a coloured panel with its action word on the side being revealed.
+ * It fills whatever height the row settled at, so a 200 % font scale grows the panel with the row
+ * instead of clipping it.
+ */
 @Composable
 fun SwipeActionBackground(
     text: String,
@@ -293,9 +226,9 @@ fun SwipeActionBackground(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .height(Dimens.ListRowComfortable)
+            .heightIn(min = Dimens.ListRowCompact)
             .background(color)
-            .padding(horizontal = Dimens.SpacingL),
+            .padding(horizontal = Dimens.SpacingL, vertical = Dimens.SpacingS),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = if (alignment == Alignment.Start) Arrangement.Start else Arrangement.End,
     ) {
@@ -306,60 +239,3 @@ fun SwipeActionBackground(
         )
     }
 }
-
-/** A section heading inside a scrolling list. */
-@Composable
-fun SectionHeader(text: String, modifier: Modifier = Modifier, trailing: String? = null) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = Dimens.SpacingL, vertical = Dimens.SpacingS),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.titleSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-        if (trailing != null) {
-            Text(
-                text = trailing,
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-        }
-    }
-}
-
-/** The one-sentence "what goes here" of §14's empty-state rule. */
-@Composable
-fun EmptyHint(text: String, modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(Dimens.SpacingXl),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center,
-        )
-    }
-}
-
-/** A fixed-width coloured rail that carries a row's due status without needing a word — §14. */
-@Composable
-fun StatusRail(color: Color, modifier: Modifier = Modifier) {
-    // The shared component, at this feature's fixed row height. The description is null because
-    // every row that uses a rail already names its state in text beside it — the due row in its
-    // row-level description, the deficiency row in its severity chip.
-    StatusSpine(
-        color = color,
-        contentDescription = null,
-        modifier = modifier.height(Dimens.ListRowCompact),
-    )
-}
-private const val SUBDUED_ALPHA = 0.16f

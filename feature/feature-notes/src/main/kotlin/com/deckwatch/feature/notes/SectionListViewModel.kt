@@ -30,9 +30,15 @@ data class SectionListUiState(
     val favourites: Set<String> = emptySet(),
     /** typeKey -> catalogue name, for the card's "Applies to" line. */
     val typeNames: Map<String, String> = emptyMap(),
+    /** The in-section filter typed into the sticky search field — DESIGN_OVERHAUL rule 9. */
+    val query: String = "",
 ) {
     val cardCount: Int get() = groups.sumOf { it.cards.size }
     val isEmpty: Boolean get() = cardCount == 0
+    val isFiltering: Boolean get() = query.isNotBlank()
+
+    /** Empty because the filter excluded everything, rather than because the section is bare. */
+    val isFilteredToNothing: Boolean get() = isEmpty && isFiltering
     val showsFlagSubSections: Boolean get() = section == RegulationSection.FLAG
 
     fun isFavourite(refKey: String): Boolean = refKey in favourites
@@ -54,6 +60,7 @@ class SectionListViewModel @Inject constructor(
     private data class Selection(
         val section: RegulationSection? = null,
         val flag: FlagSubSection? = null,
+        val query: String = "",
     )
 
     private val selection = MutableStateFlow(Selection())
@@ -75,8 +82,10 @@ class SectionListViewModel @Inject constructor(
         val inSection = cards.filter { it.section == currentSection }
         SectionListUiState(
             section = currentSection,
-            groups = groupCards(inSection, currentSection, current.flag),
+            groups = groupCards(matching(inSection, current.query), currentSection, current.flag),
             flagFilter = current.flag,
+            // Derived from the whole section, not the filtered subset: the chips must not
+            // disappear under the officer while they type.
             availableFlags = if (currentSection == RegulationSection.FLAG) {
                 FlagSubSection.entries.filter { candidate ->
                     inSection.any { it.flagSubSection() == candidate }
@@ -86,6 +95,7 @@ class SectionListViewModel @Inject constructor(
             },
             favourites = currentFavourites,
             typeNames = types.associate { it.typeKey to it.nameEn },
+            query = current.query,
         )
     }.stateIn(
         scope = viewModelScope,
@@ -104,6 +114,11 @@ class SectionListViewModel @Inject constructor(
         selection.update { it.copy(flag = value) }
     }
 
+    /** The sticky in-section filter. Cleared automatically when the section changes. */
+    fun onQueryChange(value: String) {
+        selection.update { it.copy(query = value) }
+    }
+
     /** Returns the new state, so the caller can forward it to an optional host callback. */
     fun toggleFavourite(refKey: String): Boolean {
         val nowFavourite = refKey !in favourites.value
@@ -115,6 +130,20 @@ class SectionListViewModel @Inject constructor(
 
     private companion object {
         const val SubscriptionTimeoutMillis = 5_000L
+
+        /**
+         * The in-section filter matches what the officer can actually see on a card: the
+         * citation, the title and the WHAT line. Blank means everything.
+         */
+        fun matching(cards: List<RegulationCard>, query: String): List<RegulationCard> {
+            val needle = query.trim()
+            if (needle.isEmpty()) return cards
+            return cards.filter { card ->
+                card.citation.contains(needle, ignoreCase = true) ||
+                    card.title.contains(needle, ignoreCase = true) ||
+                    card.what.contains(needle, ignoreCase = true)
+            }
+        }
 
         /**
          * FLAG splits into RMI / Liberia / Panama sub-lists (§8.1); every other section is one

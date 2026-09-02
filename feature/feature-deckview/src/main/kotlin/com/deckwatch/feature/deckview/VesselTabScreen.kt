@@ -1,303 +1,563 @@
 package com.deckwatch.feature.deckview
 
-import androidx.annotation.StringRes
+import android.provider.Settings
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animate
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.automirrored.filled.DirectionsWalk
 import androidx.compose.material.icons.filled.Layers
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.deckwatch.core.common.Dates
+import com.deckwatch.core.designsystem.components.ConditionLabels
+import com.deckwatch.core.designsystem.components.DeckWatchTopBar
+import com.deckwatch.core.designsystem.components.EmptyState
 import com.deckwatch.core.designsystem.theme.Dimens
-import com.deckwatch.feature.deckview.canvas.DeckCanvasScreen
+import com.deckwatch.core.model.PlanPreset
+import com.deckwatch.feature.deckview.components.DeckModeControl
+import com.deckwatch.feature.deckview.components.PresetPickerRow
+import com.deckwatch.feature.deckview.components.ViewSettingsSheet
+import com.deckwatch.feature.deckview.gesture.DeckGestureCallbacks
+import com.deckwatch.feature.deckview.gesture.deckGestures
+import com.deckwatch.feature.deckview.model.DeckNode
+import com.deckwatch.feature.deckview.render.DeckLayoutHolder
+import com.deckwatch.feature.deckview.render.DeckRenderDefaults
+import com.deckwatch.feature.deckview.render.DeckSemanticNode
+import com.deckwatch.feature.deckview.render.DeckSemanticsOverlay
+import com.deckwatch.feature.deckview.render.DeckSpine
+import com.deckwatch.feature.deckview.render.DeckStackCanvas
+import com.deckwatch.feature.deckview.render.DeckVisibility
+import com.deckwatch.feature.deckview.render.StackLayout
+import com.deckwatch.feature.deckview.render.rememberDeckTransformState
+import com.deckwatch.feature.deckview.render.spellTag
 import com.deckwatch.feature.equipment.AddEquipmentSheet
 import com.deckwatch.feature.equipment.EquipmentBottomSheet
-import com.deckwatch.feature.equipment.EquipmentDetailScreen
-import com.deckwatch.feature.vessel.category.CategoryManagerScreen
-import com.deckwatch.feature.vessel.deck.DeckManagerScreen
-import com.deckwatch.feature.vessel.edit.VesselEditScreen
 import com.deckwatch.feature.vessel.list.VesselListModeScreen
-import com.deckwatch.feature.vessel.manager.VesselManagerScreen
 import com.deckwatch.feature.vessel.selector.VesselSelector
+import kotlinx.coroutines.launch
+
+/** Where the "add equipment here" flow of §7.5 was invoked. */
+private data class AddTarget(val deckId: String, val zoneId: String?, val posX: Float, val posY: Float)
 
 /**
- * Tab 2 — the vessel.
+ * Tab 2 — the 2.5D deck stack, the signature feature (§7).
  *
- * The body is one of two views of the same vessel, switched from the top bar:
- * - **LIST** (§7.1C): Deck → Zone → Equipment, the fastest way to find a known item;
- * - **PLAN** (§7.1A): the 2.5D deck canvas, where an item is placed and moved by touching the
- *   spot it occupies.
+ * One screen, three modes (§7.1): the isometric stack, one deck filling the screen, and the
+ * graphics-free list that `feature-vessel` owns. The canvas, its gesture layer and its accessibility
+ * tree live in this module; the equipment sheet (§7.3/§7.4), the add flow (§7.5), the vessel selector
+ * and list mode are reused from the feature modules that own them.
  *
- * This screen is the frame around whichever is showing — the vessel selector, the overflow into
- * the vessel/deck/category managers, and the equipment FAB — so every journey the spec asks for is
- * reachable from the tab an officer opens first: add a vessel, add a deck, add equipment, place it,
- * open it.
+ * Every parameter is defaulted so the app can keep calling `VesselTabScreen()`.
  *
- * Sub-screens open as full-screen dialogs rather than nav destinations. They are already complete
- * screens with their own `onBack`, and a dialog keeps the tab's own back stack (and the bottom
- * bar) intact underneath.
+ * @param onManageDecks opens `DeckManagerScreen` — wired by the app.
+ * @param onCreateVessel opens the vessel editor from the "no vessel yet" empty state.
+ * @param onOpenEquipmentDetail pushes the full equipment record (§7.4 "full" stage).
  */
 @Composable
+@Suppress("LongMethod") // The tab is one screen: chrome, canvas, spine and three sheets.
 fun VesselTabScreen(
     modifier: Modifier = Modifier,
-    viewModel: VesselTabViewModel = hiltViewModel(),
+    onManageDecks: () -> Unit = {},
+    onCreateVessel: () -> Unit = {},
+    onOpenEquipmentDetail: (String) -> Unit = {},
+    viewModel: DeckViewViewModel = hiltViewModel(),
 ) {
-    val activeVessel by viewModel.activeVessel.collectAsStateWithLifecycle()
-    var overlay by rememberSaveable { mutableStateOf(VesselTabOverlay.NONE) }
-    var openEquipmentId by rememberSaveable { mutableStateOf<String?>(null) }
-    var detailEquipmentId by rememberSaveable { mutableStateOf<String?>(null) }
-    // Where the next item goes. Null/null is the unplaced inbox, which is what the FAB means.
-    var addToDeckId by rememberSaveable { mutableStateOf<String?>(null) }
-    var addToZoneId by rememberSaveable { mutableStateOf<String?>(null) }
-    // Only PLAN mode names a point; the list has no geometry to offer, so it leaves this null.
-    var addToPosition by remember { mutableStateOf<Pair<Float, Float>?>(null) }
-    var mode by rememberSaveable { mutableStateOf(VesselTabMode.LIST) }
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val transform = rememberDeckTransformState()
+    val layoutHolder = remember { DeckLayoutHolder() }
+    val scope = rememberCoroutineScope()
+    val density = LocalDensity.current
+    val reduceMotion = rememberReducedMotion()
 
-    val topBarActions: @Composable () -> Unit = {
-        VesselSelector()
-        ViewModeToggle(mode = mode, onToggle = { mode = it })
-        VesselTabMenu(
-            onVessels = { overlay = VesselTabOverlay.VESSELS },
-            onDecks = { overlay = VesselTabOverlay.DECKS },
-            onCategories = { overlay = VesselTabOverlay.CATEGORIES },
-        )
+    var selectedEquipmentId by rememberSaveable { mutableStateOf<String?>(null) }
+    var addTarget by remember { mutableStateOf<AddTarget?>(null) }
+    var settingsOpen by rememberSaveable { mutableStateOf(false) }
+    var overflowOpen by remember { mutableStateOf(false) }
+
+    val deckMode = state.mode == DeckViewMode.DECK
+    val sheetEquipmentId = state.sweep?.currentEquipmentId ?: selectedEquipmentId
+    val sweepTitle = stringResource(
+        R.string.deckview_sweep_round_title,
+        state.activeDeck?.name.orEmpty(),
+    )
+
+    // §7.1B: flat and isometric are one animated float, sprung unless the system says no motion.
+    LaunchedEffect(state.effectiveAngleDeg, reduceMotion) {
+        val target = state.effectiveAngleDeg
+        if (reduceMotion) {
+            transform.angleDeg = target
+        } else {
+            animate(
+                initialValue = transform.angleDeg,
+                targetValue = target,
+                animationSpec = spring(stiffness = Spring.StiffnessLow),
+            ) { value, _ -> transform.angleDeg = value }
+        }
     }
-    val addEquipmentFab: @Composable () -> Unit = {
-        // Equipment belongs to a vessel, so the FAB only appears once one is active.
-        if (activeVessel != null) {
-            ExtendedFloatingActionButton(
-                onClick = {
-                    // The FAB adds to the vessel, not to a place: the deck comes from the row's
-                    // own button, from a long press on the canvas, or from the move picker.
-                    addToDeckId = null
-                    addToZoneId = null
-                    addToPosition = null
-                    overlay = VesselTabOverlay.ADD_EQUIPMENT
-                },
-                text = { Text(stringResource(R.string.vessel_tab_add_equipment)) },
-                icon = { Icon(imageVector = Icons.Filled.Add, contentDescription = null) },
+
+    fun flyToDeck(deck: DeckNode, targetZoom: Float) {
+        scope.launch {
+            // In deck mode the stack has collapsed to one deck, so the camera only has to unwind
+            // whatever pan the officer left behind.
+            val targetPan = if (deckMode) {
+                Offset.Zero
+            } else {
+                val levelStep = with(density) { DeckRenderDefaults.DeckHeight.toPx() } *
+                    targetZoom * transform.spread
+                StackLayout.panToCentre(deck.levelZ, state.model.decks.size, levelStep)
+            }
+            transform.flyTo(
+                targetPan = targetPan,
+                targetZoom = targetZoom,
+                deckMode = deckMode,
+                instant = reduceMotion,
             )
         }
     }
 
-    when (mode) {
-        VesselTabMode.LIST -> VesselListModeScreen(
-            modifier = modifier,
-            onOpenEquipment = { openEquipmentId = it },
-            onAddDeck = { overlay = VesselTabOverlay.DECKS },
-            onAddVessel = { overlay = VesselTabOverlay.NEW_VESSEL },
-            onAddEquipment = { deckId, zoneId ->
-                addToDeckId = deckId
-                addToZoneId = zoneId
-                addToPosition = null
-                overlay = VesselTabOverlay.ADD_EQUIPMENT
-            },
-            topBarActions = topBarActions,
-            floatingActionButton = addEquipmentFab,
-        )
-
-        VesselTabMode.PLAN -> PlanModeScaffold(
-            modifier = modifier,
-            topBarActions = topBarActions,
-            floatingActionButton = addEquipmentFab,
-        ) {
-            DeckCanvasScreen(
-                onOpenEquipment = { openEquipmentId = it },
-                onPlaceEquipment = { deckId, zoneId, posX, posY ->
-                    addToDeckId = deckId
-                    addToZoneId = zoneId
-                    addToPosition = posX to posY
-                    overlay = VesselTabOverlay.ADD_EQUIPMENT
-                },
-            )
-        }
+    // Switching into deck mode re-centres: the officer asked for this deck, not for wherever the
+    // stack happened to be panned to.
+    LaunchedEffect(deckMode, state.focusedDeckId) {
+        if (deckMode) transform.pan = Offset.Zero
     }
 
-    val vesselId = activeVessel?.id
-    when (overlay) {
-        VesselTabOverlay.NONE -> Unit
-
-        VesselTabOverlay.VESSELS -> FullScreenOverlay(onDismiss = { overlay = VesselTabOverlay.NONE }) {
-            VesselManagerScreen(onBack = { overlay = VesselTabOverlay.NONE })
-        }
-
-        VesselTabOverlay.NEW_VESSEL -> FullScreenOverlay(onDismiss = { overlay = VesselTabOverlay.NONE }) {
-            VesselEditScreen(vesselId = null, onDone = { overlay = VesselTabOverlay.NONE })
-        }
-
-        VesselTabOverlay.DECKS -> FullScreenOverlay(onDismiss = { overlay = VesselTabOverlay.NONE }) {
-            DeckManagerScreen(onBack = { overlay = VesselTabOverlay.NONE })
-        }
-
-        VesselTabOverlay.CATEGORIES -> FullScreenOverlay(onDismiss = { overlay = VesselTabOverlay.NONE }) {
-            CategoryManagerScreen(onBack = { overlay = VesselTabOverlay.NONE })
-        }
-
-        // The FAB that opens this only exists while a vessel is active, so a null id here means
-        // the vessel was deleted underneath the sheet: show nothing rather than an empty form.
-        VesselTabOverlay.ADD_EQUIPMENT -> if (vesselId != null) {
-            AddEquipmentSheet(
-                vesselId = vesselId,
-                deckId = addToDeckId,
-                zoneId = addToZoneId,
-                posX = addToPosition?.first ?: DEFAULT_POSITION,
-                posY = addToPosition?.second ?: DEFAULT_POSITION,
-                onDismiss = { overlay = VesselTabOverlay.NONE },
-            )
-        }
-    }
-
-    val peeking = openEquipmentId
-    if (peeking != null) {
-        EquipmentBottomSheet(
-            equipmentId = peeking,
-            onDismiss = { openEquipmentId = null },
-            onOpenFullDetail = { id ->
-                openEquipmentId = null
-                detailEquipmentId = id
-            },
-        )
-    }
-
-    val detail = detailEquipmentId
-    if (detail != null) {
-        FullScreenOverlay(onDismiss = { detailEquipmentId = null }) {
-            EquipmentDetailScreen(equipmentId = detail, onBack = { detailEquipmentId = null })
-        }
-    }
-}
-
-/** Which view of the vessel the tab is showing — §7.1. */
-internal enum class VesselTabMode { LIST, PLAN }
-
-/**
- * Centre of the deck: where an item goes when nobody said where. The list has no geometry, so
- * everything it adds starts here and is moved from the canvas or the move picker.
- */
-private const val DEFAULT_POSITION = 0.5f
-
-/** Which full-screen sub-screen the tab is showing, if any. */
-internal enum class VesselTabOverlay { NONE, VESSELS, NEW_VESSEL, DECKS, CATEGORIES, ADD_EQUIPMENT }
-
-/**
- * LIST ⇄ PLAN. One button, not a tab row: the two are the same data seen two ways, and the icon
- * shows what tapping it gives you rather than where you already are.
- */
-@Composable
-private fun ViewModeToggle(mode: VesselTabMode, onToggle: (VesselTabMode) -> Unit) {
-    val goingToPlan = mode == VesselTabMode.LIST
-    IconButton(
-        onClick = { onToggle(if (goingToPlan) VesselTabMode.PLAN else VesselTabMode.LIST) },
-        modifier = Modifier.size(Dimens.TouchTargetMin),
-    ) {
-        Icon(
-            imageVector = if (goingToPlan) Icons.Filled.Layers else Icons.AutoMirrored.Filled.List,
-            contentDescription = stringResource(
-                if (goingToPlan) R.string.vessel_tab_show_plan else R.string.vessel_tab_show_list,
-            ),
-        )
-    }
-}
-
-/**
- * The frame PLAN mode borrows from LIST mode: the same top bar and FAB, around the canvas.
- *
- * LIST mode brings its own scaffold (it owns the empty states and the preset picker), so rather
- * than pushing a scaffold down into both, the canvas gets a matching one here.
- */
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun PlanModeScaffold(
-    topBarActions: @Composable () -> Unit,
-    floatingActionButton: @Composable () -> Unit,
-    modifier: Modifier = Modifier,
-    content: @Composable () -> Unit,
-) {
     Scaffold(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier,
         topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.vessel_tab_plan_title)) },
-                actions = { topBarActions() },
+            DeckWatchTopBar(
+                title = stringResource(R.string.deckview_title),
+                subtitle = state.vessel?.name,
+                actions = {
+                    VesselSelector()
+                    IconButton(
+                        onClick = {
+                            val deck = state.activeDeck
+                            when {
+                                state.sweep != null -> viewModel.finishSweep()
+                                deck != null -> viewModel.startSweep(deck.deckId, sweepTitle)
+                            }
+                        },
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.DirectionsWalk,
+                            contentDescription = stringResource(
+                                if (state.sweep != null) {
+                                    R.string.deckview_sweep_stop
+                                } else {
+                                    R.string.deckview_sweep_start
+                                },
+                            ),
+                            tint = if (state.sweep != null) {
+                                MaterialTheme.colorScheme.primary
+                            } else {
+                                MaterialTheme.colorScheme.onSurfaceVariant
+                            },
+                        )
+                    }
+                    Box {
+                        IconButton(onClick = { overflowOpen = true }) {
+                            Icon(
+                                imageVector = Icons.Filled.MoreVert,
+                                contentDescription = stringResource(R.string.deckview_more_actions),
+                            )
+                        }
+                        DropdownMenu(
+                            expanded = overflowOpen,
+                            onDismissRequest = { overflowOpen = false },
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.deckview_view_settings)) },
+                                leadingIcon = { Icon(Icons.Filled.Tune, contentDescription = null) },
+                                onClick = {
+                                    overflowOpen = false
+                                    settingsOpen = true
+                                },
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.deckview_manage_decks)) },
+                                leadingIcon = { Icon(Icons.Filled.Layers, contentDescription = null) },
+                                onClick = {
+                                    overflowOpen = false
+                                    onManageDecks()
+                                },
+                            )
+                            if (deckMode) {
+                                DropdownMenuItem(
+                                    text = {
+                                        Text(
+                                            stringResource(
+                                                if (state.flatInDeckMode) {
+                                                    R.string.deckview_view_isometric
+                                                } else {
+                                                    R.string.deckview_view_flat
+                                                },
+                                            ),
+                                        )
+                                    },
+                                    onClick = {
+                                        overflowOpen = false
+                                        viewModel.toggleFlat()
+                                    },
+                                )
+                            }
+                        }
+                    }
+                },
             )
         },
-        floatingActionButton = floatingActionButton,
+        floatingActionButton = {
+            val deck = state.activeDeck
+            if (deck != null && state.mode != DeckViewMode.LIST) {
+                ExtendedFloatingActionButton(
+                    onClick = {
+                        addTarget = AddTarget(deck.deckId, null, PLAN_CENTRE, PLAN_CENTRE)
+                    },
+                    icon = { Icon(Icons.Filled.Add, contentDescription = null) },
+                    text = { Text(stringResource(R.string.deckview_add_equipment)) },
+                    modifier = Modifier.padding(bottom = Dimens.SpacingS),
+                )
+            }
+        },
     ) { padding ->
-        Box(modifier = Modifier.padding(padding).fillMaxSize()) { content() }
-    }
-}
+        Column(modifier = Modifier.fillMaxSize().padding(padding)) {
+            if (state.hasVessel) {
+                DeckModeControl(
+                    mode = state.mode,
+                    onModeChange = viewModel::setMode,
+                    modifier = Modifier.padding(horizontal = Dimens.SpacingL, vertical = Dimens.SpacingXs),
+                )
+            }
+            when {
+                !state.hasVessel && !state.isLoading -> EmptyState(
+                    icon = Icons.Filled.Layers,
+                    title = stringResource(R.string.deckview_no_vessel_title),
+                    body = stringResource(R.string.deckview_no_vessel_body),
+                    actionLabel = stringResource(R.string.deckview_create_vessel),
+                    onAction = onCreateVessel,
+                )
 
-@Composable
-private fun VesselTabMenu(
-    onVessels: () -> Unit,
-    onDecks: () -> Unit,
-    onCategories: () -> Unit,
-) {
-    var expanded by remember { mutableStateOf(false) }
-    IconButton(
-        onClick = { expanded = true },
-        modifier = Modifier.size(Dimens.TouchTargetMin),
-    ) {
-        Icon(
-            imageVector = Icons.Filled.MoreVert,
-            contentDescription = stringResource(R.string.vessel_tab_menu),
+                state.mode == DeckViewMode.LIST -> VesselListModeScreen(
+                    onOpenEquipment = { selectedEquipmentId = it },
+                    onAddDeck = onManageDecks,
+                )
+
+                state.hasNoDecks -> DeckPresetEmptyState(
+                    presets = state.presets,
+                    onPick = { preset, name -> viewModel.createDeckFromPreset(preset, name) },
+                )
+
+                else -> DeckCanvasArea(
+                    state = state,
+                    transform = transform,
+                    layoutHolder = layoutHolder,
+                    deckMode = deckMode,
+                    reduceMotion = reduceMotion,
+                    selectedEquipmentId = sheetEquipmentId,
+                    callbacks = DeckGestureCallbacks(
+                        onTapMarker = { equipmentId, _ -> selectedEquipmentId = equipmentId },
+                        onTapDeck = { deckId ->
+                            when {
+                                deckMode -> selectedEquipmentId = null
+                                state.focusedDeckId == deckId -> viewModel.enterDeckMode(deckId)
+                                else -> viewModel.focusDeck(deckId)
+                            }
+                        },
+                        onTapEmpty = {
+                            selectedEquipmentId = null
+                            viewModel.focusDeck(null)
+                        },
+                        onZoomToFit = { deckId ->
+                            val deck = state.model.deck(deckId) ?: state.activeDeck
+                            if (deck != null) flyToDeck(deck, FIT_ZOOM) else transform.reset()
+                        },
+                        // The pick-up haptic is fired by the gesture layer itself, the moment the
+                        // long press lands, so there is nothing to do here.
+                        onMarkerDropped = { equipmentId, deckId, x, y, inside ->
+                            if (inside) {
+                                viewModel.moveEquipment(equipmentId, deckId, x, y)
+                            } else {
+                                scope.launch {
+                                    transform.shake(
+                                        amplitudePx = with(density) {
+                                            DeckRenderDefaults.ShakeAmplitude.toPx()
+                                        },
+                                        instant = reduceMotion,
+                                    )
+                                }
+                            }
+                        },
+                        onAddEquipmentAt = { deckId, x, y ->
+                            addTarget = AddTarget(deckId, viewModel.zoneAt(deckId, x, y), x, y)
+                        },
+                    ),
+                    onSpineSelect = { deck ->
+                        viewModel.focusDeck(deck.deckId)
+                        flyToDeck(deck, transform.zoom)
+                    },
+                    onStepDeck = { step ->
+                        val current = state.activeDeck
+                        val next = state.model.decks.firstOrNull {
+                            it.levelZ == (current?.levelZ ?: 0) + step
+                        }
+                        if (next != null) {
+                            if (deckMode) viewModel.enterDeckMode(next.deckId) else viewModel.focusDeck(next.deckId)
+                            flyToDeck(next, transform.zoom)
+                        }
+                    },
+                    onOpenEquipment = { selectedEquipmentId = it },
+                )
+            }
+        }
+    }
+
+    if (sheetEquipmentId != null) {
+        EquipmentBottomSheet(
+            equipmentId = sheetEquipmentId,
+            onDismiss = {
+                selectedEquipmentId = null
+                if (state.sweep != null) viewModel.finishSweep()
+            },
+            onGraded = viewModel::onSweepGraded,
+            onOpenFullDetail = onOpenEquipmentDetail,
         )
     }
-    DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-        MenuItem(R.string.vessel_tab_manage_vessels) {
-            expanded = false
-            onVessels()
+
+    addTarget?.let { target ->
+        val vesselId = state.vessel?.id
+        if (vesselId != null) {
+            AddEquipmentSheet(
+                vesselId = vesselId,
+                onDismiss = { addTarget = null },
+                deckId = target.deckId,
+                zoneId = target.zoneId,
+                posX = target.posX,
+                posY = target.posY,
+                onCreated = { ids -> selectedEquipmentId = ids.lastOrNull() },
+            )
         }
-        MenuItem(R.string.vessel_tab_manage_decks) {
-            expanded = false
-            onDecks()
-        }
-        MenuItem(R.string.vessel_tab_manage_categories) {
-            expanded = false
-            onCategories()
-        }
+    }
+
+    if (settingsOpen) {
+        ViewSettingsSheet(
+            transform = transform,
+            isoAngleDeg = state.isoAngleDeg,
+            gridSnapEnabled = state.gridSnapEnabled,
+            showGrid = state.showGrid,
+            onIsoAngleChange = viewModel::setIsoAngle,
+            onGridSnapChange = viewModel::setGridSnap,
+            onShowGridChange = { viewModel.toggleGrid() },
+            onDismiss = { settingsOpen = false },
+        )
     }
 }
 
+/** The canvas, its gesture layer, its accessibility tree and the deck spine. */
 @Composable
-private fun MenuItem(@StringRes labelRes: Int, onClick: () -> Unit) {
-    DropdownMenuItem(
-        modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
-        text = { Text(stringResource(labelRes)) },
-        onClick = onClick,
+@Suppress("LongParameterList") // The rendering surface's inputs; all come from one caller.
+private fun DeckCanvasArea(
+    state: DeckViewUiState,
+    transform: com.deckwatch.feature.deckview.render.DeckTransformState,
+    layoutHolder: DeckLayoutHolder,
+    deckMode: Boolean,
+    reduceMotion: Boolean,
+    selectedEquipmentId: String?,
+    callbacks: DeckGestureCallbacks,
+    onSpineSelect: (DeckNode) -> Unit,
+    onStepDeck: (Int) -> Unit,
+    onOpenEquipment: (String) -> Unit,
+) {
+    val density = LocalDensity.current
+    val haptics = LocalHapticFeedback.current
+    val hitRadiusPx = with(density) { DeckRenderDefaults.MarkerHitRadius.toPx() }
+    val activeDeckId = state.activeDeck?.deckId
+    val interactive = remember(state.model, state.focusedDeckId, deckMode, activeDeckId) {
+        DeckVisibility.visibleDecks(state.model, deckMode, activeDeckId, null)
+            .filter { DeckVisibility.isInteractive(it, state.focusedDeckId, state.model) }
+    }
+    // The pointer-input block is only restarted when its keys change, so the set of interactive
+    // decks is read through an updated state rather than captured — focusing a deck must not need
+    // the gesture detector to be torn down and rebuilt mid-touch.
+    val interactiveDecks = rememberUpdatedState(interactive)
+    val conditionLabels = rememberConditionLabels()
+    val deckNodes = state.model.decks.map { deck ->
+        DeckSemanticNode(
+            id = deck.deckId,
+            levelZ = deck.levelZ,
+            planX = PLAN_CENTRE,
+            planY = PLAN_CENTRE,
+            description = stringResource(
+                R.string.deckview_a11y_deck,
+                deck.name,
+                deck.markers.size,
+                deck.overdueCount,
+            ),
+            clickLabel = stringResource(R.string.deckview_a11y_focus_deck),
+            onClick = { onSpineSelect(deck) },
+        )
+    }
+    val markerDeck = state.model.deck(activeDeckId)
+    val markerNodes = markerDeck?.markers.orEmpty().map { marker ->
+        DeckSemanticNode(
+            id = marker.equipmentId,
+            levelZ = markerDeck?.levelZ ?: 0,
+            planX = marker.position.x,
+            planY = marker.position.y,
+            description = stringResource(
+                R.string.deckview_a11y_marker,
+                marker.typeName,
+                spellTag(marker.tag),
+                conditionLabels.of(marker.condition),
+                marker.nextDueDate?.let(Dates::formatIso)
+                    ?: stringResource(R.string.deckview_a11y_no_due_date),
+            ),
+            clickLabel = stringResource(R.string.deckview_a11y_open_equipment),
+            onClick = { onOpenEquipment(marker.equipmentId) },
+        )
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        DeckStackCanvas(
+            model = state.model,
+            transform = transform,
+            layoutHolder = layoutHolder,
+            modifier = Modifier
+                .fillMaxSize()
+                .deckGestures(
+                    key = state.model,
+                    transform = transform,
+                    layoutHolder = layoutHolder,
+                    interactiveDecks = { interactiveDecks.value },
+                    deckMode = deckMode,
+                    gridSnapEnabled = state.gridSnapEnabled,
+                    hitRadiusPx = hitRadiusPx,
+                    performHaptic = {
+                        haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+                    },
+                    callbacks = callbacks,
+                ),
+            deckMode = deckMode,
+            activeDeckId = activeDeckId,
+            focusedDeckId = state.focusedDeckId,
+            selectedEquipmentId = selectedEquipmentId,
+            showGrid = state.showGrid,
+            reduceMotion = reduceMotion,
+        )
+        DeckSemanticsOverlay(
+            model = state.model,
+            transform = transform,
+            deckMode = deckMode,
+            deckNodes = deckNodes,
+            markerNodes = markerNodes,
+            modifier = Modifier.fillMaxSize(),
+        )
+        DeckSpine(
+            decks = state.model.decksTopFirst,
+            focusedDeckId = state.focusedDeckId,
+            onSelect = { deckId -> state.model.deck(deckId)?.let(onSpineSelect) },
+            onSwipeToDeckAbove = { onStepDeck(1) },
+            onSwipeToDeckBelow = { onStepDeck(-1) },
+            pillDescription = { deck ->
+                stringResource(R.string.deckview_a11y_deck, deck.name, deck.markers.size, deck.overdueCount)
+            },
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .fillMaxHeight()
+                .padding(end = Dimens.SpacingXs),
+        )
+    }
+}
+
+/** The first-run state of §14: one sentence and the six deck presets, visible immediately. */
+@Composable
+private fun DeckPresetEmptyState(
+    presets: List<PlanPreset>,
+    onPick: (PlanPreset, String) -> Unit,
+) {
+    val context = LocalContext.current
+    EmptyState(
+        icon = Icons.Filled.Layers,
+        title = stringResource(R.string.deckview_no_decks_title),
+        body = stringResource(R.string.deckview_empty_hint),
+        extraContent = {
+            PresetPickerRow(
+                presets = presets,
+                presetLabel = { presetDisplayName(context, it) },
+                onPick = { preset -> onPick(preset, presetDisplayName(context, preset)) },
+                modifier = Modifier.fillMaxWidth(),
+            )
+        },
     )
 }
 
-/** A complete screen shown over the tab, keeping the bottom bar and back stack underneath. */
 @Composable
-private fun FullScreenOverlay(onDismiss: () -> Unit, content: @Composable () -> Unit) {
-    Dialog(
-        onDismissRequest = onDismiss,
-        properties = DialogProperties(usePlatformDefaultWidth = false),
-        content = content,
-    )
+private fun rememberConditionLabels(): ConditionLabels = ConditionLabels(
+    good = stringResource(R.string.deckview_condition_good),
+    acceptable = stringResource(R.string.deckview_condition_acceptable),
+    monitor = stringResource(R.string.deckview_condition_monitor),
+    defective = stringResource(R.string.deckview_condition_defective),
+    outOfService = stringResource(R.string.deckview_condition_out_of_service),
+    notChecked = stringResource(R.string.deckview_condition_not_checked),
+)
+
+/**
+ * §14: respect `Settings.Global.ANIMATOR_DURATION_SCALE`. A scale of 0 means the user has turned
+ * animations off system-wide, so the deck fan, the fly-to and the marker pulse all snap instead.
+ */
+@Composable
+fun rememberReducedMotion(): Boolean {
+    val context = LocalContext.current
+    return remember(context) {
+        Settings.Global.getFloat(
+            context.contentResolver,
+            Settings.Global.ANIMATOR_DURATION_SCALE,
+            1f,
+        ) == 0f
+    }
 }
+
+/** Preset names are bilingual seed content (§6.3), not UI chrome. */
+private fun presetDisplayName(context: android.content.Context, preset: PlanPreset): String {
+    val language = context.resources.configuration.locales[0].language
+    return if (language == TURKISH_LANGUAGE) preset.nameTr else preset.nameEn
+}
+
+private const val TURKISH_LANGUAGE = "tr"
+private const val PLAN_CENTRE = 0.5f
+
+/** Double-tap zoom-to-fit target: enough that a deck fills the viewport comfortably. */
+private const val FIT_ZOOM = 1.6f

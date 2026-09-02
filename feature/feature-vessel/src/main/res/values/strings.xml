@@ -11,11 +11,15 @@
     <string name="vessel_cd_more_actions">More actions</string>
     <string name="vessel_cd_expand">Expand</string>
     <string name="vessel_cd_collapse">Collapse</string>
+    <!-- Marks a required form field: "Vessel name *". -->
+    <string name="vessel_field_required">%1$s *</string>
 
     <!-- ============================================================ vessel manager -->
     <string name="vessel_manager_title">Vessels</string>
     <string name="vessel_manager_add">Add vessel</string>
+    <string name="vessel_manager_empty_title">No vessels yet</string>
     <string name="vessel_manager_empty_message">Your vessels live here. Add the ship you are sailing on, then build her decks.</string>
+    <string name="vessel_manager_imo">IMO %1$s</string>
     <string name="vessel_manager_active">Active</string>
     <string name="vessel_manager_set_active">Set active</string>
     <string name="vessel_manager_cd_active">This is the active vessel</string>
@@ -42,12 +46,12 @@
     <string name="vessel_edit_class_society">Class society</string>
     <string name="vessel_edit_class_none">Not recorded</string>
     <string name="vessel_edit_vessel_type">Vessel type</string>
-    <string name="vessel_edit_gross_tonnage">Gross tonnage (GT)</string>
+    <string name="vessel_edit_gross_tonnage">Gross tonnage</string>
+    <string name="vessel_edit_gross_tonnage_unit">GT</string>
     <string name="vessel_edit_build_date">Build date</string>
     <string name="vessel_edit_sec_expiry">Safety Equipment Certificate expiry</string>
     <string name="vessel_edit_last_annual_survey">Last annual survey</string>
     <string name="vessel_edit_next_drydock">Next drydock</string>
-    <string name="vessel_edit_date_not_set">Not set</string>
     <string name="vessel_edit_date_clear">Clear date</string>
     <string name="vessel_edit_date_pick">Pick a date</string>
 
@@ -88,10 +92,15 @@
 
     <!-- ============================================================ deck manager -->
     <string name="deck_manager_title">Decks</string>
+    <string name="deck_manager_empty_title">No decks yet</string>
     <string name="deck_manager_empty_message">A vessel is a stack of decks. Add the deck you work from most — everything else slots above or below it.</string>
     <string name="deck_manager_add_first">Add your first deck</string>
+    <string name="deck_manager_add">Add deck</string>
+    <string name="deck_manager_add_where">Where does this deck go?</string>
     <string name="deck_manager_add_above">Add deck above</string>
+    <string name="deck_manager_add_above_help">On top of the highest deck you have.</string>
     <string name="deck_manager_add_below">Add deck below</string>
+    <string name="deck_manager_add_below_help">Under the lowest deck you have.</string>
     <string name="deck_manager_insert_above">Insert above</string>
     <string name="deck_manager_insert_below">Insert below</string>
     <string name="deck_manager_insert_between">Insert deck between</string>
@@ -102,12 +111,14 @@
     <string name="deck_manager_delete_title">Delete %1$s?</string>
     <string name="deck_manager_delete_message_empty">This deck carries no equipment, so nothing else changes.</string>
     <string name="deck_manager_delete_message_equipment">%1$d equipment records on this deck become unplaced. They move to the inbox — nothing is deleted.</string>
+    <string name="deck_manager_no_vessel_title">No active vessel</string>
     <string name="deck_manager_no_vessel">No vessel is active. Add or select a vessel first.</string>
 
     <!-- ============================================================ deck edit sheet -->
     <string name="deck_edit_title_new">New deck</string>
     <string name="deck_edit_title_edit">Edit deck</string>
     <string name="deck_edit_name">Deck name</string>
+    <string name="deck_edit_name_required">A deck name is required.</string>
     <string name="deck_edit_short_code">Short code</string>
     <string name="deck_edit_short_code_help">Shown on the stack spine — UD, A, BR.</string>
     <string name="deck_edit_preset">Plan preset</string>
@@ -136,6 +147,7 @@
 
     <!-- ============================================================ zone manager -->
     <string name="zone_manager_title">Zones</string>
+    <string name="zone_manager_empty_title">No zones on this deck</string>
     <string name="zone_manager_empty_message">Zones name the parts of a deck — Fwd Mooring Station, Pump Room, Galley. Add one to group equipment by where it sits.</string>
     <string name="zone_manager_add">Add zone</string>
     <string name="zone_manager_move_up">Move up</string>
@@ -156,6 +168,7 @@
 
     <!-- ============================================================ category manager -->
     <string name="category_manager_title">Categories</string>
+    <string name="category_manager_empty_title">No categories yet</string>
     <string name="category_manager_empty_message">Logical categories tag equipment wherever it sits — Weekly Round, PSC Focus Items, Chief Officer\'s List.</string>
     <string name="category_manager_add">Add category</string>
     <string name="category_manager_delete_title">Delete category?</string>
@@ -171,12 +184,12 @@
     <string name="category_scope_vessel">This vessel</string>
 
     <!-- ============================================================ list mode -->
-    <string name="list_mode_title">Vessel</string>
     <string name="list_mode_no_zone">No zone</string>
     <string name="list_mode_unplaced_deck">Unplaced equipment</string>
     <string name="list_mode_empty_title">Add your first deck</string>
     <string name="list_mode_empty_message">DeckWatch builds your ship deck by deck. Pick a plan preset to start — you can rename and reshape it any time.</string>
-    <string name="list_mode_no_vessel">DeckWatch keeps one ship active at a time. Add yours to start.</string>
+    <string name="list_mode_no_vessel_title">No active vessel</string>
+    <string name="list_mode_no_vessel">No vessel is active yet. Add one in the vessel manager to start.</string>
     <string name="list_mode_deck_empty">No equipment on this deck yet.</string>
     <string name="list_mode_due">Due %1$s</string>
     <string name="list_mode_no_due">No due date</string>
@@ -191,7 +204,6 @@
         <item quantity="other">%1$d items</item>
     </plurals>
 
-    <string name="list_mode_no_vessel_title">No vessel yet</string>
     <string name="list_mode_add_vessel">Add vessel</string>
     <string name="list_mode_add_equipment_here">Add equipment to %1$s</string>
     <string name="list_mode_due_overdue">%1$d d overdue</string>

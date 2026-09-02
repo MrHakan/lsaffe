@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  Türkçe metin kuralları (2026-09 gözden geçirmesi):
+  * Denizcilik terimleri IMO/SOLAS Türkçe karşılıklarıyla verilir: eksiklik (deficiency),
+    tutulma sebebi (detainable), mahal (location), güverte (deck), vade (due).
+  * Cümleler ve alan yönlendirmeleri nazik emir kipiyle yazılır: "girin", "seçin", "doğrulayın".
+    İkinci tekil şahıs ("gir", "seçebilirsin") hiçbir yerde kullanılmaz.
+  * Buton etiketleri Android Türkçesinin yerleşik kısa emir biçimindedir: "Kaydet", "Sil", "Vazgeç".
+-->
 <resources>
 
     <!-- ============================================================ durum dereceleri (§6.9, §7.3) -->
@@ -11,16 +19,12 @@
     <string name="equip_condition_not_checked">Kontrol edilmedi</string>
     <string name="equip_condition_graded">Durum: %1$s</string>
     <string name="equip_condition_undo">Geri al</string>
-    <string name="equip_condition_set_at">Durum: %1$s</string>
 
     <!-- ============================================================ alt sayfa (§7.4) -->
-    <string name="equip_sheet_show_more">Daha fazla göster</string>
-    <string name="equip_sheet_show_full">Tüm kaydı göster</string>
-    <string name="equip_sheet_show_less">Daha az göster</string>
-    <string name="equip_sheet_open_detail">Tam ekran aç</string>
+    <string name="equip_sheet_full_record">Tam kayıt</string>
     <string name="equip_sheet_loading">Yükleniyor…</string>
     <string name="equip_sheet_not_found">Bu ekipman kaydı artık mevcut değil.</string>
-    <string name="equip_next_due">Sıradaki vade</string>
+    <string name="equip_next_due">Sonraki vade</string>
     <string name="equip_next_due_none">Planlanmış iş yok</string>
     <string name="equip_due_overdue">%1$d gün gecikmiş</string>
     <string name="equip_due_overdue_one">1 gün gecikmiş</string>
@@ -81,8 +85,8 @@
 
     <!-- ============================================================ eksiklik (§7.3) -->
     <string name="equip_deficiency_title">Eksiklik kaydı aç</string>
-    <string name="equip_deficiency_hint">İsteğe bağlı. Kapatıp sonra da doldurabilirsin.</string>
-    <string name="equip_deficiency_field_title">Başlık</string>
+    <string name="equip_deficiency_hint">İsteğe bağlı. Kapatıp sonra da doldurabilirsiniz.</string>
+    <string name="equip_deficiency_field_title_required">Başlık *</string>
     <string name="equip_deficiency_field_description">Açıklama</string>
     <string name="equip_deficiency_field_severity">Önem derecesi</string>
     <string name="equip_deficiency_field_raised_by">Kaydı açan</string>
@@ -94,38 +98,41 @@
     <string name="equip_severity_major">Büyük</string>
     <string name="equip_severity_critical">Kritik / tutulma sebebi</string>
 
-    <!-- ============================================================ geri alınamaz işlemler (§7.4, C10) -->
+    <!-- ============================================================ geri alınabilir işlemler (§7.4, C10) -->
     <string name="equip_actions">İşlemler</string>
     <string name="equip_move_deck">Güverteye taşı</string>
     <string name="equip_duplicate">Çoğalt</string>
     <string name="equip_duplicate_n">Çoğalt ×%1$d</string>
-    <string name="equip_duplicated">%1$d kopya oluşturuldu</string>
+    <string name="equip_duplicated">Kopyalar oluşturuldu</string>
     <string name="equip_delete">Sil</string>
     <string name="equip_delete_confirm_title">%1$s silinsin mi?</string>
-    <string name="equip_delete_confirm_body">Kayıt sicilden kaldırılır. Geri almak için on saniyen var.</string>
+    <string name="equip_delete_confirm_body">Kayıt sicilden kaldırılır. Geri almak için on saniyeniz var.</string>
+    <string name="equip_deleted">Ekipman silindi</string>
     <string name="equip_cancel">Vazgeç</string>
     <string name="equip_close">Kapat</string>
 
     <!-- ============================================================ ekleme akışı (§7.5) -->
     <string name="add_title">Ekipman ekle</string>
     <string name="add_step_catalogue">Katalog</string>
-    <string name="add_step_details">Künye</string>
-    <string name="add_step_attributes">Nitelikler</string>
-    <string name="add_search">Ekipman tipi ara</string>
+    <string name="add_step_details">Kayıt</string>
+    <string name="add_search">Ekipman tipi arayın</string>
     <string name="add_search_clear">Aramayı temizle</string>
     <string name="add_tab_category">Kategoriye göre</string>
-    <string name="add_tab_recent">Son eklenenler</string>
-    <string name="add_recent_empty">Bu oturumda henüz ekipman eklenmedi.</string>
-    <string name="add_no_results">Aramaya uyan ekipman tipi yok.</string>
+    <string name="add_tab_recent">Son kullanılanlar</string>
+    <string name="add_recent_empty_title">Henüz kullanılan tip yok</string>
+    <string name="add_recent_empty">Bu oturumda seçtiğiniz tipler burada listelenir; aynı donanımdan seri ekleme iki dokunuşa iner.</string>
+    <string name="add_no_results_title">Eşleşme yok</string>
+    <string name="add_no_results">Aramaya uyan ekipman tipi yok. Kategorilere göz atmak için aramayı temizleyin.</string>
     <string name="add_group_lsa">LSA — can kurtarma</string>
-    <string name="add_group_ffe">FFE — yangın</string>
+    <string name="add_group_ffe">FFE — yangından korunma</string>
     <string name="add_group_emergency">Acil durum ve tahliye</string>
     <string name="add_group_machinery">Makine ve kumandalar</string>
-    <string name="add_group_signage">İşaretleme</string>
+    <string name="add_group_signage">İşaret ve levhalar</string>
     <string name="add_group_other">Diğer</string>
     <string name="add_group_count">%1$d tip</string>
+    <string name="add_group_expand">Bölümü aç</string>
+    <string name="add_group_collapse">Bölümü kapat</string>
     <string name="add_field_tag">Etiket</string>
-    <string name="add_field_tag_required">Etiket (zorunlu)</string>
     <string name="add_field_name">Ad</string>
     <string name="add_field_location">Mahal</string>
     <string name="add_field_maker">İmalatçı</string>
@@ -133,33 +140,30 @@
     <string name="add_field_serial">Seri numarası</string>
     <string name="add_field_type_approval">Tip onay no.</string>
     <string name="add_field_quantity">Adet</string>
-    <string name="add_field_manufacture_date">İmal tarihi</string>
+    <string name="add_field_manufacture_date">İmalat tarihi</string>
     <string name="add_field_installed_date">Montaj tarihi</string>
     <string name="add_field_notes">Notlar</string>
     <string name="add_copies">Kopya sayısı</string>
     <string name="add_copies_help">Belirtilen sayıda kaydı artan etiketlerle, bırakma noktası çevresinde küçük bir düzende oluşturur.</string>
     <string name="add_decrease">Azalt</string>
     <string name="add_increase">Artır</string>
-    <string name="add_next">İleri</string>
     <string name="add_back">Geri</string>
     <string name="add_create">Ekipmanı ekle</string>
     <string name="add_create_n">%1$d kayıt ekle</string>
     <string name="add_tag_required_error">Etiket zorunludur.</string>
-    <string name="add_fix_errors">Önce işaretli alanları düzelt.</string>
-    <string name="add_due_preview">Oluşacak vade tarihleri</string>
     <string name="add_due_preview_none">Bu tip için tarihli iş türetilmedi.</string>
-    <string name="add_due_preview_row">vade %1$s</string>
-    <string name="add_due_anchor">Son yapılış olarak alınırsa: %1$s vadesi %2$s</string>
+    <string name="add_due_anchor">→ sonraki %1$s %2$s</string>
     <string name="add_task_added">Eklenen iş: %1$s</string>
 
     <!-- ============================================================ nitelik formu (§9.3) -->
-    <string name="attr_required">Zorunlu</string>
+    <string name="attr_group_identification">Tanım bilgileri</string>
+    <string name="attr_group_dates">Tarihler</string>
+    <string name="attr_group_checks">Kontroller</string>
     <string name="attr_error_required">Bu alan zorunludur.</string>
-    <string name="attr_error_number">Sayı gir.</string>
-    <string name="attr_warning_band">Beklenen aralığın (%1$s–%2$s) dışında — kaydet ve eksiklik aç.</string>
+    <string name="attr_error_number">Sayı girin.</string>
+    <string name="attr_warning_band">Beklenen aralığın (%1$s–%2$s) dışında — değeri kaydedin ve eksiklik açın.</string>
     <string name="attr_in_band">Beklenen aralıkta (%1$s–%2$s).</string>
-    <string name="attr_pick_date">Tarih seç</string>
-    <string name="attr_date_none">Girilmedi</string>
+    <string name="attr_pick_date">Tarih seçin</string>
     <string name="attr_clear">Temizle</string>
     <string name="attr_ok">Tamam</string>
     <string name="attr_photo_placeholder">Fotoğraf eklenmedi — çekim özelliği henüz yok.</string>
@@ -167,11 +171,11 @@
     <string name="attr_not_set">—</string>
     <string name="attr_yes">Evet</string>
     <string name="attr_no">Hayır</string>
-    <string name="attr_choose">Seç</string>
 
     <!-- ============================================================ tam ekran kayıt -->
     <string name="detail_title">Ekipman</string>
     <string name="detail_back">Geri</string>
+    <string name="detail_more_actions">Diğer işlemler</string>
 
     <!-- ============================================================ kural kartı etiketleri (§8.2) -->
     <string name="reg_label_what">NE</string>
@@ -180,7 +184,7 @@
     <string name="reg_label_evidence">KANIT</string>
     <string name="reg_label_flag_notes">BAYRAK NOTLARI</string>
     <string name="reg_label_applies_to">Kapsam</string>
-    <string name="reg_label_verify">Yürürlükteki metinle doğrula</string>
+    <string name="reg_label_verify">Yürürlükteki metinle doğrulayın</string>
     <string name="reg_label_captured">Alındığı tarih</string>
 
     <string name="equip_move_deck_title">Güverteye taşı</string>
