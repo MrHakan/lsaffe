@@ -132,6 +132,22 @@ class EquipmentSheetViewModelTest {
         assertThat(viewModel.uiState.value.deficiencyDraft).isNull()
     }
 
+    /** The normal undo path replays `setCondition` with the instant the grade carried before. */
+    @Test
+    fun `undo replays the previous grade with the instant it carried`() = runTest {
+        seed(condition = ConditionGrade.ACCEPTABLE)
+        val graded = requireNotNull(fakes.equipment.getEquipment(EQUIPMENT_ID))
+        fakes.equipment.upsertEquipment(graded.copy(conditionSetAt = GRADED_AT))
+        val viewModel = boundViewModel()
+
+        viewModel.setCondition(ConditionGrade.DEFECTIVE)
+        viewModel.undoCondition()
+
+        val restored = fakes.equipment.getEquipment(EQUIPMENT_ID)
+        assertThat(restored?.condition).isEqualTo(ConditionGrade.ACCEPTABLE)
+        assertThat(restored?.conditionSetAt).isEqualTo(GRADED_AT)
+    }
+
     @Test
     fun `a full monthly checklist completes the type's monthly task`() = runTest {
         seed()
@@ -317,5 +333,8 @@ class EquipmentSheetViewModelTest {
         const val VESSEL_ID = "vessel-under-test"
         const val DECK_ID = "deck-under-test"
         const val EQUIPMENT_ID = "equipment-under-test"
+
+        /** An arbitrary "the grade was set here" instant, so undo has something to put back. */
+        const val GRADED_AT = 1_700_000_000_000L
     }
 }

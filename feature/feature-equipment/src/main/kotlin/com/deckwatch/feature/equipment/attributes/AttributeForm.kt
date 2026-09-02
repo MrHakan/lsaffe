@@ -11,24 +11,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.CalendarMonth
-import androidx.compose.material3.Button
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.FilterChip
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,23 +30,55 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import com.deckwatch.core.designsystem.components.DateField
+import com.deckwatch.core.designsystem.components.SectionHeader
 import com.deckwatch.core.designsystem.theme.ConditionColors
 import com.deckwatch.core.designsystem.theme.Dimens
 import com.deckwatch.core.model.AttributeDefinition
 import com.deckwatch.core.model.AttributeKind
 import com.deckwatch.feature.equipment.R
+import com.deckwatch.feature.equipment.dateFieldLabels
 import com.deckwatch.feature.equipment.localised
 
-/** Epoch-millis in one day — the date picker speaks UTC millis, the register speaks epoch-days (§6). */
-private const val MILLIS_PER_DAY = 86_400_000L
+/** The gutter the shared section header applies; the fields between headers match it. */
+private val Gutter = Dimens.SpacingL
+
+/**
+ * The three groups a dynamic attribute form is ordered into — DESIGN_OVERHAUL, *Forms*:
+ * identification → dates → checks.
+ */
+internal enum class AttributeGroup { IDENTIFICATION, DATES, CHECKS }
+
+/** The heading each group renders under, so every form spells the three the same way. */
+internal fun attributeGroupTitle(group: AttributeGroup): Int = when (group) {
+    AttributeGroup.IDENTIFICATION -> R.string.attr_group_identification
+    AttributeGroup.DATES -> R.string.attr_group_dates
+    AttributeGroup.CHECKS -> R.string.attr_group_checks
+}
+
+/** The attributes of [schema] belonging to [group], in schema order. */
+internal fun attributesIn(schema: List<AttributeDefinition>, group: AttributeGroup): List<AttributeDefinition> =
+    schema.filter { groupOf(it) == group }
+
+private fun groupOf(definition: AttributeDefinition): AttributeGroup = when {
+    definition.kind == AttributeKind.DATE -> AttributeGroup.DATES
+    definition.kind == AttributeKind.BOOLEAN -> AttributeGroup.CHECKS
+    else -> AttributeGroup.IDENTIFICATION
+}
 
 /**
  * The dynamic attribute form — §9.3.
  *
  * Every field kind the schema can declare is rendered here and nowhere else, so the add flow, the
- * equipment sheet and the full-screen detail all edit attributes identically.
+ * equipment sheet and the full-screen detail all edit attributes identically. Fields are grouped
+ * identification → dates → checks, each under the design system's `SectionHeader`; required fields
+ * carry a `*`, and every `DATE` is the shared `DateField` — nothing in this module is ever typed as
+ * a date (DESIGN_OVERHAUL rule 4).
  *
- * @param footerFor extra content under one field — the live due-date preview of §7.5.4.
+ * The caller's [modifier] must carry **no** horizontal padding: the group headers supply their own
+ * gutter and the fields match it, so a padded caller would indent the headings twice.
+ *
+ * @param footerFor extra content under one field — the live due-date consequence line of §7.5.4.
  */
 @Composable
 internal fun AttributeForm(
@@ -65,11 +89,41 @@ internal fun AttributeForm(
     modifier: Modifier = Modifier,
     footerFor: @Composable (AttributeDefinition) -> Unit = {},
 ) {
+    if (schema.isEmpty()) return
+    Column(modifier = modifier.fillMaxWidth()) {
+        AttributeGroup.entries.forEach { group ->
+            val fields = attributesIn(schema, group)
+            if (fields.isEmpty()) return@forEach
+            SectionHeader(stringResource(attributeGroupTitle(group)))
+            AttributeFieldGroup(fields, values, errors, onValueChange, footerFor = footerFor)
+        }
+    }
+}
+
+/**
+ * One group's fields, with the gutter the shared `SectionHeader` uses.
+ *
+ * Exposed so the add flow can interleave the record's fixed fields with the type's dynamic ones
+ * under a single set of headings — a *Dates* section that lists the installed date and then the
+ * type's last-service date reads as one form, two sections named "Dates" would not.
+ */
+@Composable
+internal fun AttributeFieldGroup(
+    fields: List<AttributeDefinition>,
+    values: AttributeDraft,
+    errors: Map<String, AttributeError>,
+    onValueChange: (key: String, raw: String) -> Unit,
+    modifier: Modifier = Modifier,
+    footerFor: @Composable (AttributeDefinition) -> Unit = {},
+) {
+    if (fields.isEmpty()) return
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = Gutter),
         verticalArrangement = Arrangement.spacedBy(Dimens.SpacingM),
     ) {
-        schema.forEach { definition ->
+        fields.forEach { definition ->
             AttributeField(
                 definition = definition,
                 raw = values[definition.key].orEmpty(),
@@ -89,23 +143,25 @@ private fun AttributeField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val label = localised(definition.labelEn, definition.labelTr)
-    val required = if (definition.required) " (${stringResource(R.string.attr_required)})" else ""
+    val label = requiredLabel(localised(definition.labelEn, definition.labelTr), definition.required)
     Column(modifier = modifier.fillMaxWidth()) {
         when (definition.kind) {
             AttributeKind.BOOLEAN -> BooleanField(label, raw, onValueChange)
-            AttributeKind.DATE -> DateField(label + required, raw, onValueChange)
-            AttributeKind.ENUM -> EnumField(definition, label + required, raw, onValueChange)
-            AttributeKind.MULTI_ENUM -> MultiEnumField(definition, label + required, raw, onValueChange)
+            AttributeKind.DATE -> AttributeDateField(definition, raw, error, onValueChange)
+            AttributeKind.ENUM -> EnumField(definition, label, raw, onValueChange)
+            AttributeKind.MULTI_ENUM -> MultiEnumField(definition, label, raw, onValueChange)
             AttributeKind.PHOTO, AttributeKind.SIGNATURE -> CaptureField(definition, label, raw)
-            AttributeKind.NUMBER -> NumericField(definition, label + required, raw, error, onValueChange, decimal = false)
+            AttributeKind.NUMBER -> NumericField(definition, label, raw, error, onValueChange, decimal = false)
             AttributeKind.DECIMAL, AttributeKind.PRESSURE, AttributeKind.WEIGHT ->
-                NumericField(definition, label + required, raw, error, onValueChange, decimal = true)
-            AttributeKind.TEXT -> TextField(label + required, raw, onValueChange)
+                NumericField(definition, label, raw, error, onValueChange, decimal = true)
+            AttributeKind.TEXT -> TextField(label, raw, onValueChange)
         }
         FieldMessages(definition, raw, error)
     }
 }
+
+/** Required fields are marked with `*` — DESIGN_OVERHAUL, *Forms*. */
+internal fun requiredLabel(label: String, required: Boolean): String = if (required) "$label *" else label
 
 @Composable
 private fun TextField(label: String, raw: String, onValueChange: (String) -> Unit) {
@@ -116,7 +172,7 @@ private fun TextField(label: String, raw: String, onValueChange: (String) -> Uni
         singleLine = true,
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(min = Dimens.TouchTargetMin),
+            .heightIn(min = Dimens.TouchTargetPrimary),
     )
 }
 
@@ -141,7 +197,7 @@ private fun NumericField(
         ),
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(min = Dimens.TouchTargetMin),
+            .heightIn(min = Dimens.TouchTargetPrimary),
     )
 }
 
@@ -162,57 +218,27 @@ private fun BooleanField(label: String, raw: String, onValueChange: (String) -> 
     }
 }
 
+/**
+ * A `DATE` attribute — the shared [DateField], never a text field (DESIGN_OVERHAUL rule 4).
+ *
+ * The raw editor value of a date is its epoch-day as a decimal literal (see [AttributeDraft]), so
+ * this is the one place that converts between the picker's `Long?` and that text.
+ */
 @Composable
-private fun DateField(label: String, raw: String, onValueChange: (String) -> Unit) {
-    var picking by remember { mutableStateOf(false) }
-    val epochDay = raw.trim().toLongOrNull()
-
-    OutlinedTextField(
-        value = epochDay?.let { java.time.LocalDate.ofEpochDay(it).toString() }.orEmpty(),
-        onValueChange = {},
-        readOnly = true,
-        label = { Text(label) },
-        singleLine = true,
-        trailingIcon = {
-            TextButton(onClick = { picking = true }) {
-                Icon(
-                    imageVector = Icons.Outlined.CalendarMonth,
-                    contentDescription = stringResource(R.string.attr_pick_date),
-                )
-            }
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = Dimens.TouchTargetMin),
+private fun AttributeDateField(
+    definition: AttributeDefinition,
+    raw: String,
+    error: AttributeError?,
+    onValueChange: (String) -> Unit,
+) {
+    DateField(
+        label = localised(definition.labelEn, definition.labelTr),
+        epochDay = raw.trim().toLongOrNull(),
+        onChange = { onValueChange(it?.toString().orEmpty()) },
+        labels = dateFieldLabels(),
+        required = definition.required,
+        isError = error != null,
     )
-
-    if (picking) {
-        val state = rememberDatePickerState(
-            initialSelectedDateMillis = epochDay?.let { it * MILLIS_PER_DAY },
-        )
-        DatePickerDialog(
-            onDismissRequest = { picking = false },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        val selected = state.selectedDateMillis
-                        onValueChange(selected?.let { (it / MILLIS_PER_DAY).toString() }.orEmpty())
-                        picking = false
-                    },
-                ) { Text(stringResource(R.string.attr_ok)) }
-            },
-            dismissButton = {
-                TextButton(
-                    onClick = {
-                        onValueChange("")
-                        picking = false
-                    },
-                ) { Text(stringResource(R.string.attr_clear)) }
-            },
-        ) {
-            DatePicker(state = state)
-        }
-    }
 }
 
 @Composable
@@ -238,7 +264,7 @@ private fun EnumField(
             modifier = Modifier
                 .menuAnchor(MenuAnchorType.PrimaryNotEditable)
                 .fillMaxWidth()
-                .heightIn(min = Dimens.TouchTargetMin),
+                .heightIn(min = Dimens.TouchTargetPrimary),
         )
         ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
             definition.options.forEach { option ->
@@ -342,16 +368,6 @@ private fun FieldNote(text: String, color: androidx.compose.ui.graphics.Color) {
         color = color,
         modifier = Modifier.padding(top = Dimens.SpacingXs),
     )
-}
-
-/** A confirm button sized for gloves — C6. */
-@Composable
-internal fun AttributePrimaryButton(text: String, enabled: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    Button(
-        onClick = onClick,
-        enabled = enabled,
-        modifier = modifier.heightIn(min = Dimens.TouchTargetPrimary),
-    ) { Text(text) }
 }
 
 /** `DRY_POWDER_ABC` -> `Dry powder ABC` — catalogue option tokens are upper snake case. */

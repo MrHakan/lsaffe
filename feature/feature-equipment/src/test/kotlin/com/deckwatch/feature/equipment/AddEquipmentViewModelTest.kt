@@ -137,6 +137,40 @@ class AddEquipmentViewModelTest {
         assertThat(fakes.equipment.observeEquipment(VESSEL_ID).first()).isEmpty()
     }
 
+    /**
+     * DESIGN_OVERHAUL, *Forms*: the save button is enabled only when the form would save cleanly,
+     * so `canSave` must agree with what [AddEquipmentViewModel.create] actually does.
+     */
+    @Test
+    fun `save is offered only once the form would save cleanly`() = runTest {
+        seed()
+        val viewModel = boundViewModel()
+        assertThat(viewModel.uiState.value.canSave).isFalse()
+
+        viewModel.selectType(type.typeKey)
+        // The tag is suggested, but the type's required attribute is still empty.
+        assertThat(viewModel.uiState.value.canSave).isFalse()
+
+        viewModel.setAttribute("extinguishingMedium", "CO2")
+        assertThat(viewModel.uiState.value.canSave).isTrue()
+
+        viewModel.updateForm { it.copy(tag = "   ") }
+        assertThat(viewModel.uiState.value.canSave).isFalse()
+    }
+
+    @Test
+    fun `backing out of the form withdraws the offer to save`() = runTest {
+        seed()
+        val viewModel = boundViewModel()
+        viewModel.selectType(type.typeKey)
+        viewModel.setAttribute("extinguishingMedium", "CO2")
+
+        viewModel.backToCatalogue()
+
+        assertThat(viewModel.uiState.value.step).isEqualTo(AddStep.CATALOGUE)
+        assertThat(viewModel.uiState.value.canSave).isFalse()
+    }
+
     @Test
     fun `a missing required attribute blocks creation`() = runTest {
         seed()

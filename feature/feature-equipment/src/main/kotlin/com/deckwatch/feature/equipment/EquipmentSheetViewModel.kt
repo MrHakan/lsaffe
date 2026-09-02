@@ -162,18 +162,30 @@ internal class EquipmentSheetViewModel @Inject constructor(
         }
     }
 
-    /** Put the previous grade back, exactly as it was including its original timestamp. */
+    /**
+     * Put the previous grade back, exactly as it was including its original timestamp — C10.
+     *
+     * The normal path is [EquipmentRepository.setCondition], the same write the chip made, replayed
+     * with the grade and the instant it carried before. An item that had **never** been graded has
+     * no such instant, and `setCondition` would have to invent one; that case restores the record
+     * directly so "not checked, never checked" stays exactly that.
+     */
     fun undoCondition() {
         val undo = conditionUndo.value ?: return
         undoTimer?.cancel()
         conditionUndo.value = null
         deficiencyDraft.value = null
         viewModelScope.launch {
+            val previousSetAt = undo.previousSetAt
+            if (previousSetAt != null) {
+                equipmentRepository.setCondition(undo.equipmentId, undo.previousGrade, previousSetAt)
+                return@launch
+            }
             val current = equipmentRepository.getEquipment(undo.equipmentId) ?: return@launch
             equipmentRepository.upsertEquipment(
                 current.copy(
                     condition = undo.previousGrade,
-                    conditionSetAt = undo.previousSetAt,
+                    conditionSetAt = null,
                     updatedAt = Dates.nowMillis(),
                 ),
             )
