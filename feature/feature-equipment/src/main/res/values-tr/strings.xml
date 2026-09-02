@@ -11,7 +11,6 @@
     <string name="equip_condition_not_checked">Kontrol edilmedi</string>
     <string name="equip_condition_graded">Durum: %1$s</string>
     <string name="equip_condition_undo">Geri al</string>
-    <string name="equip_condition_set_at">Durum: %1$s</string>
 
     <!-- ============================================================ alt sayfa (§7.4) -->
     <string name="equip_sheet_show_more">Daha fazla göster</string>
@@ -94,7 +93,7 @@
     <string name="equip_move_deck">Güverteye taşı</string>
     <string name="equip_duplicate">Çoğalt</string>
     <string name="equip_duplicate_n">Çoğalt ×%1$d</string>
-    <string name="equip_duplicated">%1$d kopya oluşturuldu</string>
+    <string name="equip_duplicated">Kopyalar oluşturuldu</string>
     <string name="equip_delete">Sil</string>
     <string name="equip_delete_confirm_title">%1$s silinsin mi?</string>
     <string name="equip_delete_confirm_body">Kayıt sicilden kaldırılır. Geri almak için on saniyen var.</string>
@@ -162,7 +161,6 @@
     <string name="attr_not_set">—</string>
     <string name="attr_yes">Evet</string>
     <string name="attr_no">Hayır</string>
-    <string name="attr_choose">Seç</string>
 
     <!-- ============================================================ tam ekran kayıt -->
     <string name="detail_title">Ekipman</string>

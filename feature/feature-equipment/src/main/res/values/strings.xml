@@ -11,7 +11,6 @@
     <string name="equip_condition_not_checked">Not checked</string>
     <string name="equip_condition_graded">Graded %1$s</string>
     <string name="equip_condition_undo">Undo</string>
-    <string name="equip_condition_set_at">Graded %1$s</string>
 
     <!-- ============================================================ bottom sheet (§7.4) -->
     <string name="equip_sheet_show_more">Show more</string>
@@ -94,7 +93,7 @@
     <string name="equip_move_deck">Move to deck</string>
     <string name="equip_duplicate">Duplicate</string>
     <string name="equip_duplicate_n">Duplicate ×%1$d</string>
-    <string name="equip_duplicated">%1$d copies created</string>
+    <string name="equip_duplicated">Copies created</string>
     <string name="equip_delete">Delete</string>
     <string name="equip_delete_confirm_title">Delete %1$s?</string>
     <string name="equip_delete_confirm_body">The record is removed from the register. You have ten seconds to undo.</string>
@@ -162,7 +161,6 @@
     <string name="attr_not_set">—</string>
     <string name="attr_yes">Yes</string>
     <string name="attr_no">No</string>
-    <string name="attr_choose">Choose</string>
 
     <!-- ============================================================ full detail screen -->
     <string name="detail_title">Equipment</string>
