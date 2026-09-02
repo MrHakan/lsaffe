@@ -4,29 +4,33 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.deckwatch.core.designsystem.components.DateField
+import com.deckwatch.core.designsystem.components.DeckWatchTopBar
+import com.deckwatch.core.designsystem.components.SectionHeader
 import com.deckwatch.core.designsystem.theme.ConditionColors
 import com.deckwatch.core.designsystem.theme.DeckWatchTheme
 import com.deckwatch.core.designsystem.theme.Dimens
@@ -35,13 +39,11 @@ import com.deckwatch.core.model.ClassSociety
 import com.deckwatch.core.model.FlagState
 import com.deckwatch.core.model.VesselType
 import com.deckwatch.feature.vessel.R
-import com.deckwatch.feature.vessel.common.DateField
 import com.deckwatch.feature.vessel.common.EnumDropdown
 import com.deckwatch.feature.vessel.common.ImoStatus
-import com.deckwatch.feature.vessel.common.PrimaryButton
-import com.deckwatch.feature.vessel.common.SectionHeader
-import com.deckwatch.feature.vessel.common.VesselTopBar
 import com.deckwatch.feature.vessel.common.label
+import com.deckwatch.feature.vessel.common.requiredLabel
+import com.deckwatch.feature.vessel.common.vesselDateFieldLabels
 import com.deckwatch.feature.vessel.manager.UnverifiedImoBadge
 
 /**
@@ -50,6 +52,9 @@ import com.deckwatch.feature.vessel.manager.UnverifiedImoBadge
  * Passing a null [vesselId] opens the form empty for a new vessel. Only the name is required;
  * everything else, the IMO number included, can be filled in later or left wrong-but-flagged —
  * see [ImoStatus] for the reasoning behind the invalid-but-savable IMO rule.
+ *
+ * One primary action (DESIGN_OVERHAUL rule 1): the full-width Save bar at the bottom, live only
+ * when the form is valid. The top bar carries no second save button.
  */
 @Composable
 fun VesselEditScreen(
@@ -109,27 +114,28 @@ internal fun VesselEditContent(
     onLastAnnualSurveyChange: (Long?) -> Unit = {},
     onNextDrydockChange: (Long?) -> Unit = {},
 ) {
+    val nameFocus = remember { FocusRequester() }
+    val dateLabels = vesselDateFieldLabels()
+
+    // The first field in error is brought into view and given the caret — a scrolled-away error is
+    // an error the officer never sees (DESIGN_OVERHAUL forms).
+    LaunchedEffect(state.showNameError) {
+        if (state.showNameError) nameFocus.requestFocus()
+    }
+
     Surface(modifier = modifier.fillMaxSize()) {
         Scaffold(
             topBar = {
-                VesselTopBar(
+                DeckWatchTopBar(
                     title = stringResource(
                         if (state.isNew) R.string.vessel_edit_title_new else R.string.vessel_edit_title_edit,
                     ),
                     onBack = onBack,
-                    actions = {
-                        IconButton(
-                            onClick = onSave,
-                            enabled = state.canSave,
-                            modifier = Modifier.size(Dimens.TouchTargetMin),
-                        ) {
-                            Icon(
-                                imageVector = Icons.Filled.Check,
-                                contentDescription = stringResource(R.string.vessel_action_save),
-                            )
-                        }
-                    },
+                    backContentDescription = stringResource(R.string.vessel_cd_back),
                 )
+            },
+            bottomBar = {
+                SaveBar(enabled = state.canSave, onSave = onSave)
             },
         ) { padding ->
             Column(
@@ -145,18 +151,25 @@ internal fun VesselEditContent(
                 OutlinedTextField(
                     value = state.name,
                     onValueChange = onNameChange,
-                    label = { Text(stringResource(R.string.vessel_edit_name)) },
+                    label = { Text(requiredLabel(R.string.vessel_edit_name)) },
                     isError = state.showNameError,
                     singleLine = true,
                     supportingText = {
-                        if (state.showNameError) {
+                        if (state.nameMissing) {
                             Text(
                                 text = stringResource(R.string.vessel_edit_name_required),
-                                color = MaterialTheme.colorScheme.error,
+                                color = if (state.showNameError) {
+                                    MaterialTheme.colorScheme.error
+                                } else {
+                                    MaterialTheme.colorScheme.onSurfaceVariant
+                                },
                             )
                         }
                     },
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(min = Dimens.TouchTargetPrimary)
+                        .focusRequester(nameFocus),
                 )
 
                 ImoField(
@@ -171,7 +184,9 @@ internal fun VesselEditContent(
                     label = { Text(stringResource(R.string.vessel_edit_call_sign)) },
                     singleLine = true,
                     textStyle = tagTextStyle(),
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(min = Dimens.TouchTargetPrimary),
                 )
 
                 OutlinedTextField(
@@ -181,7 +196,9 @@ internal fun VesselEditContent(
                     singleLine = true,
                     textStyle = tagTextStyle(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(min = Dimens.TouchTargetPrimary),
                 )
 
                 SectionHeader(text = stringResource(R.string.vessel_edit_section_particulars))
@@ -200,7 +217,9 @@ internal fun VesselEditContent(
                         onValueChange = onFlagOtherNameChange,
                         label = { Text(stringResource(R.string.vessel_edit_flag_other_name)) },
                         singleLine = true,
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(min = Dimens.TouchTargetPrimary),
                     )
                 }
 
@@ -225,14 +244,18 @@ internal fun VesselEditContent(
                     onValueChange = onGrossTonnageChange,
                     label = { Text(stringResource(R.string.vessel_edit_gross_tonnage)) },
                     singleLine = true,
+                    suffix = { Text(stringResource(R.string.vessel_edit_gross_tonnage_unit)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(min = Dimens.TouchTargetPrimary),
                 )
 
                 DateField(
                     label = stringResource(R.string.vessel_edit_build_date),
                     epochDay = state.buildDate,
                     onChange = onBuildDateChange,
+                    labels = dateLabels,
                 )
 
                 SectionHeader(text = stringResource(R.string.vessel_edit_section_certificates))
@@ -241,34 +264,46 @@ internal fun VesselEditContent(
                     label = stringResource(R.string.vessel_edit_sec_expiry),
                     epochDay = state.safetyEquipmentCertExpiry,
                     onChange = onSecExpiryChange,
+                    labels = dateLabels,
                 )
                 DateField(
                     label = stringResource(R.string.vessel_edit_last_annual_survey),
                     epochDay = state.lastAnnualSurveyDate,
                     onChange = onLastAnnualSurveyChange,
+                    labels = dateLabels,
                 )
                 DateField(
                     label = stringResource(R.string.vessel_edit_next_drydock),
                     epochDay = state.nextDrydockDate,
                     onChange = onNextDrydockChange,
-                )
-
-                PrimaryButton(
-                    text = stringResource(R.string.vessel_action_save),
-                    onClick = onSave,
-                    enabled = state.canSave,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = Dimens.SpacingL),
+                    labels = dateLabels,
+                    modifier = Modifier.padding(bottom = Dimens.SpacingL),
                 )
             }
         }
     }
 }
 
+/** The single primary action of the editor: a full-width 56dp bar pinned to the bottom. */
+@Composable
+private fun SaveBar(enabled: Boolean, onSave: () -> Unit) {
+    Surface(tonalElevation = BAR_ELEVATION) {
+        Button(
+            onClick = onSave,
+            enabled = enabled,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = Dimens.SpacingL, vertical = Dimens.SpacingS)
+                .heightIn(min = Dimens.TouchTargetPrimary),
+        ) {
+            Text(text = stringResource(R.string.vessel_action_save))
+        }
+    }
+}
+
 /**
- * IMO number with live check-digit feedback. An invalid number is an inline error *and* a warning
- * badge, but it never disables the save button — [ImoStatus] documents why.
+ * IMO number with live check-digit feedback. An invalid number is an inline warning *and* a badge,
+ * but it never disables the save button — [ImoStatus] documents why.
  */
 @Composable
 private fun ImoField(
@@ -283,14 +318,13 @@ private fun ImoField(
             onValueChange = onChange,
             label = { Text(stringResource(R.string.vessel_edit_imo)) },
             singleLine = true,
-            isError = status == ImoStatus.INVALID,
             textStyle = tagTextStyle(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             supportingText = {
                 when (status) {
                     ImoStatus.INVALID -> Text(
                         text = stringResource(R.string.vessel_edit_imo_invalid),
-                        color = MaterialTheme.colorScheme.error,
+                        color = ConditionColors.Monitor,
                     )
 
                     ImoStatus.VALID -> Text(
@@ -301,13 +335,17 @@ private fun ImoField(
                     ImoStatus.NOT_ENTERED -> Unit
                 }
             },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = Dimens.TouchTargetPrimary),
         )
         if (status.needsWarning) {
             UnverifiedImoBadge()
         }
     }
 }
+
+private val BAR_ELEVATION = 3.dp
 
 @Preview
 @Composable

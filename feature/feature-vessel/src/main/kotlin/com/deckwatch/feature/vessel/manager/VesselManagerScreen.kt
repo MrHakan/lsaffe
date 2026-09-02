@@ -1,11 +1,9 @@
 package com.deckwatch.feature.vessel.manager
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -14,10 +12,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.DirectionsBoat
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material3.AssistChip
-import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.FloatingActionButton
@@ -35,28 +31,32 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.deckwatch.core.designsystem.components.ConfirmDialog
+import com.deckwatch.core.designsystem.components.DeckWatchListRow
+import com.deckwatch.core.designsystem.components.DeckWatchTopBar
+import com.deckwatch.core.designsystem.components.EmptyState
+import com.deckwatch.core.designsystem.components.StatusChip
 import com.deckwatch.core.designsystem.theme.ConditionColors
 import com.deckwatch.core.designsystem.theme.DeckWatchTheme
 import com.deckwatch.core.designsystem.theme.Dimens
-import com.deckwatch.core.designsystem.theme.tagTextStyle
 import com.deckwatch.core.model.Vessel
 import com.deckwatch.feature.vessel.R
-import com.deckwatch.feature.vessel.common.ConfirmDialog
 import com.deckwatch.feature.vessel.common.ImoStatus
-import com.deckwatch.feature.vessel.common.TeachingEmptyState
-import com.deckwatch.feature.vessel.common.VesselTopBar
 import com.deckwatch.feature.vessel.common.label
 import com.deckwatch.feature.vessel.edit.VesselEditScreen
 
 /**
  * The vessel manager of §5 — an officer changes ship, so DeckWatch keeps several and marks one
  * active.
+ *
+ * One primary action (DESIGN_OVERHAUL rule 1): the "Add vessel" FAB. Set active / edit / delete
+ * are per-row overflow items, so nothing competes with it.
  *
  * [onAddVessel] and [onEditVessel] let a host graph route to its own destination. Left null, the
  * manager opens [VesselEditScreen] itself in a full-screen dialog, so the screen is complete on
@@ -91,8 +91,9 @@ fun VesselManagerScreen(
         val name = state.vessels.firstOrNull { it.id == target }?.vessel?.name.orEmpty()
         ConfirmDialog(
             title = stringResource(R.string.vessel_manager_delete_title),
-            message = stringResource(R.string.vessel_manager_delete_message, name),
+            body = stringResource(R.string.vessel_manager_delete_message, name),
             confirmLabel = stringResource(R.string.vessel_action_delete),
+            cancelLabel = stringResource(R.string.vessel_action_cancel),
             onConfirm = { viewModel.confirmDelete(target) },
             onDismiss = viewModel::cancelDelete,
         )
@@ -128,9 +129,10 @@ internal fun VesselManagerContent(
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
-            VesselTopBar(
+            DeckWatchTopBar(
                 title = stringResource(R.string.vessel_manager_title),
                 onBack = onBack,
+                backContentDescription = stringResource(R.string.vessel_cd_back),
             )
         },
         floatingActionButton = {
@@ -146,8 +148,10 @@ internal fun VesselManagerContent(
         },
     ) { padding ->
         if (state.isEmpty) {
-            TeachingEmptyState(
-                message = stringResource(R.string.vessel_manager_empty_message),
+            EmptyState(
+                icon = Icons.Filled.DirectionsBoat,
+                title = stringResource(R.string.vessel_manager_empty_title),
+                body = stringResource(R.string.vessel_manager_empty_message),
                 actionLabel = stringResource(R.string.vessel_manager_add),
                 onAction = onAdd,
                 modifier = Modifier.padding(padding),
@@ -178,67 +182,60 @@ private fun VesselRowItem(
     onDelete: () -> Unit,
 ) {
     var menuOpen by remember { mutableStateOf(false) }
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = Dimens.ListRowComfortable)
-            .clickable(onClick = onOpen)
-            .padding(horizontal = Dimens.SpacingL, vertical = Dimens.SpacingS),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingM),
-    ) {
-        if (row.isActive) {
-            Icon(
-                imageVector = Icons.Filled.CheckCircle,
-                contentDescription = stringResource(R.string.vessel_manager_cd_active),
-                tint = ConditionColors.Good,
-                modifier = Modifier.size(Dimens.SpacingXl),
-            )
-        }
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = row.vessel.name,
-                style = MaterialTheme.typography.titleMedium,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
+    val activeDescription = stringResource(R.string.vessel_manager_cd_active)
+    DeckWatchListRow(
+        title = row.vessel.name,
+        subtitle = vesselSubtitle(row),
+        onClick = onOpen,
+        leading = {
+            if (row.isActive) {
+                Icon(
+                    imageVector = Icons.Filled.CheckCircle,
+                    contentDescription = activeDescription,
+                    tint = ConditionColors.Good,
+                    modifier = Modifier.size(LEADING_ICON),
+                )
+            } else {
+                Icon(
+                    imageVector = Icons.Filled.DirectionsBoat,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(LEADING_ICON),
+                )
+            }
+        },
+        trailing = {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingS),
+                horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingXs),
             ) {
-                Text(
-                    text = row.vessel.imoNumber?.let { "IMO $it" }
-                        ?: stringResource(R.string.vessel_manager_no_imo),
-                    style = tagTextStyle(),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-                Text(
-                    text = row.vessel.flag.label(),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                if (row.imoStatus.needsWarning) {
+                    UnverifiedImoBadge()
+                }
+                RowOverflowMenu(
+                    menuOpen = menuOpen,
+                    onOpenMenu = { menuOpen = true },
+                    onDismissMenu = { menuOpen = false },
+                    isActive = row.isActive,
+                    onSetActive = onSetActive,
+                    onEdit = onEdit,
+                    onDelete = onDelete,
                 )
             }
-            if (row.imoStatus.needsWarning) {
-                UnverifiedImoBadge()
-            }
-        }
-        if (row.isActive) {
-            Text(
-                text = stringResource(R.string.vessel_manager_active),
-                style = MaterialTheme.typography.labelMedium,
-                color = ConditionColors.Good,
-            )
-        }
-        RowOverflowMenu(
-            menuOpen = menuOpen,
-            onOpenMenu = { menuOpen = true },
-            onDismissMenu = { menuOpen = false },
-            isActive = row.isActive,
-            onSetActive = onSetActive,
-            onEdit = onEdit,
-            onDelete = onDelete,
-        )
-    }
+        },
+    )
+}
+
+/**
+ * "Active · IMO 9074729 · Marshall Islands". The active state is spelled out rather than left to
+ * the green tick — colour is never the only signal (DESIGN_OVERHAUL rule 6).
+ */
+@Composable
+private fun vesselSubtitle(row: VesselRow): String {
+    val active = stringResource(R.string.vessel_manager_active).takeIf { row.isActive }
+    val imo = row.vessel.imoNumber?.let { stringResource(R.string.vessel_manager_imo, it) }
+        ?: stringResource(R.string.vessel_manager_no_imo)
+    return listOfNotNull(active, imo, row.vessel.flag.label()).joinToString(SEPARATOR)
 }
 
 /** The per-row overflow: set active, edit, delete. */
@@ -252,60 +249,56 @@ private fun RowOverflowMenu(
     onEdit: () -> Unit,
     onDelete: () -> Unit,
 ) {
-    IconButton(onClick = onOpenMenu, modifier = Modifier.size(Dimens.TouchTargetMin)) {
-        Icon(
-            imageVector = Icons.Filled.MoreVert,
-            contentDescription = stringResource(R.string.vessel_cd_more_actions),
-        )
-    }
-    DropdownMenu(expanded = menuOpen, onDismissRequest = onDismissMenu) {
-        if (!isActive) {
+    Box {
+        IconButton(onClick = onOpenMenu, modifier = Modifier.size(Dimens.TouchTargetMin)) {
+            Icon(
+                imageVector = Icons.Filled.MoreVert,
+                contentDescription = stringResource(R.string.vessel_cd_more_actions),
+            )
+        }
+        DropdownMenu(expanded = menuOpen, onDismissRequest = onDismissMenu) {
+            if (!isActive) {
+                DropdownMenuItem(
+                    text = { Text(stringResource(R.string.vessel_manager_set_active)) },
+                    onClick = {
+                        onDismissMenu()
+                        onSetActive()
+                    },
+                    modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
+                )
+            }
             DropdownMenuItem(
-                text = { Text(stringResource(R.string.vessel_manager_set_active)) },
+                text = { Text(stringResource(R.string.vessel_action_edit)) },
                 onClick = {
                     onDismissMenu()
-                    onSetActive()
+                    onEdit()
+                },
+                modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
+            )
+            DropdownMenuItem(
+                text = { Text(stringResource(R.string.vessel_action_delete)) },
+                onClick = {
+                    onDismissMenu()
+                    onDelete()
                 },
                 modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
             )
         }
-        DropdownMenuItem(
-            text = { Text(stringResource(R.string.vessel_action_edit)) },
-            onClick = {
-                onDismissMenu()
-                onEdit()
-            },
-            modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
-        )
-        DropdownMenuItem(
-            text = { Text(stringResource(R.string.vessel_action_delete)) },
-            onClick = {
-                onDismissMenu()
-                onDelete()
-            },
-            modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
-        )
     }
 }
 
 /** Shown wherever an IMO number that fails its check digit is displayed — see [ImoStatus]. */
 @Composable
 internal fun UnverifiedImoBadge(modifier: Modifier = Modifier) {
-    AssistChip(
-        onClick = {},
-        enabled = false,
+    StatusChip(
+        text = stringResource(R.string.vessel_manager_imo_unverified),
+        color = ConditionColors.Monitor,
         modifier = modifier,
-        label = { Text(text = stringResource(R.string.vessel_manager_imo_unverified)) },
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Filled.Warning,
-                contentDescription = null,
-                tint = ConditionColors.Monitor,
-                modifier = Modifier.size(AssistChipDefaults.IconSize),
-            )
-        },
     )
 }
+
+private val LEADING_ICON = 24.dp
+private const val SEPARATOR = " · "
 
 @Preview
 @Composable

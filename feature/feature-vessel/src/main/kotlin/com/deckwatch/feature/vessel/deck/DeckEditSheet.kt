@@ -15,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -44,9 +45,9 @@ import com.deckwatch.core.model.Deck
 import com.deckwatch.core.model.PlanPreset
 import com.deckwatch.feature.vessel.R
 import com.deckwatch.feature.vessel.common.DeckPlanThumbnail
-import com.deckwatch.feature.vessel.common.PrimaryButton
 import com.deckwatch.feature.vessel.common.SwatchRow
 import com.deckwatch.feature.vessel.common.Swatches
+import com.deckwatch.feature.vessel.common.requiredLabel
 
 /**
  * Build or edit one deck (§6.3).
@@ -85,7 +86,6 @@ internal fun DeckEditForm(
     // Only auto-fill fields the user has not typed into.
     var nameIsAuto by remember(initial) { mutableStateOf(initial == null) }
     var codeIsAuto by remember(initial) { mutableStateOf(initial == null) }
-    var showNameError by remember(initial) { mutableStateOf(false) }
 
     Column(
         modifier = modifier
@@ -130,20 +130,20 @@ internal fun DeckEditForm(
             onValueChange = {
                 name = it
                 nameIsAuto = false
-                showNameError = false
             },
-            label = { Text(stringResource(R.string.deck_edit_name)) },
+            label = { Text(requiredLabel(R.string.deck_edit_name)) },
             singleLine = true,
-            isError = showNameError,
             supportingText = {
-                if (showNameError) {
+                if (name.isBlank()) {
                     Text(
-                        text = stringResource(R.string.vessel_edit_name_required),
-                        color = MaterialTheme.colorScheme.error,
+                        text = stringResource(R.string.deck_edit_name_required),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
             },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = Dimens.TouchTargetPrimary),
         )
 
         OutlinedTextField(
@@ -156,7 +156,9 @@ internal fun DeckEditForm(
             supportingText = { Text(stringResource(R.string.deck_edit_short_code_help)) },
             singleLine = true,
             textStyle = tagTextStyle(),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = Dimens.TouchTargetPrimary),
         )
 
         Text(
@@ -197,25 +199,27 @@ internal fun DeckEditForm(
             modifier = Modifier.fillMaxWidth(),
         )
 
-        PrimaryButton(
-            text = stringResource(R.string.vessel_action_save),
+        // The one primary action of the sheet: full width, 56dp, live only when the deck has a
+        // name (DESIGN_OVERHAUL rule 1).
+        Button(
             onClick = {
-                if (name.isBlank()) {
-                    showNameError = true
-                } else {
-                    onSave(
-                        DeckDraft(
-                            name = name.trim(),
-                            shortCode = shortCode.trim().ifBlank { null },
-                            plan = plan,
-                            colorTint = tint,
-                            notes = notes.trim().ifBlank { null },
-                        ),
-                    )
-                }
+                onSave(
+                    DeckDraft(
+                        name = name.trim(),
+                        shortCode = shortCode.trim().ifBlank { null },
+                        plan = plan,
+                        colorTint = tint,
+                        notes = notes.trim().ifBlank { null },
+                    ),
+                )
             },
-            modifier = Modifier.fillMaxWidth(),
-        )
+            enabled = name.isNotBlank(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = Dimens.TouchTargetPrimary),
+        ) {
+            Text(text = stringResource(R.string.vessel_action_save))
+        }
     }
 }
 

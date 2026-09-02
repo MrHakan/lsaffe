@@ -10,10 +10,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -44,6 +46,10 @@ import com.deckwatch.feature.vessel.R
  * Stateless by design — pass [vessels], [active] and [onSelect] and it renders anywhere, including
  * a preview or a UI test with no DI graph. [VesselSelector] is the convenience that wires it to
  * its own view model.
+ *
+ * Menu rows are 56dp: this is switched at sea, with gloves on (DESIGN_OVERHAUL rule 3). The active
+ * vessel is ticked *and* labelled, and the last row goes straight to adding a new vessel through
+ * [onAddVessel].
  */
 @Composable
 fun VesselSelectorBar(
@@ -51,16 +57,17 @@ fun VesselSelectorBar(
     active: Vessel? = null,
     onSelect: (String) -> Unit = {},
     modifier: Modifier = Modifier,
+    onAddVessel: () -> Unit = {},
 ) {
     var expanded by remember { mutableStateOf(false) }
     val switchLabel = stringResource(R.string.vessel_selector_switch)
+    val activeLabel = stringResource(R.string.vessel_manager_active)
 
     Box(modifier = modifier) {
         Row(
             modifier = Modifier
                 .heightIn(min = Dimens.TouchTargetMin)
                 .clickable(
-                    enabled = vessels.isNotEmpty(),
                     role = Role.DropdownList,
                     onClickLabel = switchLabel,
                     onClick = { expanded = true },
@@ -96,7 +103,7 @@ fun VesselSelectorBar(
             for (vessel in vessels) {
                 val isActive = vessel.id == active?.id
                 DropdownMenuItem(
-                    modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
+                    modifier = Modifier.heightIn(min = Dimens.TouchTargetPrimary),
                     text = {
                         Text(
                             text = vessel.name,
@@ -108,9 +115,19 @@ fun VesselSelectorBar(
                         if (isActive) {
                             Icon(
                                 imageVector = Icons.Filled.Check,
-                                contentDescription = stringResource(R.string.vessel_manager_active),
+                                contentDescription = activeLabel,
                                 tint = ConditionColors.Good,
                                 modifier = Modifier.size(CHECK_SIZE),
+                            )
+                        }
+                    },
+                    // The tick is reinforced by the word, so colour is never the only signal.
+                    trailingIcon = {
+                        if (isActive) {
+                            Text(
+                                text = activeLabel,
+                                style = MaterialTheme.typography.labelMedium,
+                                color = ConditionColors.Good,
                             )
                         }
                     },
@@ -120,6 +137,24 @@ fun VesselSelectorBar(
                     },
                 )
             }
+            if (vessels.isNotEmpty()) {
+                HorizontalDivider()
+            }
+            DropdownMenuItem(
+                modifier = Modifier.heightIn(min = Dimens.TouchTargetPrimary),
+                text = { Text(text = stringResource(R.string.vessel_manager_add)) },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.Add,
+                        contentDescription = null,
+                        modifier = Modifier.size(CHECK_SIZE),
+                    )
+                },
+                onClick = {
+                    expanded = false
+                    onAddVessel()
+                },
+            )
         }
     }
 }
@@ -129,6 +164,7 @@ fun VesselSelectorBar(
 fun VesselSelector(
     modifier: Modifier = Modifier,
     viewModel: VesselSelectorViewModel = hiltViewModel(),
+    onAddVessel: () -> Unit = {},
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     VesselSelectorBar(
@@ -136,6 +172,7 @@ fun VesselSelector(
         active = state.active,
         onSelect = viewModel::select,
         modifier = modifier,
+        onAddVessel = onAddVessel,
     )
 }
 

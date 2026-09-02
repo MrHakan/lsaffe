@@ -4,29 +4,30 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DirectionsBoat
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Layers
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -41,10 +42,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.deckwatch.core.common.Dates
+import com.deckwatch.core.designsystem.components.DeckWatchListRow
+import com.deckwatch.core.designsystem.components.DueDeltaChip
+import com.deckwatch.core.designsystem.components.EmptyState
+import com.deckwatch.core.designsystem.components.SectionHeader
 import com.deckwatch.core.designsystem.components.SymbolTile
 import com.deckwatch.core.designsystem.theme.DeckWatchTheme
 import com.deckwatch.core.designsystem.theme.Dimens
-import com.deckwatch.core.designsystem.theme.tagTextStyle
 import com.deckwatch.core.model.ConditionGrade
 import com.deckwatch.core.model.Deck
 import com.deckwatch.core.model.Equipment
@@ -52,11 +56,8 @@ import com.deckwatch.core.model.EquipmentType
 import com.deckwatch.core.model.PlanPreset
 import com.deckwatch.core.model.Vessel
 import com.deckwatch.feature.vessel.R
-import com.deckwatch.feature.vessel.common.ConditionDot
+import com.deckwatch.feature.vessel.common.ConditionIndicator
 import com.deckwatch.feature.vessel.common.DeckPlanThumbnail
-import com.deckwatch.feature.vessel.common.PrimaryButton
-import com.deckwatch.feature.vessel.common.TeachingEmptyState
-import com.deckwatch.feature.vessel.common.VesselTopBar
 import com.deckwatch.feature.vessel.deck.BuiltInPlanPresets
 import com.deckwatch.feature.vessel.deck.presetName
 
@@ -64,6 +65,10 @@ import com.deckwatch.feature.vessel.deck.presetName
  * LIST MODE — §7.1C. A grouped list of Deck → Zone → Equipment for the active vessel, with no
  * graphics on the critical path. Every function the deck canvas will offer has to be reachable
  * from here too.
+ *
+ * The screen renders *inside* the Vessel tab's chrome, so it draws no top bar of its own
+ * (DESIGN_OVERHAUL rule 2) and no add-equipment action — the tab owns that FAB. Its only primary
+ * action is the first-run "Add your first deck", with the six plan presets visible immediately.
  */
 @Composable
 fun VesselListModeScreen(
@@ -98,74 +103,67 @@ internal fun VesselListModeContent(
     onPickPreset: (PlanPreset) -> Unit = {},
 ) {
     var collapsed by rememberSaveable { mutableStateOf(setOf<String>()) }
+    val today = remember { Dates.todayEpochDay() }
 
-    Scaffold(
-        modifier = modifier.fillMaxSize(),
-        topBar = {
-            VesselTopBar(title = state.vessel?.name ?: stringResource(R.string.list_mode_title))
-        },
-    ) { padding ->
-        when {
-            !state.hasVessel && !state.isLoading -> TeachingEmptyState(
-                message = stringResource(R.string.list_mode_no_vessel),
-                modifier = Modifier.padding(padding),
-            )
+    when {
+        !state.hasVessel && !state.isLoading -> EmptyState(
+            icon = Icons.Filled.DirectionsBoat,
+            title = stringResource(R.string.list_mode_no_vessel_title),
+            body = stringResource(R.string.list_mode_no_vessel),
+            modifier = modifier,
+        )
 
-            state.hasNoDecks -> TeachingEmptyState(
-                title = stringResource(R.string.list_mode_empty_title),
-                message = stringResource(R.string.list_mode_empty_message),
-                actionLabel = stringResource(R.string.deck_manager_add_first),
-                onAction = onAddDeck,
-                modifier = Modifier.padding(padding),
-                content = { PresetStrip(presets = presets, onPick = onPickPreset) },
-            )
+        state.hasNoDecks -> EmptyState(
+            icon = Icons.Filled.Layers,
+            title = stringResource(R.string.list_mode_empty_title),
+            body = stringResource(R.string.list_mode_empty_message),
+            actionLabel = stringResource(R.string.deck_manager_add_first),
+            onAction = onAddDeck,
+            modifier = modifier,
+            extraContent = {
+                PresetStrip(
+                    presets = presets,
+                    onPick = onPickPreset,
+                    modifier = Modifier.padding(top = Dimens.SpacingXl),
+                )
+            },
+        )
 
-            else -> LazyColumn(
-                modifier = Modifier
-                    .padding(padding)
-                    .fillMaxSize(),
-            ) {
-                for (group in state.groups) {
-                    val isCollapsed = group.key in collapsed
-                    item(key = "deck-${group.key}") {
-                        DeckHeader(
-                            group = group,
-                            collapsed = isCollapsed,
-                            onToggle = {
-                                collapsed = if (isCollapsed) collapsed - group.key else collapsed + group.key
-                            },
+        else -> LazyColumn(modifier = modifier.fillMaxSize()) {
+            for (group in state.groups) {
+                val isCollapsed = group.key in collapsed
+                item(key = "deck-${group.key}") {
+                    DeckHeader(
+                        group = group,
+                        collapsed = isCollapsed,
+                        onToggle = {
+                            collapsed = if (isCollapsed) collapsed - group.key else collapsed + group.key
+                        },
+                    )
+                    HorizontalDivider()
+                }
+                if (isCollapsed) continue
+                if (group.equipmentCount == 0) {
+                    item(key = "empty-${group.key}") { DeckEmptyLine() }
+                }
+                for (zoneGroup in group.zoneGroups) {
+                    item(key = "zone-${group.key}-${zoneGroup.key}") {
+                        SectionHeader(
+                            text = zoneGroup.zone?.name ?: stringResource(R.string.list_mode_no_zone),
+                        )
+                    }
+                    items(
+                        items = zoneGroup.equipment,
+                        key = { "eq-${it.id}" },
+                    ) { equipment ->
+                        EquipmentListRow(
+                            equipment = equipment,
+                            type = state.types[equipment.typeKey],
+                            today = today,
+                            onClick = { onOpenEquipment(equipment.id) },
                         )
                         HorizontalDivider()
                     }
-                    if (isCollapsed) continue
-                    if (group.equipmentCount == 0) {
-                        item(key = "empty-${group.key}") { DeckEmptyLine() }
-                    }
-                    for (zoneGroup in group.zoneGroups) {
-                        item(key = "zone-${group.key}-${zoneGroup.key}") {
-                            ZoneHeader(zoneGroup = zoneGroup)
-                        }
-                        items(
-                            items = zoneGroup.equipment,
-                            key = { "eq-${it.id}" },
-                        ) { equipment ->
-                            EquipmentListRow(
-                                equipment = equipment,
-                                type = state.types[equipment.typeKey],
-                                onClick = { onOpenEquipment(equipment.id) },
-                            )
-                            HorizontalDivider()
-                        }
-                    }
-                }
-                item(key = "add-deck") {
-                    PrimaryButton(
-                        text = stringResource(R.string.deck_manager_add_above),
-                        onClick = onAddDeck,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(Dimens.SpacingL),
-                    )
                 }
             }
         }
@@ -220,56 +218,42 @@ private fun DeckHeader(
     collapsed: Boolean,
     onToggle: () -> Unit,
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = Dimens.ListRowCompact)
-            .background(MaterialTheme.colorScheme.surfaceVariant)
-            .clickable(onClick = onToggle)
-            .padding(horizontal = Dimens.SpacingL, vertical = Dimens.SpacingS),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingM),
-    ) {
-        val deck = group.deck
-        if (deck?.shortCode != null) {
-            Text(text = deck.shortCode.orEmpty(), style = tagTextStyle())
-        }
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = deck?.name ?: stringResource(R.string.list_mode_unplaced_deck),
-                style = MaterialTheme.typography.titleMedium,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-            if (deck != null) {
+    val deck = group.deck
+    DeckWatchListRow(
+        title = deck?.name ?: stringResource(R.string.list_mode_unplaced_deck),
+        subtitle = deck?.let { deckSubtitle(it) },
+        onClick = onToggle,
+        modifier = Modifier.background(MaterialTheme.colorScheme.surfaceVariant),
+        trailing = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingXs),
+            ) {
                 Text(
-                    text = stringResource(R.string.deck_manager_level, deck.levelIndex),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    text = group.equipmentCount.toString(),
+                    style = MaterialTheme.typography.labelLarge,
+                )
+                Icon(
+                    imageVector = if (collapsed) {
+                        Icons.Filled.KeyboardArrowDown
+                    } else {
+                        Icons.Filled.KeyboardArrowUp
+                    },
+                    contentDescription = stringResource(
+                        if (collapsed) R.string.vessel_cd_expand else R.string.vessel_cd_collapse,
+                    ),
                 )
             }
-        }
-        Text(text = group.equipmentCount.toString(), style = MaterialTheme.typography.labelLarge)
-        Icon(
-            imageVector = if (collapsed) Icons.Filled.KeyboardArrowDown else Icons.Filled.KeyboardArrowUp,
-            contentDescription = stringResource(
-                if (collapsed) R.string.vessel_cd_expand else R.string.vessel_cd_collapse,
-            ),
-        )
-    }
+        },
+    )
 }
 
+/** "UD · Level 0" — the spine code and where the deck sits in the stack. */
 @Composable
-private fun ZoneHeader(zoneGroup: ZoneGroup) {
-    Text(
-        text = zoneGroup.zone?.name ?: stringResource(R.string.list_mode_no_zone),
-        style = MaterialTheme.typography.labelLarge,
-        color = MaterialTheme.colorScheme.primary,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = Dimens.SpacingXl, end = Dimens.SpacingL)
-            .padding(top = Dimens.SpacingM, bottom = Dimens.SpacingXs),
-    )
+private fun deckSubtitle(deck: Deck): String {
+    val code = deck.shortCode?.takeIf { it.isNotBlank() }
+    val level = stringResource(R.string.deck_manager_level, deck.levelIndex)
+    return listOfNotNull(code, level).joinToString(SEPARATOR)
 }
 
 @Composable
@@ -288,38 +272,42 @@ private fun DeckEmptyLine() {
 private fun EquipmentListRow(
     equipment: Equipment,
     type: EquipmentType?,
+    today: Long,
     onClick: () -> Unit,
 ) {
     val language = LocalContext.current.resources.configuration.locales[0].language
     val typeName = type?.let { if (language == TURKISH_LANGUAGE) it.nameTr else it.nameEn }
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = Dimens.ListRowCompact)
-            .clickable(onClick = onClick)
-            .padding(start = Dimens.SpacingXl, end = Dimens.SpacingL, top = Dimens.SpacingS, bottom = Dimens.SpacingS),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingM),
-    ) {
-        SymbolTile(symbolKey = equipment.symbolKey, size = SYMBOL_SIZE)
-        Column(modifier = Modifier.weight(1f)) {
-            Text(text = equipment.tag, style = tagTextStyle())
-            Text(
-                text = equipment.name ?: typeName ?: equipment.typeKey,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-        }
-        Text(
-            text = equipment.nextDueDate?.let { stringResource(R.string.list_mode_due, Dates.formatIso(it)) }
-                ?: stringResource(R.string.list_mode_no_due),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-        ConditionDot(grade = equipment.condition)
-    }
+    val due = equipment.nextDueDate
+    DeckWatchListRow(
+        title = equipment.tag,
+        titleIsTag = true,
+        subtitle = equipment.name ?: typeName ?: equipment.typeKey,
+        onClick = onClick,
+        modifier = Modifier.padding(start = Dimens.SpacingM),
+        leading = { SymbolTile(symbolKey = equipment.symbolKey, size = SYMBOL_SIZE) },
+        trailing = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingS),
+            ) {
+                if (due != null) {
+                    // Semantic colour for how late it is, and the date itself in the label — the
+                    // colour is never the only signal (rule 6).
+                    DueDeltaChip(
+                        daysUntilDue = due - today,
+                        text = stringResource(R.string.list_mode_due, Dates.formatIso(due)),
+                    )
+                } else {
+                    Text(
+                        text = stringResource(R.string.list_mode_no_due),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                ConditionIndicator(grade = equipment.condition)
+            }
+        },
+    )
 }
 
 /** Preset name outside composition, for the view model call that creates the deck. */
@@ -331,6 +319,7 @@ private fun presetDisplayName(context: android.content.Context, preset: PlanPres
 private val PRESET_TILE_WIDTH = 96.dp
 private val SYMBOL_SIZE = 36.dp
 private const val TURKISH_LANGUAGE = "tr"
+private const val SEPARATOR = " · "
 
 @Preview
 @Composable
@@ -346,34 +335,36 @@ private fun VesselListModePreview() {
         updatedAt = 0,
     )
     DeckWatchTheme {
-        VesselListModeContent(
-            state = ListModeUiState(
-                vessel = Vessel(id = "v", name = "MV Example", createdAt = 0, updatedAt = 0),
-                groups = listOf(
-                    DeckGroup(
-                        deck = deck,
-                        zoneGroups = listOf(
-                            ZoneGroup(
-                                zone = null,
-                                equipment = listOf(
-                                    Equipment(
-                                        id = "e1",
-                                        vesselId = "v",
-                                        deckId = "d1",
-                                        typeKey = "FFE_PORTABLE_EXTINGUISHER",
-                                        symbolKey = "FES001",
-                                        tag = "FE-UD-01",
-                                        condition = ConditionGrade.MONITOR,
-                                        createdAt = 0,
-                                        updatedAt = 0,
+        Box {
+            VesselListModeContent(
+                state = ListModeUiState(
+                    vessel = Vessel(id = "v", name = "MV Example", createdAt = 0, updatedAt = 0),
+                    groups = listOf(
+                        DeckGroup(
+                            deck = deck,
+                            zoneGroups = listOf(
+                                ZoneGroup(
+                                    zone = null,
+                                    equipment = listOf(
+                                        Equipment(
+                                            id = "e1",
+                                            vesselId = "v",
+                                            deckId = "d1",
+                                            typeKey = "FFE_PORTABLE_EXTINGUISHER",
+                                            symbolKey = "FES001",
+                                            tag = "FE-UD-01",
+                                            condition = ConditionGrade.MONITOR,
+                                            createdAt = 0,
+                                            updatedAt = 0,
+                                        ),
                                     ),
                                 ),
                             ),
                         ),
                     ),
+                    isLoading = false,
                 ),
-                isLoading = false,
-            ),
-        )
+            )
+        }
     }
 }

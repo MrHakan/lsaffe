@@ -17,10 +17,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Map
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -38,34 +39,37 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.deckwatch.core.designsystem.components.ConfirmDialog
+import com.deckwatch.core.designsystem.components.DeckWatchListRow
+import com.deckwatch.core.designsystem.components.DeckWatchTopBar
+import com.deckwatch.core.designsystem.components.EmptyState
 import com.deckwatch.core.designsystem.theme.DeckWatchTheme
 import com.deckwatch.core.designsystem.theme.Dimens
 import com.deckwatch.core.model.Deck
 import com.deckwatch.core.model.Zone
 import com.deckwatch.feature.vessel.R
-import com.deckwatch.feature.vessel.common.ConfirmDialog
 import com.deckwatch.feature.vessel.common.DeckPlanOutline
 import com.deckwatch.feature.vessel.common.SwatchRow
 import com.deckwatch.feature.vessel.common.Swatches
-import com.deckwatch.feature.vessel.common.TeachingEmptyState
-import com.deckwatch.feature.vessel.common.VesselTopBar
+import com.deckwatch.feature.vessel.common.requiredLabel
 import com.deckwatch.feature.vessel.deck.BuiltInPlanPresets
 
 /**
  * Spatial zones on one deck (§6.4), edited as rectangles — see [ZoneGeometry] for why the list
  * mode offers four sliders rather than polygon drawing.
+ *
+ * One primary action (DESIGN_OVERHAUL rule 1): the "Add zone" FAB. Reorder, edit and delete are
+ * per-row overflow items rather than four competing buttons in every row.
  */
 @Composable
 fun ZoneManagerScreen(
@@ -113,8 +117,9 @@ fun ZoneManagerScreen(
         val name = state.zones.firstOrNull { it.id == pending }?.name.orEmpty()
         ConfirmDialog(
             title = stringResource(R.string.zone_manager_delete_title),
-            message = stringResource(R.string.zone_manager_delete_message, name),
+            body = stringResource(R.string.zone_manager_delete_message, name),
             confirmLabel = stringResource(R.string.vessel_action_delete),
+            cancelLabel = stringResource(R.string.vessel_action_cancel),
             onConfirm = { viewModel.confirmDelete(pending) },
             onDismiss = viewModel::cancelDelete,
         )
@@ -135,9 +140,11 @@ internal fun ZoneManagerContent(
     Surface(modifier = modifier.fillMaxSize()) {
         Scaffold(
             topBar = {
-                VesselTopBar(
-                    title = state.deck?.name ?: stringResource(R.string.zone_manager_title),
+                DeckWatchTopBar(
+                    title = stringResource(R.string.zone_manager_title),
+                    subtitle = state.deck?.name,
                     onBack = onBack,
+                    backContentDescription = stringResource(R.string.vessel_cd_back),
                 )
             },
             floatingActionButton = {
@@ -150,8 +157,10 @@ internal fun ZoneManagerContent(
             },
         ) { padding ->
             if (state.isEmpty) {
-                TeachingEmptyState(
-                    message = stringResource(R.string.zone_manager_empty_message),
+                EmptyState(
+                    icon = Icons.Filled.Map,
+                    title = stringResource(R.string.zone_manager_empty_title),
+                    body = stringResource(R.string.zone_manager_empty_message),
                     actionLabel = stringResource(R.string.zone_manager_add),
                     onAction = onAdd,
                     modifier = Modifier.padding(padding),
@@ -188,69 +197,74 @@ private fun ZoneRowItem(
     onMoveDown: () -> Unit,
     onDelete: () -> Unit,
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = Dimens.ListRowComfortable)
-            .padding(horizontal = Dimens.SpacingL, vertical = Dimens.SpacingS),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingM),
-    ) {
-        Box(
-            modifier = Modifier
-                .size(ZONE_DOT)
-                .clip(CircleShape)
-                .background(Color(zone.colorArgb)),
-        )
-        if (deck != null) {
-            DeckPlanOutline(
-                plan = deck.plan,
-                fill = MaterialTheme.colorScheme.surfaceVariant,
-                stroke = MaterialTheme.colorScheme.onSurfaceVariant,
-                zone = zone.polygon,
-                zoneColor = Color(zone.colorArgb).copy(alpha = ZONE_PREVIEW_ALPHA),
-                modifier = Modifier.size(width = PLAN_THUMB_W, height = PLAN_THUMB_H),
-            )
-        }
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .heightIn(min = Dimens.TouchTargetMin),
-        ) {
-            Text(
-                text = zone.name,
-                style = MaterialTheme.typography.titleMedium,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-            Text(
-                text = "#${zone.sortOrder}",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-        }
-        IconButton(onClick = onMoveUp, enabled = canMoveUp, modifier = Modifier.size(Dimens.TouchTargetMin)) {
-            Icon(
-                imageVector = Icons.Filled.KeyboardArrowUp,
-                contentDescription = stringResource(R.string.zone_manager_move_up),
-            )
-        }
-        IconButton(onClick = onMoveDown, enabled = canMoveDown, modifier = Modifier.size(Dimens.TouchTargetMin)) {
-            Icon(
-                imageVector = Icons.Filled.KeyboardArrowDown,
-                contentDescription = stringResource(R.string.zone_manager_move_down),
-            )
-        }
-        TextButton(onClick = onEdit, modifier = Modifier.heightIn(min = Dimens.TouchTargetMin)) {
-            Text(stringResource(R.string.vessel_action_edit))
-        }
-        IconButton(onClick = onDelete, modifier = Modifier.size(Dimens.TouchTargetMin)) {
-            Icon(
-                imageVector = Icons.Filled.Delete,
-                contentDescription = stringResource(R.string.vessel_action_delete),
-            )
-        }
-    }
+    var menuOpen by remember { mutableStateOf(false) }
+    val zoneColour = Color(zone.colorArgb)
+    DeckWatchListRow(
+        title = zone.name,
+        // The swatch is named, so the colour is never the only signal (rule 6).
+        subtitle = stringResource(Swatches.of(zone.colorArgb).labelRes),
+        onClick = onEdit,
+        leading = {
+            if (deck != null) {
+                DeckPlanOutline(
+                    plan = deck.plan,
+                    fill = MaterialTheme.colorScheme.surfaceVariant,
+                    stroke = MaterialTheme.colorScheme.onSurfaceVariant,
+                    zone = zone.polygon,
+                    zoneColor = zoneColour.copy(alpha = ZONE_PREVIEW_ALPHA),
+                    modifier = Modifier.size(width = PLAN_THUMB_W, height = PLAN_THUMB_H),
+                )
+            } else {
+                Box(
+                    modifier = Modifier
+                        .size(ZONE_DOT)
+                        .clip(CircleShape)
+                        .background(zoneColour),
+                )
+            }
+        },
+        trailing = {
+            Box {
+                IconButton(onClick = { menuOpen = true }, modifier = Modifier.size(Dimens.TouchTargetMin)) {
+                    Icon(
+                        imageVector = Icons.Filled.MoreVert,
+                        contentDescription = stringResource(R.string.vessel_cd_more_actions),
+                    )
+                }
+                DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
+                    if (canMoveUp) {
+                        ZoneMenuItem(R.string.zone_manager_move_up) {
+                            menuOpen = false
+                            onMoveUp()
+                        }
+                    }
+                    if (canMoveDown) {
+                        ZoneMenuItem(R.string.zone_manager_move_down) {
+                            menuOpen = false
+                            onMoveDown()
+                        }
+                    }
+                    ZoneMenuItem(R.string.vessel_action_edit) {
+                        menuOpen = false
+                        onEdit()
+                    }
+                    ZoneMenuItem(R.string.vessel_action_delete) {
+                        menuOpen = false
+                        onDelete()
+                    }
+                }
+            }
+        },
+    )
+}
+
+@Composable
+private fun ZoneMenuItem(labelRes: Int, onClick: () -> Unit) {
+    DropdownMenuItem(
+        text = { Text(stringResource(labelRes)) },
+        onClick = onClick,
+        modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
+    )
 }
 
 /** Name, colour and the four edge sliders, previewed live on the deck outline. */
@@ -266,7 +280,6 @@ internal fun ZoneEditDialog(
     var rect by remember(zone) {
         mutableStateOf(zone?.let { ZoneGeometry.polygonToRect(it.polygon) } ?: ZoneGeometry.Default)
     }
-    var showNameError by remember(zone) { mutableStateOf(false) }
     val plan = deck?.plan ?: BuiltInPlanPresets.all.first().plan
 
     AlertDialog(
@@ -285,22 +298,20 @@ internal fun ZoneEditDialog(
             ) {
                 OutlinedTextField(
                     value = name,
-                    onValueChange = {
-                        name = it
-                        showNameError = false
-                    },
-                    label = { Text(stringResource(R.string.zone_edit_name)) },
-                    isError = showNameError,
+                    onValueChange = { name = it },
+                    label = { Text(requiredLabel(R.string.zone_edit_name)) },
                     singleLine = true,
                     supportingText = {
-                        if (showNameError) {
+                        if (name.isBlank()) {
                             Text(
                                 text = stringResource(R.string.zone_edit_name_required),
-                                color = MaterialTheme.colorScheme.error,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         }
                     },
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(min = Dimens.TouchTargetPrimary),
                 )
 
                 Text(
@@ -342,19 +353,16 @@ internal fun ZoneEditDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    if (name.isBlank()) {
-                        showNameError = true
-                    } else {
-                        onSave(
-                            ZoneDraft(
-                                id = zone?.id,
-                                name = name,
-                                colorArgb = colour,
-                                rect = ZoneGeometry.normalise(rect),
-                            ),
-                        )
-                    }
+                    onSave(
+                        ZoneDraft(
+                            id = zone?.id,
+                            name = name,
+                            colorArgb = colour,
+                            rect = ZoneGeometry.normalise(rect),
+                        ),
+                    )
                 },
+                enabled = name.isNotBlank(),
                 modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
             ) {
                 Text(stringResource(R.string.vessel_action_save))
