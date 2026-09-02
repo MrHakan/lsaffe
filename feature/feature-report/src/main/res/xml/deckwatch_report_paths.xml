@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    The only directory the report FileProvider exposes — §13.6.
+
+    Deliberately narrow: `cache-path` with an explicit sub-directory, not `<root-path>` and not the
+    whole cache. Anything an officer shares from DeckWatch is a report this app just wrote, so the
+    provider has no business being able to hand out the database, the photo cache or anything else.
+
+    `name` is the segment that appears in the content:// URI; `path` must match
+    ReportFileStore.EXPORTS_DIR.
+-->
+<paths>
+    <cache-path
+        name="deckwatch_exports"
+        path="exports/" />
+</paths>
