@@ -243,4 +243,9 @@
     <string name="appearance_density_compact_desc">Ekranda daha çok satır</string>
     <string name="appearance_density_comfortable">Rahat</string>
     <string name="appearance_density_comfortable_desc">Daha yüksek satırlar, eldivenle kolay</string>
+
+    <!-- §17.6 güncelleme kontrolü: bağlantı tarayıcıya verilir, uygulama kendisi indirmez. -->
+    <string name="about_section_update">Güncellemeler</string>
+    <string name="about_update_body">DeckWatch güncellemeleri kendisi kontrol etmez — hiçbir ağ erişimi yoktur. Bu bağlantı sürüm sayfasını tarayıcınızda açar; en yeni derlemeyi indirip bunun üzerine kurabilirsiniz.</string>
+    <string name="about_update_check">Yeni sürüm var mı (harici)</string>
 </resources>

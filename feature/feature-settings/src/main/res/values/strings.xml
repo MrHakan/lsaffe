@@ -251,4 +251,9 @@
     <string name="appearance_density_compact_desc">More rows on screen</string>
     <string name="appearance_density_comfortable">Comfortable</string>
     <string name="appearance_density_comfortable_desc">Taller rows, easier with gloves</string>
+
+    <!-- §17.6 update check: a link handed to the browser, never a fetch by the app itself. -->
+    <string name="about_section_update">Updates</string>
+    <string name="about_update_body">DeckWatch does not check for updates by itself — it has no network access at all. This opens the releases page in your browser, where the newest build can be downloaded and installed over this one.</string>
+    <string name="about_update_check">Check for a newer version (external)</string>
 </resources>

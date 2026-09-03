@@ -68,6 +68,7 @@ data class StackLayout(
          * @param deckHeightPx §7.2's constant screen-space deck separation (64dp) at zoom 1.
          * @param deckCount used to centre the stack vertically, so a twenty-deck vessel opens with
          *   its middle deck under the thumb rather than off the top of the screen.
+         * @param yawDeg how far the compass has turned the vessel about its own centre.
          */
         @Suppress("LongParameterList") // Every argument is an independent frame input.
         fun of(
@@ -79,12 +80,14 @@ data class StackLayout(
             zoom: Float,
             spread: Float,
             pan: Offset,
+            yawDeg: Float = IsoProjection.NO_YAW_DEG,
         ): StackLayout {
             val projection = IsoProjection(
                 angleDeg = angleDeg,
                 scale = planSizePx * zoom,
                 deckHeightPx = deckHeightPx * zoom,
                 spread = spread,
+                yawDeg = yawDeg,
             )
             val stackCentre = (deckCount - 1).coerceAtLeast(0) * projection.levelStepPx / 2f
             return StackLayout(
@@ -94,6 +97,7 @@ data class StackLayout(
                     scale = planSizePx,
                     deckHeightPx = 0f,
                     spread = 1f,
+                    yawDeg = yawDeg,
                 ),
                 zoom = zoom,
                 origin = Offset(

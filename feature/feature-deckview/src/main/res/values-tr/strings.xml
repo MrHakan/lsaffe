@@ -60,4 +60,13 @@
     <string name="canvas_loading">Güverte planı yükleniyor…</string>
     <string name="canvas_no_decks">Bu geminin henüz güvertesi yok. Menüden bir güverte ekleyin, sonra üzerine ekipman yerleştirin.</string>
     <string name="canvas_hint_long_press">Ekipman eklemek için güvertede bir yere basılı tutun.</string>
+    <!-- §7.2 pusula şeridi. Kerteriz manyetik değil, baş yönüne göredir. -->
+    <string name="compass_label">Güverte yönü</string>
+    <string name="compass_bow">BAŞ</string>
+    <string name="compass_starboard">SANCAK</string>
+    <string name="compass_stern">KIÇ</string>
+    <string name="compass_port">İSKELE</string>
+    <string name="compass_action_port">İskeleye çevir</string>
+    <string name="compass_action_starboard">Sancağa çevir</string>
+    <string name="compass_action_level">Başı yukarı al</string>
 </resources>

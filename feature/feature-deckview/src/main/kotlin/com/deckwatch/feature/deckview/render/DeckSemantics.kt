@@ -80,6 +80,7 @@ internal fun DeckSemanticsOverlay(
                 zoom = transform.zoom,
                 spread = transform.spread,
                 pan = transform.pan,
+                yawDeg = transform.yawDeg,
             )
             placeables.forEachIndexed { index, placeable ->
                 val node = nodes[index]
