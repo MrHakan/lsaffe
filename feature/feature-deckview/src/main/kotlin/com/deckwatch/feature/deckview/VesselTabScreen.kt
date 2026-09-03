@@ -49,6 +49,7 @@ import com.deckwatch.core.designsystem.components.DeckWatchTopBar
 import com.deckwatch.core.designsystem.components.EmptyState
 import com.deckwatch.core.designsystem.theme.Dimens
 import com.deckwatch.core.model.PlanPreset
+import com.deckwatch.feature.deckview.components.DeckCompass
 import com.deckwatch.feature.deckview.components.DeckModeControl
 import com.deckwatch.feature.deckview.components.PresetPickerRow
 import com.deckwatch.feature.deckview.components.ViewSettingsSheet
@@ -498,6 +499,17 @@ private fun DeckCanvasArea(
                 .align(Alignment.CenterEnd)
                 .fillMaxHeight()
                 .padding(end = Dimens.SpacingXs),
+        )
+        // Below the stack and above the tab bar: the strip is a control for the thing directly
+        // above it, and at the bottom of the screen it is the part of the canvas a thumb reaches
+        // without covering the deck it is turning.
+        DeckCompass(
+            yawDeg = { transform.yawDeg },
+            onTurn = transform::yawBy,
+            onLevel = transform::levelYaw,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = Dimens.SpacingS),
         )
     }
 }

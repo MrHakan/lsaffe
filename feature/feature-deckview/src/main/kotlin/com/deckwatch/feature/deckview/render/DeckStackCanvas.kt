@@ -146,6 +146,7 @@ fun DeckStackCanvas(
             zoom = transform.zoom,
             spread = transform.spread,
             pan = transform.pan + Offset(transform.shakePx, 0f),
+            yawDeg = transform.yawDeg,
         )
         layoutHolder.layout = layout
 

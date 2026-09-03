@@ -60,4 +60,14 @@
     <string name="canvas_loading">Loading the deck plan…</string>
     <string name="canvas_no_decks">This vessel has no decks yet. Add one from the menu, then place equipment on it.</string>
     <string name="canvas_hint_long_press">Press and hold anywhere on the deck to add equipment there.</string>
+    <!-- The §7.2 compass strip. Bearings are relative to the bow, not magnetic: a deck plan has
+         no north, so the marks are the ones used aboard. -->
+    <string name="compass_label">Deck heading</string>
+    <string name="compass_bow">BOW</string>
+    <string name="compass_starboard">STBD</string>
+    <string name="compass_stern">STERN</string>
+    <string name="compass_port">PORT</string>
+    <string name="compass_action_port">Turn to port</string>
+    <string name="compass_action_starboard">Turn to starboard</string>
+    <string name="compass_action_level">Bow to the top</string>
 </resources>

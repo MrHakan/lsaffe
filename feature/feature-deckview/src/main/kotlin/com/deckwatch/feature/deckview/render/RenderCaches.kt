@@ -40,10 +40,15 @@ private class LruCache<K, V>(private val maxEntries: Int) {
  * `scale` in the key is the layout-derived plan size, which changes only when the viewport does. The
  * angle is quantised to [ANGLE_STEPS] steps per degree so that the flat/iso spring of §7.1B reuses
  * paths across its frames instead of allocating one per frame.
+ *
+ * The yaw of the compass strip is part of the key for the same reason the angle is: it changes the
+ * projected shape, so a cache that ignored it would keep drawing the ship at the heading it was
+ * first turned to. It is quantised the same way, which is what lets a drag reuse paths between
+ * frames rather than building one per pixel of travel.
  */
 class ProjectedPathCache(maxEntries: Int = MAX_ENTRIES) {
 
-    private data class Key(val shapeHash: Int, val angleKey: Int, val scaleKey: Int)
+    private data class Key(val shapeHash: Int, val angleKey: Int, val scaleKey: Int, val yawKey: Int)
 
     private val paths = LruCache<Key, Path>(maxEntries)
 
@@ -58,6 +63,7 @@ class ProjectedPathCache(maxEntries: Int = MAX_ENTRIES) {
             shapeHash = shapeHash,
             angleKey = (projection.angle * ANGLE_STEPS).roundToInt(),
             scaleKey = projection.scale.roundToInt(),
+            yawKey = (IsoProjection.normaliseYaw(projection.yawDeg) * ANGLE_STEPS).roundToInt(),
         )
         return paths.getOrPut(key) { buildPath(polygon(), projection) }
     }

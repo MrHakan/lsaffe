@@ -43,6 +43,7 @@ class DeckTransformState(
     initialZoom: Float = 1f,
     initialSpread: Float = IsoProjection.DEFAULT_SPREAD,
     initialPan: Offset = Offset.Zero,
+    initialYaw: Float = IsoProjection.NO_YAW_DEG,
 ) {
     var pan: Offset by mutableStateOf(initialPan)
     var zoom: Float by mutableFloatStateOf(initialZoom)
@@ -50,6 +51,14 @@ class DeckTransformState(
 
     /** The animated isometric angle — the single float behind §7.1B's flat/iso toggle. */
     var angleDeg: Float by mutableFloatStateOf(IsoProjection.DEFAULT_ANGLE_DEG)
+
+    /**
+     * How far the vessel is turned about its own centre, driven by the compass strip.
+     *
+     * It lives here rather than in the view model because it changes with every frame of a drag,
+     * exactly like [pan] and [zoom], and for the same reason must not recompose anything.
+     */
+    var yawDeg: Float by mutableFloatStateOf(IsoProjection.normaliseYaw(initialYaw))
 
     /** Set while a deck is long-pressed: everything else is hidden (§7.2 occlusion and focus). */
     var isolatedDeckId: String? by mutableStateOf(null)
@@ -78,6 +87,22 @@ class DeckTransformState(
 
     fun updateSpread(value: Float) {
         spread = IsoProjection.clampSpread(value)
+    }
+
+    /** Turns the vessel by [deltaDeg], clockwise on screen for a positive value. */
+    fun yawBy(deltaDeg: Float) {
+        yawDeg = IsoProjection.normaliseYaw(yawDeg + deltaDeg)
+    }
+
+    /**
+     * Puts the bow back at the top.
+     *
+     * Deliberately not part of [reset]: zoom-to-fit is about where the camera is, and an officer
+     * who has turned the ship to see the port side does not expect a double-tap on the deck to
+     * spin it back. The compass has its own way to level it.
+     */
+    fun levelYaw() {
+        yawDeg = IsoProjection.NO_YAW_DEG
     }
 
     fun reset() {
@@ -136,12 +161,13 @@ class DeckTransformState(
         private const val TWO_PI = (2.0 * Math.PI).toFloat()
 
         val Saver: Saver<DeckTransformState, Any> = listSaver<DeckTransformState, Float>(
-            save = { listOf(it.zoom, it.spread, it.pan.x, it.pan.y) },
+            save = { listOf(it.zoom, it.spread, it.pan.x, it.pan.y, it.yawDeg) },
             restore = { values ->
                 DeckTransformState(
                     initialZoom = values[0],
                     initialSpread = values[1],
                     initialPan = Offset(values[2], values[3]),
+                    initialYaw = values[4],
                 )
             },
         )
