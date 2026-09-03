@@ -149,6 +149,10 @@ fun AboutScreen(
             ExternalLinkButton(stringResource(R.string.about_flag_liberia)) { open(REGISTRY_LIBERIA) }
             ExternalLinkButton(stringResource(R.string.about_flag_panama)) { open(REGISTRY_PANAMA) }
 
+            SectionHeader(stringResource(R.string.about_section_update))
+            Paragraph(stringResource(R.string.about_update_body))
+            ExternalLinkButton(stringResource(R.string.about_update_check)) { open(RELEASES_URL) }
+
             SectionHeader(stringResource(R.string.about_section_licence))
             Paragraph(stringResource(R.string.about_licence_body))
         }
@@ -201,3 +205,16 @@ private fun ExternalLinkButton(label: String, onClick: () -> Unit) {
 internal const val REGISTRY_RMI: String = "https://www.register-iri.com/"
 internal const val REGISTRY_LIBERIA: String = "https://www.liscr.com/"
 internal const val REGISTRY_PANAMA: String = "https://amp.gob.pa/"
+
+/**
+ * Where the builds are published — the update check of §17.6.
+ *
+ * The app does not fetch this itself. Checking is a tap that hands the URL to the browser, exactly
+ * as the flag links do, so DeckWatch keeps its "no `INTERNET` in the manifest" guarantee (C1): an
+ * offline tool that quietly dialled home to look for a newer version of itself would no longer be
+ * one, and a background download is the last thing wanted on a ship's metered connection.
+ *
+ * `/releases/latest` rather than the releases index, so the page that opens is the build to install
+ * rather than a list the officer has to compare version numbers in.
+ */
+internal const val RELEASES_URL: String = "https://github.com/MrHakan/lsaffe/releases/latest"
