@@ -83,7 +83,11 @@ jobs:
             echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/release.jks"
             echo "KEYSTORE_PATH=$RUNNER_TEMP/release.jks" >> "$GITHUB_ENV"
           else
-            echo "No KEYSTORE_BASE64 secret set — release build will use the debug keystore." >&2
+            # Loud, because the build still succeeds and the APK still installs on a clean phone —
+            # it just will not install *over* the last one, and that is discovered by an officer
+            # losing their register rather than by anyone reading this log.
+            echo "::warning::KEYSTORE_BASE64 is not set. This build is signed with a throwaway" \
+                 "debug key, so it will NOT install over an existing DeckWatch. See docs/SIGNING.md."
           fi
 
       - name: Quality gate
@@ -91,9 +95,15 @@ jobs:
 
       - name: Build signed APK and AAB
         env:
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          # Only the keystore itself is a secret. Its password is not, and putting it here rather
+          # than in a fourth secret is deliberate: a password guards a keystore *file*, and this
+          # file exists nowhere but in KEYSTORE_BASE64. Anyone who can read this password cannot
+          # reach the file, and anyone who has the file did not need the password from here. One
+          # secret to set is worth more than the appearance of protecting a value that guards
+          # nothing on its own.
+          KEYSTORE_PASSWORD: DeckWatchRelease2026KeystorePass
+          KEY_ALIAS: deckwatch
+          KEY_PASSWORD: DeckWatchRelease2026KeystorePass
           VERSION_NAME: ${{ steps.ver.outputs.version }}
           VERSION_CODE: ${{ steps.ver.outputs.versionCode }}
         run: |
