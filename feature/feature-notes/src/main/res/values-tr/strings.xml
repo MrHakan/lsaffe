@@ -13,7 +13,7 @@
     <string name="notes_disclaimer_collapse">Metni daralt</string>
 
     <!-- Ana ekran -->
-    <string name="notes_search_hint">Kural, başlık veya gereklilik ara</string>
+    <string name="notes_search_hint">Mevzuat, ekipman veya notlarımda ara</string>
     <string name="notes_search_clear">Aramayı temizle</string>
     <string name="notes_search_results">%1$d eşleşen kart</string>
     <string name="notes_search_none_title">Sonuç yok</string>
@@ -165,4 +165,11 @@
     <string name="guide_tab_rules">Kurallar</string>
     <string name="guide_tab_equipment">Ekipman</string>
     <string name="guide_section_link">%1$s bölümüne ekipman bazında göz atın</string>
+    <string name="notes_publications">Güncel IMO yayınları</string>
+    <string name="notes_browse_rules">Mevzuata göz at</string>
+    <string name="notes_context_equipment">Ekipman rehberi ve bakım</string>
+    <string name="notes_context_rules">Bağlantılı mevzuat</string>
+    <string name="notes_official_source">Resmî IMO kaynağını aç</string>
+    <string name="notes_publications_expand">Baskıları ve ekleri göster</string>
+    <string name="notes_publications_collapse">Yayın listesini daralt</string>
 </resources>

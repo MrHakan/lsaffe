@@ -41,6 +41,7 @@ import androidx.navigation.toRoute
 import com.deckwatch.app.BuildConfig
 import com.deckwatch.app.R
 import com.deckwatch.core.datastore.UserPreferences
+import com.deckwatch.core.designsystem.components.DeckWatchTopBar
 import com.deckwatch.core.designsystem.theme.DeckWatchTheme
 import com.deckwatch.core.model.ThemeMode
 import com.deckwatch.feature.deckview.VesselTabScreen
@@ -56,6 +57,7 @@ import com.deckwatch.feature.settings.settings.SettingsScreen
 import com.deckwatch.feature.vessel.category.CategoryManagerScreen
 import com.deckwatch.feature.vessel.deck.DeckManagerScreen
 import com.deckwatch.feature.vessel.edit.VesselEditScreen
+import com.deckwatch.feature.vessel.list.VesselListModeScreen
 import com.deckwatch.feature.vessel.manager.VesselManagerScreen
 import com.deckwatch.feature.vessel.zone.ZoneManagerScreen
 import kotlinx.coroutines.delay
@@ -75,6 +77,8 @@ import java.time.LocalTime
 
 /** Detail destinations, pushed over a tab. Type-safe: the arguments are the route's own fields. */
 @Serializable data class EquipmentDetailRoute(val equipmentId: String)
+
+@Serializable data class RelatedEquipmentRoute(val typeKeys: List<String>)
 
 @Serializable object VesselManagerRoute
 
@@ -251,13 +255,32 @@ private fun MainScaffold(
         ) {
             composable<NotesRoute> {
                 NotesScreen(
-                    // §8.2's "show my equipment": the Vessel tab is where the register lives, and
-                    // its list mode is inside feature-deckview, so switching tab is the whole job.
-                    onShowEquipmentForCard = { navController.switchTab(VesselRoute) },
+                    onShowEquipmentForCard = { keys ->
+                        navController.navigate(RelatedEquipmentRoute(keys))
+                    },
                     // §17.6: the acknowledgement moves from the tab's own remembered state into
                     // DataStore, so it is asked once per install rather than once per process.
                     onDisclaimerAccepted = onDisclaimerAccepted,
                 )
+            }
+
+            composable<RelatedEquipmentRoute> { entry ->
+                val route = entry.toRoute<RelatedEquipmentRoute>()
+                Scaffold(
+                    topBar = {
+                        DeckWatchTopBar(
+                            title = stringResource(R.string.related_equipment_title),
+                            onBack = { navController.popBackStack() },
+                            backContentDescription = stringResource(R.string.action_back),
+                        )
+                    },
+                ) { contentPadding ->
+                    VesselListModeScreen(
+                        typeKeys = route.typeKeys,
+                        modifier = Modifier.padding(contentPadding),
+                        onOpenEquipment = { id -> navController.navigate(EquipmentDetailRoute(id)) },
+                    )
+                }
             }
 
             composable<VesselRoute> {

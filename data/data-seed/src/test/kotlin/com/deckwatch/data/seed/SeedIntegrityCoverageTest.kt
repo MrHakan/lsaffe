@@ -95,6 +95,6 @@ class SeedIntegrityCoverageTest {
 
     private companion object {
         /** Bump with every content change; see the test above for why. */
-        const val BUNDLE_VERSION = 4
+        const val BUNDLE_VERSION = 5
     }
 }

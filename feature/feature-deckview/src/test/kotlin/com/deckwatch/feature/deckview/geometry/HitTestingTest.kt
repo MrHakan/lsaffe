@@ -14,6 +14,20 @@ class HitTestingTest {
     )
 
     @Test
+    fun `crowded touch exposes all candidates once in a stable distance order`() {
+        val crowded = listOf(
+            ScreenMarker("FFO-02", Vec2(100f, 100f)),
+            ScreenMarker("FFO-01", Vec2(100f, 100f)),
+            ScreenMarker("BAC-01", Vec2(110f, 100f)),
+            ScreenMarker("FFO-02", Vec2(100f, 100f)),
+            ScreenMarker("remote", Vec2(300f, 100f)),
+        )
+        assertThat(HitTesting.markerCandidates(crowded, Vec2(100f, 100f), 26f).map { it.id })
+            .containsExactly("FFO-01", "FFO-02", "BAC-01").inOrder()
+        assertThat(HitTesting.markerCandidates(crowded, Vec2(100f, 100f), 0f)).isEmpty()
+    }
+
+    @Test
     fun `nearest marker wins inside the touch radius`() {
         val hit = HitTesting.nearestMarker(markers, Vec2(115f, 100f), radiusPx = 40f)
 

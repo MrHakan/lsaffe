@@ -209,4 +209,6 @@
     <string name="list_mode_due_overdue">%1$d d overdue</string>
     <string name="list_mode_due_today">Due today</string>
     <string name="list_mode_due_in_days">in %1$d d</string>
+    <string name="list_mode_scope_empty_title">No matching equipment</string>
+    <string name="list_mode_scope_empty_body">The active vessel has no equipment of the types linked to this regulation.</string>
 </resources>

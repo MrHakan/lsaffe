@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -165,6 +166,13 @@ fun DeckStackCanvas(
             selectedEquipmentId = selectedEquipmentId,
             pulse = pulse,
             dragged = transform.drag,
+            occupied = decks.flatMap { deck ->
+                val half = markerCache.sizePx(MarkerLod.forZoom(layout.zoom)) / 2f
+                deck.markers.map { marker ->
+                    val centre = layout.toScreen(deck.levelZ, marker.position)
+                    Rect(centre.x - half, centre.y - half, centre.x + half, centre.y + half)
+                }
+            }.toMutableList(),
         )
 
         for (deck in decks) {
@@ -209,6 +217,7 @@ private class FrameContext(
     /** Read inside the draw lambda, never in composition — the pulse must not recompose anything. */
     val pulse: State<Float>,
     val dragged: MarkerDrag?,
+    val occupied: MutableList<Rect>,
 )
 
 @Composable
@@ -365,10 +374,18 @@ private fun DrawScope.drawTagLabel(
     alpha: Float,
 ) {
     val measured = frame.labelCache.measure(frame.measurer, tag, frame.labelStyle)
-    val topLeft = Offset(
-        x = centre.x - measured.size.width / 2f,
-        y = centre.y + markerSize / 2f + LABEL_GAP_PX,
+    val candidates = listOf(
+        Offset(centre.x - measured.size.width / 2f, centre.y + markerSize / 2f + LABEL_GAP_PX),
+        Offset(centre.x - measured.size.width / 2f, centre.y - markerSize / 2f - LABEL_GAP_PX - measured.size.height),
     )
+    val topLeft = candidates.firstOrNull { position ->
+        val bounds = Rect(position.x - LABEL_PAD_PX, position.y,
+            position.x + measured.size.width + LABEL_PAD_PX, position.y + measured.size.height)
+        bounds.left >= 0f && bounds.right <= size.width && bounds.top >= 0f && bounds.bottom <= size.height &&
+            frame.occupied.none { it.overlaps(bounds) }
+    } ?: return
+    frame.occupied += Rect(topLeft.x - LABEL_PAD_PX, topLeft.y,
+        topLeft.x + measured.size.width + LABEL_PAD_PX, topLeft.y + measured.size.height)
     drawRect(
         color = frame.palette.labelShade,
         topLeft = Offset(topLeft.x - LABEL_PAD_PX, topLeft.y),

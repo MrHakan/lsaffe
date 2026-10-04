@@ -64,6 +64,8 @@ fun RegulationCardEntity.toModel(): RegulationCard = RegulationCard(
     verificationStatus = verificationStatus,
     summaryTr = summaryTr,
     revisionNote = revisionNote,
+    sourceUrl = sourceUrl,
+    relatedRefKeys = relatedRefKeys,
 )
 
 fun RegulationCard.toEntity(): RegulationCardEntity = RegulationCardEntity(
@@ -84,6 +86,8 @@ fun RegulationCard.toEntity(): RegulationCardEntity = RegulationCardEntity(
     verificationStatus = verificationStatus,
     summaryTr = summaryTr,
     revisionNote = revisionNote,
+    sourceUrl = sourceUrl,
+    relatedRefKeys = relatedRefKeys,
 )
 
 fun RoundTemplateEntity.toModel(): RoundTemplate = RoundTemplate(

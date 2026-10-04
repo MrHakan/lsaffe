@@ -70,4 +70,5 @@
     <string name="compass_action_port">Turn to port</string>
     <string name="compass_action_starboard">Turn to starboard</string>
     <string name="compass_action_level">Bow to the top</string>
+    <string name="deckview_choose_equipment">Choose equipment at this position</string>
 </resources>

@@ -97,6 +97,10 @@ data class RegulationCard(
     val summaryTr: String = "",
     /** For FLAG cards: the notice revision and capture date string. */
     val revisionNote: String = "",
+    /** Official public source; empty when a source has not been checked. */
+    val sourceUrl: String = "",
+    /** Curated context links, resolved against the installed reference bundle. */
+    val relatedRefKeys: List<String> = emptyList(),
 )
 
 /** The user's own note — §8.1 MY NOTES. */

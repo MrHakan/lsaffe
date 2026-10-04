@@ -136,7 +136,7 @@ class SeedInitializer @Inject constructor(
          * The bundled content version. **Bump this whenever the JSON under `data-seed/assets/seed`
          * changes** — that is what triggers the migrating re-seed of §8.1 on the next cold start.
          */
-        const val CONTENT_VERSION: Int = 1
+        const val CONTENT_VERSION: Int = 2
 
         internal const val PREFS_NAME: String = "deckwatch_seed"
         internal const val KEY_CONTENT_VERSION: String = "seed_content_version"

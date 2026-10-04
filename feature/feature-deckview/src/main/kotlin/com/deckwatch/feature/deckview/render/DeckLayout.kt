@@ -8,6 +8,7 @@ import com.deckwatch.feature.deckview.geometry.ScreenMarker
 import com.deckwatch.feature.deckview.geometry.Vec2
 import com.deckwatch.feature.deckview.model.DeckNode
 import com.deckwatch.feature.deckview.model.StackRenderModel
+import kotlin.math.min
 
 /**
  * Where the stack sits on screen for one frame.
@@ -54,9 +55,25 @@ data class StackLayout(
     /** Every marker on [deck] as a hit-test point. */
     fun screenMarkers(deck: DeckNode): List<ScreenMarker> =
         deck.markers.map { marker ->
-            val screen = toScreen(deck.levelZ, marker.position)
+            val position = if (zoom < DeckRenderDefaults.AGGREGATE_ZOOM) {
+                deck.zones.firstOrNull { it.zoneId == marker.zoneId }?.centroid ?: Vec2(0.5f, 0.5f)
+            } else {
+                marker.position
+            }
+            val screen = toScreen(deck.levelZ, position)
             ScreenMarker(marker.equipmentId, Vec2(screen.x, screen.y))
         }
+
+    /** Fit the focused outline to the available canvas rather than applying a fixed zoom. */
+    fun zoomToFit(deck: DeckNode, marginPx: Float): Float {
+        val outline = screenOutline(deck)
+        if (outline.isEmpty()) return zoom
+        val width = outline.maxOf { it.x } - outline.minOf { it.x }
+        val height = outline.maxOf { it.y } - outline.minOf { it.y }
+        val availableWidth = (viewport.width - marginPx * 2f).coerceAtLeast(1f)
+        val availableHeight = (viewport.height - marginPx * 2f).coerceAtLeast(1f)
+        return zoom * min(availableWidth / width.coerceAtLeast(1f), availableHeight / height.coerceAtLeast(1f))
+    }
 
     companion object {
 

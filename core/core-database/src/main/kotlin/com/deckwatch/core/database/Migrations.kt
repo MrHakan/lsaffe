@@ -26,5 +26,13 @@ val MIGRATION_1_2: Migration = object : Migration(1, 2) {
     }
 }
 
+/** 2 → 3: official source links and curated cross-references; existing notes remain intact. */
+val MIGRATION_2_3: Migration = object : Migration(2, 3) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("ALTER TABLE regulation_cards ADD COLUMN sourceUrl TEXT NOT NULL DEFAULT ''")
+        db.execSQL("ALTER TABLE regulation_cards ADD COLUMN relatedRefKeys TEXT NOT NULL DEFAULT '[]'")
+    }
+}
+
 /** In ascending order; registered by [createDeckWatchDatabase]. */
-val DECKWATCH_MIGRATIONS: List<Migration> = listOf(MIGRATION_1_2)
+val DECKWATCH_MIGRATIONS: List<Migration> = listOf(MIGRATION_1_2, MIGRATION_2_3)

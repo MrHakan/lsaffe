@@ -26,6 +26,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -58,6 +59,8 @@ import com.deckwatch.core.model.UserNote
 internal fun MyNotesScreen(
     onCardClick: (String) -> Unit,
     modifier: Modifier = Modifier,
+    openNoteId: String? = null,
+    onNoteOpened: () -> Unit = {},
     viewModel: MyNotesViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -66,6 +69,15 @@ internal fun MyNotesScreen(
     var editing by remember { mutableStateOf<UserNote?>(null) }
     var composingNew by rememberSaveable { mutableStateOf(false) }
     var pendingDelete by remember { mutableStateOf<UserNote?>(null) }
+
+    LaunchedEffect(openNoteId, state.folders) {
+        if (openNoteId != null) {
+            state.folders.flatMap { it.notes }.firstOrNull { it.id == openNoteId }?.let {
+                editing = it
+                onNoteOpened()
+            }
+        }
+    }
 
     val unfiledLabel = stringResource(R.string.notes_my_folder_unfiled)
 

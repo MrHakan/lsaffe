@@ -12,6 +12,21 @@ class ListModeGroupingTest {
     private val bridge = TestData.deck(id = "deck-bridge", vesselId = "v", name = "Bridge Deck", levelIndex = 20)
 
     @Test
+    fun `regulatory equipment scope includes matching placed and unplaced records only`() {
+        val groups = ListModeGrouping.group(listOf(upper), emptyMap(), listOf(
+            TestData.equipment(id = "placed", deckId = upper.id, typeKey = "FFE_SCBA_SET"),
+            TestData.equipment(id = "unplaced", deckId = null, typeKey = "FFE_SCBA_SET"),
+            TestData.equipment(id = "other", deckId = upper.id, typeKey = "LSA_LIFEJACKET_ADULT"),
+        ))
+        val filtered = ListModeGrouping.filterTypes(groups, listOf("FFE_SCBA_SET"))
+        assertThat(filtered.flatMap { it.zoneGroups }.flatMap { it.equipment }.map { it.id })
+            .containsExactly("placed", "unplaced")
+        assertThat(filtered.last().isUnplaced).isTrue()
+        assertThat(ListModeGrouping.filterTypes(groups, listOf("MISSING"))).isEmpty()
+        assertThat(ListModeGrouping.filterTypes(groups, emptyList())).isEqualTo(groups)
+    }
+
+    @Test
     fun `decks group in stack order and zones follow their sort order`() {
         val zoneAft = TestData.zone(id = "z-aft", deckId = "deck-upper", name = "Aft", sortOrder = 1)
         val zoneFwd = TestData.zone(id = "z-fwd", deckId = "deck-upper", name = "Fwd", sortOrder = 0)

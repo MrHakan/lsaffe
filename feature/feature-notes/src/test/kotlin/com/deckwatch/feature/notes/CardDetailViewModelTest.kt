@@ -119,4 +119,19 @@ class CardDetailViewModelTest {
 
         assertThat(reference.userNotes.value).isEmpty()
     }
+    @Test
+    fun `curated context resolves both equipment and linked rules without self or duplicate links`() = runTest {
+        reference.seedRegulationCard(TestData.regulationCard(refKey = "UPDATE").copy(
+            appliesToTypeKeys = listOf("FFE_PORTABLE_EXTINGUISHER"),
+            relatedRefKeys = listOf("SOLAS_II2_10_3", "UPDATE", "SOLAS_II2_10_3", "MISSING"),
+        ))
+        val viewModel = CardDetailViewModel(reference)
+        viewModel.open("UPDATE")
+        viewModel.uiState.test {
+            val loaded = awaitState { it.card?.refKey == "UPDATE" }
+            assertThat(loaded.equipmentTypes.single().typeKey).isEqualTo("FFE_PORTABLE_EXTINGUISHER")
+            assertThat(loaded.relatedCards.map { it.refKey }).containsExactly("SOLAS_II2_10_3")
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
 }

@@ -100,6 +100,8 @@ class EquipmentGuideViewModel @Inject constructor(
         if (search.isBlank()) return true
         val needle = search.trim().lowercase()
         return nameEn.lowercase().contains(needle) ||
+            nameTr.lowercase().contains(needle) ||
+            helpTextTr.lowercase().contains(needle) ||
             subGroup.lowercase().contains(needle) ||
             typeKey.lowercase().contains(needle) ||
             technicalNotes.any { note ->
@@ -166,7 +168,8 @@ class EquipmentTypeDetailViewModel @Inject constructor(
                 // mapNotNull, not a filter: a task key with no definition is a content gap, and
                 // showing an empty row for it would be worse than leaving it out.
                 tasks = type.taskKeys.mapNotNull(byKey::get),
-                cards = type.regulationRefs.mapNotNull(byRef::get),
+                cards = (type.regulationRefs + cards.filter { type.typeKey in it.appliesToTypeKeys }.map { it.refKey })
+                    .distinct().mapNotNull(byRef::get),
             )
         }
     }.stateIn(

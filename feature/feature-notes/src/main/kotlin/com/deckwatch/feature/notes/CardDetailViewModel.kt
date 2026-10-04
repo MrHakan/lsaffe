@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.deckwatch.core.common.Dates
 import com.deckwatch.core.common.repository.ReferenceRepository
+import com.deckwatch.core.model.EquipmentType
 import com.deckwatch.core.model.RegulationCard
 import com.deckwatch.core.model.UserNote
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +22,8 @@ data class CardDetailUiState(
     val card: RegulationCard? = null,
     val appliesToNames: List<String> = emptyList(),
     val myNotes: List<UserNote> = emptyList(),
+    val equipmentTypes: List<EquipmentType> = emptyList(),
+    val relatedCards: List<RegulationCard> = emptyList(),
 ) {
     val isLoaded: Boolean get() = card != null
 }
@@ -39,8 +42,15 @@ class CardDetailViewModel @Inject constructor(
         reference.observeUserNotes(),
     ) { key, cards, types, notes ->
         val card = cards.firstOrNull { it.refKey == key }
+        val equipmentTypes = types.filter {
+            it.typeKey in card?.appliesToTypeKeys.orEmpty() || key in it.regulationRefs
+        }
+        val relatedKeys = card?.relatedRefKeys.orEmpty() + equipmentTypes.flatMap { it.regulationRefs }
         CardDetailUiState(
             card = card,
+            equipmentTypes = equipmentTypes,
+            relatedCards = relatedKeys.distinct().filter { it != key }
+                .mapNotNull { ref -> cards.firstOrNull { it.refKey == ref } }.take(8),
             appliesToNames = card?.appliesToTypeKeys.orEmpty().map { typeKey ->
                 types.firstOrNull { it.typeKey == typeKey }?.nameEn ?: typeKey
             },

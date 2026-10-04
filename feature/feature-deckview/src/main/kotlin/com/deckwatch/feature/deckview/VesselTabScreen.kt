@@ -5,20 +5,21 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animate
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.automirrored.filled.DirectionsWalk
 import androidx.compose.material.icons.filled.Layers
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -33,7 +34,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -44,12 +44,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.deckwatch.core.common.Dates
+import com.deckwatch.core.designsystem.components.DeckWatchListRow
 import com.deckwatch.core.designsystem.components.ConditionLabels
 import com.deckwatch.core.designsystem.components.DeckWatchTopBar
 import com.deckwatch.core.designsystem.components.EmptyState
 import com.deckwatch.core.designsystem.theme.Dimens
 import com.deckwatch.core.model.PlanPreset
-import com.deckwatch.feature.deckview.components.DeckCompass
+import com.deckwatch.feature.deckview.components.DeckBottomControls
 import com.deckwatch.feature.deckview.components.DeckModeControl
 import com.deckwatch.feature.deckview.components.PresetPickerRow
 import com.deckwatch.feature.deckview.components.ViewSettingsSheet
@@ -89,6 +90,7 @@ private data class AddTarget(val deckId: String, val zoneId: String?, val posX: 
  * @param onCreateVessel opens the vessel editor from the "no vessel yet" empty state.
  * @param onOpenEquipmentDetail pushes the full equipment record (§7.4 "full" stage).
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Suppress("LongMethod") // The tab is one screen: chrome, canvas, spine and three sheets.
 fun VesselTabScreen(
@@ -106,6 +108,7 @@ fun VesselTabScreen(
     val reduceMotion = rememberReducedMotion()
 
     var selectedEquipmentId by rememberSaveable { mutableStateOf<String?>(null) }
+    var markerChoices by remember { mutableStateOf<List<String>>(emptyList()) }
     var addTarget by remember { mutableStateOf<AddTarget?>(null) }
     var settingsOpen by rememberSaveable { mutableStateOf(false) }
     var overflowOpen by remember { mutableStateOf(false) }
@@ -241,16 +244,14 @@ fun VesselTabScreen(
                 },
             )
         },
-        floatingActionButton = {
+        bottomBar = {
             val deck = state.activeDeck
             if (deck != null && state.mode != DeckViewMode.LIST) {
-                ExtendedFloatingActionButton(
-                    onClick = {
-                        addTarget = AddTarget(deck.deckId, null, PLAN_CENTRE, PLAN_CENTRE)
-                    },
-                    icon = { Icon(Icons.Filled.Add, contentDescription = null) },
-                    text = { Text(stringResource(R.string.deckview_add_equipment)) },
-                    modifier = Modifier.padding(bottom = Dimens.SpacingS),
+                DeckBottomControls(
+                    yawDeg = { transform.yawDeg },
+                    onTurn = transform::yawBy,
+                    onLevel = transform::levelYaw,
+                    onAdd = { addTarget = AddTarget(deck.deckId, null, PLAN_CENTRE, PLAN_CENTRE) },
                 )
             }
         },
@@ -291,6 +292,7 @@ fun VesselTabScreen(
                     selectedEquipmentId = sheetEquipmentId,
                     callbacks = DeckGestureCallbacks(
                         onTapMarker = { equipmentId, _ -> selectedEquipmentId = equipmentId },
+                        onTapMarkerCluster = { markerChoices = it },
                         onTapDeck = { deckId ->
                             when {
                                 deckMode -> selectedEquipmentId = null
@@ -304,7 +306,13 @@ fun VesselTabScreen(
                         },
                         onZoomToFit = { deckId ->
                             val deck = state.model.deck(deckId) ?: state.activeDeck
-                            if (deck != null) flyToDeck(deck, FIT_ZOOM) else transform.reset()
+                            if (deck != null) {
+                                val margin = with(density) { DeckRenderDefaults.CullMargin.toPx() }
+                                val zoom = layoutHolder.layout?.zoomToFit(deck, margin) ?: 1f
+                                flyToDeck(deck, zoom)
+                            } else {
+                                transform.reset()
+                            }
                         },
                         // The pick-up haptic is fired by the gesture layer itself, the moment the
                         // long press lands, so there is nothing to do here.
@@ -370,6 +378,30 @@ fun VesselTabScreen(
                 posY = target.posY,
                 onCreated = { ids -> selectedEquipmentId = ids.lastOrNull() },
             )
+        }
+    }
+
+    if (markerChoices.isNotEmpty()) {
+        ModalBottomSheet(onDismissRequest = { markerChoices = emptyList() }) {
+            Text(
+                stringResource(R.string.deckview_choose_equipment),
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.padding(Dimens.SpacingM),
+            )
+            state.model.decks.flatMap { it.markers }
+                .filter { it.equipmentId in markerChoices }
+                .distinctBy { it.equipmentId }
+                .sortedBy { it.tag }
+                .forEach { marker ->
+                    DeckWatchListRow(
+                        title = marker.tag,
+                        subtitle = marker.typeName,
+                        onClick = {
+                            selectedEquipmentId = marker.equipmentId
+                            markerChoices = emptyList()
+                        },
+                    )
+                }
         }
     }
 
@@ -451,41 +483,43 @@ private fun DeckCanvasArea(
         )
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        DeckStackCanvas(
-            model = state.model,
-            transform = transform,
-            layoutHolder = layoutHolder,
-            modifier = Modifier
-                .fillMaxSize()
-                .deckGestures(
-                    key = state.model,
-                    transform = transform,
-                    layoutHolder = layoutHolder,
-                    interactiveDecks = { interactiveDecks.value },
-                    deckMode = deckMode,
-                    gridSnapEnabled = state.gridSnapEnabled,
-                    hitRadiusPx = hitRadiusPx,
-                    performHaptic = {
-                        haptics.performHapticFeedback(HapticFeedbackType.LongPress)
-                    },
-                    callbacks = callbacks,
-                ),
-            deckMode = deckMode,
-            activeDeckId = activeDeckId,
-            focusedDeckId = state.focusedDeckId,
-            selectedEquipmentId = selectedEquipmentId,
-            showGrid = state.showGrid,
-            reduceMotion = reduceMotion,
-        )
-        DeckSemanticsOverlay(
-            model = state.model,
-            transform = transform,
-            deckMode = deckMode,
-            deckNodes = deckNodes,
-            markerNodes = markerNodes,
-            modifier = Modifier.fillMaxSize(),
-        )
+    Row(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = Modifier.weight(1f).fillMaxHeight()) {
+            DeckStackCanvas(
+                model = state.model,
+                transform = transform,
+                layoutHolder = layoutHolder,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .deckGestures(
+                        key = state.model,
+                        transform = transform,
+                        layoutHolder = layoutHolder,
+                        interactiveDecks = { interactiveDecks.value },
+                        deckMode = deckMode,
+                        gridSnapEnabled = state.gridSnapEnabled,
+                        hitRadiusPx = hitRadiusPx,
+                        performHaptic = {
+                            haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+                        },
+                        callbacks = callbacks,
+                    ),
+                deckMode = deckMode,
+                activeDeckId = activeDeckId,
+                focusedDeckId = state.focusedDeckId,
+                selectedEquipmentId = selectedEquipmentId,
+                showGrid = state.showGrid,
+                reduceMotion = reduceMotion,
+            )
+            DeckSemanticsOverlay(
+                model = state.model,
+                transform = transform,
+                deckMode = deckMode,
+                deckNodes = deckNodes,
+                markerNodes = markerNodes,
+                modifier = Modifier.fillMaxSize(),
+            )
+        }
         DeckSpine(
             decks = state.model.decksTopFirst,
             focusedDeckId = state.focusedDeckId,
@@ -496,20 +530,8 @@ private fun DeckCanvasArea(
                 stringResource(R.string.deckview_a11y_deck, deck.name, deck.markers.size, deck.overdueCount)
             },
             modifier = Modifier
-                .align(Alignment.CenterEnd)
                 .fillMaxHeight()
                 .padding(end = Dimens.SpacingXs),
-        )
-        // Below the stack and above the tab bar: the strip is a control for the thing directly
-        // above it, and at the bottom of the screen it is the part of the canvas a thumb reaches
-        // without covering the deck it is turning.
-        DeckCompass(
-            yawDeg = { transform.yawDeg },
-            onTurn = transform::yawBy,
-            onLevel = transform::levelYaw,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = Dimens.SpacingS),
         )
     }
 }
@@ -572,4 +594,3 @@ private const val TURKISH_LANGUAGE = "tr"
 private const val PLAN_CENTRE = 0.5f
 
 /** Double-tap zoom-to-fit target: enough that a deck fills the viewport comfortably. */
-private const val FIT_ZOOM = 1.6f

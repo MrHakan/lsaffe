@@ -76,6 +76,17 @@ object ListModeGrouping {
         }
     }
 
+    /** A regulation's equipment scope, preserving tag order and unplaced equipment. */
+    fun filterTypes(groups: List<DeckGroup>, typeKeys: List<String>): List<DeckGroup> {
+        if (typeKeys.isEmpty()) return groups
+        val selected = typeKeys.toSet()
+        return groups.map { deck ->
+            deck.copy(zoneGroups = deck.zoneGroups.map { zone ->
+                zone.copy(equipment = zone.equipment.filter { it.typeKey in selected })
+            }.filter { it.equipment.isNotEmpty() })
+        }.filter { it.equipmentCount > 0 }
+    }
+
     /** Tag order: the ship's own identifiers are what the officer reads off the equipment (§6.5). */
     private fun List<Equipment>.sortedForList(): List<Equipment> = sortedBy { it.tag }
 }

@@ -85,7 +85,17 @@ fun Modifier.deckGestures(
             Decision.Pan -> runPan(transform, deckMode)
 
             Decision.Tap -> when (target) {
-                is HitTarget.Marker -> callbacks.onTapMarker(target.equipmentId, target.deckId)
+                is HitTarget.Marker -> {
+                    val candidates = layout?.let {
+                        HitTesting.markerCandidates(decks.flatMap(it::screenMarkers), Vec2(down.position.x, down.position.y), hitRadiusPx)
+                    }.orEmpty()
+                    val choose = callbacks.onTapMarkerCluster
+                    if (candidates.size > 1 && choose != null) {
+                        choose(candidates.map { it.id })
+                    } else {
+                        callbacks.onTapMarker(target.equipmentId, target.deckId)
+                    }
+                }
 
                 is HitTarget.Surface ->
                     if (awaitSecondTap(doubleTapTimeout)) {

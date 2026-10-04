@@ -77,6 +77,8 @@ data class RegulationCardEntity(
     val summaryTr: String,
     /** For FLAG cards: the notice revision and capture date — §8.5. */
     val revisionNote: String,
+    @ColumnInfo(defaultValue = "''") val sourceUrl: String = "",
+    @ColumnInfo(defaultValue = "'[]'") val relatedRefKeys: List<String> = emptyList(),
 )
 
 /** A bundled inspection round template — MASTER_PROMPT §19 item 5. */

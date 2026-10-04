@@ -25,4 +25,6 @@
         <item quantity="one">Bu hafta 1 iş var</item>
         <item quantity="other">Bu hafta %1$d iş var</item>
     </plurals>
+    <string name="related_equipment_title">Bu kurala bağlı ekipmanlar</string>
+    <string name="action_back">Geri</string>
 </resources>

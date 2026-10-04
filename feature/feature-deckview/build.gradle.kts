@@ -26,6 +26,8 @@ dependencies {
 
     // VesselTabScreen is verified on the JVM through Robolectric — the emulator suite is
     // informational (see ci.yml), so the tab's wiring has to be provable without a device.
+    testImplementation(libs.androidx.compose.ui.test.junit4)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.test.core)
 }

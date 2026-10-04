@@ -117,7 +117,11 @@
       "SOLAS_III_SURVIVAL_CRAFT",
       "LSA_CODE_CH4_SURVIVAL_CRAFT",
       "MSC_402_96_ANNUAL",
-      "SOLAS_III_19_DRILLS"
+      "SOLAS_III_19_DRILLS",
+      "MSC_402_96_FIVE_YEARLY",
+      "LSA_RELEASE_GEAR",
+      "IMO_PUBLICATION_SOLAS",
+      "LSA_554_108_HOOK_RESET"
     ],
     "helpTextEn": "Totally enclosed lifeboat launched by davit. Sub-components — engine, on-load release gear, falls, sprinkler and air support where fitted — are separate records with this boat as their parent, so each carries its own dates and condition.",
     "commonPscFindings": [
@@ -283,7 +287,9 @@
       "SOLAS_III_SURVIVAL_CRAFT",
       "LSA_CODE_CH4_SURVIVAL_CRAFT",
       "MSC_402_96_ANNUAL",
-      "SOLAS_III_19_DRILLS"
+      "SOLAS_III_19_DRILLS",
+      "MSC_402_96_FIVE_YEARLY",
+      "LSA_RELEASE_GEAR"
     ],
     "helpTextEn": "Partially enclosed lifeboat. Same maintenance regime as the totally enclosed boat; the canopy and its fastenings are part of the monthly checklist inspection.",
     "commonPscFindings": [
@@ -424,7 +430,9 @@
       "SOLAS_III_SURVIVAL_CRAFT",
       "LSA_CODE_CH4_SURVIVAL_CRAFT",
       "MSC_402_96_ANNUAL",
-      "SOLAS_III_19_DRILLS"
+      "SOLAS_III_19_DRILLS",
+      "MSC_402_96_FIVE_YEARLY",
+      "LSA_RELEASE_GEAR"
     ],
     "helpTextEn": "Free-fall lifeboat and its launching ramp. Record free-fall launches and simulated launches separately — the drill regime for free-fall boats is set by SOLAS III/19 and the vessel's approved procedure.",
     "commonPscFindings": [
@@ -577,7 +585,12 @@
       "MSC_402_96_ANNUAL",
       "SOLAS_III_19_DRILLS",
       "LSA_CODE_CH5_RESCUE_BOATS",
-      "SOLAS_III_RESCUE_BOATS"
+      "SOLAS_III_RESCUE_BOATS",
+      "MSC_402_96_FIVE_YEARLY",
+      "LSA_RELEASE_GEAR",
+      "IAMSAR_RECOVERY_OF_PERSONS",
+      "IMO_PUBLICATION_IAMSAR",
+      "LSA_554_108_HOOK_RESET"
     ],
     "helpTextEn": "Rescue boat used for recovery of persons from the water and marshalling survival craft. Its launching appliance and release gear follow the MSC.402(96) task set.",
     "commonPscFindings": [
@@ -713,7 +726,9 @@
       "MSC_402_96_ANNUAL",
       "SOLAS_III_19_DRILLS",
       "LSA_CODE_CH5_RESCUE_BOATS",
-      "SOLAS_III_RESCUE_BOATS"
+      "SOLAS_III_RESCUE_BOATS",
+      "MSC_402_96_FIVE_YEARLY",
+      "LSA_RELEASE_GEAR"
     ],
     "helpTextEn": "Fast rescue boat. Check the maker's manual for additional inflation-tube and engine requirements over and above the standard rescue boat regime.",
     "commonPscFindings": [
@@ -824,7 +839,9 @@
       "LSA_CODE_CH6_LAUNCHING",
       "MSC_402_96_ANNUAL",
       "MSC_402_96_FIVE_YEARLY",
-      "LSA_DAVIT_WINCH"
+      "LSA_DAVIT_WINCH",
+      "SOLAS_III_20_FALLS",
+      "LSA_554_108_LOWERING_SPEED"
     ],
     "helpTextEn": "The launching appliance for a lifeboat. Its annual thorough examination and its five-yearly tests are done together with the boat and the release gear by a provider authorised for that make and type.",
     "commonPscFindings": [
@@ -1048,7 +1065,9 @@
       "LSA_CODE_CH6_LAUNCHING",
       "MSC_402_96_ANNUAL",
       "MSC_402_96_FIVE_YEARLY",
-      "LSA_DAVIT_WINCH"
+      "LSA_DAVIT_WINCH",
+      "SOLAS_III_20_FALLS",
+      "LSA_554_108_LOWERING_SPEED"
     ],
     "helpTextEn": "Launching appliance for the rescue boat, including any single-fall-and-hook system.",
     "commonPscFindings": [
@@ -1132,7 +1151,10 @@
       "LSA_CODE_CH6_LAUNCHING",
       "MSC_402_96_ANNUAL",
       "MSC_402_96_FIVE_YEARLY",
-      "LSA_DAVIT_WINCH"
+      "LSA_DAVIT_WINCH",
+      "SOLAS_III_20_FALLS",
+      "IMO_PUBLICATION_LSA",
+      "LSA_554_108_LOWERING_SPEED"
     ],
     "helpTextEn": "The winch that hoists and lowers the survival craft. The five-yearly dynamic brake test is a provider task under MSC.402(96).",
     "commonPscFindings": [
@@ -1222,7 +1244,9 @@
       "MSC_402_96_FIVE_YEARLY",
       "MSC_402_96_AUTHORISATION",
       "LSA_RELEASE_GEAR",
-      "SOLAS_III_20_MAINTENANCE"
+      "SOLAS_III_20_MAINTENANCE",
+      "IMO_PUBLICATION_LSA",
+      "LSA_554_108_HOOK_RESET"
     ],
     "helpTextEn": "On-load release gear — the fwd and aft hooks, the operating linkage and the hydrostatic interlock. Only a provider authorised for this make and type may carry out the annual examination and the five-yearly overload test.",
     "commonPscFindings": [
@@ -2406,7 +2430,8 @@
     "regulationRefs": [
       "SOLAS_III_EMBARKATION",
       "LSA_EMBARKATION_LADDER_CARD",
-      "LSA_CODE_CH6_LAUNCHING"
+      "LSA_CODE_CH6_LAUNCHING",
+      "IAMSAR_RECOVERY_OF_PERSONS"
     ],
     "helpTextEn": "Embarkation ladder at the survival craft embarkation station.",
     "commonPscFindings": [
@@ -2488,7 +2513,9 @@
     ],
     "regulationRefs": [
       "SOLAS_V_23_PILOT_LADDER",
-      "SOLAS_V_LSA_INTERFACE"
+      "SOLAS_V_LSA_INTERFACE",
+      "IMO_PUBLICATION_SOLAS",
+      "SOLAS_PILOT_TRANSFER_2028"
     ],
     "helpTextEn": "Pilot ladder and its rigging arrangement. Carried in the register because the deck officer inspects it on the same rounds, and because PSC looks at it alongside the LSA.",
     "commonPscFindings": [
@@ -3047,7 +3074,8 @@
       "SOLAS_III_LIFEBUOYS",
       "LSA_LIFEBUOY_CARD",
       "LSA_CODE_CH2_PERSONAL",
-      "SOLAS_III_20_MAINTENANCE"
+      "SOLAS_III_20_MAINTENANCE",
+      "IAMSAR_RECOVERY_OF_PERSONS"
     ],
     "helpTextEn": "Lifebuoy with a buoyant lifeline, stowed so the line runs free.",
     "commonPscFindings": [
@@ -3135,7 +3163,8 @@
       "SOLAS_III_LIFEJACKETS",
       "LSA_LIFEJACKET_CARD",
       "LSA_CODE_CH2_PERSONAL",
-      "SOLAS_III_20_MAINTENANCE"
+      "SOLAS_III_20_MAINTENANCE",
+      "IMO_PUBLICATION_LSA"
     ],
     "helpTextEn": "Adult lifejackets. Record them per stowage location with a quantity rather than one record per jacket, unless the ship numbers them individually.",
     "commonPscFindings": [
@@ -4904,7 +4933,8 @@
       "MSC1_CIRC1432_ANNUAL_SERVICE",
       "MSC1_CIRC1432_HYDROSTATIC",
       "RES_A951_23",
-      "SOLAS_II2_14_MAINTENANCE_PLAN"
+      "SOLAS_II2_14_MAINTENANCE_PLAN",
+      "MSC1_CIRC1432_SCOPE"
     ],
     "helpTextEn": "One record per portable extinguisher. The extinguishing medium drives the task set: selecting CO2 adds the cylinder weight check, selecting a dry powder adds the powder condition / caking check. The six checklist booleans are the monthly inspection — completing all six in the quick-action sheet records the monthly check.",
     "commonPscFindings": [
@@ -5163,7 +5193,8 @@
       "MSC1_CIRC1432_HYDROSTATIC",
       "RES_A951_23",
       "SOLAS_II2_14_MAINTENANCE_PLAN",
-      "FFE_WHEELED_EXTINGUISHER_CARD"
+      "FFE_WHEELED_EXTINGUISHER_CARD",
+      "MSC1_CIRC1432_SCOPE"
     ],
     "helpTextEn": "Wheeled or mobile extinguisher, typically 45 kg powder or 45 L foam in the machinery spaces and on tanker decks.",
     "commonPscFindings": [
@@ -5246,7 +5277,8 @@
       "SOLAS_II2_10_FIRE_FIGHTING",
       "FSS_CH4_EXTINGUISHERS",
       "FFE_FOAM_APPLICATOR_CARD",
-      "MSC1_CIRC1432_MONTHLY"
+      "MSC1_CIRC1432_MONTHLY",
+      "SOLAS_II2_10_PFOS_2026"
     ],
     "helpTextEn": "Portable foam applicator — the branch pipe, inductor and its stock of foam concentrate. Foam concentrate is periodically sampled and analysed; record the sample date here.",
     "commonPscFindings": [
@@ -6127,7 +6159,8 @@
     "regulationRefs": [
       "SOLAS_II2_FIRE_MAIN",
       "FFE_FIRE_PUMP_CARD",
-      "MSC1_CIRC1432_FIRE_MAIN"
+      "MSC1_CIRC1432_FIRE_MAIN",
+      "MSC1_CIRC1432_SCOPE"
     ],
     "helpTextEn": "Main fire pump. Record the pressure achieved at the most remote hydrant with the required number of jets — the figure a surveyor and PSC will ask to see demonstrated.",
     "commonPscFindings": [
@@ -6501,7 +6534,11 @@
       "FSS_CH14_DECK_FOAM",
       "FFE_FOAM_TANK_CARD",
       "SOLAS_II2_FIXED_SYSTEMS",
-      "MSC1_CIRC1432_FIXED_GAS"
+      "MSC1_CIRC1432_FIXED_GAS",
+      "FSS_CH6_FIXED_FOAM",
+      "MSC1_CIRC1312_FOAM_TESTING",
+      "IMO_PUBLICATION_FSS",
+      "SOLAS_II2_10_PFOS_2026"
     ],
     "helpTextEn": "Deck foam system on tankers — tank, proportioner, main, monitors and applicators. The foam concentrate is periodically sampled and analysed by a laboratory.",
     "commonPscFindings": [
@@ -6594,7 +6631,9 @@
     "regulationRefs": [
       "FSS_CH6_FIXED_FOAM",
       "FFE_FOAM_TANK_CARD",
-      "FSS_CH14_DECK_FOAM"
+      "FSS_CH14_DECK_FOAM",
+      "MSC1_CIRC1312_FOAM_TESTING",
+      "SOLAS_II2_10_PFOS_2026"
     ],
     "helpTextEn": "Foam concentrate tank for the deck foam or machinery space foam system. Keep the laboratory analysis certificate with this record.",
     "commonPscFindings": [
@@ -6757,7 +6796,8 @@
       "MSC1_CIRC1432_FIXED_GAS",
       "MSC1_CIRC1318_CO2",
       "SOLAS_II2_FIXED_SYSTEMS",
-      "SOLAS_II2_14_MAINTENANCE_PLAN"
+      "SOLAS_II2_14_MAINTENANCE_PLAN",
+      "MSC1_CIRC1432_SCOPE"
     ],
     "helpTextEn": "Fixed CO2 fire-extinguishing system. The content check is a two-yearly provider task; the cylinder hydrostatic testing is done on a 10%-at-10-years sampling basis escalating to 100% at 20 years. The minimum acceptable charge percentage differs by flag.",
     "commonPscFindings": [
@@ -6942,7 +6982,8 @@
       "MSC1_CIRC1432_FIXED_GAS",
       "MSC1_CIRC1318_CO2",
       "SOLAS_II2_FIXED_SYSTEMS",
-      "SOLAS_II2_14_MAINTENANCE_PLAN"
+      "SOLAS_II2_14_MAINTENANCE_PLAN",
+      "MSC1_CIRC1432_SCOPE"
     ],
     "helpTextEn": "The cylinder bank itself, recorded as a child of the system so per-cylinder weights and hydrostatic test dates live in one place.",
     "commonPscFindings": [
@@ -7026,7 +7067,8 @@
       "MSC1_CIRC1318_CO2",
       "SOLAS_II2_FIXED_SYSTEMS",
       "SOLAS_II2_14_MAINTENANCE_PLAN",
-      "MSC1_CIRC1318_ALARMS"
+      "MSC1_CIRC1318_ALARMS",
+      "MSC1_CIRC1432_SCOPE"
     ],
     "helpTextEn": "The remote release station for a fixed gas system, with its cabinet, instructions and pre-discharge alarm.",
     "commonPscFindings": [
@@ -7122,7 +7164,10 @@
       "FSS_CH6_FIXED_FOAM",
       "SOLAS_II2_FIXED_SYSTEMS",
       "MSC1_CIRC1432_FIXED_GAS",
-      "FFE_FOAM_TANK_CARD"
+      "FFE_FOAM_TANK_CARD",
+      "MSC1_CIRC1312_FOAM_TESTING",
+      "IMO_PUBLICATION_FSS",
+      "SOLAS_II2_10_PFOS_2026"
     ],
     "helpTextEn": "Fixed foam system protecting the machinery space or cargo pump room.",
     "commonPscFindings": [
@@ -7843,7 +7888,8 @@
       "FSS_CH9_DETECTION",
       "MSC1_CIRC1432_DETECTION",
       "SOLAS_II2_DETECTION",
-      "SOLAS_II2_14_MAINTENANCE_PLAN"
+      "SOLAS_II2_14_MAINTENANCE_PLAN",
+      "MSC1_CIRC1432_SCOPE"
     ],
     "helpTextEn": "Smoke detector head. Record the loop and address so the monthly sample test can be rotated through the installation.",
     "commonPscFindings": [
@@ -7949,7 +7995,8 @@
       "FSS_CH9_DETECTION",
       "MSC1_CIRC1432_DETECTION",
       "SOLAS_II2_DETECTION",
-      "SOLAS_II2_14_MAINTENANCE_PLAN"
+      "SOLAS_II2_14_MAINTENANCE_PLAN",
+      "MSC1_CIRC1432_SCOPE"
     ],
     "helpTextEn": "Heat detector head, typically in the galley and machinery spaces.",
     "commonPscFindings": [
@@ -8053,7 +8100,8 @@
       "FSS_CH9_DETECTION",
       "MSC1_CIRC1432_DETECTION",
       "SOLAS_II2_DETECTION",
-      "SOLAS_II2_14_MAINTENANCE_PLAN"
+      "SOLAS_II2_14_MAINTENANCE_PLAN",
+      "MSC1_CIRC1432_SCOPE"
     ],
     "helpTextEn": "Flame (IR/UV) detector, typically over boiler fronts and purifier flats.",
     "commonPscFindings": [
@@ -8208,7 +8256,8 @@
       "FSS_CH9_DETECTION",
       "MSC1_CIRC1432_DETECTION",
       "SOLAS_II2_DETECTION",
-      "SOLAS_II2_14_MAINTENANCE_PLAN"
+      "SOLAS_II2_14_MAINTENANCE_PLAN",
+      "MSC1_CIRC1432_SCOPE"
     ],
     "helpTextEn": "Manual call point on an escape route or at a machinery space exit.",
     "commonPscFindings": [
@@ -8300,7 +8349,8 @@
       "FSS_CH9_DETECTION",
       "MSC1_CIRC1432_DETECTION",
       "SOLAS_II2_DETECTION",
-      "SOLAS_II2_14_MAINTENANCE_PLAN"
+      "SOLAS_II2_14_MAINTENANCE_PLAN",
+      "MSC1_CIRC1432_SCOPE"
     ],
     "helpTextEn": "The fire detection and alarm panel on the bridge, with its repeaters. Standing disablements are the finding surveyors and PSC officers look for first.",
     "commonPscFindings": [
@@ -8565,7 +8615,8 @@
     ],
     "regulationRefs": [
       "FFE_PORTABLE_GAS_DETECTOR_CARD",
-      "SOLAS_II2_DETECTION"
+      "SOLAS_II2_DETECTION",
+      "MSC_581_110_CO2_MONITORING"
     ],
     "helpTextEn": "Portable multi-gas meter used for enclosed space entry and hot work. Bump test before each use, calibrate at the maker's interval.",
     "commonPscFindings": [
@@ -8696,7 +8747,8 @@
       "FSS_CH3_PERSONNEL_PROTECTION",
       "MSC1_CIRC1432_SCBA",
       "SOLAS_II2_FIREMANS_OUTFIT",
-      "SOLAS_II2_14_MAINTENANCE_PLAN"
+      "SOLAS_II2_14_MAINTENANCE_PLAN",
+      "MSC1_CIRC1432_SCOPE"
     ],
     "helpTextEn": "Self-contained breathing apparatus set. Cylinder pressure is checked weekly and verified by the responsible officer monthly; the cylinder is hydrostatically tested every 5 years.",
     "commonPscFindings": [
