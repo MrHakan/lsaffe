@@ -11,7 +11,7 @@
     <string name="notes_disclaimer_collapse">Collapse the disclaimer</string>
 
     <!-- Home -->
-    <string name="notes_search_hint">Search citation, title or requirement</string>
+    <string name="notes_search_hint">Search rules, equipment or my notes</string>
     <string name="notes_search_clear">Clear search</string>
     <string name="notes_search_results">%1$d matching cards</string>
     <string name="notes_search_none_title">Nothing found</string>

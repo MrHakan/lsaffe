@@ -13,7 +13,7 @@
     <string name="notes_disclaimer_collapse">Metni daralt</string>
 
     <!-- Ana ekran -->
-    <string name="notes_search_hint">Kural, başlık veya gereklilik ara</string>
+    <string name="notes_search_hint">Mevzuat, ekipman veya notlarımda ara</string>
     <string name="notes_search_clear">Aramayı temizle</string>
     <string name="notes_search_results">%1$d eşleşen kart</string>
     <string name="notes_search_none_title">Sonuç yok</string>
