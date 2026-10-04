@@ -20,4 +20,8 @@ dependencies {
     // PhotoStore is filesystem code with a Context: provable on the JVM, no emulator needed.
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.test.core)
+
+    // Verify real sheet gestures and scrolling on the JVM, including the partially open stage.
+    testImplementation(libs.androidx.compose.ui.test.junit4)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
