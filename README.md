@@ -60,27 +60,25 @@ Static analysis and tests:
 
 ## Release
 
-Every push to `main` republishes the rolling **`main`** pre-release, so the
+Every push to `main` publishes a versioned release (`0.1.<commit count>`), so the
 [Releases page](https://github.com/mrhakan/lsaffe/releases) always carries an
-installable build of the current main — `DeckWatch-main.apk`. Pushing a tag
-`v*.*.*` (or running the **Release** workflow manually) publishes a versioned
-release instead.
+installable build of the current main — `DeckWatch-<version>.apk`. Pushing a tag
+`v*.*.*` or running the **Release** workflow manually selects an explicit version.
 
 Either way the build produces **one signed APK** (universal — every ABI in a
 single file, so there is nothing to choose between when sideloading), an AAB
 for Play, SHA-256 checksums and generated release notes.
 
-Required repository secrets:
+Required repository secret:
 
 | Secret | How to produce it |
 |---|---|
-| `KEYSTORE_BASE64` | `keytool -genkeypair -v -keystore release.jks -alias deckwatch -keyalg RSA -keysize 4096 -validity 10000` then `base64 -w0 release.jks` |
-| `KEYSTORE_PASSWORD` | as chosen |
-| `KEY_ALIAS` | e.g. `deckwatch` |
-| `KEY_PASSWORD` | as chosen |
+| `KEYSTORE_BASE64` | Base64 of the stable release keystore; use the alias and password documented in [docs/SIGNING.md](docs/SIGNING.md) |
 
-Without the secrets the release workflow still runs and signs with the debug
-keystore (marked clearly in the log), so forks can exercise the pipeline.
+Without this secret the release workflow still runs and signs with a temporary
+debug keystore (marked clearly in the log), so forks can exercise the pipeline.
+Those builds cannot update an existing installation in place. Keep the stable
+release key to preserve the vessel's register across updates.
 
 ## Repository layout
 

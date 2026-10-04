@@ -9,6 +9,7 @@ import com.deckwatch.core.common.repository.VesselRepository
 import com.deckwatch.core.datastore.UserPreferencesRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.first
 
 /**
@@ -32,14 +33,25 @@ class DueDigestWorker @AssistedInject constructor(
     private val maintenance: MaintenanceRepository,
 ) : CoroutineWorker(appContext, params) {
 
-    override suspend fun doWork(): Result {
+    override suspend fun doWork(): Result = try {
         val prefs = preferences.get()
-        // Rescheduling first means a cancelled-then-restored setting cannot leave the chain broken.
-        ReminderScheduler.scheduleDaily(applicationContext, prefs.notificationHour, prefs.notificationMinute)
+        if (prefs.notificationsEnabled) {
+            postDigest(prefs.activeVesselId)
+            // Append only after a successful read/post: failed prerequisites would fail tomorrow too.
+            // REPLACE would cancel this worker while it is finishing today's digest.
+            ReminderScheduler.scheduleNextDaily(applicationContext, prefs.notificationHour, prefs.notificationMinute)
+        }
+        Result.success()
+    } catch (cancellation: CancellationException) {
+        throw cancellation
+    } catch (_: Exception) {
+        // Keep this occurrence retryable without appending another successor on each attempt.
+        Result.retry()
+    }
 
-        if (!prefs.notificationsEnabled) return Result.success()
-        val vesselId = prefs.activeVesselId ?: return Result.success()
-        val vessel = vessels.getVessel(vesselId) ?: return Result.success()
+    private suspend fun postDigest(vesselId: String?) {
+        if (vesselId == null) return
+        val vessel = vessels.getVessel(vesselId) ?: return
 
         val instances = maintenance.observeOpenInstancesForVessel(vesselId).first()
         val digest = DueDigest.from(
@@ -48,7 +60,6 @@ class DueDigestWorker @AssistedInject constructor(
             certExpiry = vessel.safetyEquipmentCertExpiry,
         )
         Reminders.postDigest(applicationContext, digest)
-        return Result.success()
     }
 
     companion object {

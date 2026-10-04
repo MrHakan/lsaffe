@@ -29,11 +29,9 @@ import javax.inject.Inject
  *
  * ### What is deliberately *not* here
  *
- * * **Re-arming the daily worker.** `DueRecomputeWorker` reads `notificationsEnabled` itself before
- *   posting and recomputes due dates either way (§11.2 wants the recomputation whatever the
- *   notification setting is), so toggling the reminder needs no scheduling change. The localised
- *   notification strings are refreshed by the app's startup coordinator on the next cold start,
- *   with `ExistingPeriodicWorkPolicy.UPDATE`, which is also what picks up a language change.
+ * * **Re-arming the daily reminder.** The app's startup coordinator observes notification settings
+ *   and replaces or cancels the digest when they change. The separate 03:00 due recomputation runs
+ *   regardless of the notification setting (§11.2).
  * * **Applying the language.** That needs a `Context` and an activity to recreate, so it stays in
  *   the composable (see `AppLocale`); this class only records the choice.
  */
