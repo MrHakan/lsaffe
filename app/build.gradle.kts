@@ -21,6 +21,8 @@ android {
         buildConfig = true
     }
 
+    testOptions.unitTests.isIncludeAndroidResources = true
+
     signingConfigs {
         create("release") {
             val ksPath = System.getenv("KEYSTORE_PATH")
@@ -100,6 +102,11 @@ dependencies {
 
     testImplementation(libs.junit4)
     testImplementation(libs.truth)
+    testImplementation(project(":core:core-testing"))
+    testImplementation(libs.androidx.datastore.preferences)
+    testImplementation(libs.androidx.work.testing)
+    testImplementation(libs.androidx.test.core)
+    testImplementation(libs.robolectric)
 
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 /**
@@ -137,6 +138,8 @@ internal class AddEquipmentViewModel @Inject constructor(
     private var deckShortCode: String? = null
     private var vesselContext = VesselDueContext()
     private var bound = false
+    private var bindingJob: Job? = null
+    private var tagSuggestionJob: Job? = null
 
     init {
         viewModelScope.launch {
@@ -164,13 +167,15 @@ internal class AddEquipmentViewModel @Inject constructor(
         val samePlace = this.vesselId == vesselId && this.deckId == deckId && this.zoneId == zoneId &&
             this.posX == posX && this.posY == posY
         if (bound && samePlace) return
+        bindingJob?.cancel()
+        tagSuggestionJob?.cancel()
         bound = true
         this.vesselId = vesselId
         this.deckId = deckId
         this.zoneId = zoneId
         this.posX = posX
         this.posY = posY
-        viewModelScope.launch {
+        bindingJob = viewModelScope.launch {
             deckShortCode = deckId?.let { vesselRepository.getDeck(it)?.shortCode }
             vesselContext = vesselRepository.getVessel(vesselId)?.let(VesselDueContext::from) ?: VesselDueContext()
             state.update { it.copy(vesselContext = vesselContext) }
@@ -205,6 +210,7 @@ internal class AddEquipmentViewModel @Inject constructor(
      */
     fun selectType(typeKey: String) {
         val type = allTypes.firstOrNull { it.typeKey == typeKey } ?: return
+        tagSuggestionJob?.cancel()
         recentKeys.update { current -> (listOf(typeKey) + current.filterNot { it == typeKey }).take(RECENT_LIMIT) }
         state.update {
             it.copy(
@@ -217,11 +223,13 @@ internal class AddEquipmentViewModel @Inject constructor(
                 form = EquipmentFormState(),
             )
         }
-        viewModelScope.launch {
+        tagSuggestionJob = viewModelScope.launch {
+            // The deck lookup can still be in flight when the officer picks a catalogue row.
+            bindingJob?.join()
             val prefix = TagSuggestion.prefix(type.defaultTagPrefix, deckShortCode)
             val next = equipmentRepository.nextTagNumber(vesselId, prefix)
             state.update { current ->
-                if (current.selectedType?.typeKey != typeKey) {
+                if (current.selectedType?.typeKey != typeKey || current.form.tag.isNotEmpty()) {
                     current
                 } else {
                     current.copy(form = current.form.copy(tag = TagSuggestion.format(prefix, next)))
@@ -235,7 +243,10 @@ internal class AddEquipmentViewModel @Inject constructor(
     // ------------------------------------------------------------------ step 2: the form
 
     fun updateForm(transform: (EquipmentFormState) -> EquipmentFormState) {
-        state.update { it.copy(form = transform(it.form), tagError = false) }
+        val form = transform(state.value.form)
+        // A tag the officer types (or clears) takes precedence over an in-flight suggestion.
+        if (form.tag != state.value.form.tag) tagSuggestionJob?.cancel()
+        state.update { it.copy(form = form, tagError = false) }
         refreshDuePreview()
         refreshValidity()
     }
@@ -252,6 +263,7 @@ internal class AddEquipmentViewModel @Inject constructor(
 
     /** Back out of the form to the catalogue, clearing the selection — §7.5. */
     fun backToCatalogue() {
+        tagSuggestionJob?.cancel()
         state.update {
             it.copy(
                 step = AddStep.CATALOGUE,

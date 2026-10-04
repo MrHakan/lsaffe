@@ -34,10 +34,10 @@ class DueDigestWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         val prefs = preferences.get()
-        // Rescheduling first means a cancelled-then-restored setting cannot leave the chain broken.
-        ReminderScheduler.scheduleDaily(applicationContext, prefs.notificationHour, prefs.notificationMinute)
-
         if (!prefs.notificationsEnabled) return Result.success()
+        // Appending keeps this worker alive; REPLACE would cancel it before it posts today's digest.
+        // Arm tomorrow even if there is no active vessel or nothing due today.
+        ReminderScheduler.scheduleNextDaily(applicationContext, prefs.notificationHour, prefs.notificationMinute)
         val vesselId = prefs.activeVesselId ?: return Result.success()
         val vessel = vessels.getVessel(vesselId) ?: return Result.success()
 

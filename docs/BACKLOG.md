@@ -17,9 +17,6 @@ by module; each came from the implementation report of that module.
   on `main` must be enabled in repository settings.
 - `tagNumberFormat` is stored and previewed in Settings but
   `feature-equipment`'s tag suggestion still hard-codes `PREFIX-DECK-NN`.
-- Notification *time* preference is stored, but the digest is posted by the
-  03:00 recompute worker right after it runs; honouring the chosen hour needs
-  a second scheduled work request in `data-repository`.
 - Turkish plain-language summaries (`summaryTr`) exist on only three
   regulation cards and are not surfaced by the shared card component.
 - Favourites on regulation cards are in-memory (§6 defines no table).

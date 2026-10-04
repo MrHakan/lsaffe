@@ -1,11 +1,15 @@
 package com.deckwatch.feature.equipment
 
 import app.cash.turbine.test
+import com.deckwatch.core.common.repository.EquipmentRepository
+import com.deckwatch.core.common.repository.VesselRepository
+import com.deckwatch.core.model.Deck
 import com.deckwatch.core.model.IntervalKind
 import com.deckwatch.core.testing.FakeRepositories
 import com.deckwatch.core.testing.TestData
 import com.deckwatch.feature.equipment.attributes.AttributeError
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
@@ -54,6 +58,74 @@ class AddEquipmentViewModelTest {
         viewModel.selectType(type.typeKey)
 
         assertThat(viewModel.uiState.value.form.tag).isEqualTo("FE-01")
+    }
+
+    @Test
+    fun `a delayed suggestion does not overwrite the officer's tag`() = runTest {
+        seed()
+        val next = CompletableDeferred<Int>()
+        val equipment = object : EquipmentRepository by fakes.equipment {
+            override suspend fun nextTagNumber(vesselId: String, prefix: String): Int = next.await()
+        }
+        val viewModel = boundViewModel(equipment)
+        viewModel.selectType(type.typeKey)
+
+        viewModel.updateForm { it.copy(tag = "PORT STATION") }
+        next.complete(8)
+
+        assertThat(viewModel.uiState.value.form.tag).isEqualTo("PORT STATION")
+    }
+
+    @Test
+    fun `clearing a typed tag keeps the form blank after a delayed suggestion`() = runTest {
+        seed()
+        val next = CompletableDeferred<Int>()
+        val equipment = object : EquipmentRepository by fakes.equipment {
+            override suspend fun nextTagNumber(vesselId: String, prefix: String): Int = next.await()
+        }
+        val viewModel = boundViewModel(equipment)
+        viewModel.selectType(type.typeKey)
+
+        viewModel.updateForm { it.copy(tag = "PORT STATION") }
+        viewModel.updateForm { it.copy(tag = "") }
+        next.complete(8)
+
+        assertThat(viewModel.uiState.value.form.tag).isEmpty()
+        assertThat(viewModel.uiState.value.canSave).isFalse()
+    }
+
+    @Test
+    fun `returning to the same type ignores the earlier pending suggestion`() = runTest {
+        seed()
+        val first = CompletableDeferred<Int>()
+        var calls = 0
+        val equipment = object : EquipmentRepository by fakes.equipment {
+            override suspend fun nextTagNumber(vesselId: String, prefix: String): Int =
+                if (calls++ == 0) first.await() else 9
+        }
+        val viewModel = boundViewModel(equipment)
+        viewModel.selectType(type.typeKey)
+        viewModel.backToCatalogue()
+        viewModel.selectType(type.typeKey)
+        first.complete(8)
+
+        assertThat(viewModel.uiState.value.form.tag).isEqualTo("FE-UD-09")
+    }
+
+    @Test
+    fun `a suggestion waits for the deck short code to load`() = runTest {
+        seed()
+        val deck = CompletableDeferred<Deck?>()
+        val vessels = object : VesselRepository by fakes.vessels {
+            override suspend fun getDeck(id: String): Deck? = deck.await()
+        }
+        val viewModel = boundViewModel(vessels = vessels)
+        viewModel.selectType(type.typeKey)
+        assertThat(viewModel.uiState.value.form.tag).isEmpty()
+
+        deck.complete(fakes.vessels.getDeck(DECK_ID))
+
+        assertThat(viewModel.uiState.value.form.tag).isEqualTo("FE-UD-01")
     }
 
     @Test
@@ -286,8 +358,11 @@ class AddEquipmentViewModelTest {
         assertThat(created.zoneId).isEqualTo(ZONE_ID)
     }
 
-    private suspend fun boundViewModel(): AddEquipmentViewModel {
-        val viewModel = AddEquipmentViewModel(fakes.equipment, fakes.reference, fakes.maintenance, fakes.vessels)
+    private suspend fun boundViewModel(
+        equipment: EquipmentRepository = fakes.equipment,
+        vessels: VesselRepository = fakes.vessels,
+    ): AddEquipmentViewModel {
+        val viewModel = AddEquipmentViewModel(equipment, fakes.reference, fakes.maintenance, vessels)
         viewModel.bind(VESSEL_ID, DECK_ID, zoneId = null, posX = 0.4f, posY = 0.6f)
         viewModel.uiState.first { it.groups.isNotEmpty() }
         return viewModel

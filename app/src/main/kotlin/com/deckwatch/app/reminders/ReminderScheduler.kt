@@ -25,11 +25,20 @@ object ReminderScheduler {
      * pending job, not queue a second one behind it.
      */
     fun scheduleDaily(context: Context, hour: Int, minute: Int) {
+        enqueueDaily(context, hour, minute, ExistingWorkPolicy.REPLACE)
+    }
+
+    /** Queue tomorrow behind the running digest without cancelling the worker posting today. */
+    internal fun scheduleNextDaily(context: Context, hour: Int, minute: Int) {
+        enqueueDaily(context, hour, minute, ExistingWorkPolicy.APPEND_OR_REPLACE)
+    }
+
+    private fun enqueueDaily(context: Context, hour: Int, minute: Int, policy: ExistingWorkPolicy) {
         val request = OneTimeWorkRequestBuilder<DueDigestWorker>()
             .setInitialDelay(Reminders.delayUntilNext(hour, minute))
             .build()
         WorkManager.getInstance(context)
-            .enqueueUniqueWork(DueDigestWorker.WORK_NAME, ExistingWorkPolicy.REPLACE, request)
+            .enqueueUniqueWork(DueDigestWorker.WORK_NAME, policy, request)
     }
 
     /** Stops the digest. Called when the officer turns notifications off — §18. */
