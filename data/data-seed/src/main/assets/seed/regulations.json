@@ -13,7 +13,7 @@
       "The instructions include checklists, servicing schedules, a troubleshooting guide and a record of inspections and maintenance.",
       "Spare parts and repair equipment are provided for the appliances subject to wear or consumption.",
       "Weekly, monthly and annual regimes all flow from this regulation — see the linked cards.",
-      "Falls used in launching are turned end-for-end and renewed as required by this regulation and the maker's instructions."
+      "Falls used in launching are inspected and renewed as required by this regulation and the maker's instructions."
     ],
     "appliesToTypeKeys": [
       "LSA_LIFEBOAT_TOTALLY_ENCLOSED",
@@ -30,7 +30,7 @@
       "LSA_FREEFALL_LAUNCHING_APPLIANCE"
     ],
     "sourceRef": "SOLAS III/20",
-    "contentVersion": 1,
+    "contentVersion": 5,
     "lastReviewed": "2026-08-29",
     "verificationStatus": "UNVERIFIED",
     "flagNotes": {
@@ -38,7 +38,11 @@
       "LIB": "Liberia Marine Notice SAF-001 covers lifesaving equipment.",
       "PAN": "Panama MMC-281 allows records to be kept on paper or computer-based on board."
     },
-    "summaryTr": "Can kurtarma teçhizatı her zaman kullanıma hazır olmalı; bakım gemideki bakım talimatlarına veya planlı bakım programına göre yapılır."
+    "summaryTr": "Can kurtarma teçhizatı her zaman kullanıma hazır olmalı; bakım gemideki bakım talimatlarına veya planlı bakım programına göre yapılır.",
+    "revisionNote": "Removed obsolete generic end-for-end wording; current SOLAS III/20.4 and maker requirements still require verification. Verification date/status unchanged.",
+    "relatedRefKeys": [
+      "IMO_PUBLICATION_SOLAS"
+    ]
   },
   {
     "refKey": "SOLAS_III_20_WEEKLY",
@@ -159,14 +163,14 @@
     "refKey": "SOLAS_III_20_FALLS",
     "section": "SOLAS",
     "citation": "SOLAS III/20",
-    "title": "Falls used in launching — end-for-end and renewal",
-    "what": "Falls used in launching are turned end-for-end and renewed at the intervals required by this regulation and by the manufacturer's instructions.",
+    "title": "Falls used in launching — inspection and renewal",
+    "what": "Falls used in launching are inspected and renewed at the intervals required by this regulation and by the manufacturer's instructions.",
     "howOften": "Per SOLAS III/20 and the maker",
     "byWhom": "Ship's staff / provider",
     "evidence": "Log book entry, signed, wire certificate, Service report",
     "detailBullets": [
       "Read the intervals from the current text of SOLAS III/20 and from the maker's manual — this app deliberately does not assert a figure.",
-      "Record the date the wire was fitted, the date it was turned end-for-end and the date it was renewed, with the wire certificate number.",
+      "Record the date the wire was fitted, the date it was renewed, with the wire certificate number.",
       "Falls are also examined at the annual thorough examination of the launching appliance.",
       "Some Administrations do not accept bulldog grips on load-bearing wire terminations.",
       "Broken wires at the sheave contact zones are the usual reason for early renewal."
@@ -178,12 +182,13 @@
       "LSA_LIFEBOAT_WINCH"
     ],
     "sourceRef": "SOLAS III/20",
-    "contentVersion": 1,
+    "contentVersion": 5,
     "lastReviewed": "2026-08-29",
     "verificationStatus": "UNVERIFIED",
     "flagNotes": {
       "RMI": "RMI Marine Notice 2-011-37: bulldog grips are not accepted on load-bearing wire terminations."
-    }
+    },
+    "revisionNote": "Removed obsolete generic end-for-end wording; current SOLAS III/20.4 and maker requirements still require verification. Verification date/status unchanged."
   },
   {
     "refKey": "SOLAS_III_20_RECORDS",
@@ -690,9 +695,13 @@
       "LSA_PILOT_LADDER"
     ],
     "sourceRef": "SOLAS V/23",
-    "contentVersion": 1,
+    "contentVersion": 5,
     "lastReviewed": "2026-08-29",
-    "verificationStatus": "UNVERIFIED"
+    "verificationStatus": "UNVERIFIED",
+    "relatedRefKeys": [
+      "IMO_PUBLICATION_SOLAS",
+      "SOLAS_PILOT_TRANSFER_2028"
+    ]
   },
   {
     "refKey": "SOLAS_V_LSA_INTERFACE",
@@ -1606,14 +1615,17 @@
       "LSA_FALLS_WIRE_ROPES"
     ],
     "sourceRef": "MSC.402(96)",
-    "contentVersion": 1,
+    "contentVersion": 5,
     "lastReviewed": "2026-08-29",
     "verificationStatus": "UNVERIFIED",
     "flagNotes": {
       "RMI": "RMI Marine Notice 2-011-37: reports countersigned by the Company representative or the Master.",
       "LIB": "Liberia Marine Notice SAF-005 — use a provider from the Administration's published list.",
       "PAN": "Panama MMC-258 governs authorised service providers; MMC-281 gives a ±3-month window on annual LSA performance tests."
-    }
+    },
+    "relatedRefKeys": [
+      "LSA_554_108_HOOK_RESET"
+    ]
   },
   {
     "refKey": "MSC_402_96_FIVE_YEARLY",
@@ -1643,12 +1655,15 @@
       "LSA_FAST_RESCUE_BOAT"
     ],
     "sourceRef": "MSC.402(96)",
-    "contentVersion": 1,
+    "contentVersion": 5,
     "lastReviewed": "2026-08-29",
     "verificationStatus": "UNVERIFIED",
     "flagNotes": {
       "RMI": "RMI Marine Notice 2-011-37: the five-yearly overload test and overhaul is carried out with an RO surveyor in attendance."
-    }
+    },
+    "relatedRefKeys": [
+      "LSA_554_108_LOWERING_SPEED"
+    ]
   },
   {
     "refKey": "MSC_402_96_AUTHORISATION",
@@ -1831,12 +1846,16 @@
       "LSA_FAST_RESCUE_BOAT"
     ],
     "sourceRef": "MSC.402(96)",
-    "contentVersion": 1,
+    "contentVersion": 5,
     "lastReviewed": "2026-08-29",
     "verificationStatus": "UNVERIFIED",
     "flagNotes": {
       "RMI": "RMI Marine Notice 2-011-37: RO surveyor in attendance at the five-yearly overload test and overhaul."
-    }
+    },
+    "relatedRefKeys": [
+      "IMO_PUBLICATION_LSA",
+      "LSA_554_108_HOOK_RESET"
+    ]
   },
   {
     "refKey": "LSA_DAVIT_WINCH",
@@ -1861,22 +1880,26 @@
       "LSA_FREEFALL_LAUNCHING_APPLIANCE"
     ],
     "sourceRef": "MSC.402(96)",
-    "contentVersion": 1,
+    "contentVersion": 5,
     "lastReviewed": "2026-08-29",
-    "verificationStatus": "UNVERIFIED"
+    "verificationStatus": "UNVERIFIED",
+    "relatedRefKeys": [
+      "IMO_PUBLICATION_LSA",
+      "LSA_554_108_LOWERING_SPEED"
+    ]
   },
   {
     "refKey": "LSA_FALLS_CARD",
     "section": "LSA",
     "citation": "SOLAS III/20",
     "title": "Falls and wire terminations",
-    "what": "Falls are maintained, inspected weekly, examined annually, turned end-for-end and renewed at the intervals in SOLAS III/20 and the maker's instructions.",
-    "howOften": "Weekly inspection; end-for-end and renewal per SOLAS III/20",
+    "what": "Falls are maintained, inspected weekly, examined annually, inspected and renewed at the intervals in SOLAS III/20 and the maker's instructions.",
+    "howOften": "Weekly inspection; inspection and renewal per SOLAS III/20",
     "byWhom": "Ship's staff / provider",
     "evidence": "Log book entry, signed, wire certificate",
     "detailBullets": [
       "Inspect at the sheave contact zones and at the terminations, where deterioration starts.",
-      "Record the fitting, end-for-end and renewal dates with the wire certificate number.",
+      "Record the fitting, inspection and renewal dates with the wire certificate number.",
       "Some Administrations do not accept bulldog grips on load-bearing terminations.",
       "Lubricate with the maker's recommended dressing, not with ordinary grease.",
       "A wire with broken strands, corrosion or a kink is renewed regardless of its age."
@@ -1885,12 +1908,13 @@
       "LSA_FALLS_WIRE_ROPES"
     ],
     "sourceRef": "SOLAS III/20",
-    "contentVersion": 1,
+    "contentVersion": 5,
     "lastReviewed": "2026-08-29",
     "verificationStatus": "UNVERIFIED",
     "flagNotes": {
       "RMI": "RMI Marine Notice 2-011-37: bulldog grips prohibited on load-bearing wire terminations."
-    }
+    },
+    "revisionNote": "Removed obsolete generic end-for-end wording; current SOLAS III/20.4 and maker requirements still require verification. Verification date/status unchanged."
   },
   {
     "refKey": "LSA_FALL_PREVENTER_CARD",
@@ -2455,13 +2479,16 @@
       "FFE_DECK_FOAM_SYSTEM"
     ],
     "sourceRef": "FSS Code Ch.6",
-    "contentVersion": 1,
+    "contentVersion": 5,
     "lastReviewed": "2026-08-29",
     "verificationStatus": "UNVERIFIED",
     "flagNotes": {
       "RMI": "RMI Marine Notice 2-011-14 covers maintenance and inspection of fire-protection systems and appliances.",
       "PAN": "Panama MMC-281 gives guidelines for the maintenance and inspection of fire-protection systems and appliances."
-    }
+    },
+    "relatedRefKeys": [
+      "IMO_PUBLICATION_FSS"
+    ]
   },
   {
     "refKey": "FSS_CH7_WATER_SPRAY_MIST",
@@ -2748,14 +2775,17 @@
       "FFE_SCBA_SET"
     ],
     "sourceRef": "MSC.1/Circ.1432",
-    "contentVersion": 1,
+    "contentVersion": 5,
     "lastReviewed": "2026-08-29",
     "verificationStatus": "UNVERIFIED",
     "flagNotes": {
       "RMI": "RMI Marine Notice 2-011-14 covers maintenance and inspection of fire-protection systems and appliances.",
       "LIB": "Liberia Marine Notice FIR-001 covers fire-protection systems and appliances.",
       "PAN": "Panama MMC-281 gives guidelines for the maintenance and inspection of fire-protection systems and appliances."
-    }
+    },
+    "relatedRefKeys": [
+      "IMO_PUBLICATION_FSS"
+    ]
   },
   {
     "refKey": "MSC1_CIRC1432_MONTHLY",
@@ -6678,11 +6708,14 @@
       "LSA_LIFEBUOY_BUOYANT_LINE"
     ],
     "sourceRef": "SOLAS III/17-1; MSC.1/Circ.1447; IAMSAR Manual Volume III",
-    "contentVersion": 2,
+    "contentVersion": 5,
     "lastReviewed": "2026-08-29",
     "verificationStatus": "UNVERIFIED",
     "flagNotes": {},
-    "summaryTr": "Her gemide, denizden insan kurtarmak için bir plan ve gerekli araçlar bulunmalı ve teçhizat ihtiyaç duyulmadan önce hazırlanmalıdır."
+    "summaryTr": "Her gemide, denizden insan kurtarmak için bir plan ve gerekli araçlar bulunmalı ve teçhizat ihtiyaç duyulmadan önce hazırlanmalıdır.",
+    "relatedRefKeys": [
+      "IMO_PUBLICATION_IAMSAR"
+    ]
   },
   {
     "refKey": "IAMSAR_SAR_COMMUNICATIONS",
@@ -7067,11 +7100,14 @@
       "FFE_FIXED_FOAM_SYSTEM"
     ],
     "sourceRef": "MSC.1/Circ.1312; MSC.1/Circ.1432",
-    "contentVersion": 3,
+    "contentVersion": 5,
     "lastReviewed": "2026-08-30",
     "verificationStatus": "UNVERIFIED",
     "flagNotes": {},
-    "summaryTr": "Köpük konsantreleri yetkin bir laboratuvarda numune alınarak test edilir; çünkü bozulmuş köpük, bozulmamış olanla aynı görünür."
+    "summaryTr": "Köpük konsantreleri yetkin bir laboratuvarda numune alınarak test edilir; çünkü bozulmuş köpük, bozulmamış olanla aynı görünür.",
+    "relatedRefKeys": [
+      "SOLAS_II2_10_PFOS_2026"
+    ]
   },
   {
     "refKey": "SOLAS_II2_10_2_SHORE_CONNECTION",
@@ -7285,26 +7321,31 @@
     "section": "SOLAS",
     "citation": "Res. MSC.581(110)",
     "title": "Carbon dioxide monitoring for enclosed space entry",
-    "what": "Portable atmosphere testing instruments carried for enclosed space entry are to measure carbon dioxide as well as oxygen, flammable vapour and toxic gases.",
+    "what": "The revised enclosed-space entry recommendations include checking carbon dioxide as part of atmosphere testing and the entry risk assessment.",
     "howOften": "Per entry; instruments calibrated to the maker's schedule",
     "byWhom": "Responsible officer",
     "evidence": "Entry permit with the CO2 reading, calibration certificates",
     "detailBullets": [
-      "Carbon dioxide is the hazard the traditional three-gas meter misses: it displaces nothing the oxygen cell notices until the concentration is already dangerous, and it is produced by rusting, by cargo, and by respiration in a poorly ventilated space.",
-      "The instrument needs a dedicated CO2 sensor — commonly infrared — or compatible colorimetric detector tubes; a catalytic or electrochemical multigas set without one cannot measure it.",
-      "The permit and the SMS procedure carry the CO2 reading as a named field, not as a remark.",
-      "Bump-test and calibrate the CO2 channel like any other, and record it.",
-      "A ship carrying no means of measuring CO2 cannot complete a compliant entry permit, however good its procedure looks on paper."
+      "MSC.581(110) was adopted on 27 June 2025 as revised recommendations for entering enclosed spaces aboard ships.",
+      "Paragraph 7.4 includes checking carbon dioxide below 0.5% by volume, alongside the other specified atmosphere criteria.",
+      "The recommendations require assessment of other toxic or asphyxiant gases identified by the risk assessment. Testing oxygen or flammability alone does not measure toxicity.",
+      "Distinguish these recommendations from the statutory instrument carriage requirements in SOLAS XI-1/7; determine equipment suitability through the ship-specific SMS and applicable requirements.",
+      "Atmosphere testing does not replace ventilation, entry authorization, attendance, communication and a planned rescue arrangement."
     ],
     "appliesToTypeKeys": [
       "FFE_PORTABLE_GAS_DETECTOR"
     ],
-    "sourceRef": "IMO Res. MSC.581(110); IMO Res. A.1050(27)",
-    "contentVersion": 4,
-    "lastReviewed": "2026-08-30",
-    "verificationStatus": "UNVERIFIED",
+    "sourceRef": "MSC.581(110), annex, sections 6–7",
+    "contentVersion": 5,
+    "lastReviewed": "2026-10-04",
+    "verificationStatus": "VERIFIED",
     "flagNotes": {},
-    "summaryTr": "Kapalı mahal girişi için taşınan portatif ölçüm cihazları; oksijen, yanıcı buhar ve toksik gazların yanı sıra karbondioksiti de ölçebilmelidir."
+    "summaryTr": "MSC.581(110) kapalı mahal giriş tavsiyelerinde CO₂ kontrolünü içerir. Bu tavsiye ile SOLAS XI-1/7 cihaz taşıma şartını ayrı değerlendir; gemiye özgü risk analizi ve SMS esas alınır.",
+    "sourceUrl": "https://wwwcdn.imo.org/localresources/en/KnowledgeCentre/IndexofIMOResolutions/MSCResolutions/MSC.581(110).pdf",
+    "relatedRefKeys": [
+      "IMO_PUBLICATION_SOLAS"
+    ],
+    "revisionNote": "Verified against official MSC.581(110); corrected recommendations versus mandatory carriage distinction."
   },
   {
     "refKey": "PERMIT_TO_WORK_INTEGRITY",
@@ -7527,5 +7568,265 @@
     "verificationStatus": "UNVERIFIED",
     "flagNotes": {},
     "summaryTr": "Ana binme güvertesinden uzakta istiflenmiş bir can kurtarma aracının kendi aydınlatması, kendi merdiveni ve kendi açık yolu olmalıdır."
+  },
+  {
+    "refKey": "IMO_PUBLICATION_SOLAS",
+    "section": "SOLAS",
+    "citation": "SOLAS Consolidated Edition 2024 · IH110E",
+    "title": "SOLAS 2024 + January 2026 supplement",
+    "what": "The IMO current publication list identifies this edition; use it with applicable supplements and amendments.",
+    "howOften": "Review against the applicable instrument",
+    "byWhom": "Responsible officer / company; Administration for applicability",
+    "evidence": "Applicable publication and supplement; ship-specific review record",
+    "detailBullets": [
+      "Edition metadata checked against the IMO listing dated 21 September 2026.",
+      "Publication year is not an entry-into-force date: check the amendment and its ship-specific application separately.",
+      "The official source opens the public supplement or catalogue. The full commercial code is not reproduced in this app.",
+      "Existing maintenance summaries retain their own verification status; this publication entry does not certify every linked card."
+    ],
+    "appliesToTypeKeys": [
+      "LSA_LIFEBOAT_TOTALLY_ENCLOSED",
+      "LSA_PILOT_LADDER"
+    ],
+    "sourceRef": "SOLAS Consolidated Edition 2024 · IH110E",
+    "sourceUrl": "https://wwwcdn.imo.org/localresources/en/publications/Documents/Supplements/English/QH110E_supplement_January2026.pdf",
+    "relatedRefKeys": [
+      "SOLAS_III_20_MAINTENANCE",
+      "SOLAS_V_23_PILOT_LADDER",
+      "MSC_581_110_CO2_MONITORING",
+      "SOLAS_II2_10_PFOS_2026",
+      "SOLAS_PILOT_TRANSFER_2028"
+    ],
+    "contentVersion": 5,
+    "lastReviewed": "2026-10-04",
+    "verificationStatus": "VERIFIED",
+    "summaryTr": "Baskı bilgisi IMO’nun 21 Eylül 2026 listesiyle kontrol edildi. Yayın yılı ile yürürlük tarihi farklıdır; ilgili ekleri ve gemiye uygulanabilirliği ayrıca kontrol et.",
+    "revisionNote": "Edition listing checked 2026-10-04; January 2026 supplement where shown."
+  },
+  {
+    "refKey": "IMO_PUBLICATION_LSA",
+    "section": "LSA",
+    "citation": "Life-Saving Appliances 2023 · IF982E",
+    "title": "LSA Code 2023 + January 2026 supplement",
+    "what": "The IMO current publication list identifies this edition; use it with applicable supplements and amendments.",
+    "howOften": "Review against the applicable instrument",
+    "byWhom": "Responsible officer / company; Administration for applicability",
+    "evidence": "Applicable publication and supplement; ship-specific review record",
+    "detailBullets": [
+      "Edition metadata checked against the IMO listing dated 21 September 2026.",
+      "Publication year is not an entry-into-force date: check the amendment and its ship-specific application separately.",
+      "The official source opens the public supplement or catalogue. The full commercial code is not reproduced in this app.",
+      "Existing maintenance summaries retain their own verification status; this publication entry does not certify every linked card."
+    ],
+    "appliesToTypeKeys": [
+      "LSA_LIFEJACKET_ADULT",
+      "LSA_ONLOAD_RELEASE_GEAR",
+      "LSA_LIFEBOAT_WINCH"
+    ],
+    "sourceRef": "Life-Saving Appliances 2023 · IF982E",
+    "sourceUrl": "https://wwwcdn.imo.org/localresources/en/publications/Documents/Supplements/English/2QF982E_supplement_January2026_EBK.pdf",
+    "relatedRefKeys": [
+      "LSA_RELEASE_GEAR",
+      "LSA_DAVIT_WINCH",
+      "LSA_554_108_HOOK_RESET",
+      "LSA_554_108_LOWERING_SPEED"
+    ],
+    "contentVersion": 5,
+    "lastReviewed": "2026-10-04",
+    "verificationStatus": "VERIFIED",
+    "summaryTr": "Baskı bilgisi IMO’nun 21 Eylül 2026 listesiyle kontrol edildi. Yayın yılı ile yürürlük tarihi farklıdır; ilgili ekleri ve gemiye uygulanabilirliği ayrıca kontrol et.",
+    "revisionNote": "Edition listing checked 2026-10-04; January 2026 supplement where shown."
+  },
+  {
+    "refKey": "IMO_PUBLICATION_FSS",
+    "section": "FFE",
+    "citation": "Fire Safety Systems Code 2026 · IC155E",
+    "title": "FSS Code 2026 edition",
+    "what": "The IMO current publication list identifies this edition; use it with applicable supplements and amendments.",
+    "howOften": "Review against the applicable instrument",
+    "byWhom": "Responsible officer / company; Administration for applicability",
+    "evidence": "Applicable publication and supplement; ship-specific review record",
+    "detailBullets": [
+      "Edition metadata checked against the IMO listing dated 21 September 2026.",
+      "Publication year is not an entry-into-force date: check the amendment and its ship-specific application separately.",
+      "The official source opens the public supplement or catalogue. The full commercial code is not reproduced in this app.",
+      "Existing maintenance summaries retain their own verification status; this publication entry does not certify every linked card."
+    ],
+    "appliesToTypeKeys": [
+      "FFE_FIXED_FOAM_SYSTEM",
+      "FFE_DECK_FOAM_SYSTEM"
+    ],
+    "sourceRef": "Fire Safety Systems Code 2026 · IC155E",
+    "sourceUrl": "https://www.imo.org/en/publications/Pages/CurrentPublications.aspx",
+    "relatedRefKeys": [
+      "FSS_CH6_FIXED_FOAM",
+      "MSC1_CIRC1432_SCOPE",
+      "SOLAS_II2_10_PFOS_2026"
+    ],
+    "contentVersion": 5,
+    "lastReviewed": "2026-10-04",
+    "verificationStatus": "VERIFIED",
+    "summaryTr": "Baskı bilgisi IMO’nun 21 Eylül 2026 listesiyle kontrol edildi. Yayın yılı ile yürürlük tarihi farklıdır; ilgili ekleri ve gemiye uygulanabilirliği ayrıca kontrol et.",
+    "revisionNote": "Edition listing checked 2026-10-04; January 2026 supplement where shown."
+  },
+  {
+    "refKey": "IMO_PUBLICATION_IAMSAR",
+    "section": "SOLAS",
+    "citation": "IAMSAR Manual Volume III 2025 · IL962E",
+    "title": "IAMSAR Volume III 2025 edition",
+    "what": "The IMO current publication list identifies this edition; use it with applicable supplements and amendments.",
+    "howOften": "Review against the applicable instrument",
+    "byWhom": "Responsible officer / company; Administration for applicability",
+    "evidence": "Applicable publication and supplement; ship-specific review record",
+    "detailBullets": [
+      "Edition metadata checked against the IMO listing dated 21 September 2026.",
+      "Publication year is not an entry-into-force date: check the amendment and its ship-specific application separately.",
+      "The official source opens the public supplement or catalogue. The full commercial code is not reproduced in this app.",
+      "Existing maintenance summaries retain their own verification status; this publication entry does not certify every linked card."
+    ],
+    "appliesToTypeKeys": [
+      "LSA_RESCUE_BOAT"
+    ],
+    "sourceRef": "IAMSAR Manual Volume III 2025 · IL962E",
+    "sourceUrl": "https://www.imo.org/en/publications/Pages/CurrentPublications.aspx",
+    "relatedRefKeys": [
+      "IAMSAR_RECOVERY_OF_PERSONS"
+    ],
+    "contentVersion": 5,
+    "lastReviewed": "2026-10-04",
+    "verificationStatus": "VERIFIED",
+    "summaryTr": "Baskı bilgisi IMO’nun 21 Eylül 2026 listesiyle kontrol edildi. Yayın yılı ile yürürlük tarihi farklıdır; ilgili ekleri ve gemiye uygulanabilirliği ayrıca kontrol et.",
+    "revisionNote": "Edition listing checked 2026-10-04; January 2026 supplement where shown."
+  },
+  {
+    "refKey": "SOLAS_II2_10_PFOS_2026",
+    "section": "FFE",
+    "citation": "SOLAS II-2/10.11 · MSC.532(107)",
+    "title": "PFOS-containing fire-extinguishing media — 2026 restriction",
+    "what": "Use or storage of extinguishing media containing PFOS is prohibited under the application provisions of SOLAS II-2/10.11.",
+    "howOften": "In force 1 January 2026; existing ships: first survey on/after that date",
+    "byWhom": "Responsible officer / company; Administration for applicability",
+    "evidence": "Applicable publication and supplement; ship-specific review record",
+    "detailBullets": [
+      "Applies to ships constructed on or after 1 January 2026.",
+      "Ships constructed before 1 January 2026 must comply no later than the first survey on or after 1 January 2026 (SOLAS II-2/1.2.10).",
+      "Prohibited media removed from the ship are delivered to appropriate shore-based reception facilities.",
+      "Check the actual product and supplier declaration against the applicable instrument; retain replacement and disposal records.",
+      "This is a restriction on PFOS. Do not equate it with a blanket prohibition of every fluorinated foam."
+    ],
+    "appliesToTypeKeys": [
+      "FFE_PORTABLE_FOAM_APPLICATOR",
+      "FFE_DECK_FOAM_SYSTEM",
+      "FFE_FOAM_CONCENTRATE_TANK",
+      "FFE_FIXED_FOAM_SYSTEM"
+    ],
+    "sourceRef": "SOLAS II-2/10.11 · MSC.532(107)",
+    "sourceUrl": "https://wwwcdn.imo.org/localresources/en/publications/Documents/Supplements/English/QH110E_supplement_January2026.pdf",
+    "relatedRefKeys": [
+      "IMO_PUBLICATION_SOLAS",
+      "IMO_PUBLICATION_FSS",
+      "MSC1_CIRC1312_FOAM_TESTING"
+    ],
+    "contentVersion": 5,
+    "lastReviewed": "2026-10-04",
+    "verificationStatus": "VERIFIED",
+    "summaryTr": "PFOS içeren söndürme maddelerinin kullanılması veya depolanması yasak. 1 Ocak 2026 öncesi inşa edilen gemiler için son tarih, bu tarihte veya sonrasındaki ilk sörveydir.",
+    "revisionNote": "Verified: January 2026 SOLAS supplement, pp. 9–10; application retained."
+  },
+  {
+    "refKey": "LSA_554_108_HOOK_RESET",
+    "section": "LSA",
+    "citation": "LSA Code 4.4.7.6.8 · MSC.554(108)",
+    "title": "Lifeboat release hooks — complete reset",
+    "what": "A hook must not support load unless completely reset; closing controls and reset indications must not falsely indicate a complete reset.",
+    "howOften": "Amendment in force 1 January 2026; check approved equipment applicability",
+    "byWhom": "Responsible officer / company; Administration for applicability",
+    "evidence": "Applicable publication and supplement; ship-specific review record",
+    "detailBullets": [
+      "The January 2026 supplement replaces paragraph 4.4.7.6.8.",
+      "Additional danger signs at each hook station alert crew to the proper resetting method.",
+      "Use the approved maker procedure and authorized servicing arrangements; do not bypass safety mechanisms.",
+      "Paragraph 4.4.7.6.17 also changes the exception for a single fall and hook system that cannot release under load while not fully waterborne."
+    ],
+    "appliesToTypeKeys": [
+      "LSA_ONLOAD_RELEASE_GEAR",
+      "LSA_LIFEBOAT_TOTALLY_ENCLOSED",
+      "LSA_RESCUE_BOAT"
+    ],
+    "sourceRef": "LSA Code 4.4.7.6.8 · MSC.554(108)",
+    "sourceUrl": "https://wwwcdn.imo.org/localresources/en/publications/Documents/Supplements/English/2QF982E_supplement_January2026_EBK.pdf",
+    "relatedRefKeys": [
+      "LSA_RELEASE_GEAR",
+      "MSC_402_96_ANNUAL",
+      "IMO_PUBLICATION_LSA"
+    ],
+    "contentVersion": 5,
+    "lastReviewed": "2026-10-04",
+    "verificationStatus": "VERIFIED",
+    "summaryTr": "Kanca tamamen sıfırlanmadan yük taşıyamaz; kol, emniyet pimi ve gösterge yanlış bir sıfırlanma durumu gösteremez. Kanca istasyonunda doğru sıfırlama için tehlike işaretleri bulunur.",
+    "revisionNote": "Verified: January 2026 LSA supplement, p. 1."
+  },
+  {
+    "refKey": "LSA_554_108_LOWERING_SPEED",
+    "section": "LSA",
+    "citation": "LSA Code 6.1.2.8 / 6.1.2.10 · MSC.554(108)",
+    "title": "Launching appliances — revised lowering-speed provisions",
+    "what": "The amended Code specifies a minimum lowering speed of min(0.4 + 0.02H, 1.0) m/s and a maximum of 1.3 m/s, subject to Administration acceptance provisions.",
+    "howOften": "Amendment in force 1 January 2026; approved design applicability",
+    "byWhom": "Responsible officer / company; Administration for applicability",
+    "evidence": "Applicable publication and supplement; ship-specific review record",
+    "detailBullets": [
+      "H is the height in metres from davit head to waterline at the lightest seagoing condition.",
+      "The Administration may accept a different maximum speed with regard to craft design, occupant protection and launching arrangement strength.",
+      "Means must prevent exceeding the applicable maximum speed.",
+      "These are design provisions. Do not adjust a winch or conduct a loaded test solely from this summary; check approved documentation and authorized provider requirements."
+    ],
+    "appliesToTypeKeys": [
+      "LSA_LIFEBOAT_WINCH",
+      "LSA_LIFEBOAT_DAVIT",
+      "LSA_RESCUE_BOAT_DAVIT"
+    ],
+    "sourceRef": "LSA Code 6.1.2.8 / 6.1.2.10 · MSC.554(108)",
+    "sourceUrl": "https://wwwcdn.imo.org/localresources/en/publications/Documents/Supplements/English/2QF982E_supplement_January2026_EBK.pdf",
+    "relatedRefKeys": [
+      "LSA_DAVIT_WINCH",
+      "MSC_402_96_FIVE_YEARLY",
+      "IMO_PUBLICATION_LSA"
+    ],
+    "contentVersion": 5,
+    "lastReviewed": "2026-10-04",
+    "verificationStatus": "VERIFIED",
+    "summaryTr": "Asgari indirme hızı min(0,4 + 0,02H; 1,0) m/s; azami hız 1,3 m/s. İdare tarafından kabul edilen farklı azami hız hükümleri ve onaylı donanım belgeleri dikkate alınmalıdır.",
+    "revisionNote": "Verified: January 2026 LSA supplement, p. 2."
+  },
+  {
+    "refKey": "SOLAS_PILOT_TRANSFER_2028",
+    "section": "SOLAS",
+    "citation": "MSC.572(110) · SOLAS V/23",
+    "title": "Pilot transfer arrangements — forthcoming 2028 amendments",
+    "what": "MSC.572(110) adopts revised pilot-transfer provisions scheduled to enter into force on 1 January 2028 upon acceptance.",
+    "howOften": "Forthcoming: 1 January 2028, upon acceptance",
+    "byWhom": "Responsible officer / company; Administration for applicability",
+    "evidence": "Applicable publication and supplement; ship-specific review record",
+    "detailBullets": [
+      "The resolution was adopted on 26 June 2025; its acceptance date is 1 July 2027 under the stated objection procedure.",
+      "Installation date and the survey-based transition provisions determine which requirements apply to an arrangement.",
+      "Read the complete amended V/23 and associated performance standards before preparing a replacement plan.",
+      "This future amendment does not create a new maintenance due date in the app."
+    ],
+    "appliesToTypeKeys": [
+      "LSA_PILOT_LADDER"
+    ],
+    "sourceRef": "MSC.572(110) · SOLAS V/23",
+    "sourceUrl": "https://wwwcdn.imo.org/localresources/en/KnowledgeCentre/IndexofIMOResolutions/MSCResolutions/MSC.572(110).pdf",
+    "relatedRefKeys": [
+      "SOLAS_V_23_PILOT_LADDER",
+      "IMO_PUBLICATION_SOLAS"
+    ],
+    "contentVersion": 5,
+    "lastReviewed": "2026-10-04",
+    "verificationStatus": "VERIFIED",
+    "summaryTr": "Pilot transfer değişiklikleri kabul şartına bağlı olarak 1 Ocak 2028’de yürürlüğe girecek. Montaj tarihi ve geçiş hükümleri önemlidir; bu kart bugün için yeni bir bakım süresi oluşturmaz.",
+    "revisionNote": "Verified: MSC.572(110), adoption/application provisions; not yet in force."
   }
 ]

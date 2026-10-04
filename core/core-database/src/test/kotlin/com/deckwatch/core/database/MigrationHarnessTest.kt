@@ -100,6 +100,39 @@ class MigrationHarnessTest {
         )
     }
 
+    @Test
+    fun `migrating 2 to 3 preserves regulations and personal notes with empty new metadata`() {
+        helper.createDatabase(TEST_DB, 2).use { old ->
+            old.execSQL("""
+                INSERT INTO regulation_cards (
+                    refKey, section, citation, title, what, howOften, byWhom, evidence,
+                    detailBullets, flagNotes, appliesToTypeKeys, sourceRef, contentVersion,
+                    lastReviewed, verificationStatus, summaryTr, revisionNote
+                ) VALUES ('RULE', 'SOLAS', 'SOLAS III/20', 'Saved rule', 'Ready', 'Weekly',
+                    'Crew', 'Record', '[]', '{}', '[]', 'SOLAS', 4, '2026-08-29', 'UNVERIFIED', '', '')
+            """.trimIndent())
+            old.execSQL("""
+                INSERT INTO user_notes (id, title, body, folder, regulationRefKey,
+                    equipmentTypeKey, isFavourite, createdAt, updatedAt)
+                VALUES ('NOTE', 'My note', 'Keep this text', '', 'RULE', NULL, 1, 1, 2)
+            """.trimIndent())
+        }
+        helper.runMigrationsAndValidate(TEST_DB, 3, true, MIGRATION_2_3).use { migrated ->
+            migrated.query("SELECT title, sourceUrl, relatedRefKeys FROM regulation_cards WHERE refKey = 'RULE'").use {
+                assertThat(it.moveToFirst()).isTrue()
+                assertThat(it.getString(0)).isEqualTo("Saved rule")
+                assertThat(it.getString(1)).isEmpty()
+                assertThat(it.getString(2)).isEqualTo("[]")
+            }
+            migrated.query("SELECT body, regulationRefKey, isFavourite FROM user_notes WHERE id = 'NOTE'").use {
+                assertThat(it.moveToFirst()).isTrue()
+                assertThat(it.getString(0)).isEqualTo("Keep this text")
+                assertThat(it.getString(1)).isEqualTo("RULE")
+                assertThat(it.getInt(2)).isEqualTo(1)
+            }
+        }
+    }
+
     /** A version-1 `equipment_types` row: the column list is the schema before the migration. */
     private fun insertTypeV1(typeKey: String, nameEn: String, isUserDefined: Int): String = """
         INSERT INTO equipment_types (

@@ -163,4 +163,11 @@
     <string name="guide_tab_rules">Rules</string>
     <string name="guide_tab_equipment">Equipment</string>
     <string name="guide_section_link">Browse %1$s by equipment instead</string>
+    <string name="notes_publications">Current IMO publications</string>
+    <string name="notes_browse_rules">Browse regulations</string>
+    <string name="notes_context_equipment">Equipment guide and maintenance</string>
+    <string name="notes_context_rules">Related regulations</string>
+    <string name="notes_official_source">Open official IMO source</string>
+    <string name="notes_publications_expand">Show editions and supplements</string>
+    <string name="notes_publications_collapse">Hide publication list</string>
 </resources>

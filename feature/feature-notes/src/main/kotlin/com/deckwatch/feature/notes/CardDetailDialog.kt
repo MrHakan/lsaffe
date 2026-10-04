@@ -8,7 +8,16 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Surface
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.safeDrawingPadding
+import com.deckwatch.core.designsystem.components.DeckWatchTopBar
+import com.deckwatch.core.designsystem.components.DeckWatchListRow
+import com.deckwatch.core.model.EquipmentType
 import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -16,6 +25,9 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,7 +35,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.deckwatch.core.designsystem.components.RegulationCardLabels
@@ -36,7 +47,7 @@ import com.deckwatch.core.model.UserNote
 import com.deckwatch.core.model.VerificationStatus
 
 /**
- * The full card in a dialog — §8.4 wants a card readable without leaving the screen that opened it.
+ * Full-screen reader retaining the originating screen and the history of related regulations.
  *
  * ### One primary action — DESIGN_OVERHAUL rule 1
  *
@@ -61,9 +72,9 @@ internal fun CardDetailDialog(
     modifier: Modifier = Modifier,
     startWithComposer: Boolean = false,
     onShowEquipmentForCard: (List<String>) -> Unit = {},
+    onOpenType: (String) -> Unit = {},
     viewModel: CardDetailViewModel = hiltViewModel(),
 ) {
-    LaunchedEffect(refKey) { viewModel.open(refKey) }
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val labels = regulationCardLabels()
 
@@ -72,39 +83,54 @@ internal fun CardDetailDialog(
         mutableStateOf<String?>(if (startWithComposer) "" else null)
     }
 
+    var readerHistory by rememberSaveable(refKey) { mutableStateOf(listOf(refKey)) }
+    val readerKey = readerHistory.last()
+    val back: () -> Unit = {
+        if (readerHistory.size > 1) {
+            readerHistory = readerHistory.dropLast(1)
+            noteDraft = null
+        } else {
+            onDismiss()
+        }
+    }
+    LaunchedEffect(readerKey) { viewModel.open(readerKey) }
     val card = state.card
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        modifier = modifier,
-        title = { Text(stringResource(R.string.notes_detail_title)) },
-        confirmButton = {
-            TextButton(
-                onClick = onDismiss,
-                modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
-            ) {
-                Text(stringResource(R.string.notes_action_close))
-            }
-        },
-        text = {
-            if (card == null) {
-                Text(stringResource(R.string.notes_section_empty))
-            } else {
-                CardDetailBody(
-                    card = card,
-                    appliesToNames = state.appliesToNames,
-                    myNotes = state.myNotes,
-                    labels = labels,
-                    noteDraft = noteDraft,
-                    onNoteDraftChange = { noteDraft = it },
-                    onSaveNote = { body ->
-                        viewModel.addNote(title = card.citation, body = body)
-                        noteDraft = null
-                    },
-                    onShowEquipmentForCard = onShowEquipmentForCard,
+    Dialog(
+        onDismissRequest = back,
+        properties = DialogProperties(usePlatformDefaultWidth = false, decorFitsSystemWindows = false),
+    ) {
+        Surface(modifier = modifier.fillMaxSize()) {
+            Column(modifier = Modifier.safeDrawingPadding().imePadding()) {
+                DeckWatchTopBar(
+                    title = card?.citation ?: stringResource(R.string.notes_detail_title),
+                    onBack = back,
+                    backContentDescription = stringResource(R.string.notes_action_close),
                 )
+                if (card == null) {
+                    Text(stringResource(R.string.notes_section_empty))
+                } else {
+                    CardDetailBody(
+                        card = card,
+                        appliesToNames = state.appliesToNames,
+                        myNotes = state.myNotes,
+                        equipmentTypes = state.equipmentTypes,
+                        relatedCards = state.relatedCards,
+                        onOpenType = onOpenType,
+                        onOpenCard = { readerHistory = readerHistory + it; noteDraft = null },
+                        labels = labels,
+                        noteDraft = noteDraft,
+                        onNoteDraftChange = { noteDraft = it },
+                        onSaveNote = { body ->
+                            viewModel.addNote(title = card.citation, body = body)
+                            noteDraft = null
+                        },
+                        onShowEquipmentForCard = onShowEquipmentForCard,
+                        modifier = Modifier.weight(1f).padding(Dimens.SpacingM),
+                    )
+                }
             }
-        },
-    )
+        }
+    }
 }
 
 @Composable
@@ -112,6 +138,10 @@ private fun CardDetailBody(
     card: RegulationCard,
     appliesToNames: List<String>,
     myNotes: List<UserNote>,
+    equipmentTypes: List<EquipmentType>,
+    relatedCards: List<RegulationCard>,
+    onOpenType: (String) -> Unit,
+    onOpenCard: (String) -> Unit,
     labels: RegulationCardLabels,
     noteDraft: String?,
     onNoteDraftChange: (String?) -> Unit,
@@ -119,33 +149,49 @@ private fun CardDetailBody(
     onShowEquipmentForCard: (List<String>) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val scroll = rememberScrollState()
+    LaunchedEffect(noteDraft != null) { if (noteDraft != null) scroll.scrollTo(0) }
     Column(modifier = modifier.fillMaxWidth()) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(max = ScrollAreaMaxHeight)
-                .verticalScroll(rememberScrollState()),
+                .weight(1f)
+                .verticalScroll(scroll),
             verticalArrangement = Arrangement.spacedBy(Dimens.SpacingS),
         ) {
-            RegulationCardView(card = card, labels = labels, appliesToNames = appliesToNames)
-
-            Provenance(card = card)
-
-            if (card.appliesToTypeKeys.isNotEmpty()) {
-                TextButton(
-                    onClick = { onShowEquipmentForCard(card.appliesToTypeKeys) },
-                    modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
-                ) {
-                    Text(stringResource(R.string.notes_action_show_equipment))
-                }
-            }
-
             if (noteDraft != null) {
                 NoteComposer(
                     draft = noteDraft,
                     onDraftChange = onNoteDraftChange,
                     onCancel = { onNoteDraftChange(null) },
                 )
+            }
+
+            RegulationCardView(card = card, labels = labels, appliesToNames = appliesToNames)
+
+            Provenance(card = card)
+
+            if (equipmentTypes.isNotEmpty()) {
+                TextButton(
+                    onClick = { onShowEquipmentForCard(equipmentTypes.map { it.typeKey }) },
+                    modifier = Modifier.heightIn(min = Dimens.TouchTargetMin),
+                ) {
+                    Text(stringResource(R.string.notes_action_show_equipment))
+                }
+            }
+
+            if (equipmentTypes.isNotEmpty()) {
+                Text(stringResource(R.string.notes_context_equipment), style = MaterialTheme.typography.titleMedium)
+                equipmentTypes.forEach { type ->
+                    DeckWatchListRow(title = type.nameEn, subtitle = type.nameTr, onClick = { onOpenType(type.typeKey) })
+                }
+            }
+            if (relatedCards.isNotEmpty()) {
+                HorizontalDivider()
+                Text(stringResource(R.string.notes_context_rules), style = MaterialTheme.typography.titleMedium)
+                relatedCards.forEach { related ->
+                    DeckWatchListRow(title = related.citation, subtitle = related.title, onClick = { onOpenCard(related.refKey) })
+                }
             }
 
             if (myNotes.isNotEmpty()) {
@@ -185,10 +231,19 @@ private fun CardDetailBody(
  */
 @Composable
 private fun Provenance(card: RegulationCard, modifier: Modifier = Modifier) {
+    val uriHandler = LocalUriHandler.current
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(Dimens.SpacingXs),
     ) {
+        if (card.sourceUrl.isNotBlank()) {
+            TextButton(onClick = { uriHandler.openUri(card.sourceUrl) }) {
+                Text(stringResource(R.string.notes_official_source))
+            }
+        }
+        if (card.revisionNote.isNotBlank()) {
+            Text(card.revisionNote, style = MaterialTheme.typography.bodySmall)
+        }
         if (card.sourceRef.isNotBlank()) {
             StatusChip(
                 text = stringResource(R.string.notes_detail_source, card.sourceRef),
@@ -219,11 +274,13 @@ private fun NoteComposer(
     onCancel: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val focus = remember { FocusRequester() }
+    LaunchedEffect(Unit) { focus.requestFocus() }
     Column(modifier = modifier.fillMaxWidth()) {
         OutlinedTextField(
             value = draft,
             onValueChange = onDraftChange,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().focusRequester(focus),
             label = { Text(stringResource(R.string.notes_detail_note_hint)) },
             minLines = ComposerMinLines,
         )
@@ -251,5 +308,4 @@ private fun AttachedNote(note: UserNote, modifier: Modifier = Modifier) {
     }
 }
 
-private val ScrollAreaMaxHeight = 440.dp
 private const val ComposerMinLines = 3

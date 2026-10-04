@@ -88,6 +88,7 @@ fun NotesScreen(
     val push: (NotesDestination) -> Unit = { backStack.add(it) }
     val pop: () -> Unit = { if (backStack.isNotEmpty()) backStack.removeAt(backStack.lastIndex) }
     var openCardRefKey by rememberSaveable { mutableStateOf<String?>(null) }
+    var openNoteId by rememberSaveable { mutableStateOf<String?>(null) }
     var openCardWithComposer by rememberSaveable { mutableStateOf(false) }
     var disclaimerAcknowledged by rememberSaveable { mutableStateOf(false) }
 
@@ -144,6 +145,11 @@ fun NotesScreen(
                     },
                     onEquipmentGuideClick = { push(NotesDestination.Equipment()) },
                     focusSearchSignal = focusSearchSignal,
+                    onTypeClick = { push(NotesDestination.TypeDetail(it)) },
+                    onNoteClick = {
+                        openNoteId = it
+                        push(NotesDestination.Section(RegulationSection.MY_NOTES))
+                    },
                 )
 
                 NotesDestination.Intervals -> IntervalMatrixScreen(
@@ -166,6 +172,8 @@ fun NotesScreen(
 
                 is NotesDestination.Section -> when (current.section) {
                     RegulationSection.MY_NOTES -> MyNotesScreen(
+                        openNoteId = openNoteId,
+                        onNoteOpened = { openNoteId = null },
                         onCardClick = { refKey ->
                             openCardRefKey = refKey
                             openCardWithComposer = false
@@ -215,6 +223,10 @@ fun NotesScreen(
                 openCardWithComposer = false
             },
             startWithComposer = openCardWithComposer,
+            onOpenType = {
+                openCardRefKey = null
+                push(NotesDestination.TypeDetail(it))
+            },
             onShowEquipmentForCard = onShowEquipmentForCard,
         )
     }

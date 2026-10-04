@@ -69,4 +69,5 @@
     <string name="compass_action_port">İskeleye çevir</string>
     <string name="compass_action_starboard">Sancağa çevir</string>
     <string name="compass_action_level">Başı yukarı al</string>
+    <string name="deckview_choose_equipment">Bu konumdaki ekipmanı seç</string>
 </resources>

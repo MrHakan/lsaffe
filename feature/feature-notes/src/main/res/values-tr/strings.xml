@@ -165,4 +165,11 @@
     <string name="guide_tab_rules">Kurallar</string>
     <string name="guide_tab_equipment">Ekipman</string>
     <string name="guide_section_link">%1$s bölümüne ekipman bazında göz atın</string>
+    <string name="notes_publications">Güncel IMO yayınları</string>
+    <string name="notes_browse_rules">Mevzuata göz at</string>
+    <string name="notes_context_equipment">Ekipman rehberi ve bakım</string>
+    <string name="notes_context_rules">Bağlantılı mevzuat</string>
+    <string name="notes_official_source">Resmî IMO kaynağını aç</string>
+    <string name="notes_publications_expand">Baskıları ve ekleri göster</string>
+    <string name="notes_publications_collapse">Yayın listesini daralt</string>
 </resources>

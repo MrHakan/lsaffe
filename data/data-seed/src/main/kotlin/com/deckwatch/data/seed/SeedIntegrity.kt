@@ -130,6 +130,14 @@ object SeedIntegrity {
                 problems += "regulation card '${card.refKey}' applies to type '$it' which is " +
                     "not in the equipment catalogue"
             }
+            card.relatedRefKeys.filterNot { it in refKeys && it != card.refKey }.forEach {
+                problems += "regulation card '${card.refKey}' has invalid related reference '$it'"
+            }
+            if (card.sourceUrl.isNotBlank() &&
+                !card.sourceUrl.startsWith("https://www.imo.org/") &&
+                !card.sourceUrl.startsWith("https://wwwcdn.imo.org/")) {
+                problems += "regulation card '${card.refKey}' has a non-official source URL"
+            }
             card.flagNotes.keys.filterNot { it in FLAG_CODES }.forEach {
                 problems += "regulation card '${card.refKey}' has flag note '$it' which is " +
                     "not one of " + FLAG_CODES.joinToString("/")

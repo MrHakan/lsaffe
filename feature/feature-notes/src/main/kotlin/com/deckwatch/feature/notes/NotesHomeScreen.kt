@@ -24,6 +24,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -65,6 +68,8 @@ internal fun NotesHomeScreen(
     onSectionClick: (RegulationSection) -> Unit,
     onCardClick: (String) -> Unit,
     onEquipmentGuideClick: () -> Unit,
+    onTypeClick: (String) -> Unit,
+    onNoteClick: (String) -> Unit,
     modifier: Modifier = Modifier,
     focusSearchSignal: Int = 0,
     viewModel: NotesHomeViewModel = hiltViewModel(),
@@ -97,12 +102,13 @@ internal fun NotesHomeScreen(
         )
 
         if (state.isSearching) {
-            SearchResults(state = state, onCardClick = onCardClick)
+            SearchResults(state = state, onCardClick = onCardClick, onTypeClick = onTypeClick, onNoteClick = onNoteClick)
         } else {
             SectionList(
                 state = state,
                 onSectionClick = onSectionClick,
                 onEquipmentGuideClick = onEquipmentGuideClick,
+                onCardClick = onCardClick,
             )
         }
     }
@@ -113,8 +119,10 @@ private fun SectionList(
     state: NotesHomeUiState,
     onSectionClick: (RegulationSection) -> Unit,
     onEquipmentGuideClick: () -> Unit,
+    onCardClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    var publicationsExpanded by rememberSaveable { mutableStateOf(false) }
     LazyColumn(
         modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(Dimens.SpacingM),
@@ -125,7 +133,27 @@ private fun SectionList(
         item(key = "equipment-guide") {
             GuideTile(typeCount = state.equipmentTypeCount, onClick = onEquipmentGuideClick)
         }
-        items(items = RegulationSection.entries, key = { it.name }) { section ->
+        item(key = "my-notes-shortcut") {
+            DeckWatchListRow(
+                title = stringResource(R.string.notes_my_title),
+                subtitle = stringResource(R.string.notes_note_count, state.countFor(RegulationSection.MY_NOTES)),
+                onClick = { onSectionClick(RegulationSection.MY_NOTES) },
+            )
+        }
+        if (state.publications.isNotEmpty()) {
+            item(key = "publications-heading") {
+                DeckWatchListRow(
+                    title = stringResource(R.string.notes_publications),
+                    subtitle = stringResource(if (publicationsExpanded) R.string.notes_publications_collapse else R.string.notes_publications_expand),
+                    onClick = { publicationsExpanded = !publicationsExpanded },
+                )
+            }
+            items(if (publicationsExpanded) state.publications else emptyList(), key = { "publication-${it.refKey}" }) { card ->
+                DeckWatchListRow(title = card.title, subtitle = card.citation, onClick = { onCardClick(card.refKey) })
+            }
+        }
+        item(key = "browse-heading") { SectionHeader(text = stringResource(R.string.notes_browse_rules)) }
+        items(items = RegulationSection.entries.filter { it != RegulationSection.MY_NOTES }, key = { it.name }) { section ->
             val count = state.countFor(section)
             SectionCard(
                 section = section,
@@ -245,9 +273,11 @@ private fun GuideTile(typeCount: Int, onClick: () -> Unit) {
 private fun SearchResults(
     state: NotesHomeUiState,
     onCardClick: (String) -> Unit,
+    onTypeClick: (String) -> Unit,
+    onNoteClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    if (state.results.isEmpty()) {
+    if (state.results.isEmpty() && state.equipmentResults.isEmpty() && state.noteResults.isEmpty()) {
         EmptyState(
             icon = Icons.Filled.SearchOff,
             title = stringResource(R.string.notes_search_none_title),
@@ -258,7 +288,22 @@ private fun SearchResults(
     }
     LazyColumn(modifier = modifier.fillMaxSize()) {
         item(key = "count") {
-            SectionHeader(text = stringResource(R.string.notes_search_results, state.results.size))
+            SectionHeader(text = stringResource(R.string.notes_search_results, state.results.size + state.equipmentResults.size + state.noteResults.size))
+        }
+        if (state.equipmentResults.isNotEmpty()) {
+            item(key = "types-heading") { SectionHeader(text = stringResource(R.string.notes_section_equipment)) }
+            items(state.equipmentResults, key = { "type-${it.typeKey}" }) { type ->
+                DeckWatchListRow(title = type.nameEn, subtitle = type.nameTr, onClick = { onTypeClick(type.typeKey) })
+            }
+        }
+        if (state.noteResults.isNotEmpty()) {
+            item(key = "notes-heading") { SectionHeader(text = stringResource(R.string.notes_my_title)) }
+            items(state.noteResults, key = { "note-${it.id}" }) { note ->
+                DeckWatchListRow(title = note.title, subtitle = note.body.take(120), onClick = { onNoteClick(note.id) })
+            }
+        }
+        if (state.results.isNotEmpty()) {
+            item(key = "rules-heading") { SectionHeader(text = stringResource(R.string.notes_browse_rules)) }
         }
         items(items = state.results, key = { it.refKey }) { card ->
             SearchResultRow(card = card, onClick = { onCardClick(card.refKey) })

@@ -3,6 +3,7 @@ package com.deckwatch.feature.deckview.gesture
 /** Everything the canvas gesture layer reports upwards — the §7.2 gesture table. */
 data class DeckGestureCallbacks(
     val onTapMarker: (equipmentId: String, deckId: String) -> Unit = { _, _ -> },
+    val onTapMarkerCluster: ((List<String>) -> Unit)? = null,
     val onTapDeck: (deckId: String) -> Unit = {},
     val onTapEmpty: () -> Unit = {},
     /** Double tap: zoom to fit the deck under the finger, or the focused one. */

@@ -151,4 +151,22 @@ class NotesHomeViewModelTest {
             cancelAndIgnoreRemainingEvents()
         }
     }
+    @Test
+    fun `one search finds Turkish equipment descriptions and personal notes together`() = runTest {
+        reference.seedEquipmentType(TestData.equipmentType(typeKey = "SCBA", nameTr = "Solunum cihazı"))
+        reference.upsertUserNote(TestData.userNote(id = "scba-note", body = "Solunum cihazı tüpü değiştirildi"))
+        val viewModel = NotesHomeViewModel(reference)
+        viewModel.uiState.test {
+            awaitState { it.equipmentTypeCount == 1 }
+            viewModel.onQueryChange("solunum")
+            val found = awaitState { it.equipmentResults.isNotEmpty() && it.noteResults.isNotEmpty() }
+            assertThat(found.equipmentResults.single().typeKey).isEqualTo("SCBA")
+            assertThat(found.noteResults.single().id).isEqualTo("scba-note")
+            viewModel.clearQuery()
+            val cleared = awaitState { !it.isSearching }
+            assertThat(cleared.equipmentResults).isEmpty()
+            assertThat(cleared.noteResults).isEmpty()
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
 }

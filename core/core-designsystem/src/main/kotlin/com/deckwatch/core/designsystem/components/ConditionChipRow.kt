@@ -2,6 +2,8 @@ package com.deckwatch.core.designsystem.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,6 +23,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -65,53 +68,60 @@ fun ConditionChipRow(
     labels: ConditionLabels = ConditionLabels(),
     enabled: Boolean = true,
 ) {
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingXs),
-    ) {
-        GradableConditions.forEach { grade ->
-            val colour = ConditionColors.of(grade)
-            val isSelected = grade == selected
-            val container = if (isSelected) colour else colour.copy(alpha = 0.12f)
-            val content = if (isSelected) Color.White else colour
-            Surface(
-                onClick = { onSelect(grade) },
-                enabled = enabled,
-                shape = RoundedCornerShape(Dimens.ChipCorner),
-                color = container,
-                border = BorderStroke(if (isSelected) 0.dp else 1.dp, colour.copy(alpha = 0.6f)),
-                modifier = Modifier
-                    .weight(1f)
-                    .heightIn(min = Dimens.TouchTargetPrimary)
-                    .semantics(mergeDescendants = true) {
-                        this.selected = isSelected
-                        this.role = Role.RadioButton
-                    },
-            ) {
-                Column(
-                    modifier = Modifier.padding(horizontal = 2.dp, vertical = Dimens.SpacingXs),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                ) {
-                    Icon(
-                        imageVector = conditionIcon(grade),
-                        contentDescription = null,
-                        tint = content,
-                        modifier = Modifier.size(22.dp),
-                    )
-                    Text(
-                        text = labels.of(grade),
-                        style = MaterialTheme.typography.labelSmall,
-                        color = content,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                        textAlign = TextAlign.Center,
-                    )
+    BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
+        val columns = (maxWidth / (ConditionMinWidth * LocalDensity.current.fontScale)).toInt().coerceIn(1, GradableConditions.size)
+        Column(verticalArrangement = Arrangement.spacedBy(Dimens.SpacingXs)) {
+            GradableConditions.chunked(columns).forEach { grades ->
+                Row(horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingXs)) {
+                    grades.forEach { grade ->
+                        val colour = ConditionColors.of(grade)
+                        val isSelected = grade == selected
+                        val container = if (isSelected) colour else colour.copy(alpha = 0.12f)
+                        val content = if (isSelected) Color.White else colour
+                        Surface(
+                            onClick = { onSelect(grade) },
+                            enabled = enabled,
+                            shape = RoundedCornerShape(Dimens.ChipCorner),
+                            color = container,
+                            border = BorderStroke(if (isSelected) 0.dp else 1.dp, colour.copy(alpha = 0.6f)),
+                            modifier = Modifier
+                                .weight(1f)
+                                .heightIn(min = Dimens.TouchTargetPrimary)
+                                .semantics(mergeDescendants = true) {
+                                    this.selected = isSelected
+                                    this.role = Role.RadioButton
+                                },
+                        ) {
+                            Column(
+                                modifier = Modifier.padding(horizontal = 2.dp, vertical = Dimens.SpacingXs),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center,
+                            ) {
+                                Icon(
+                                    imageVector = conditionIcon(grade),
+                                    contentDescription = null,
+                                    tint = content,
+                                    modifier = Modifier.size(22.dp),
+                                )
+                                Text(
+                                    text = labels.of(grade),
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = content,
+                                    maxLines = 2,
+                                    overflow = TextOverflow.Ellipsis,
+                                    textAlign = TextAlign.Center,
+                                )
+                            }
+                        }
+                    }
+                    repeat(columns - grades.size) { Spacer(Modifier.weight(1f)) }
                 }
             }
         }
     }
 }
+
+private val ConditionMinWidth = 104.dp
 
 /** A small filled dot for lists and markers. */
 @Composable

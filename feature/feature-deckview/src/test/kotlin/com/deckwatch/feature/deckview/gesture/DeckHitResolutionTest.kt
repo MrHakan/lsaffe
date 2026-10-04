@@ -117,6 +117,28 @@ class DeckHitResolutionTest {
         assertThat(resolve(layout, emptyList(), groundOrigin, HIT_RADIUS)).isEqualTo(HitTarget.None)
     }
 
+    @Test
+    fun `zoom to fit uses the real viewport and outline dimensions`() {
+        val deck = model.decks.first()
+        val zoom = layout.zoomToFit(deck, 48f)
+        val fitted = StackLayout.of(Size(VIEWPORT, VIEWPORT), PLAN_SIZE, DECK_HEIGHT, 2, 0f,
+            zoom, 1f, Offset.Zero)
+        val outline = fitted.screenOutline(deck)
+        assertThat(outline.maxOf { it.x } - outline.minOf { it.x }).isAtMost(VIEWPORT - 96f + 0.01f)
+        assertThat(outline.maxOf { it.y } - outline.minOf { it.y }).isAtMost(VIEWPORT - 96f + 0.01f)
+    }
+
+    @Test
+    fun `low zoom taps resolve the displayed aggregate dot instead of hidden individual positions`() {
+        val deck = model.decks.first().copy(markers = model.decks.first().markers.map {
+            it.copy(position = com.deckwatch.feature.deckview.geometry.Vec2(0.9f, 0.9f))
+        })
+        val reduced = StackLayout.of(Size(VIEWPORT, VIEWPORT), PLAN_SIZE, 0f, 1, 0f, 0.5f, 1f, Offset.Zero)
+        val dot = reduced.toScreen(deck.levelZ, 0.5f, 0.5f)
+        assertThat((resolve(reduced, listOf(deck), dot, HIT_RADIUS) as HitTarget.Marker).equipmentId)
+            .isEqualTo("e-upper")
+    }
+
     private companion object {
         const val VIEWPORT = 1000f
         const val PLAN_SIZE = 500f

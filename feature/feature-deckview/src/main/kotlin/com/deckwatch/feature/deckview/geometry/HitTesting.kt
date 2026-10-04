@@ -45,6 +45,20 @@ object HitTesting {
         return best
     }
 
+    /** All touch candidates, nearest first; crowded equipment must be selectable explicitly. */
+    fun markerCandidates(markers: List<ScreenMarker>, point: Vec2, radiusPx: Float): List<ScreenMarker> {
+        if (radiusPx <= 0f) return emptyList()
+        return markers.distinctBy { it.id }
+            .map { marker ->
+                val dx = marker.centre.x - point.x
+                val dy = marker.centre.y - point.y
+                marker to dx * dx + dy * dy
+            }
+            .filter { it.second <= radiusPx * radiusPx }
+            .sortedWith(compareBy({ it.second }, { it.first.id }))
+            .map { it.first }
+    }
+
     /** The topmost deck whose projected outline contains [point], or null. */
     fun deckAt(decks: List<ScreenDeck>, point: Vec2): ScreenDeck? =
         decks.sortedByDescending { it.levelZ }.firstOrNull { Polygons.contains(it.outline, point) }
