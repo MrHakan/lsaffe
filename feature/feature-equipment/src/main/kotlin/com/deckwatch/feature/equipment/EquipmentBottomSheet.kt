@@ -22,7 +22,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.RadioButton
-import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -31,7 +30,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -69,9 +67,11 @@ import kotlinx.coroutines.delay
 /**
  * The equipment bottom sheet — §7.4, and the quick-action condition control of §7.3.
  *
- * The three stages are the sheet's own: it opens at **peek**, the drag handle pulls it to **half**,
- * and the single 48dp *Full record* button — the one primary action of the sheet
+ * It opens partially at **peek**; dragging up reveals the details and then scrolls the content.
+ * The single 56dp *Full record* button — the one primary action of the sheet
  * (DESIGN_OVERHAUL rule 1) — hands over to [EquipmentDetailScreen] for the **full** record.
+ * All sections stay composed through sheet transitions so the drag anchors and scroll range do
+ * not shrink when the officer scrolls or lowers the sheet.
  *
  * * **Peek** — tag (monospace), type name and symbol; the shared five-grade `ConditionChipRow`
  *   (56dp, rule 5); the next due date as a `DueDeltaChip` (rule 6).
@@ -106,12 +106,37 @@ fun EquipmentBottomSheet(
     onMoveToDeck: ((String) -> Unit)? = null,
     onDeleted: (equipmentId: String, undo: suspend () -> Unit) -> Unit = { _, _ -> },
 ) {
-    val viewModel: EquipmentSheetViewModel = hiltViewModel()
+    EquipmentSheet(
+        equipmentId = equipmentId,
+        onDismiss = onDismiss,
+        viewModel = hiltViewModel(),
+        modifier = modifier,
+        onGraded = onGraded,
+        onOpenFullDetail = onOpenFullDetail,
+        onTakePhoto = onTakePhoto,
+        onLogInspection = onLogInspection,
+        onMoveToDeck = onMoveToDeck,
+        onDeleted = onDeleted,
+    )
+}
+
+@Composable
+internal fun EquipmentSheet(
+    equipmentId: String,
+    onDismiss: () -> Unit,
+    viewModel: EquipmentSheetViewModel,
+    modifier: Modifier = Modifier,
+    onGraded: ((equipmentId: String, grade: ConditionGrade) -> Unit)? = null,
+    onOpenFullDetail: (String) -> Unit = {},
+    onTakePhoto: (String) -> Unit = {},
+    onLogInspection: (String) -> Unit = {},
+    onMoveToDeck: ((String) -> Unit)? = null,
+    onDeleted: (equipmentId: String, undo: suspend () -> Unit) -> Unit = { _, _ -> },
+) {
     LaunchedEffect(equipmentId) { viewModel.bind(equipmentId) }
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     val sheetState = rememberModalBottomSheetState()
-    var expanded by rememberSaveable { mutableStateOf(false) }
     var confirmingDelete by remember { mutableStateOf(false) }
     var movingToDeck by remember { mutableStateOf(false) }
     var moveDeckChoice by remember { mutableStateOf<String?>(null) }
@@ -137,15 +162,6 @@ fun EquipmentBottomSheet(
         }
     }
 
-    // Dragging the sheet up is itself a request for more detail, and vice versa: the stage follows
-    // the handle so there is never a second, contradicting control for the same thing.
-    LaunchedEffect(sheetState.currentValue) {
-        when (sheetState.currentValue) {
-            SheetValue.Expanded -> expanded = true
-            SheetValue.PartiallyExpanded -> expanded = false
-            SheetValue.Hidden -> Unit
-        }
-    }
     LaunchedEffect(state.missing) { if (state.missing) onDismiss() }
 
     ModalBottomSheet(onDismissRequest = onDismiss, sheetState = sheetState, modifier = modifier) {
@@ -162,6 +178,8 @@ fun EquipmentBottomSheet(
             return@ModalBottomSheet
         }
 
+        // Sheet position controls what is visible, not which sections exist. Removing the details
+        // while partially open made the two drag anchors nearly coincide and clamped scroll to zero.
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -212,109 +230,105 @@ fun EquipmentBottomSheet(
             SheetMessageLine(state.message, viewModel::consumeMessage)
 
             // ---------------------------------------------------------- HALF
-            if (expanded) {
-                HorizontalDivider(modifier = Modifier.padding(vertical = Dimens.SpacingS))
-                LabelValue(stringResource(R.string.equip_location), equipment.location)
-                LabelValue(stringResource(R.string.equip_maker), equipment.makerName)
-                LabelValue(stringResource(R.string.equip_model), equipment.modelName)
-                LabelValue(stringResource(R.string.equip_serial), equipment.serialNumber, monospace = true)
-                LabelValue(stringResource(R.string.equip_status), statusLabel(equipment.statusFlag))
-                LabelValue(
-                    label = stringResource(R.string.equip_last_inspection),
-                    value = state.lastInspection?.let { formatDate(it) }
-                        ?: stringResource(R.string.equip_no_record),
-                )
-                DeficiencyList(state.openDeficiencies)
-                MonthlyChecklistSection(
-                    items = state.checklist,
-                    complete = state.checklistComplete,
-                    canLog = state.monthlyTaskKey != null,
-                    onToggle = viewModel::toggleChecklistItem,
-                    onLog = viewModel::logMonthlyInspection,
-                )
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = Dimens.SpacingL, vertical = Dimens.SpacingS),
-                    horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingS),
-                ) {
-                    OutlinedButton(
-                        onClick = { onLogInspection(equipment.id) },
-                        modifier = Modifier.weight(1f).heightIn(min = Dimens.TouchTargetPrimary),
-                    ) { Text(stringResource(R.string.equip_log_inspection)) }
-                    OutlinedButton(
-                        onClick = {
-                            onTakePhoto(equipment.id)
-                            val file = PhotoStore.newPhotoFile(context, equipment.id, System.currentTimeMillis())
-                            pendingPhoto = file
-                            // No camera app at all is a normal state on a locked-down phone, and it
-                            // arrives as an exception rather than a result — so it is caught here.
-                            runCatching { capture.launch(PhotoStore.uriFor(context, file)) }
-                                .onFailure {
-                                    pendingPhoto = null
-                                    file.delete()
-                                    cameraUnavailable = true
-                                }
-                        },
-                        modifier = Modifier.weight(1f).heightIn(min = Dimens.TouchTargetPrimary),
-                    ) { Text(stringResource(R.string.equip_take_photo)) }
-                }
-
-                // The record itself, once the sheet is open all the way. Everything above is what
-                // an officer standing at the equipment needs; this is what they need at a desk.
-                if (expanded) {
-                    HorizontalDivider(modifier = Modifier.padding(vertical = Dimens.SpacingS))
-                    AttributesSection(
-                        schema = type?.attributeSchema.orEmpty(),
-                        values = state.attributeValues,
-                        editorValues = state.editor?.values,
-                        errors = state.editor?.errors.orEmpty(),
-                        onStartEditing = viewModel::startEditingAttributes,
-                        onValueChange = viewModel::updateAttribute,
-                        onSave = viewModel::saveAttributes,
-                        onCancel = viewModel::cancelEditingAttributes,
-                    )
-                    TaskListSection(tasks = state.tasks, todayEpochDay = state.todayEpochDay)
-                    SectionHeader(stringResource(R.string.equip_notes))
-                    Text(
-                        text = equipment.notes?.takeIf { it.isNotBlank() }
-                            ?: stringResource(R.string.equip_notes_none),
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                    PhotoSection(
-                        photoUris = equipment.photoUris,
-                        onRemove = { uri ->
-                            viewModel.removePhoto(uri)
-                            PhotoStore.delete(context, uri)
-                        },
-                    )
-                    RequirementsSection(cards = state.requirements, onOpen = { openCard = it })
-                }
-
-                SectionHeader(stringResource(R.string.equip_actions))
+            HorizontalDivider(modifier = Modifier.padding(vertical = Dimens.SpacingS))
+            LabelValue(stringResource(R.string.equip_location), equipment.location)
+            LabelValue(stringResource(R.string.equip_maker), equipment.makerName)
+            LabelValue(stringResource(R.string.equip_model), equipment.modelName)
+            LabelValue(stringResource(R.string.equip_serial), equipment.serialNumber, monospace = true)
+            LabelValue(stringResource(R.string.equip_status), statusLabel(equipment.statusFlag))
+            LabelValue(
+                label = stringResource(R.string.equip_last_inspection),
+                value = state.lastInspection?.let { formatDate(it) }
+                    ?: stringResource(R.string.equip_no_record),
+            )
+            DeficiencyList(state.openDeficiencies)
+            MonthlyChecklistSection(
+                items = state.checklist,
+                complete = state.checklistComplete,
+                canLog = state.monthlyTaskKey != null,
+                onToggle = viewModel::toggleChecklistItem,
+                onLog = viewModel::logMonthlyInspection,
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = Dimens.SpacingL, vertical = Dimens.SpacingS),
+                horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingS),
+            ) {
                 OutlinedButton(
-                    onClick = { settingReminder = true },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = Dimens.SpacingL)
-                        .heightIn(min = Dimens.TouchTargetPrimary),
-                ) { Text(stringResource(R.string.equip_remind_me)) }
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = Dimens.SpacingL),
-                    horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingS),
-                ) {
-                    TextButton(
-                        // A host that owns a move flow runs it; otherwise the sheet asks.
-                        onClick = { onMoveToDeck?.invoke(equipment.id) ?: run { movingToDeck = true } },
-                        modifier = Modifier.weight(1f).heightIn(min = Dimens.TouchTargetMin),
-                    ) { Text(stringResource(R.string.equip_move_deck)) }
-                    TextButton(
-                        onClick = { confirmingDelete = true },
-                        modifier = Modifier.weight(1f).heightIn(min = Dimens.TouchTargetMin),
-                    ) { Text(stringResource(R.string.equip_delete)) }
-                }
+                    onClick = { onLogInspection(equipment.id) },
+                    modifier = Modifier.weight(1f).heightIn(min = Dimens.TouchTargetPrimary),
+                ) { Text(stringResource(R.string.equip_log_inspection)) }
+                OutlinedButton(
+                    onClick = {
+                        onTakePhoto(equipment.id)
+                        val file = PhotoStore.newPhotoFile(context, equipment.id, System.currentTimeMillis())
+                        pendingPhoto = file
+                        // No camera app at all is a normal state on a locked-down phone, and it
+                        // arrives as an exception rather than a result — so it is caught here.
+                        runCatching { capture.launch(PhotoStore.uriFor(context, file)) }
+                            .onFailure {
+                                pendingPhoto = null
+                                file.delete()
+                                cameraUnavailable = true
+                            }
+                    },
+                    modifier = Modifier.weight(1f).heightIn(min = Dimens.TouchTargetPrimary),
+                ) { Text(stringResource(R.string.equip_take_photo)) }
+            }
+
+            // The record itself, once the sheet is open all the way. Everything above is what
+            // an officer standing at the equipment needs; this is what they need at a desk.
+            HorizontalDivider(modifier = Modifier.padding(vertical = Dimens.SpacingS))
+            AttributesSection(
+                schema = type?.attributeSchema.orEmpty(),
+                values = state.attributeValues,
+                editorValues = state.editor?.values,
+                errors = state.editor?.errors.orEmpty(),
+                onStartEditing = viewModel::startEditingAttributes,
+                onValueChange = viewModel::updateAttribute,
+                onSave = viewModel::saveAttributes,
+                onCancel = viewModel::cancelEditingAttributes,
+            )
+            TaskListSection(tasks = state.tasks, todayEpochDay = state.todayEpochDay)
+            SectionHeader(stringResource(R.string.equip_notes))
+            Text(
+                text = equipment.notes?.takeIf { it.isNotBlank() }
+                    ?: stringResource(R.string.equip_notes_none),
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            PhotoSection(
+                photoUris = equipment.photoUris,
+                onRemove = { uri ->
+                    viewModel.removePhoto(uri)
+                    PhotoStore.delete(context, uri)
+                },
+            )
+            RequirementsSection(cards = state.requirements, onOpen = { openCard = it })
+
+            SectionHeader(stringResource(R.string.equip_actions))
+            OutlinedButton(
+                onClick = { settingReminder = true },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = Dimens.SpacingL)
+                    .heightIn(min = Dimens.TouchTargetPrimary),
+            ) { Text(stringResource(R.string.equip_remind_me)) }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = Dimens.SpacingL),
+                horizontalArrangement = Arrangement.spacedBy(Dimens.SpacingS),
+            ) {
+                TextButton(
+                    // A host that owns a move flow runs it; otherwise the sheet asks.
+                    onClick = { onMoveToDeck?.invoke(equipment.id) ?: run { movingToDeck = true } },
+                    modifier = Modifier.weight(1f).heightIn(min = Dimens.TouchTargetMin),
+                ) { Text(stringResource(R.string.equip_move_deck)) }
+                TextButton(
+                    onClick = { confirmingDelete = true },
+                    modifier = Modifier.weight(1f).heightIn(min = Dimens.TouchTargetMin),
+                ) { Text(stringResource(R.string.equip_delete)) }
             }
 
             // ------------------------------------------ the one primary action
@@ -323,7 +337,7 @@ fun EquipmentBottomSheet(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = Dimens.SpacingL, vertical = Dimens.SpacingM)
-                    .heightIn(min = Dimens.TouchTargetMin),
+                    .heightIn(min = Dimens.TouchTargetPrimary),
             ) { Text(stringResource(R.string.equip_sheet_full_record)) }
         }
     }
