@@ -96,7 +96,7 @@ class DueDigestWorkerTest {
     }
 
     @Test
-    fun `today's digest succeeds and posts while tomorrow waits in the same chain`() = runBlocking {
+    fun `today's digest succeeds and posts while tomorrow waits in the same chain`() = runBlocking<Unit> {
         preferences.setNotificationsEnabled(true)
         val vessel = TestData.vessel()
         val item = TestData.equipment(vesselId = vessel.id)
@@ -114,7 +114,7 @@ class DueDigestWorkerTest {
     }
 
     @Test
-    fun `no active vessel still schedules tomorrow without cancelling today`() = runBlocking {
+    fun `no active vessel still schedules tomorrow without cancelling today`() = runBlocking<Unit> {
         preferences.setNotificationsEnabled(true)
 
         val work = runScheduledDigest()
@@ -123,7 +123,7 @@ class DueDigestWorkerTest {
     }
 
     @Test
-    fun `a disabled digest exits without arming another job`() = runBlocking {
+    fun `a disabled digest exits without arming another job`() = runBlocking<Unit> {
         preferences.setNotificationsEnabled(false)
         val worker = TestListenableWorkerBuilder<DueDigestWorker>(context)
             .setWorkerFactory(factory)
@@ -134,7 +134,7 @@ class DueDigestWorkerTest {
     }
 
     @Test
-    fun `changing the reminder time replaces the pending chain`() = runBlocking {
+    fun `changing the reminder time replaces the pending chain`() = runBlocking<Unit> {
         preferences.setNotificationsEnabled(true)
         runScheduledDigest()
 
@@ -146,7 +146,7 @@ class DueDigestWorkerTest {
     }
 
     @Test
-    fun `a failed read retries before queuing the next digest`() = runBlocking {
+    fun `a failed read retries before queuing the next digest`() = runBlocking<Unit> {
         preferences.setNotificationsEnabled(true)
         val vessel = TestData.vessel()
         fakes.vessels.upsertVessel(vessel)
