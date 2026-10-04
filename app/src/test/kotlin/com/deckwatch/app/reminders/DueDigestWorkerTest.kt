@@ -15,15 +15,20 @@ import androidx.work.testing.SynchronousExecutor
 import androidx.work.testing.TestListenableWorkerBuilder
 import androidx.work.testing.WorkManagerTestInitHelper
 import com.deckwatch.core.datastore.UserPreferencesRepository
+import com.deckwatch.core.common.repository.MaintenanceRepository
+import com.deckwatch.core.model.TaskInstance
 import com.deckwatch.core.testing.FakeRepositories
 import com.deckwatch.core.testing.TestData
 import com.google.common.truth.Truth.assertThat
 import java.io.File
+import java.io.IOException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
 import org.junit.After
@@ -49,6 +54,7 @@ class DueDigestWorkerTest {
     private lateinit var preferences: UserPreferencesRepository
     private lateinit var workManager: WorkManager
     private lateinit var factory: WorkerFactory
+    private var maintenance: MaintenanceRepository = fakes.maintenance
 
     @Before
     fun setUp() {
@@ -66,7 +72,7 @@ class DueDigestWorkerTest {
                 workerClassName: String,
                 workerParameters: WorkerParameters,
             ): ListenableWorker? = if (workerClassName == DueDigestWorker::class.java.name) {
-                DueDigestWorker(appContext, workerParameters, preferences, fakes.vessels, fakes.maintenance)
+                DueDigestWorker(appContext, workerParameters, preferences, fakes.vessels, maintenance)
             } else {
                 null
             }
@@ -137,6 +143,32 @@ class DueDigestWorkerTest {
         val work = workManager.getWorkInfosForUniqueWork(DueDigestWorker.WORK_NAME).get()
         assertThat(work.filterNot { it.state.isFinished }).hasSize(1)
         assertThat(work.single { !it.state.isFinished }.state).isEqualTo(WorkInfo.State.ENQUEUED)
+    }
+
+    @Test
+    fun `a failed read retries before queuing the next digest`() = runBlocking {
+        preferences.setNotificationsEnabled(true)
+        val vessel = TestData.vessel()
+        fakes.vessels.upsertVessel(vessel)
+        preferences.setActiveVesselId(vessel.id)
+        maintenance = object : MaintenanceRepository by fakes.maintenance {
+            override fun observeOpenInstancesForVessel(vesselId: String): Flow<List<TaskInstance>> = flow {
+                throw IOException("Temporary read failure")
+            }
+        }
+        val failedAttempt = TestListenableWorkerBuilder<DueDigestWorker>(context)
+            .setWorkerFactory(factory)
+            .build()
+
+        assertThat(failedAttempt.doWork()).isEqualTo(ListenableWorker.Result.retry())
+        assertThat(workManager.getWorkInfosForUniqueWork(DueDigestWorker.WORK_NAME).get()).isEmpty()
+
+        maintenance = fakes.maintenance
+        val nextAttempt = TestListenableWorkerBuilder<DueDigestWorker>(context)
+            .setWorkerFactory(factory)
+            .build()
+        assertThat(nextAttempt.doWork()).isEqualTo(ListenableWorker.Result.success())
+        assertThat(workManager.getWorkInfosForUniqueWork(DueDigestWorker.WORK_NAME).get()).hasSize(1)
     }
 
     private suspend fun runScheduledDigest(): List<WorkInfo> {
