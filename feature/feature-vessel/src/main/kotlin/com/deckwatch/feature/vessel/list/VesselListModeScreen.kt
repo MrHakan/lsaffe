@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.filled.SearchOff
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DirectionsBoat
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -75,6 +76,7 @@ fun VesselListModeScreen(
     onOpenEquipment: (String) -> Unit = {},
     onAddDeck: () -> Unit = {},
     modifier: Modifier = Modifier,
+    typeKeys: List<String> = emptyList(),
     viewModel: VesselListModeViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -83,6 +85,7 @@ fun VesselListModeScreen(
 
     VesselListModeContent(
         state = state,
+        typeKeys = typeKeys,
         presets = presets,
         modifier = modifier,
         onOpenEquipment = onOpenEquipment,
@@ -101,9 +104,11 @@ internal fun VesselListModeContent(
     onOpenEquipment: (String) -> Unit = {},
     onAddDeck: () -> Unit = {},
     onPickPreset: (PlanPreset) -> Unit = {},
+    typeKeys: List<String> = emptyList(),
 ) {
     var collapsed by rememberSaveable { mutableStateOf(setOf<String>()) }
     val today = remember { Dates.todayEpochDay() }
+    val visibleGroups = ListModeGrouping.filterTypes(state.groups, typeKeys)
 
     when {
         !state.hasVessel && !state.isLoading -> EmptyState(
@@ -113,7 +118,7 @@ internal fun VesselListModeContent(
             modifier = modifier,
         )
 
-        state.hasNoDecks -> EmptyState(
+        state.hasNoDecks && typeKeys.isEmpty() -> EmptyState(
             icon = Icons.Filled.Layers,
             title = stringResource(R.string.list_mode_empty_title),
             body = stringResource(R.string.list_mode_empty_message),
@@ -129,8 +134,15 @@ internal fun VesselListModeContent(
             },
         )
 
+        typeKeys.isNotEmpty() && !state.isLoading && visibleGroups.isEmpty() -> EmptyState(
+            icon = Icons.Filled.SearchOff,
+            title = stringResource(R.string.list_mode_scope_empty_title),
+            body = stringResource(R.string.list_mode_scope_empty_body),
+            modifier = modifier,
+        )
+
         else -> LazyColumn(modifier = modifier.fillMaxSize()) {
-            for (group in state.groups) {
+            for (group in visibleGroups) {
                 val isCollapsed = group.key in collapsed
                 item(key = "deck-${group.key}") {
                     DeckHeader(

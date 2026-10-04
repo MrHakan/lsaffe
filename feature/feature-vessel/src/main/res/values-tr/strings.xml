@@ -208,4 +208,6 @@
     <string name="list_mode_due_overdue">%1$d gün gecikmiş</string>
     <string name="list_mode_due_today">Bugün</string>
     <string name="list_mode_due_in_days">%1$d gün sonra</string>
+    <string name="list_mode_scope_empty_title">Eşleşen ekipman yok</string>
+    <string name="list_mode_scope_empty_body">Aktif gemide bu mevzuata bağlı türlerde ekipman bulunmuyor.</string>
 </resources>

@@ -30,6 +30,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -86,7 +87,12 @@ fun NotesScreen(
     }
     val destination: NotesDestination = backStack.lastOrNull() ?: NotesDestination.Home
     val push: (NotesDestination) -> Unit = { backStack.add(it) }
-    val pop: () -> Unit = { if (backStack.isNotEmpty()) backStack.removeAt(backStack.lastIndex) }
+    var readerResumeDepth by rememberSaveable { mutableStateOf<Int?>(null) }
+    val readerStateHolder = rememberSaveableStateHolder()
+    val pop: () -> Unit = {
+        if (backStack.isNotEmpty()) backStack.removeAt(backStack.lastIndex)
+        if (readerResumeDepth?.let { backStack.size <= it } == true) readerResumeDepth = null
+    }
     var openCardRefKey by rememberSaveable { mutableStateOf<String?>(null) }
     var openNoteId by rememberSaveable { mutableStateOf<String?>(null) }
     var openCardWithComposer by rememberSaveable { mutableStateOf(false) }
@@ -167,7 +173,10 @@ fun NotesScreen(
 
                 is NotesDestination.TypeDetail -> EquipmentTypeDetailScreen(
                     typeKey = current.typeKey,
-                    onCardClick = { refKey -> openCardRefKey = refKey },
+                    onCardClick = { refKey ->
+                        readerResumeDepth = null
+                        openCardRefKey = refKey
+                    },
                 )
 
                 is NotesDestination.Section -> when (current.section) {
@@ -215,20 +224,23 @@ fun NotesScreen(
         )
     }
 
-    openCardRefKey?.let { refKey ->
-        CardDetailDialog(
-            refKey = refKey,
-            onDismiss = {
-                openCardRefKey = null
-                openCardWithComposer = false
-            },
-            startWithComposer = openCardWithComposer,
-            onOpenType = {
-                openCardRefKey = null
-                push(NotesDestination.TypeDetail(it))
-            },
-            onShowEquipmentForCard = onShowEquipmentForCard,
-        )
+    openCardRefKey?.takeIf { readerResumeDepth == null }?.let { refKey ->
+        readerStateHolder.SaveableStateProvider(refKey) {
+            CardDetailDialog(
+                refKey = refKey,
+                onDismiss = {
+                    readerStateHolder.removeState(refKey)
+                    openCardRefKey = null
+                    openCardWithComposer = false
+                },
+                startWithComposer = openCardWithComposer,
+                onOpenType = {
+                    readerResumeDepth = backStack.size
+                    push(NotesDestination.TypeDetail(it))
+                },
+                onShowEquipmentForCard = onShowEquipmentForCard,
+            )
+        }
     }
 }
 

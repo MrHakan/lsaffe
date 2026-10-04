@@ -28,4 +28,6 @@
         <item quantity="one">1 job is due this week</item>
         <item quantity="other">%1$d jobs are due this week</item>
     </plurals>
+    <string name="related_equipment_title">Equipment linked to this rule</string>
+    <string name="action_back">Back</string>
 </resources>
